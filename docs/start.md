@@ -1,48 +1,134 @@
 ---
-title: Get Started
-description: This description will override the default one-liner.
+title: Quick start
+description: "Learn how to set up a development environment and write a simple smart contract for the Kadena network." slug: start
 ---
 
-# Tutorial Intro
+import Link from '@docusaurus/Link';
+import CodeBlock from '@theme/CodeBlock';
 
-Let's discover **Docusaurus in less than 5 minutes**.
+# Quick start for Kadena developers
 
-## Getting Started
+Welcome to the Kadena development _Quick start_ guide. 
+Follow these simplified instructions to set up your development environment with a local blockchain and developer tools, then write your first contract using the Pact smart contract programming language.
 
-Get started by **creating a new site**.
+## Before you begin
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Before you begin, verify your computer meets the following basic requirements and has the following tools installed:
 
-### What you'll need
+* Access to the internet, an interactive terminal shell, and a web browser.
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+* [Git](https://git-scm.com/downloads) version control program. 
+  You can verify that `git` is installed by running `git --version` on your computer.
 
-## Generate a new site
+* [Node.js](https://nodejs.dev/en/learn/how-to-install-nodejs/), version 18 or higher.
+  You can verify that `node.js` is installed by running `node --version` on your computer.
 
-Generate a new Docusaurus site using the **classic template**.
+* [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), the command-line interface for the node package manager.
+    You can verify that `npm` is installed by running `npm --version` on your computer.
 
-The classic template will automatically be added to your project after you run the command:
+* [Docker](https://docs.docker.com/get-started/get-docker/), version x or higher.
+  You can verify that `docker` is installed by running `docker --version` on your computer.
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+If you have everything you need, you can set up your development environment and deploy your first contract with a few basic steps.
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+## Install Pact
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+The Pact smart contract programming language is specifically designed for writing [smart contracts](/resources/glossary) to run safely and efficiently on the Kadena blockchain network. 
+Follow the appropriate instructions for your operating system to Pact.
 
-## Start your site
+- [Install Pact on Linux](install/pact/linux)
+- [Install Pact on macOS](install/pact/mac-brew)
+- [Install Pact on Microcost Windows Services for Linux (WSL)](install/pact/windows)
 
-Run the development server:
+For more information about installing Pact, see [Install Pact](install).
 
-```bash
-cd my-website
-npm run start
-```
+## Set up a local network
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+The Kadena development network allows you to run a standalone local blockchain node to simulate network operations and to test your smart contracts locally before deploying to a test or production network.
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+To set up the local network, open a terminal shell on your computer then run the following commands to get the development network Docker image and start the network in a Docker container:
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+<CodeBlock language="bash">
+{`git clone https://github.com/kadena-io/devnet
+cd devnet
+npm install
+docker run --rm --interactive --tty --publish 8080:8080 --volume kadena_devnet:/data --name devnet kadena/devnet`}
+</CodeBlock>
+
+For more information about starting the Kadena development network in a Docker container, see [Set up the local network](install/devnet).
+
+## Install the Kadena command-line interface
+
+The Kadena command-line interface (`kadena-cli`) provides direct access to the Kadena blockchain and commands to create, test, deploy, and manage applications for the Kadena network. 
+You can use the Kadena command-line interface interactively or in scripts and automated workflows.
+
+To install and configure the `kadena-cli` program, open a terminal shell on your computer then run the following commands:
+
+<CodeBlock language="bash">
+{`npm install --global @kadena/kadena-cli
+kadena config init`}
+</CodeBlock>
+
+This command creates the `.kadena` configuration folder location is your current working directory and adds default network settings to a `networks` subfolder, then prompts you to create a wallet.
+Wallets are an important part of interacting with any blockchain, so you can create one now as part of your initial configuration steps.
+Follow the prompts displayed to continue setting up your local development environment with a development wallet and an account.
+
+For more information about getting started with `kadena-cli` commands, see [Develop with kadena-cli](guides/kadena-cli).
+For command-line reference information, see [Kadena CLI](guides/kadena-cli).
+
+## Write your first smart contract
+
+You can now write and execute a simple `greeting` smart contract using the Pact smart contract programming language and the Pact interactive interpreter.
+
+1. Open a terminal shell on your computer.
+3. Start the Pact interpreter that you installed in the first step by running the following command:
+
+   ```bash
+   pact
+   ```
+
+2. Copy and paste the following simple `greeting` module code, then press return:
+
+   <CodeBlock language="pact">
+   (module greeting GOVERNANCE
+     (defcap GOVERNANCE () true)
+     (defun say-hello(name:string)
+       (format "Hello, {}! ~ from Kadena" [name])
+     )
+   )
+   </CodeBlock>
+   
+   You should see the module loaded with output similar to the following:
+
+   <CodeBlock language="pact">
+   "Loaded module greeting, hash f1yyXqj5HstOni1QdZmuagUJXbu72VmYiwXua7Vp4-0"
+   </CodeBlock>
+
+3. Call the `say-hello` function with a string similar to the following:
+
+   <CodeBlock language="pact">
+   (say-hello "Pistolas")
+   </CodeBlock>
+
+   The function returns a greeting similar to the following:
+
+   <CodeBlock language="pact">
+   "Hello, Pistolas! ~ from Kadena"
+   </CodeBlock>
+
+   You can exit the Pact interpreter by pressing control-d on the keyboard.
+
+## Next steps
+
+Congratulations! 
+In this _Quick start_, you learned the basics of how to set up a development environment with the Pact programming language, a local development network, and the Kadena developer command-line interface.
+You also got a first look at how to write and execute a simple Pact contract in the interactive interpreter.
+You can learn more about these topics in [Smart contracts](/developers) documentation. 
+
+Here are some suggested next steps:
+
+- Start learning the Pact programming language with [Get started with Pact](/get-started/get-started-intro).
+- Explore hands-on coding projects in [Coding projects](/coding-projects/coding-projects).
+- Learn how to interact with the blockchain and deployed contracts using [Kadena API](/api) calls and [How-to guide](/guides).
+- Join the [Kadena Discord community](https://discord.gg/kadena) for support and discussions.
+

@@ -17,11 +17,11 @@ export default function Home(): JSX.Element {
 
             <div className='home-header-main'>
 
-               <h1 className='home-header-title'>Kadena Docs</h1>
+               <h1 className='home-header-title'>Kadena Developer Documentation</h1>
 
-               <p className='home-header-excerpt'>Our developer-focused documentation provides everything you need to start building for the Kadena blockchain, accelerate your development process, and deploy your applications on the Kadena network.</p>
+               <p className='home-header-excerpt'>Kadena developer-focused documentation provides everything you need to start building for the Kadena blockchain, accelerate your development process, and deploy your applications on the Kadena network.</p>
 
-               <div className='home-header-search'>Search Our Documentation</div>
+               <div className='home-header-search'>Search the documentation</div>
 
             </div>
 
@@ -31,7 +31,7 @@ export default function Home(): JSX.Element {
 
          <main className='home-main'>
 
-            <h2 className='home-section-heading'>Let's Get You Started</h2>
+            <h2 className='home-section-heading'>Let's get started</h2>
 
             <span className='home-section-excerpt'>From introductory tutorials to comprehensive API documentation, we've got you covered.</span>
 
@@ -51,7 +51,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-sections-item' href="./start">
+               <a className='home-main-sections-item' href="./api">
 
                   <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
 
@@ -65,7 +65,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-sections-item' href="./start">
+               <a className='home-main-sections-item' href="./reference/functions">
 
                   <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
 
@@ -79,7 +79,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-sections-item' href="./start">
+               <a className='home-main-sections-item' href="./smart-contract-dev">
 
                   <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
 
@@ -93,21 +93,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-sections-item' href="./start">
-
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
-
-                  <div className='home-main-sections-item-content'>
-
-                     <span className="home-main-sections-item-label">Resources</span>
-
-                     <p className="home-main-sections-item-summary">Start here to set up your development environment and build your first project.</p>
-
-                  </div>
-
-               </a>
-
-               <a className='home-main-sections-item' href="./start">
+               <a className='home-main-sections-item' href="./guides">
 
                   <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
 
@@ -120,6 +106,21 @@ export default function Home(): JSX.Element {
                   </div>
 
                </a>
+
+               <a className='home-main-sections-item' href="./resources">
+
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+
+                  <div className='home-main-sections-item-content'>
+
+                     <span className="home-main-sections-item-label">Resources</span>
+
+                     <p className="home-main-sections-item-summary">Find resources to learn more about blockchain technology and being part of the Kadena community.</p>
+
+                  </div>
+
+               </a>
+
 
             </div>
 
