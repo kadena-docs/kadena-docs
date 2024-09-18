@@ -62,20 +62,19 @@ const config: Config = {
             },
             {
                type: 'docSidebar',
-               label: 'Academy',
-               sidebarId: 'academy',
-               position: 'left',
-            },
-            {
-               type: 'docSidebar',
                label: 'Solutions',
                sidebarId: 'solutions',
                position: 'left',
             },
             {
+               label: 'Academy',
+               href: 'https://academy.kadena.io',
+               position: 'left',
+            },
+            {
                label: 'Support',
                href: 'https://discord.com/invite/kadena',
-               position: 'right'
+               position: 'left'
             },
             {
                href: 'https://github.com/kadena-io',
