@@ -129,7 +129,7 @@ export default function Home(): JSX.Element {
 
                <p className="home-main-academy-summary">Browse modules and take courses to build your skill set using video demos, hands-on exercises, and sample projects.</p>
 
-               <a className="home-main-academy-link" href="./academy">Learn Today</a>
+               <a className="home-main-academy-link" href="https://academy.kadena.io" target="_blank">Learn Today</a>
 
             </div>
 

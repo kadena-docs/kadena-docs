@@ -66,40 +66,6 @@ const sidebars: SidebarsConfig = {
          ],
       },
    ],
-
-   academy: [
-      'academy',
-      {
-         type: 'category',
-         label: 'Courses',
-         items: [
-            'courses/courses',
-            {
-               type: 'category',
-               label: 'Zero to PACT',
-               items: [
-                  'courses/zero-to-pact/zero-to-pact'
-               ],
-            },
-         ],
-      },
-      {
-         type: 'category',
-         label: 'Coding Projects',
-         items: [
-            'projects/projects',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'ToDo MVCs',
-         items: [
-            'todomvcs/todomvcs',
-         ],
-      }
-
-   ],
-
 };
 
 export default sidebars;
