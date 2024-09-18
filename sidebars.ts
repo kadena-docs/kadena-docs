@@ -127,6 +127,9 @@ const sidebars: SidebarsConfig = {
            // 'resources/changelogs',
            //'resources/contributors',
            'resources/glossary',
+           'resources/contribute-doc',
+           'resources/contribute-dev',
+           'resources/writing-guide',
            //'resources/tools',
            /*{
                 type: 'link',

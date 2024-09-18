@@ -1,12 +1,12 @@
 ---
-title: Introduction
+title: Get started
 id: get-started-intro
 sidebar_position: 1
 slug: get-started-intro
 description: "Pact is a human-readable smart contract programming language, designed to enable correct, transactional execution on a high-performance blockchain. Start your builder's journey on Kadena by learning about the Pact smart contract programming language."
 ---
 
-# Introduction
+# Get started
 
 This part of the Kadena developer documentation is focused on writing **smart contracts** and developing applications to run on a blockchain.
 To get started, it's important to know what smart contracts are and the kinds of challenges that you might face in writing them.
@@ -16,9 +16,12 @@ To get started, it's important to know what smart contracts are and the kinds of
 A smart contract is a program that can automatically execute agreements—in the form of transactions—on the blockchain without any external oversight.
 The contract ensures that the specific conditions, defined in the code logic to describe the terms of the agreement, are met before executing the transaction programmatically.
 Smart contracts are deployed and executed on blockchain networks because the blockchain provides a decentralized, immutable, and publicly accessible record of all transactions.
-This transparency and traceability ensures that the programmatic execution of the contract can been considered trustworthy.
+This transparency and traceability ensures that the programmatic execution of the contract can been considered trustworthy and verifiable.
 
-However, there are several unique challenges involved in writing smart contracts that can run safely and perform well in a resource-constrained environment like a blockchain.
+However, there are several unique challenges involved in writing smart contracts.
+For example, it's important to ensure that smart contracts can't be accessed by unauthorized parties, that transactions can't be intercepted or manipulated, and that code execution and data storage don't overload blockchain resources.
+
+Because a blockchain is a resource-constrained environment, it's particularly important for smart contracts to perform well even when network activity is at its peak.
 For example, if the code in a smart contract isn't efficient, it can be costly to execute the contract functions.
 Inefficient code can also delay transaction execution and block validation, affecting the throughput for the entire blockchain network.
 
@@ -36,58 +39,84 @@ Pact reflects many of the same approaches to writing smart contracts that are us
 Pact is similar to many general purpose languages in its syntax, function declarations, module definitions, and imperative style. 
 However, Pact has several features that make it a safe and performant language for blockchain applications, including the following:
 
-- A familiar database model for manipulating state in tables.
-- Contracts can be deployed with updated code, enabling you to iterate and upgrade contracts.
-- Contracts aren't allowed to include unbound looping or recursion at the language level.
-- Contract transactions can be executed as single-step transactions or as a sequence of steps executed in a specific order.
+- Pact supports a straight-forward database model for storing and manipulating state using database schemas and tables.
+- Pact contracts can be written and deployed using composable modules, enabling you to iterate, update, and upgrade contract functionality when needed.
+- Pact limits computational overhead by preventing unbound looping and recursion at the language level.
+- Pact code is designed to provide transparency that can be inspected in plain text as part of the public record.
+- Pact transactions can be executed in a single step or as a sequence of steps guaranteed to be executed in a specific order.
 
-### Limiting computational overhead
-
-Many programming languages allow programs to execute any possible set of instructions, making them Turing complete languages.
-However, unrestrained computation can be costly in a resource-constrained environment like a blockchain. 
-Programs that require significant computational overhead can even affect the ongoing progress of the blockchain by preventing new transactions from being executed. 
-With Pact,smart contracts are intentionally restricted to limit the computational overhead they can consume.
-
-Pact enforces deliberate constraints on computation to provide "just enough" transactional activity and ensure the security of its smart contracts. 
-For example, Pact doesn't allow unbounded looping or recursion. 
-If Pact detects recursion, it fails immediately. 
-Looping is also only supported in special circumstances. 
-These constraints reduce costs and improve network performance.
-
-For more information about Turing incompleteness, see [Turing Completeness and Smart Contract Security](https://medium.com/kadena-io/turing-completeness-and-smart-contract-security-67e4c41704c)
-
-### Human readable on-chain
-
-All Pact code gets stored in a **human-readable** form directly on the blockchain. Because the contract is a human-readable part of the public record, anyone can review the running code and be sure of exactly what it's doing.
-
-This feature is important because smart contracts solve business problems that require both technical and non-technical expertise. Building the best smart contract solution requires everyone to understand and contribute to the development of the smart contract.
-
-Pact is designed to be simple to read and write. This simplicity helps provide complete transparency for the logic within its smart contracts. This approach also encourages shorter programs that are easier to understand.
-
-### Upgradable contracts
-
-You can update Pact contracts after they are deployed, so you can revise and improve your smart contracts over time. For example, you can offer new features and fix bugs as you iterate throughout the development process.
-
-Pact tooling also simplifies the process of testing and upgrading contracts, with compiler and runtime errors that offer detailed information about code execution and an interactive read-eval-print-loop (REPL) interpreter shell that enables you to define environmental settings and execute transactions in incremental steps.
-
-### Sequenced transactions using pacts
-
-One of the key features of the Pact programming language is support for coroutines—called **pacts**—that can start and stop at critical points during the execution of a multi-step transaction. With pacts, you can define the steps to be executed by different entities as sequential operations on the blockchain.
-
-For example, pacts are used to define multi-step operations like cross-chain transfers where a **burn** operation takes place on the first chain and a **mint** operation takes place on the second chain. For a non-fungible token marketplace, you might use a `sale` pact with two steps:
-
-- The **offer** operation signed by the seller.
-- The **buy** operation signed by the buyer.
-
-The pact definition enables each participant to only run a subset of functions while preserving the integrity of the transaction as a while in the contract.
+These features and constraints reduce the risks of writing faulty smart contract code, limit costly performance bottlenecks, and improve readability and reliability of programs running on the blockchain.
+You'll learn about these language features and more as you progress through the _Smart contracts_ topics.
 
 ## Writing contracts in other languages 
 
-## Navigating Pact documentation and resources
+It's possible to write contracts in other languages, as long as the transactions conform to the expected message format when submitted to a Chainweb node.
+For example, it's possible to write programs using JavaScript, TypeScript, or Python to emulate Pact smart contracts.
+However, Pact provides many built-in features and native functions that make smart contract development more efficient and produce more readable results without requiring external libraries to construct compatible commands.
 
-Who the documentation is for
-How the documentation is organized
-Documentation conventions
-Additional resources to get started 
+## Navigating documentation and resources
 
-## Contributing to Pact documentation or code base
+The _Smart contracts_ documentation is for programmers and non-programmers interested in learning how to write programs using the Pact smart contract programming language. 
+This part of the documentation is focused on language features and examples.
+
+### How the documentation is organized
+
+In addition to the language-focused topics in _Smart contracts_, Kadena developer documentation includes the following top-level sections: 
+
+- The _How-to guides_ provide examples of the different ways you can perform common tasks.
+You can use these guides as a quick reference when working with accounts, transactions, or contracts to see instructions for tasks like creating an account, submitting a transaction, or calling a contract function.
+
+- Under _API_, you'll find reference information for the Pact, Peer-to-Peer, and Service REST API endpoints, including query parameters, request and response schemas, and call examples.
+
+- The _Reference_ section provides reference information for the Pact programming language—including syntax, keywords, and built-in functions—and the command-line interfaces you can use to interact with Pact smart contracts and the Kadena blockchain in a development, test, or production environment.
+
+- In _Coding projects_, you'll find companion documentation for the sample projects located in the `pact-coding-projects` repository.
+
+- Under _Resources_, there are links to additional resources, such as the Kadena video library, contributor guidelines, and other tools and projects. 
+
+### Documentation conventions
+
+The following conventions are used in the Kadena documentation:
+
+- `Fixed-width font` is used for inline sample code, program names, program output, file names, and commands that you type at the command line. 
+- **Bold** type is used to highlight menus, commands, buttons, or user interface elements, and to introduce new terms.
+- _Italic_ type is used for titles, to emphasize specific words, or to indicate variables for which you should substitute an appropriate value.
+- Square brackets ([ ]) indicate optional arguments in command reference or list data types in the Pact language reference.
+- Curly braces ({ }) indicate objects with key-value pairs in the Pact language reference.
+- Vertical bars (|) separate alternative values from which you must make a selection.
+- An ellipsis (...)	indicates that the preceding element can be repeated.
+- The generic data type `<a>` is used if an argument represents a type-bound parameter. 
+  
+## Contributing to documentation or code
+
+As a member of the Kadena community, you are invited and encouraged to contribute to Kadena technical documentation and to the Kadena project code base.
+There are a lot of ways to get involved.
+For example, you can contribute by:
+
+- Submitting issues.
+- Offering suggestions for improvements to existing content.
+- Adding review comments to existing pull requests.
+- Proposing new content.
+- Creating new pull requests to fix issues yourself.
+- Creating pull request for new content other community members might find useful.
+
+We value, respect, and appreciate all contributions from the developer community and only ask that you agree to abide by our [Code of conduct](https://github.com/kadena-community/kadena.js/blob/main/code-of-conduct.md) and [Community guidelines](https://www.kadena.io/community-guidelines).
+
+### Contribute to documentation
+
+Kadena documentation is open source and hosted on GitHub in the [kadena-docs](https://github.com/kadena-docs/kadena-docs) repository. 
+To report an issue or make a documentation request, open a [New Issue](https://github.com/kadena-docs/kadena-docs/issues/new) and add the **documentation** label to it.
+If you have a GitHub account and want to suggest changes to the documentation, create a branch and open a pull request as described in Contribute to documentation.
+
+For details about getting started as a contributor to documentation, see [How to contribute to Kadena documentation](../resources/contribute-doc). 
+For recommendation regarding writing style, documentation conventions, and topic templates, see the [Writer's style guide](../resources/writing-guide).
+
+### Contribute to the codebase
+
+The Kadena codebase is open source and hosted on GitHub in repositories under two organizations: [kadena-io](https://github.com/kadena-io) and [kadena-community](https://github.com/kadena-community).
+
+- Repositories in [kadena-io](https://github.com/kadena-io) are focused on the Kadena network infrastructure and foundational components like [chainweb-node](https://github.com/kadena-io/chainweb-node) and [pact](https://github.com/kadena-io/pact).
+
+- Repositories in [kadena-community](https://github.com/kadena-community) are focused on tooling and projects to help developers build applications on the Kadena network like the TypeScript libraries in [kadena.js](https://github.com/kadena-community/kadena.js).
+
+For details about getting started as a contributor, see [How to contribute as a developer](../resources/contribute-dev).
