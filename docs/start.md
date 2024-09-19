@@ -91,10 +91,10 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
 
    <CodeBlock language="pact">
    (module greeting GOVERNANCE
-     (defcap GOVERNANCE () true)
-     (defun say-hello(name:string)
-       (format "Hello, {}! ~ from Kadena" [name])
-     )
+      (defcap GOVERNANCE () true)
+        (defun say-hello(name:string)
+          (format "Hello, {}! ~ from Kadena" [name])
+      )
    )
    </CodeBlock>
    
