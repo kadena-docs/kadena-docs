@@ -1,6 +1,6 @@
 ---
 title: Quick start
-description: "Learn how to set up a development environment and write a simple smart contract for the Kadena network." slug: start
+description: "Learn how to set up a development environment and write a simple smart contract for the Kadena network." slug: quickstart
 ---
 
 import Link from '@docusaurus/Link';
@@ -116,6 +116,8 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
    "Hello, Pistolas! ~ from Kadena"
    </CodeBlock>
 
+   If you want to deploy this contract on the local development network, copy the module code to a file with the `.pact` file extension—for example, create a `greeting.pact` file—then create a transaction to deploy the module as described in Deploy smart contracts.
+   
    You can exit the Pact interpreter by pressing control-d on the keyboard.
 
 ## Next steps
