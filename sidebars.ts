@@ -14,9 +14,9 @@ const sidebars: SidebarsConfig = {
            items: [
            
                 'get-started/get-started-intro',
-                //'get-started/install-pact',
-                //'get-started/basic-concepts',
-                //'get-started/lang-features',
+                'get-started/install',
+                'get-started/basic-concepts',
+                'get-started/lang-features',
                 //'get-started/modules',
                 //'get-started/database-model'
                 ],

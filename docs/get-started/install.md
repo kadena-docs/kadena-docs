@@ -1,7 +1,7 @@
 ---
 title: Installation and setup
 id: install
-sidebar_position: 1
+sidebar_position: 2
 description: "Install the Pact smart contract programming language and set up tooling for your development environment."
 ---
 
