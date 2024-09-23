@@ -1,5 +1,5 @@
 ---
-title: "Get started: An Introduction to Pact"
+title: "Get started: Introduction to Pact"
 id: get-started-intro
 sidebar_position: 1
 slug: get-started-intro

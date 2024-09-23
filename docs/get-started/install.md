@@ -93,7 +93,7 @@ To configure the Pact extension settings:
 
    If you added the executables to your `PATH`, you can use `pact` and `pact-lsp` for these settings.
 
-   ![Configure Pact settings](/assets/docs/vscode-pact.png)
+   ![Configure Pact settings](/./img/vscode-pact.png)
 
 ## Install Chainweaver
 
@@ -112,13 +112,13 @@ When you open and unlock Chainweaver, the navigation panel on the left is collap
 
 | Icon | Section | What you can do here |
 | --- | --- | --- |
-| ![](/assets/docs/accounts-icon.png) | Accounts | View and manage your accounts, add account names to your watch list, transfer funds between accounts and across chains, and view transaction status. |
-| ![](/assets/docs/keys-icon.png) | Keys | Generate, view, and manage public keys associated with your secret key. |
-| ![](/assets/docs/sig-icon.png) | Signature Builder | Construct the signatures needed to sign transactions. |
-| ![](/assets/docs/contracts-icon.png) | Contracts | Access a code editor and development tools for writing, testing, and deploying Pact modules and smart contracts. |
-| ![](/assets/docs/resources-icon.png) | Resources | Explore documentation and Chainweaver resources. |
-| ![](/assets/docs/settings-icon.png) | Settings | Configure your network and account settings. |
-| ![](/assets/docs/logout-icon.png) | Log out | Log out of the current session. |
+| ![](/./img/accounts-icon.png) | Accounts | View and manage your accounts, add account names to your watch list, transfer funds between accounts and across chains, and view transaction status. |
+| ![](/./img/keys-icon.png) | Keys | Generate, view, and manage public keys associated with your secret key. |
+| ![](/./img/sig-icon.png) | Signature Builder | Construct the signatures needed to sign transactions. |
+| ![](/./img/contracts-icon.png) | Contracts | Access a code editor and development tools for writing, testing, and deploying Pact modules and smart contracts. |
+| ![](/./img/resources-icon.png) | Resources | Explore documentation and Chainweaver resources. |
+| ![](/./img/settings-icon.png) | Settings | Configure your network and account settings. |
+| ![](/./img/logout-icon.png) | Log out | Log out of the current session. |
 
 ## Start the development network
 
@@ -179,7 +179,7 @@ Within the Contracts development environment, the code editor enables you to vie
 
 You can hover the cursor over lines that indicate errors to view information about the problem to help you determine how to fix it.
 
-![Inline error](/assets/docs/inline-error.png)
+![Inline error](/./img/inline-error.png)
 
 The Chainweaver code editor also supports **formal verification**. Formal verification is a process that enables you to automatically test the correctness of your code for potential errors and security vulnerabilities. With this process, you can mathematically prove that your contract has no security vulnerabilities, ensuring you can create secure code quickly and effectively.
 
@@ -193,17 +193,17 @@ The right side of the Contracts development environment provides many useful fea
 
 Select **Env** to view and fix errors or manage authorization data in keysets. If the error and warning detected can be fixed automatically, you'll see the Fix option.
 
-![Environment errors](/assets/docs/fix-error.png)
+![Environment errors](/./img/fix-error.png)
 
 In this example, the error is a missing keyset and you can click **Fix** to automatically create the keyset and add it to the Data section.
 
-![New admin-keyset](/assets/docs/admin-keyset.png)
+![New admin-keyset](/./img/admin-keyset.png)
 
 If you delete the keyset created for you, you can use the Data section to create a keyset by typing a keyset name, then clicking **Create**. By default, keysets require all of the keys associated with an account to sign transactions, so you'll see **keys-all** selected for the new keyset. You'll learn more about keysets, in [Keysets](/build/pact/keysets).
 
 You can also create keysets manually using the JSON format by clicking **Raw**, then defining the keyset **name**, **keys**, and **pred** values. You can see the JSON format for keysets you have created by clicking **Result**.
 
-![Keyset in JSON format](/assets/docs/result.png)
+![Keyset in JSON format](/./img/result.png)
 
 The `pred` field specifies a `predicate` function to use for the keyset. The `predicate` function returns a boolean value evaluating to true or false. In this case, the predicate option evaluated is **keys-all** and it returns true if all of the keys listed in the keyset—in this example, only one key—sign the transaction.
 
@@ -282,13 +282,13 @@ Code editors often provide messages to help you identify errors and log outputs.
 
 Select **Module Explorer** to open and view sample smart contracts, search for and view deployed contracts, and call functions from any contract that exists on the active network.
 
-![Module explorer](/assets/docs/module-explorer.png)
+![Module explorer](/./img/module-explorer.png)
 
 Under **Examples**, you can click **Open** next to an example contract name to load the contract into the code editor. You can modify the code in the editor and reload the original contract code at any time, if needed. Click **View** to explore the Pact modules in a contract.
 
 For example, if you select the **Simple Payment** contract, then click **View** for the **payments** modules, you'll see the functions and capabilities defined in the **payments** module.
 
-![Simple payment functions and capabilities](/assets/docs/example-functions.png)
+![Simple payment functions and capabilities](/./img/example-functions.png)
 
 Under **Deployed Contracts**, you san search for any contract that has been deployed to the network using the Module Explorer by name, by chain, or by navigating the pages using the arrow buttons.
 
