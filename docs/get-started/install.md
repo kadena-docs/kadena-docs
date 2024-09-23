@@ -30,11 +30,11 @@ Your local development environment should  include:
 
 You can run Pact in a browser or install it locally on your local computer. In most cases, you should install Pact locally as part of your private development environment. Depending on your operating system platform and preferred tools, you can download and install Pact prebuilt binaries or build Pact from its source code.
 
-### Install from binaries
+### Install Linux
 
 You can download and install [Pact](https://github.com/kadena-io/pact#installing-pact) binaries for Linux or macOS computers from [Pact Releases](https://github.com/kadena-io/pact/releases).
 
-### Use Homebrew
+### Install macOS
 
 On macOS, you can install Pact using Homebrew byt running the following commands:
 
@@ -43,21 +43,26 @@ brew update
 brew install kadena-io/pact/pact
 ```
 
+### Install Windows
+
+
 ### Build from source
 
 To build Pact binaries directly from source, download the source code from [Pact Releases](https://github.com/kadena-io/pact/releases), then use Homebrew, Cabal, or Nix to build Pact. For more information about the dependencies and tools for building from the source code, see [Building from source](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source).
 
 ## Install Pact tooling
 
-the language server
+### Language server
 
 You can install the [Pact language server plugin](https://github.com/kadena-io/pact-lsp/releases) on your local computer to support syntax highlighting and other features in the code editor.
 
-## Configure Visual Studio Code
+### Package manager
+
+pactup
+
+### Visual Studio Code extension
 
 If you use Visual Studio Code as your integrated development environment (IDE), you can install the Pact extension to streamline your smart contract development experience. Before installing the extension, verify that you have Pact and the Pact Language Server installed.
-
-### Install the Pact extension
 
 To install the Pact extension:
 
@@ -65,8 +70,6 @@ To install the Pact extension:
 2. Select **View**, then click **Extensions**.
 3. Type **pact** in the Search field.
 4. Select **PactLang**, then click **Install**. If you're prompted to install additional extensions, you should install them to enable the full functionality of the Pact extension.
-
-### Configure Pact settings
 
 To configure the Pact extension settings:
 
