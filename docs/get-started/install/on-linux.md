@@ -2,7 +2,7 @@
 title: Install on Linux
 id: linux
 sidebar_position: 1
-description: "Install the Pact smart contract programming language and set up tooling for your development environment."
+description: "Install the Pact smart contract programming language on Linux computers."
 ---
 
 import CodeBlock from '@theme/CodeBlock';

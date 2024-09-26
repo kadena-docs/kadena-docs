@@ -1,0 +1,36 @@
+---
+title: Peer-to-peer endpoints
+id: p2p-api
+---
+
+The **peer-to-peer (P2P) API** contains the RPC endpoints that Chainweb nodes must expose to establish blockchain consensus. 
+These endpoints enable nodes to communicate about transactions waiting in the transaction pool and the blocks being produced. 
+Although the peer-to-peer endpoints are intended primarily for communication between Chainweb nodes, they are also useful in providing low level insight into network operations, the progress of the blockchain, and node health.
+Peer-to-peer endpoints are typically more efficient than similar service API endpoints for most use cases.
+However, peer-to-peer endpoints only expose features that are required for the peer-to-peer network to function.
+For most use cases, you should send API requests to service API endpoints.
+
+Each computer running `chainweb-node` serves peer-to-peer endpoints using the secure Hypertext Transfer Protocol (HTTPS) on a network interface and port that is available directly on the public internet.
+
+You can also make P2P API endpoints available for other clients by exposing the endpoints using reverse proxies, load balancers, authentication frameworks, or similar web technologies.
+
+## Endpoints
+
+The Chainweb peer-to-peer API includes endpoints to return information about the following aspects of the peer-to-peer network:
+
+- Distributed state using [`cut` endpoints](/api/peer-to-peer/get-cut)
+- Raw block payload using [`payload` endpoints](/api/peer-to-peer/get-payload)
+- Pending transaction using [`mempool` endpoints](/api/peer-to-peer/all-pending-mempool)
+- Peer-to-peer connections using [`peer` endpoints](/api/peer-to-peer/cut-peer)
+- Node configuration using the [`config` endpoint](/api/peer-to-peer/config)
+
+For peer-to-peer connections, Chainweb nodes have two separate communication channels with specialized independent peer-to-peer networks that different nodes can be part of:
+
+- The `/peer/cut` peer-to-peer network is responsible for communicating the consensus state across the distributed network nodes. 
+- The `/peer/mempool` peer-to-peer network is responsible for queuing and managing the pending transactions for each chain independently. 
+
+## Base URL
+
+The base URL for peer-to-peer API endpoints typically take the form of `<hostname>/chainweb/0.0/mainnet01` where the `<hostname>` is the IP address or domain name of a Chainweb node in the Kadena public blockchain network. 
+Similarly, the base URL for peer-to-peer endpoints in the Kadena test network is typically `<hostname>/chainweb/0.0/testnet04` where the `<hostname>` is the IP address or domain name of a Chainweb node in the Kadena test network.
+If you're running a local development environment, you can typically replace `<hostname>` with `localhost:8080` to connect to the API and specify `development` as the network name.

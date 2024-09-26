@@ -1,0 +1,138 @@
+---
+title: Pact API
+description: "Explore the Pact REST API for seamless interaction with Kadena smart contracts. Learn about send, local, listen, poll, 
+  SPV, and blockchain queries for efficient dApp development."
+sidebar_position: 1
+id: pact-api
+---
+
+# Pact API
+
+The Pact REST API provides endpoints that enable you to execute contract functions, test transactions locally, submit transactions to the blockchain, and retrieve transactions results.
+
+You can access Pact REST API endpoints in two different ways:
+
+- By using the Pact API endpoints that are exposed by Chainweb nodes through the Chainweb service API.
+- By using the Pact API endpoints that are exposed locally through the Pact built-in HTTP server.
+
+Regardless of the method you use to access the Pact API endpoints, the core functionality is the same and consists of the following:
+
+| Use this endpoint | To do this |
+| ----------------- | ---------- |
+| Send | Submit transactions to the blockchain for execution. |
+| Local | Execute read-only queries or simulate transactions without affecting the blockchain state. |
+| Listen | Set up listeners for specific blockchain events or transaction results. |
+| Poll | Check the status of previously submitted transactions. |
+| SPV | Verify transaction inclusion for cross-chain transactions using a simple payment verification proof. |
+
+Although the Pact API functionality largely the same whether you access it through the Chainweb service API or the Pact HTTP server, the URLs you use to route API requests to each set of endpoints are different.
+This section describes the Pact API endpoints that are exposed through the Chainweb service API.
+You can also find documentation for these Pact endpoints, including sample requests and responses, in the [Pact OpenAPI](https://api.chainweb.com/openapi/pact.html) specification.
+For documentation about the Pact API endpoints that are exposed through the Pact built-in HTTP server, see [Pact command-line interpreter](/reference/pact-repl).
+
+## Pact commands
+
+Pact commands in an API request consist of the following parameters:
+
+| Parameter | Type | Description
+| --------- | ---- | -----------
+| `cmd` (required) | string | Stringified JSON payload object with signed transaction data that can't be modified.
+| `hash` (required) | string | An unpadded base64Url-encoded string created using the Blake2s-256 hash function for the `cmd` field value. Serves as a command request key because each transaction must be unique.
+| `sigs` (required) | Array of objects | List of signatures corresponding one-to-one with the signers array in the payload.
+
+## Pact results
+
+Pact response results consist of the following parameters:
+
+| Parameter | Type | Description
+| --------- | ---- | -----------
+| `gas` (required) | number | Gas consumed by the transaction.
+| `result` (required) | object | Success (object) or Failure (object).
+| `reqKey` (required) | string | Unique identifier for the Pact transaction. The transaction hash is a base64Url-encoded string that consists of 43 characters from the [`a-zA-Z0-9_-`] character set.
+| `logs` (required) | string | Backend-specific value providing image of database logs.
+| `events` | Array of object | Array of event objects.
+| `metaData` (required) | object | Metadata included with the transaction.
+| `continuation` | object | Describes the result of a `defpact` execution.
+| `txId` | number | Database-internal transaction tracking identifier.
+
+## Pact payloads
+
+Pact command payloads consist of the following parameters:
+
+ Parameter | Type | Description
+| --------- | ---- | -----------
+| `payload` (required) | object | The `exec` message object or `continuation` message object.
+| `meta` (required) | object | Public Chainweb metadata object or private metadata object.
+| `signers` (required) | Array of objects | List of signers, corresponding with the list of signatures in the outer command.
+| `networkId` (required) | string | Backend-specific identifier of the target network such as "mainnet01" or "testnet04".
+
+## Formatting API requests in YAML
+
+Chainweb nodes expect Pact commands and transaction requests to be formatted as stringified JSON payload objects with signed transaction data.
+However, you can also create transaction requests using YAML files.
+You can create two types of transactions using the YAML API request format:
+
+- Single step transactions that provide the `exec` payload can use the _execution_ request format.
+- Transactions that have more than one step that provide the `cont` payload can use the _continuation_ request format.
+
+### Exec request format
+
+The execution request format supports the following keys:
+
+```yaml
+code: Transaction code
+codeFile: Transaction code file
+data: JSON transaction data
+dataFile: JSON transaction data file
+keyPairs: list of key pairs for signing (use pact -g to generate): 
+  [
+    public: base 16 public key
+    secret: base 16 secret key
+    caps: 
+    [
+      optional managed capabilities
+    ]
+  ]
+nonce: optional request nonce, will use current time if not provided
+networkId: string identifier for a blockchain network
+publicMeta:
+    chainId: string chain id of the chain of execution
+    sender: string denoting the sender of the transaction
+    gasLimit: integer gas limit
+    gasPrice: decimal gas price
+    ttl: integer time-to-live value
+    creationTime: optional integer tx execution time after offset
+type: exec
+```
+
+### Cont request format
+
+The execution request format supports the following keys:
+
+```yaml
+pactTxHash: integer transaction id of pact
+step: integer next step of a pact
+rollback: boolean for rollingback a pact
+proof: string spv proof of continuation (optional, cross-chain only)
+data: JSON transaction data
+dataFile: JSON transaction data file
+keyPairs: list of key pairs for signing (use pact -g to generate): 
+  [
+    public: string base 16 public key
+    secret: string base 16 secret key
+    caps: 
+    [
+      optional managed capabilities
+    ]
+  ]
+networkId: string identifier for a blockchain network
+publicMeta:
+    chainId: string chain id of the chain of execution
+    sender: string denoting the sender of the transaction
+    gasLimit: integer gas limit
+    gasPrice: decimal gas price
+    ttl: integer time-to-live value
+    creationTime: optional integer tx execution time after offset
+nonce: optional request nonce, will use current time if not provided
+type: cont
+```

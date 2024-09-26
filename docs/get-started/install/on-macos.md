@@ -2,7 +2,7 @@
 title: Install on macOS
 id: macos
 sidebar_position: 2
-description: "Install the Pact smart contract programming language and set up tooling for your development environment."
+description: "Install the Pact smart contract programming language on macOS computers."
 ---
 
 import CodeBlock from '@theme/CodeBlock';

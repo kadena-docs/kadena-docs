@@ -2,7 +2,7 @@
 title: Install on Windows
 id: windows
 sidebar_position: 2
-description: "Install the Pact smart contract programming language and set up tooling for your development environment."
+description: "Install the Pact smart contract programming language on the Windows Subsystem for Linux."
 ---
 
 import CodeBlock from '@theme/CodeBlock';
