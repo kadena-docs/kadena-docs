@@ -20,4 +20,3 @@ Basic operations
 * Execution modes
 * Pact-specific terms and concepts
 * Architecture and workflow
-* Intro to tooling

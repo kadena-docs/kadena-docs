@@ -14,7 +14,19 @@ const sidebars: SidebarsConfig = {
            items: [
            
                 'get-started/get-started-intro',
-                'get-started/install',
+                {
+                  type: 'category',
+                  label: 'Installation and setup',
+                  link: {
+                     type: 'doc',
+                     id: 'get-started/install',
+                   },
+                 items: [
+                  'get-started/install/linux',
+                  'get-started/install/macos',
+                  'get-started/install/windows',
+                 ],
+                },
                 'get-started/basic-concepts',
                 'get-started/lang-features',
                 //'get-started/modules',

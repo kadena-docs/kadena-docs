@@ -1,70 +1,46 @@
 ---
-title: Installation and setup
-id: install
+title: Install on Windows
+id: windows
 sidebar_position: 2
 description: "Install the Pact smart contract programming language and set up tooling for your development environment."
 ---
 
 import CodeBlock from '@theme/CodeBlock';
 
-# Installation and setup
+# Install on Windows Subsystem for Linux (WSL)
 
-Setting up a fully-functioning development environment often requires more than the minimal steps covered in the [Quick start](../quickstart) guide.
-This section provides more detailed information about installation, tooling, and configuration options so you can create a complete development environment that best meets your needs.
-
-At a high level, you complete the following steps to configure a development environment for writing smart contracts that execute transactions on the Kadena blockchain network:
-
-- **Install Pact**: Pact is the core smart contract programming language for Kadena. By installing the appropriate version of Pact for your operating system, you'll be able to write, test, and deploy your smart contracts from your working environment.
-
-- **Install tooling**: Installing additional tooling is optional. However, many toolchain extensions—like the Pact language server plugin (LSP) and the community-contributed `pactup` package manager—provide essential quality-of-life enhancements that improve the developer experience. You should also consider adding access to common blockchain applications—like faucets, wallets, and block explorers—to ensure you have an end-to-end development environment.
-
-- **Set up a local node**: A properly configured blockchain node is a crucial part of your development environment for testing and debugging of projects during development and simulating public deployment in an isolated network environment.
-
-## Before you begin
-
-To prepare for installation, you should verify your development environment meets the following basic requirements
-
-- You have an internet connection and a web browser installed on your local computer.
-- You have an integrated development environment (IDE) or code editor such as [Visual Studio Code](https://code.visualstudio.com/download).
-- You have access to an interactive terminal shell as part of the IDE or code editor you use.
+You can install Pact on Microsoft Windows if you first install and configure the Windows Subsystem for Linux (WSL) on Windows 10, or later, or on Windows Server 2019, or later.
+After you install and configure the WSL, you can install Pact from the Pact Linux release archive. 
 
 ## Pact versions
 
-You can choose to download and install either the latest, stable version of Pact, version 4.x, or the development version of Pact Core, version 5 (beta) for macOS computers.
-
-- Pact 4.13 is the latest stable release of the Pact smart contract language and interactive interpreter for macOS.
-- Pact Core is a reinvention of the Pact language that focuses on enhanced scalability, maintainability, and performance.
-  Pact Core enables sustainable growth of Pact features within the Kadena ecosystem by offering more modular and maintainable internal structures to better support community development and enhancements to the language and components that rely on it.
-  For more information about Pact Core, see the following resources:
-
-  - Pact Core repository
-  - 
-
-## Installation options
-
-You can download and install the Pact programming language and interactive interpreter locally on your local computer from prebuilt platform-specific binaries or build Pact directly from its source code. 
-You can also run Pact in a browser without installing it as a component in the development network Docker image.
-
-The installation instructions in this section describe how to install Pact locally using prebuilt binaries for each operating system platform.
-
-To build Pact binaries directly from source, download the source code from [Pact Releases](https://github.com/kadena-io/pact/releases), then use Homebrew, Cabal from the Haskell toolchain, or the Nix package manager to build Pact. 
-For more information about the dependencies and tools for building from the source code, see [Building from source](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source).
-
-## Install Pact on Linux
-
-Currently, you can choose to download and install either the latest, stable version of Pact, version 4.x, or the development version of Pact Core, version 5 (beta).
-
-### Versions
+You can choose to download and install either the latest, stable version of Pact, version 4.x, or the development version of Pact Core, version 5 (beta) for Linux computers.
 
 - Pact 4.13 is the latest stable release of the Pact smart contract language and interactive interpreter for Linux.
 - Pact Core is a reinvention of the Pact language that focuses on enhanced scalability, maintainability, and performance.
   Pact Core enables sustainable growth of Pact features within the Kadena ecosystem by offering more modular and maintainable internal structures to better support community development and enhancements to the language and components that rely on it.
 
-### Prerequisites
+## Prerequisites
 
-If you are installing Pact 4.x, you should note that this version of Pact requires the `z3` theorem prover from Microsoft Research to support formal verification.
+Before you can install Pact on Microsoft Windows, you must install and configure the Windows Subsystem for Linux (WSL).
+For complete WSL installation instructions, see [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or [Install on Windows Server](https://learn.microsoft.com/en-us/windows/wsl/install-on-server).
+
+To set up WSL:
+
+1. Click **Start** to select **Windows PowerShell**, then click **Run as Administrator**.
+2. Run the following command to enable WSL and install the Ubuntu distribution:
+   
+   ```powershell
+   wsl --install --distribution Ubuntu
+   ```
+
+1. Restart the Windows computer to complete the WSL installation.
+   
+   After restarting, click Start to select the Ubuntu virtual machine and follow the instructions displayed to create a new user account and complete the setup process.
+
+In addition to setting up WSL, if you are installing Pact 4.x, you should note that this version of Pact requires the `z3` theorem prover from Microsoft Research to support formal verification.
 Pact Core doesn't support formal verification in this release.
-You can install and verify the installation of the `z3` package on Linux by running the following commands:
+You can install the `z3` package in the WSL Ubuntu virtual machine by running the following commands:
 
 ```bash
 sudo apt update
@@ -72,9 +48,9 @@ sudo apt install z3
 z3 --version
 ```
 
-### Installation instructions
+## Installation instructions
 
-To install Pact on Linux:
+To install Pact on Window Subsystem for Linux (WSL):
 
 1. Navigate to the appropriate Pact Releases page:
    
@@ -129,7 +105,7 @@ To install Pact on Linux:
    For more information about the command-line options, see Pact command-line interpreter.
    For an introduction to Pact programming and language features, see basic language features.
 
-### Troubleshooting
+## Troubleshooting
 
 If you encounter issues, check the following:
 
@@ -206,167 +182,6 @@ If you encounter issues, check the following:
    Open a new terminal or reload the shell profile to complete the update.
 
 - Check [Pact GitHub Issues](https://github.com/kadena-io/pact/issues) for known issues or to report a problem with installing Pact.
-
-## Install on macOS
-
-You can install Pact on macOS by using the Homebrew package manager or by downloading and installing the appropriate binary for the local system architecture. 
-
-Currently, you can also choose to download and install either the latest, stable version of Pact, version 4.x, or the development version of Pact Core, version 5 (beta).
-
-### Versions
-
-- Pact 4.13 is the latest stable release of the Pact smart contract language and interactive interpreter for macOS.
-- Pact Core is a reinvention of the Pact language that focuses on enhanced scalability, maintainability, and performance.
-  Pact Core enables sustainable growth of Pact features within the Kadena ecosystem by offering more modular and maintainable internal structures to better support community development and enhancements to the language and components that rely on it.
-
-### Prerequisites
-
-If you want to install Pact on macoS using the Homebrew package manager (recommended), you should verify that you have Homebrew installed by running the following command:
-
-```bash
-brew --version
-```
-
-This command should display output similar to the following:
-
-```bash
-Homebrew 4.3.23
-```
-
-If you don't have Homebrew installed, see [Homebrew](https://brew.sh/) for installation instructions and additional information about using the package manager.
-
-In addition to Homebrew, if you are installing Pact 4.x, you should note that this version of Pact requires the `z3` theorem prover from Microsoft Research to support formal verification.
-Pact Core doesn't support formal verification in this release.
-You can install and verify the installation of the `z3` package on Linux by running the following commands:
-
-### Installation instructions
-
-To install Pact on macOS using Homebrew:
-
-1. Open a terminal shell on your local computer.
-
-2. Update the `brew` package manager by running the following command:
-
-   ```zsh
-   brew update
-   ```
-
-2. Install the `pact` binary and related dependencies by running the following command:
-
-   ```zsh
-   brew install kadena-io/pact/pact
-   ```
-
-7. Verify the installation by checking the Pact version:
-
-   ```bash
-   pact --version
-   ```
-
-8. View usage information for the pact interactive interpreter by running the following command:
-   
-   ```bash
-   pact --help
-   ```
-
-   For more information about the command-line options, see Pact command-line interpreter.
-   For an introduction to Pact programming and language features, see basic language features.
-
-To install Pact on macOS from a compressed archive:
-
-1. Navigate to the appropriate Pact Releases page:
-   
-   - [Pact Releases](https://github.com/kadena-io/pact/releases) to download the latest stable version of Pact 4.x. 
-   - [Releases/development-latest](https://github.com/kadena-io/pact-5/releases/tag/development-latest) to download the latest development version of Pact Core.
-
-2. Download the latest `pact-<version>-macos-<arch>.tar.gz` file for the macOS operating system and architecture you use.
-
-3. Double-click the downloaded file to extract the contents.
-
-4. Use the Finder to navigate to the `pact` binary in the extracted directory, select the binary, right-click, then click **Open**.
-
-5. Click **Open** to override system setting settings:
-
-### Troubleshooting
-
-If you encounter issues, check the following:
-
-- Check the Pact version and, if Pact, version 4.x, is installed, verify that you have `z3` installed.
-
-  ```bash
-  pact --version
-  ```
-  
-  This command should display output similar to the following:
-
-  ```bash
-  pact version 4.13
-  ```
-
-  If the Pact version is 4.x, check for the z3 package by running the following command:
-
-  ```bash
-  z3 --version
-  ```
-
-  If `z3` is installed correctly, the command should display output similar to the following:
-  
-  ```bash
-  Z3 version 4.13.0 - 64 bit
-  ```
-
-  If necessary, install `z3` by running the following command:
-
-  ```bash
-  brew install z3
-  ```
-
-- Verify the `pact` binary can be located and is in a directory included in your `PATH` environment variable.
-  
-  First check the path to the `pact` binary by running the following command:
-
-   ```bash
-   which pact
-   ```
-   
-   This command should display the current path to the `pact` binary.
-   For example:
-
-   ```bash
-   /opt/homebrew/bin/pact
-   ```
-
-   If the command doesn't display the path to the `pact` binary, you should try reinstalling `pact` using `brew`, from the prebuilt release archive, or from the source code.
-   If the `which pact` command displays the path to the `pact` binary, check the `PATH` environment variable to verify the path the the binary is include by running the following command:
-
-   ```bash
-   echo $PATH
-   ```
-
-   This command should display output similar to the following:
-   
-   ```bash
-   //Users/pistolas/Library/pnpm:/opt/homebrew/bin:/opt/homebrew/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-   ```
-   
-   The `$PATH` output should include the directory where the `pact` binary is located.
-   If the PATH environment variable doesn't include the directory, open your shell profile—for example, the `~/.bashrc` or `~/.zshrc` file—in a text editor.
-   Add the following line at the end of the file:
-
-   ```bash
-   export PATH="/path/to/pact-directory:$PATH"
-   ```
-
-   Save the shell profile file and exit.
-
-   Open a new terminal or reload the shell profile to complete the update.
-
-- Check [Pact GitHub Issues](https://github.com/kadena-io/pact/issues) for known issues or to report a problem with installing Pact.
-
-## Install on Windows Subsystem for Linux (WSL)
-
-You can install Pact on Microsoft Windows if you first install and configure the Windows Subsystem for Linux (WSL) on Windows 10, or later, or on Windows Server 2019, or later.
-After you install and configure the WSL, you can install Pact from the Pact Linux release archive. 
 
 
 
