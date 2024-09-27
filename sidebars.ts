@@ -13,26 +13,26 @@ const sidebars: SidebarsConfig = {
            },
            items: [
            
-                'get-started/get-started-intro',
+                'smart-contracts/get-started-intro',
                 {
                   type: 'category',
                   label: 'Installation and setup',
                   link: {
                      type: 'doc',
-                     id: 'get-started/install',
+                     id: 'smart-contracts/install',
                    },
                  items: [
-                  'get-started/install/linux',
-                  'get-started/install/macos',
-                  'get-started/install/windows',
-                  'get-started/install/tooling',
-                  'get-started/install/local-dev-node',
+                  'smart-contracts/install/linux',
+                  'smart-contracts/install/macos',
+                  'smart-contracts/install/windows',
+                  'smart-contracts/install/tooling',
+                  'smart-contracts/install/local-dev-node',
                  ],
                 },
-                'get-started/basic-concepts',
-                'get-started/lang-features',
-                //'get-started/modules',
-                //'get-started/database-model'
+                'smart-contracts/basic-concepts',
+                'smart-contracts/lang-features',
+                //'smart-contracts/modules',
+                //'smart-contracts/database-model'
                 ],
       },
       {
