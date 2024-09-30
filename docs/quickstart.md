@@ -48,12 +48,12 @@ The Kadena development network allows you to run a standalone local blockchain n
 
 To set up the local network, open a terminal shell on your computer then run the following commands to get the development network Docker image and start the network in a Docker container:
 
-<CodeBlock language="bash">
-{`git clone https://github.com/kadena-io/devnet
+```bash
+git clone https://github.com/kadena-io/devnet
 cd devnet
 npm install
 docker run --rm --interactive --tty --publish 8080:8080 --volume kadena_devnet:/data --name devnet kadena/devnet`}
-</CodeBlock>
+```
 
 For more information about starting the Kadena development network in a Docker container, see [Set up the local network](/smart-contracts/install/devnet).
 
@@ -64,10 +64,10 @@ You can use the Kadena command-line interface interactively or in scripts and au
 
 To install and configure the `kadena-cli` program, open a terminal shell on your computer then run the following commands:
 
-<CodeBlock language="bash">
-{`npm install --global @kadena/kadena-cli
-kadena config init`}
-</CodeBlock>
+```bash
+npm install --global @kadena/kadena-cli
+kadena config init`
+```
 
 This command creates the `.kadena` configuration folder location is your current working directory and adds default network settings to a `networks` subfolder, then prompts you to create a wallet.
 Wallets are an important part of interacting with any blockchain, so you can create one now as part of your initial configuration steps.
@@ -129,12 +129,13 @@ You can learn more about these topics in [Smart contracts](/smart-contracts) doc
 
 Here are some suggested next steps:
 
-<<<<<<< HEAD
-- Start learning the Pact programming language with [Get started with Pact](/smart-contracts/get-started-intro).
-=======
 - Start learning the Pact programming language with [Get started: Introduction to Pact](/smart-contracts/get-started-intro).
->>>>>>> 2dbf6f4 (Fix typo, use old school backticks, change links)
+
+- Start learning the Pact programming language with [Get started: Introduction to Pact](/smart-contracts/get-started-intro).
+
 - Explore hands-on coding projects in [Coding projects](/coding-projects/coding-projects).
+
 - Learn how to interact with the blockchain and deployed contracts using [Kadena API](/api) calls and [How-to guide](/guides).
+
 - Join the [Kadena Discord community](https://discord.gg/kadena) for support and discussions.
 
