@@ -36,11 +36,11 @@ If you have everything you need, you can set up your development environment and
 The Pact smart contract programming language is specifically designed for writing [smart contracts](/resources/glossary) to run safely and efficiently on the Kadena blockchain network. 
 Follow the appropriate instructions for your operating system to Pact.
 
-- [Install Pact on Linux](install/pact/linux)
-- [Install Pact on macOS](install/pact/mac-brew)
-- [Install Pact on Microcost Windows Services for Linux (WSL)](install/pact/windows)
+- [Install Pact on Linux](/smart-contracts/install/linux)
+- [Install Pact on macOS](/smart-contracts/install/macos)
+- [Install Pact on Microsoft Windows Services for Linux (WSL)](/smart-contracts/install/windows)
 
-For more information about installing Pact, see [Install Pact](install).
+For more information about installing Pact, see [Installation and setup](/smart-contracts/install).
 
 ## Set up a local network
 
@@ -55,7 +55,7 @@ npm install
 docker run --rm --interactive --tty --publish 8080:8080 --volume kadena_devnet:/data --name devnet kadena/devnet`}
 </CodeBlock>
 
-For more information about starting the Kadena development network in a Docker container, see [Set up the local network](install/devnet).
+For more information about starting the Kadena development network in a Docker container, see [Set up the local network](/smart-contracts/install/devnet).
 
 ## Install the Kadena command-line interface
 
@@ -89,32 +89,32 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
 
 2. Copy and paste the following simple `greeting` module code, then press return:
 
-   <CodeBlock language="pact">
+   ```pact
    (module greeting GOVERNANCE
       (defcap GOVERNANCE () true)
         (defun say-hello(name:string)
           (format "Hello, {}! ~ from Kadena" [name])
       )
    )
-   </CodeBlock>
+   ```
    
    You should see the module loaded with output similar to the following:
 
-   <CodeBlock language="pact">
+   ```pact
    "Loaded module greeting, hash f1yyXqj5HstOni1QdZmuagUJXbu72VmYiwXua7Vp4-0"
-   </CodeBlock>
-
+   ```
+   
 3. Call the `say-hello` function with a string similar to the following:
 
-   <CodeBlock language="pact">
+   ```pact
    (say-hello "Pistolas")
-   </CodeBlock>
+   ```
 
    The function returns a greeting similar to the following:
 
-   <CodeBlock language="pact">
+   ```pact
    "Hello, Pistolas! ~ from Kadena"
-   </CodeBlock>
+   ```
 
    If you want to deploy this contract on the local development network, copy the module code to a file with the `.pact` file extension—for example, create a `greeting.pact` file—then create a transaction to deploy the module as described in Deploy smart contracts.
    
@@ -125,11 +125,11 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
 Congratulations! 
 In this _Quick start_, you learned the basics of how to set up a development environment with the Pact programming language, a local development network, and the Kadena developer command-line interface.
 You also got a first look at how to write and execute a simple Pact contract in the interactive interpreter.
-You can learn more about these topics in [Smart contracts](/developers) documentation. 
+You can learn more about these topics in [Smart contracts](/smart-contracts) documentation. 
 
 Here are some suggested next steps:
 
-- Start learning the Pact programming language with [Get started with Pact](/get-started/get-started-intro).
+- Start learning the Pact programming language with [Get started with Pact](/smart-contracts/get-started-intro).
 - Explore hands-on coding projects in [Coding projects](/coding-projects/coding-projects).
 - Learn how to interact with the blockchain and deployed contracts using [Kadena API](/api) calls and [How-to guide](/guides).
 - Join the [Kadena Discord community](https://discord.gg/kadena) for support and discussions.
