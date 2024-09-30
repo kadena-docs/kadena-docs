@@ -163,7 +163,7 @@ In addition to a publicly-accessible IP address, nodes must be able to communica
 If your computer is behind a firewall or is a virtual guest connecting to the internet through a host computer, you should review your network configuration and open required ports to allow inbound and outbound traffic. 
 For example, you might need to configure port forwarding for port 1789 on your router or host computer to allow inbound connections from remote nodes.
 
-### Installation instructions for release binaries
+### Install from release binaries
 
 You can download compressed archive files with `chainweb-node` release binaries for Ubuntu Linux directly from the [Releases](https://github.com/kadena-io/chainweb-node/releases) page in the [chainweb-node](https://github.com/kadena-io/chainweb-node/) repository.
 If you have Ubuntu 20.04 or Ubuntu 22.04 on a physical or virtual machine, downloading the binary is the most straightforward installation path.
