@@ -129,7 +129,11 @@ You can learn more about these topics in [Smart contracts](/smart-contracts) doc
 
 Here are some suggested next steps:
 
+<<<<<<< HEAD
 - Start learning the Pact programming language with [Get started with Pact](/smart-contracts/get-started-intro).
+=======
+- Start learning the Pact programming language with [Get started: Introduction to Pact](/smart-contracts/get-started-intro).
+>>>>>>> 2dbf6f4 (Fix typo, use old school backticks, change links)
 - Explore hands-on coding projects in [Coding projects](/coding-projects/coding-projects).
 - Learn how to interact with the blockchain and deployed contracts using [Kadena API](/api) calls and [How-to guide](/guides).
 - Join the [Kadena Discord community](https://discord.gg/kadena) for support and discussions.
