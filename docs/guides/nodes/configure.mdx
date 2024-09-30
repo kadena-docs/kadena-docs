@@ -1,0 +1,245 @@
+---
+title: Configure
+id: configure
+---
+
+# Detailed Chainweb Node Configuration
+
+This is meant to provide an overview of the configuration options available in chainweb-node out of the box.  The full
+config can be pulled by running ./chainweb-node --print-config.
+
+## Chainweb Section
+
+```yaml
+chainweb:
+  allowReadsInLocal: false
+```
+Determines if read operations are allowed in local execution mode.
+
+```yaml
+  backup:
+    api:
+      configuration: {}
+      enabled: false
+    directory: null
+```
+Configures backup settings. The API is disabled by default, and no backup directory is set.
+
+```yaml
+  chainwebVersion: mainnet01
+```
+Specifies the Chainweb network version. Default is mainnet
+
+```yaml
+  cuts:
+    fastForwardBlockHeightLimit: null
+    fetchTimeout: 3000000
+    initialBlockHeightLimit: null
+    pruneChainDatabase: none
+```
+Controls various aspects of chain cuts:
+- `fastForwardBlockHeightLimit`: Limit for fast-forwarding block height (null means no limit).
+- `fetchTimeout`: Timeout for fetching cuts (in microseconds).
+- `initialBlockHeightLimit`: Initial block height limit (null means no limit).
+- `pruneChainDatabase`: Database pruning strategy (set to 'none' here).
+
+```yaml
+  enableLocalTimeout: false
+```
+Enables or disables local timeout.
+
+```yaml
+  fullHistoricPactState: true
+```
+Determines whether to maintain full historical Pact state.
+
+```yaml
+  gasLimitOfBlock: 150000
+```
+Sets the gas limit for each block.
+
+```yaml
+  headerStream: false
+```
+Enables or disables header streaming. Needed for indexing or streaming data.
+
+```yaml
+  logGas: false
+```
+Determines whether to log gas usage.
+
+```yaml
+  mempoolP2p:
+    configuration:
+      maxSessionCount: 6
+      pollInterval: 30
+      sessionTimeout: 300
+    enabled: true
+```
+Configures mempool P2P settings:
+- `maxSessionCount`: Maximum number of concurrent sessions.
+- `pollInterval`: Interval for polling (in seconds).
+- `sessionTimeout`: Session timeout (in seconds).
+- `enabled`: Enables or disables mempool P2P.
+
+```yaml
+  minGasPrice: 1.0e-8
+```
+Sets the minimum gas price.
+
+```yaml
+  mining:
+    coordination:
+      enabled: false
+      limit: 1200
+      miners: []
+      payloadRefreshDelay: 15000000
+      updateStreamLimit: 2000
+      updateStreamTimeout: 240
+    nodeMining:
+      enabled: false
+      miner:
+        account: ''
+        predicate: keys-all
+        public-keys: []
+```
+Configures mining settings:
+- `coordination`: Settings for coordinated mining.
+- `nodeMining`: Settings for node mining (disabled here).
+
+```yaml
+  moduleCacheLimit: 62914560
+```
+Sets the module cache limit (in bytes).
+
+```yaml
+  onlySyncPact: false
+```
+Determines whether to only synchronize Pact data.
+
+```yaml
+  p2p:
+    bootstrapReachability: 0.5
+    ignoreBootstrapNodes: false
+    maxPeerCount: 50
+    maxSessionCount: 10
+    peer:
+      certificateChain: null
+      certificateChainFile: null
+      hostaddress:
+        hostname: 0.0.0.0
+        port: 1789
+      interface: '*'
+      key: null
+      keyFile: null
+    peers: []
+    private: false
+    sessionTimeout: 240
+```
+Configures P2P network settings:
+- `bootstrapReachability`: Threshold for bootstrap node reachability.
+- `maxPeerCount`: Maximum number of peers.
+- `peer`: Specific peer settings including host address and port.
+- `peers`: List of known peers (empty here).
+- `private`: Whether the node is private.
+
+```yaml
+  pactQueueSize: 2000
+```
+Sets the size of the Pact queue.
+
+```yaml
+  preInsertCheckTimeout: 1000000
+```
+Timeout for pre-insert checks (in microseconds).
+
+```yaml
+  readOnlyReplay: false
+```
+Enables or disables read-only replay mode.
+
+```yaml
+  reintroTxs: true
+```
+Determines whether to reintroduce transactions.
+
+```yaml
+  reorgLimit: 480
+```
+Sets the limit for chain reorganizations.
+
+```yaml
+  rosetta: false
+  rosettaConstructionApi: false
+```
+Enables or disables Rosetta API and Rosetta Construction API.
+
+```yaml
+  serviceApi:
+    interface: '*'
+    payloadBatchLimit: 1000
+    port: 1848
+    validateSpec: false
+```
+Configures the service API:
+- `interface`: Network interface to bind to ('*' means all interfaces).
+- `payloadBatchLimit`: Maximum number of payloads in a batch.
+- `port`: Port for the service API.
+- `validateSpec`: Whether to validate API specifications.
+
+```yaml
+  syncPactChains: null
+```
+Specifies which Pact chains to synchronize (null means all).
+
+```yaml
+  throttling:
+    global: 50.0
+    mempool: 20.0
+    putPeer: 11
+```
+Sets throttling limits for various operations.
+
+## Database and Logging Sections
+
+```yaml
+databaseDirectory: null
+```
+Specifies the database directory (null means use default).
+
+```yaml
+logging:
+  backend:
+    color: auto
+    format: text
+    handle: stdout
+  clusterId: null
+  filter:
+    default: debug
+    default-rate: 1
+    rules: []
+  logger:
+    exception_limit: 10
+    exception_wait: 1000
+    exit_timeout: 1000000
+    log_level: info
+    policy: discard
+    queue_size: 1000
+    scope: []
+  telemetryBackend:
+    configuration:
+      color: auto
+      format: text
+      handle: stdout
+    enabled: false
+```
+Configures logging settings:
+- `backend`: Log output settings (color, format, output handle).
+- `filter`: Log filtering rules.
+- `logger`: General logger settings including log level and queue size.
+- `telemetryBackend`: Settings for telemetry logging (disabled here).
+
+```yaml
+resetChainDatabases: false
+```
+Determines whether to reset chain databases on startup.
