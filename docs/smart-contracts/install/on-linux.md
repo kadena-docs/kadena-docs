@@ -11,14 +11,6 @@ import CodeBlock from '@theme/CodeBlock';
 
 You can download and install the Pact programming language and interactive interpreter locally on your local computer as prebuilt binary file from a release archive or build Pact directly from its source code. 
 
-## Pact versions
-
-You can choose to download and install either the latest, stable version of Pact, version 4.x, or the development version of Pact Core, version 5 (beta) for Linux computers.
-
-- Pact 4.13 is the latest stable release of the Pact smart contract language and interactive interpreter for Linux.
-- Pact Core is a reinvention of the Pact language that focuses on enhanced scalability, maintainability, and performance.
-  Pact Core enables sustainable growth of Pact features within the Kadena ecosystem by offering more modular and maintainable internal structures to better support community development and enhancements to the language and components that rely on it.
-
 ## Prerequisites
 
 If you are installing Pact 4.x, you should note that this version of Pact requires the `z3` theorem prover from Microsoft Research to support formal verification.
