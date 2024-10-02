@@ -7,14 +7,14 @@ description: "Start a local development network with a standalone blockchain nod
 
 # Set up a development network
 
-Computers that run the Chainweb consensus protocol—the `chainweb-node` software—are a crucial component of the Kadena blockchain.
+Computers that run the Chainweb network software—the `chainweb-node` program—are a crucial component of the Kadena blockchain.
 Nodes provide the compute, storage, and network resources that enable the Kadena blockchain to be secure and decentralized.
 Nodes also provide the engine for transaction processing, data verification, and executing smart contract functions.
 Because of the role they play in receiving and processing transactions, it's important to include at least one standalone node as part of your development environment.
 
 In most cases, you can run a single node to establish a local development network that you can then use to test smart contract operations in an isolated and controlled environment before deploying to a public test or production network.
 
-There are two primary ways you can set up a local development network with the `chainweb-node` program:
+There are two primary ways you can set up a local development network that includes the `chainweb-node` program:
 
 - You can download a complete local development network that includes the `chainweb-node` program, a local block explorer, the Pact interpreter that runs in a browser, and other tools. 
   With this option, you can use a default set of tools and configuration settings from a Docker image to run the development network inside of a Docker container.
@@ -127,7 +127,7 @@ For example, you can install and run node binaries:
 
 - Directly on a physical Linux or macOS computer.
 - On an Linux or macOS instance with infrastructure from a cloud services provider.
-- From a Linux or macOS image in a Docker container.
+- From a Linux image in a Docker container.
 
 You can also build the binaries directly from the source code.
 
@@ -148,7 +148,7 @@ If you also plan to use the node for mining, to submit transactions, or to query
 
 #### Operating system architecture
 
-Most `chainweb-node` software runs on Linux or macOS with AMD64 architectures.
+Most `chainweb-node` software runs on Linux with AMD64 architectures.
 If you want to run a Chainweb node on Linux or macOS with ARM64 architecture, you'll need to build the binaries yourself from the source code.
 You might experience some unexpected behavior when running a node on ARM64 architecture.
 Note that you should not configure **mining** for nodes on ARM64 architecture.

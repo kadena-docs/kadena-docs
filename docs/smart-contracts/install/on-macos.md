@@ -13,7 +13,7 @@ You can install Pact on macOS by using the Homebrew package manager or by downlo
 
 ## Prerequisites
 
-If you want to install Pact on macoS using the Homebrew package manager (recommended), you should verify that you have Homebrew installed by running the following command:
+If you want to install Pact on macOS using the Homebrew package manager (recommended), you should verify that you have Homebrew installed by running the following command:
 
 ```bash
 brew --version

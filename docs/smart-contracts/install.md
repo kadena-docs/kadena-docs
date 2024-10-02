@@ -47,5 +47,12 @@ You can also run Pact in a browser without installing it as a component in the d
 
 The installation instructions in this section describe how to install Pact locally using prebuilt binaries for each operating system platform.
 
+To build Pact binaries directly from source, see the instructions in the appropriate repository:
+
+- [Pact Core](https://github.com/kadena-io/pact-5/releases/tag/development-latest)
+- [Pact 4.x](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source)
+
+<!--
 To build Pact binaries directly from source, download the source code from [Pact Releases](https://github.com/kadena-io/pact/releases), then use Homebrew, Cabal from the Haskell toolchain, or the Nix package manager to build Pact. 
 For more information about the dependencies and tools for building from the source code, see [Building from source](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source).
+-->
