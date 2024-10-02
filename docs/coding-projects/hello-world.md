@@ -23,7 +23,7 @@ In fact, the term `module` is a reserve keyword that you use to define and insta
 
 The `greeting` module defined a single function—one very much like the traditional Hello, World! program you see when learning any new programming language.
 
-In the `hello-world` project folder, you'll take a closer look at the `hello-world` module, extend its functionality, and deploy it on the local development network.
+In the `00-hello-world` project folder, you'll take a closer look at the `hello-world` module, extend its functionality, and deploy it on the local development network.
 
 ## Before you begin
 
@@ -146,7 +146,7 @@ To load and test the `helloWorld` module interactively:
    pact >
    ```
 
-4. Copy and paste the `helloWorld` module code into the terminla with the `pact >` prompt, then press return to load the module.
+4. Copy and paste the `helloWorld` module code into the terminal with the `pact >` prompt, then press Return on the keyboard to load the module.
    
    You should see that the module loads and the call to the `say-hello` function is executed with output similar to the following:
 
@@ -169,7 +169,7 @@ To create a basic `hello-world.repl` file:
 
 1. Create a new file named `hello-world.repl` file in your code editor.
    
-1. Use the built-in `(begin-tx)` and `(commit-tx)` functions to define a transaction that executes the `hello-world.pact` module:
+1. Use the built-in `(begin-tx)` and `(commit-tx)` functions to define a transaction that loads the `hello-world.pact` file:
 
    ```pact
    (begin-tx)
@@ -202,7 +202,7 @@ To create a basic `hello-world.repl` file:
 
 ## Modify the module to store names
 
-One way to make the `helloWorld` module a more interesting sample  project is to enable the contract to store greetings in a table.
+One way to make the `helloWorld` module a more interesting sample project is to enable the contract to store greetings in a table.
 
 To modify the `helloWorld` module:
 
@@ -225,33 +225,39 @@ To modify the `helloWorld` module:
    ;;  - Two semicolons (;;) to describe functions or other top-level forms.
    ;;  - Three semicolons (;;;) to separate larger sections of code.
    ;;
+   ;;  In this example, the module defines a table for storing greeting
+   ;;  names and two functions:
+   ;; 
+   ;;  - (say-hello-to "name")
+   ;;  - (greet)
+   ;;
    ;;-----------------------------------------------------------------------
    
    (module helloWorld-mod GOVERNANCE
-     "Update the hello-world project to store names."
+     @doc "Update the hello-world project to store names."
      
      (defcap GOVERNANCE () true)
      
      (defschema hello-schema
-       "Add a schema to store the 'name' variable for greeting recipient."
+       @doc "Add a schema to store the 'name' variable for the greeting recipient."
        name:string)
    
-     (deftable hellos:{hello-schema})
+     (deftable names:{hello-schema})
    
-     (defun hello (name)
-       "Store 'name' to say hello with."
-       (write hellos "hello" { 'name: name }))
+     (defun say-hello-to (name)
+       @doc "Store 'name' to say hello with."
+       (write names "name" { 'name: name }))
    
      (defun greet ()
-       "Say hello using the stored 'name' from the hellos table."
-       (with-read hellos "hello" { "name" := name }
+       @doc "Say hello using the stored 'name' from the hellos table."
+       (with-read names "name" { "name" := name }
          (format "Hello, {}!" [name])))
    )
    
-   (create-table hellos)
+   (create-table names)
    
-   (hello "world") ; store greeting recipient "world" in the hellos table
-   (greet)         ; say hello!
+   (say-hello-to "world") ; store greeting recipient "world" in the names table
+   (greet)                ; say hello!
    ```
 
 1. Create a new file named `2-hello-world.repl` file in your code editor.
@@ -263,7 +269,7 @@ To modify the `helloWorld` module:
      (load "2-hello-world.pact")
    (commit-tx)
    (begin-tx)
-     (helloWorld-mod.hello "Las Pistolas")
+     (helloWorld-mod.say-hello-to "Las Pistolas")
      (helloWorld-mod.greet)
    (commit-tx)
    ```
