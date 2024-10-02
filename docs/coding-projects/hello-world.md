@@ -19,7 +19,7 @@ tags:
 
 In the [Quick start](../quickstart), you were introduced to a simple `greeting` module. 
 Modules provide the basic foundation for all Pact smart contracts. 
-In fact, the term `module` is a reserve keyword that you use to define and install a module with a specified _name_, 
+In fact, the term `module` is a reserved keyword that you use to define and install a module with a specified _name_, 
 
 The `greeting` module defined a single function—one very much like the traditional Hello, World! program you see when learning any new programming language.
 
