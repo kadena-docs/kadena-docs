@@ -101,14 +101,14 @@ For more information about metadata, see [Pact syntax](/reference/syntax).
 Pact, like most programming languages, supports the data types that you would expect.
 For example, Pact allows you define the following types of data:
 
-| Data type | Description | Examples
-| :--------- | :----------- | :-------
-| Integer | Any whole number value—positive or negative—that doesn't include a decimal.| 1, 2, 3, -19
-| Decimal | Any number value that includes a decimal. Decimal values can have a potentially unlimited precision. | 1.0, 23.5, 3.14159265359
-| String | Any text within quotes. You can represent strings using double quotes. It's also possible to prepend strings used as function names or table names with a single quotation mark (').| “Hello”, "Welcome to the show", 'balances
-| Boolean | Anything that is represented by true and false literals. | true, false
-| List | List literals are created inside square brackets ([ ]). List items can be separated with spaces or commas. If all of the items in the list have the same type, then the type is defined by the content of the list. Otherwise, the type is just defined as a “list”. | [1,2,3] or [1 2 3] = “[integer]” [1 2 true] = “list”
-| Object | Objects are dictionaries specifying key-value pairs created inside curly braces ({ }). | {“house”:”blue”, “locked”:”no”}
+| Data type | Description | Examples |
+| :--------- | :----------- | :------- |
+| Integer | Any whole number value—positive or negative—that doesn't include a decimal.| `1`, `2`, `-19` |
+| Decimal | Any number value that includes a decimal. Decimal values can have a potentially unlimited precision. | `1.0`, `23.5`, `3.14159265359` |
+| String | Any text within quotes. You can represent strings using double quotes. It's also possible to prepend strings used as function names or table names with a single quotation mark (').| `“Hello”`, `"Welcome to the show"`, `'balances` |
+| Boolean | Anything that is represented by true and false literals. | `true`, `false` |
+| List | List literals are created inside square brackets ([ ]). List items can be separated with spaces or commas. If all of the items in the list have the same type, then the type is defined by the content of the list. Otherwise, the type is just defined as a “list”. | `[1,2,3]` or `[1 2 3]`  is an integer list, `[1 2 true]` is a list |
+| Object | Objects are dictionaries specifying key-value pairs created inside curly braces (`{ }`). |` {“house”:”blue”, “locked”:”no”}` |
 
 For more information about data types, see [Pact syntax](/reference/syntax).
 
