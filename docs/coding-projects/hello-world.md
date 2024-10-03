@@ -45,7 +45,7 @@ To get started:
 2. Clone the `pact-coding-projects` repository by running the following command:
    
    ```bash
-   git@github.com:kadena-docs/pact-coding-projects.git
+   git clone https://github.com/kadena-docs/pact-coding-projects.git
    ```
 
 3. Change to the `00-hello-world` directory by running the following command:
