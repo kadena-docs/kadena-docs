@@ -94,7 +94,7 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
       (defcap GOVERNANCE () true)
         (defun say-hello(name:string)
           (format "Hello, {}! ~ from Kadena" [name])
-      )
+        )
    )
    ```
    
