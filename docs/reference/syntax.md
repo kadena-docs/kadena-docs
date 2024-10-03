@@ -87,8 +87,7 @@ pact> [1 2 3]
 [1 2 3]
 pact> [1,2,3]
 [1 2 3]
-pact> (typeof [1 2 3])
-"[integer]"
+
 pact> (typeof [1 2 true])
 "list"
 ```
@@ -234,7 +233,7 @@ The dereference operator `::` allows a member of an interface specified in the t
 
 Use the `bless` keyword to identify a previous version of a module—identified by its `hash` value—that you want to continue to support.
 
-For more information about using the bless keyword in a module declaration, see [Dependency management](/smart-contracts/modules#dependency-managementh304790584).
+For more information about using the `bless` keyword in a module declaration, see [Dependency management](/smart-contracts/modules#dependency-managementh304790584).
 
 ### Basic syntax
 
@@ -245,6 +244,8 @@ To support a previous version of a module, use the following syntax model:
 ```
 
 ### Examples
+
+The following example illustrates supporting two previous versions of the `provider` module:
 
 ```pact
 (module provider 'keyset
@@ -285,23 +286,6 @@ To evaluate a series of conditions, use the following syntax model:
 (cond (condition-1 branch-1) [(condition-2 branch-2) [...]] else-branch)
 ```
 
-
-`cond` is syntactically expanded such that
-
-```pact
-(cond
-   (a b)
-   (c d)
-   (e f)
-   g)
-```
-
-is expanded to:
-
-```pact
-(if a b (if c d (if e f g)))
-```
-
 ## defcap
 
 Use the `defcap` keyword to signal the start of a capability definition followed by the capability name, required or optional arguments, optional documentation, and the capability body composed of one or more expressions. 
@@ -320,6 +304,8 @@ To define a capability token that grants a permission or a privilege, use the fo
 
 ### Examples
 
+The following example illustrates defining the `USER_GURAD` capability:
+
 ```pact
 (defcap USER_GUARD (user)
   "Enforce user account guard
@@ -327,6 +313,8 @@ To define a capability token that grants a permission or a privilege, use the fo
     { "guard": guard }
     (enforce-guard guard)))
 ```
+
+The following example illustrates defining the `DEBIT` capability:
 
 ```pact
 (defcap DEBIT (id:string sender:string)
@@ -343,16 +331,20 @@ Use the `defconst` keyword to define a constant name with the specified value an
 To define a constant value, use the following syntax model:
 
 ```pact
-(defconst NAME VALUE [DOC-OR-META])
+(defconst name value [doc-or-metadata])
 ```
 
 ### Examples
+
+The following examples illustrate defining constants with optional documentation:
 
 ```pact
 (defconst COLOR_RED="#FF0000" "Red in hex")
 (defconst COLOR_GRN="#00FF00" "Green in hex")
 (defconst PI 3.14159265 "Pi to 8 decimals")
 ```
+
+The following example illustrates defining the constant `PENNY` with an explicit type:
 
 ```pact
 (defconst PENNY:decimal 0.1)
@@ -372,6 +364,8 @@ To define a function, use the following syntax model:
 ```
 
 ### Examples
+
+The following examples illustrate defining an `add3` function and a `scale3` function:
 
 ```pact
 (defun add3 (a b c) (+ a (+ b c)))
@@ -467,6 +461,8 @@ To define a schema, use the following syntax model:
 
 ### Examples
 
+The following example illustrates defining the `accounts` schema and an `accounts` table:
+
 ```pact
 (defschema accounts
   "Schema for accounts table"
@@ -491,6 +487,8 @@ To define a table, use the following syntax model:
 ```
 
 ### Examples
+
+The following example illustrates defining a schema and an `accounts` table:
 
 ```pact
   (defschema account
@@ -525,7 +523,6 @@ To implement an interface in a module, use the following syntax model:
 (implements interface)
 ```
 
-
 ## interface
 
 Use the `interface` keyword to define and install an interface with the specified `name` and optional documentation or metadata.
@@ -550,6 +547,8 @@ To define an interface, use the following syntax model:
 ```
 
 ### Examples
+
+The following example illustrates defining the `coin-sig` interface with documentation:
 
 ```pact
 (interface coin-sig
@@ -592,6 +591,8 @@ To bind a variable to a value, use the following syntax model:
 
 ### Examples
 
+The following example illustrates binding variables to values in a `let` declaration:
+
 ```pact
 pact > (let ((x 2) (y 5)) (* x y))
 10
@@ -601,7 +602,7 @@ pact > (let ((x 2) (y 5)) (* x y))
 
 Use the `let*` keyword to bind variables in pairs to over the scope of the code `body`. 
 Variables can reference previously-declared variables in the same `let` declaration. 
-The `let*` keyword is expanded at compile-time to nested `let` calls for each bind-pair.
+The `let*` keyword is expanded at compile-time to nested `let` calls for each `bind-pair`.
 Therefore, you should use `let` statements where possible.
 
 ### Basic syntax
@@ -613,6 +614,8 @@ To bind a variable to a value, use the following syntax model:
 ```
 
 ### Examples
+
+The following example illustrates referencing a previously-declared variable in the same `let*` declaration:
 
 ```pact
 (let* ((x 2) (y (* x 10)))
@@ -634,6 +637,7 @@ You can also add metadata by using the `@`-prefix.
 Supported metadata fields include: 
 
 - `@doc` to provide a documentation string.
+- `@event` to emit an event.
 - `@managed` to manage specific data associated with a capability.
 - `@model` to specify a property that can be checked for correctness in format verification.
 
@@ -675,6 +679,8 @@ To define a module, use the following syntax model:
 ```
 
 ### Examples
+
+The following example illustrates a defining the `accounts` module with a keyset and two functions:
 
 ```pact
 (module accounts 'accounts-admin
@@ -812,7 +818,7 @@ You specify the `hash` argument to validate that the imported module's hash matc
 You can use the [describe-module](/reference/functions/repl-only-functions#describe-module) function to query for the hash of a loaded module on the chain.
 
 You can also specify an optional list of `imports` consisting of function, constant, and schema names to import from the specified `module`. 
-If you explicitly define the function, constant, and schema names to import, only the listed  items are available for you to use in the module body. 
+If you explicitly define the function, constant, and schema names to import, only the listed items are available for you to use in the module body. 
 If you don't specify an import list, then every name in the imported module is brought into scope. 
 If two modules are defined in the same transaction, all names are in scope for both modules, and the import behavior defaults to the entire module. 
 
@@ -820,15 +826,16 @@ If two modules are defined in the same transaction, all names are in scope for b
 
 To import a specified module, use the following syntax models:
 
-
 ```pact
-(use model)
-(use model hash)
+(use module)
+(use module hash)
 (use module imports)
 (use module hash imports)
 ```
 
 ### Examples
+
+The following example illustrates importing all of the definitions from the `accounts` module and using the `transfer` function:
 
 ```pact
 (use accounts)
@@ -836,17 +843,23 @@ To import a specified module, use the following syntax models:
 "Write succeeded"
 ```
 
+The following example illustrates importing all of the definitions from a specific version of `accounts` module with the hash `"ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s"` and using the `transfer` function:
+
 ```pact
 (use accounts "ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s")
 (transfer "123" "456" 5 (time "2016-07-22T11:26:35Z"))
 "Write succeeded"
 ```
 
+The following example illustrates importing only the `transfer` and `example-fun` definitions from the `accounts` module and using the `transfer` function:
+
 ```pact
 (use accounts [ transfer example-fun ])
 (transfer "123" "456" 5 (time "2016-07-22T11:26:35Z"))
 "Write succeeded"
 ```
+
+The following example illustrates importing only the `transfer` and `example-fun` definitions from a specific version of `accounts` module with the hash `"ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s"` and using the `transfer` function:
 
 ```pact
 (use accounts "ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s" [ transfer example-fun ])
@@ -872,7 +885,7 @@ Atoms must resolve to a variable bound by one of the following:
 
 ### S-expressions
 
-S-expressions are formed with parentheses, with the first atom determining if the expression is a special form reserved keyword or a function application.
+S-expressions are formed with parentheses, with the first atom determining if the expression is a special form with a reserved keyword or a function application.
 If the expression is a function application, the first atom must refer to a definition.
 
 An application with less than the required arguments is in some contexts a valid _partial application_ of the function. However, this is only supported in Pact's [functional-style functions](/build/pact/advanced#functional-concepts).Using a partial application anywhere else results in a runtime error.
