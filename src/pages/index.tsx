@@ -140,7 +140,7 @@ export default function Home(): JSX.Element {
 
             <div className='home-main-solutions'>
 
-               <a className='home-main-solutions-item' href="./block-explorer">
+               <a className='home-main-solutions-item' href="./solutions/block-explorer">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -156,7 +156,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./chainweaver">
+               <a className='home-main-solutions-item' href="./solutions/chainweaver">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -172,7 +172,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./graphql">
+               <a className='home-main-solutions-item' href="./solutions/graphql">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -188,7 +188,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./hd-wallet">
+               <a className='home-main-solutions-item' href="./solutions/hd-wallet">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -204,7 +204,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./kadena-cli">
+               <a className='home-main-solutions-item' href="./solutions/kadena-cli">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -220,7 +220,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./kadena-js">
+               <a className='home-main-solutions-item' href="./solutions/kadena-js">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -236,7 +236,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./marmalade">
+               <a className='home-main-solutions-item' href="./solutions/marmalade">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -252,7 +252,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./spirekey">
+               <a className='home-main-solutions-item' href="./solutions/spirekey">
 
                   <span className="home-main-solutions-item-icon">
 
