@@ -12,7 +12,7 @@ const sidebars: SidebarsConfig = {
                 id: 'smart-contract-dev',
            },
            items: [
-           
+
                 'smart-contracts/get-started-intro',
                 {
                   type: 'category',
@@ -138,7 +138,7 @@ const sidebars: SidebarsConfig = {
                            'api/service-api/check-node-health',
                            'api/service-api/get-node-info',
                            'api/service-api/mining',
-                           'api/service-api/rosetta',                    
+                           'api/service-api/rosetta',
                       ],
             },
             'api/data-models',
@@ -215,61 +215,61 @@ const sidebars: SidebarsConfig = {
 ],
 
    solutions: [
-      'solutions',
+      'solutions/solutions',
       {
          type: 'category',
          label: 'Block Explorer',
          items: [
-            'block-explorer/block-explorer',
+            'solutions/block-explorer/block-explorer',
          ],
       },
       {
          type: 'category',
          label: 'Chainweaver Wallet',
          items: [
-            'chainweaver/chainweaver',
+            'solutions/chainweaver/chainweaver',
          ],
       },
       {
          type: 'category',
          label: 'GraphQL',
          items: [
-            'graphql/graphql',
+            'solutions/graphql/graphql',
          ],
       },
       {
          type: 'category',
          label: 'HD Wallet',
          items: [
-            'hd-wallet/hd-wallet',
+            'solutions/hd-wallet/hd-wallet',
          ],
       },
       {
          type: 'category',
          label: 'KadenaJS',
          items: [
-            'kadena-js/kadena-js',
+            'solutions/kadena-js/kadena-js',
          ],
       },
       {
          type: 'category',
          label: 'Kadena CLI',
          items: [
-            'kadena-cli/kadena-cli',
+            'solutions/kadena-cli/kadena-cli',
          ],
       },
       {
          type: 'category',
          label: 'Marmalade',
          items: [
-            'marmalade/marmalade',
+            'solutions/marmalade/marmalade',
          ],
       },
       {
          type: 'category',
          label: 'Spirekey Wallet',
          items: [
-            'spirekey/spirekey',
+            'solutions/spirekey/spirekey',
          ],
       },
    ],

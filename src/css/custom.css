@@ -81,7 +81,16 @@ nav.navbar .navbar__link { font-weight: 550; }
 
    .menu__link.github-link-icon { padding: var(--ifm-menu-link-padding-vertical) var(--ifm-menu-link-padding-horizontal) !important; }
 
-[class*='announcementBar_'] { border: 0 !important; }
+   .navbar-sidebar__item.menu .github-link-icon {
+      height: 24px; width: 24px;
+      margin-left: 12.5px;
+      margin-top: 25px; }
+
+[class*='announcementBar_'] {
+   border: 0 !important;
+   padding-left: 2.5vw;
+   padding-right: 2.5vw;
+   line-height: 1.35; }
 
    [class*='announcementBar_'] strong { font-weight: 400; }
 
@@ -354,6 +363,8 @@ html[data-theme='light'] footer.footer--dark {
    html[data-theme='light'] footer.footer--dark a:active,
    html[data-theme='light'] footer.footer--dark a:hover { color: var(--k-dark-3); }
 
+html[data-theme='light'] .navbar__toggle { color: var(--k-primary) !important; }
+
 html[data-theme='light'] nav.navbar { background: var(--k-light-0); }
 
    html[data-theme='light'] nav.navbar svg[class^='lightToggleIcon'] { color: var(--k-dark-0); }
@@ -426,6 +437,8 @@ html[data-theme='dark'] footer.footer--dark {
    html[data-theme='dark'] footer.footer--dark a:visited,
    html[data-theme='dark'] footer.footer--dark a:active,
    html[data-theme='dark'] footer.footer--dark a:hover { color: var(--k-light-3); }
+
+html[data-theme='dark'] .navbar__toggle { color: var(--k-light-0) !important; }
 
 html[data-theme='dark'] nav.navbar { background: var(--k-dark-2); }
 
