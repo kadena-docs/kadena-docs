@@ -1,6 +1,6 @@
 ---
 title: Transfer assets
-id: howto-safe-transfers
+id: howto-transfer-assets
 ---
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';

@@ -8,7 +8,9 @@ import CodeBlock from '@theme/CodeBlock';
 
 # Check account balances
 
-This guide provides instructions and examples for checking an account balance using an API call, Kadena CLI with YAML configuration, and the Kadena client TypeScript library.
+This guide provides instructions and examples for checking an account balance using an API call, Kadena CLI commands, and the Kadena client TypeScript library.
+These examples illustrate how you can construct calls to the blockchain to get an account balance—an important operation if you're building a wallet, exchange, game, or other application where you need to retrieve and display account information.
+If you're using Chainweaver or another wallet or front-end application, this information is typically available directly through the user interface, with the application performing an operation similar to these examples behind the scenes.
 
 ## Using a YAML request and curl
 
@@ -122,43 +124,274 @@ To get an account balance:
     
     In this example, the account `k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0` has a balance of `20` coins on chain `1` of the Kadena `testnet04` network.
 
-## Using a YAML request and kadena-cli commands
+## Using kadena-cli commands
 
-You can also use YAML execution requests and transaction templates to check account balances using Kadena CLI commands.
-Here's the structure for different operations:
+If you have installed the `kadena-cli` package in your development environment, you can use the kadena account details command to look up account balances on the development, test, or main network.
 
-    ```yaml
-    # balance-check.yaml
-    # YAML configuration for checking balance
-    code: |-
-      (coin.get-balance "your k: address")
-    meta:
-      chainId: "1"
-      sender: "your k: address"
-      gasLimit: 2000
-      gasPrice: 0.00000001
-      ttl: 7200
-    networkId: "mainnet01"
-    type: exec
-    ```
+To get an account balance using `kadena-cli`:
 
-    To execute:
-    ```bash
-    kadena exec balance-check.yaml
-    kadena tx add
-    ```
-    select the YAML file path then
-    ```bash
-    kadena tx test
-    ```
-    And select the transaction you just added. now you shall see the data with your account Balance
+1. Open a terminal on your local computer.
 
+2. Check that you have `kadena` installed by running the following command:
+   
+   ```bash
+    which kadena
+   ```
+
+   You should see the path to the file similar to the following:
+   
+   ```bash
+   /usr/local/bin/kadena
+   ```
+
+   If you want to check the account balance for an account you added using the `kadena account add` command, you can use the `kadena account list` to review all of the accounts available in your development environment.
+   For this example, running `kadena account list --account-alias="all"` returns the following results:
+   
+   ```bash
+   Account Alias: pistolas-local                                                  
+   Account Name k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
+   Fungible     coin                                                              
+   Predicate    keys-all                                                          
+   Public Keys  fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7  
+   filepath     /Users/lisagunn/.kadena/accounts/pistolas-local.yaml              
+                                                                               
+   Account Alias: pistolas-testnet                                                
+   Account Name k:bbccc99ec9eeed17d60159fbb88b09e30ec5e63226c34544e64e750ba424d35e
+   Fungible     coin                                                              
+   Predicate    keys-all                                                          
+   Public Keys  bbccc99ec9eeed17d60159fbb88b09e30ec5e63226c34544e64e750ba424d35e  
+   filepath     /Users/lisagunn/.kadena/accounts/pistolas-testnet.yaml 
+   ```
+
+   If you know the account name, network, and chain where you want to check the account balance, you can go directly to the next step.
+   
+3. Check the account balance with interactive prompting by running the following command:
+   
+   ```bash
+   kadena account details
+   ```
+   
+   Select an **account name**:
+
+   ```bash
+   ? Select an account (alias - account name): (Use arrow keys)
+   ❯ Enter an account name manually:
+     pistolas-local   - k:fe4b6d....27f608b7
+     pistolas-testnet - k:bbccc9....a424d35e
+   ```
+   
+   Select the **network**:
+
+   ```bash
+   ? Select a network: (Use arrow keys)
+   ❯ devnet
+     mainnet
+     testnet
+   ```
+   
+   Enter one or more **chain identifiers**:
+   
+   ```bash
+   ? Enter a ChainId (0-19) (comma or hyphen separated e.g 0,1,2 or 1-5 or all):
+   ```
+   
+   After you provide the information required, the command returns account details including the account balance for each chain identifier you specified.
+   For example:
+
+   ```bash
+   Details of account "pistolas-testnet" on network "testnet04"
+   Name                             ChainID Public Keys                                                      Predicate Balance        
+   k:bbccc99ec9ee....4e750ba424d35e 1       bbccc99ec9eeed17d60159fbb88b09e30ec5e63226c34544e64e750ba424d35e keys-all  303.97768665622
+   k:bbccc99ec9ee....4e750ba424d35e 3       bbccc99ec9eeed17d60159fbb88b09e30ec5e63226c34544e64e750ba424d35e keys-all  10             
+   Success with Warnings:
+   
+   Account "k:bbccc99ec9eeed17d60159fbb88b09e30ec5e63226c34544e64e750ba424d35e" is not available on
+   following chain(s): 2 on network "testnet04"
+   ```
+   
+   The command output also includes the command executed.
+   For example:
+
+   ```   
+   Executed:
+   kadena account details --account="pistolas-testnet" --network="testnet" --chain-ids="1-3" 
+   ```
+
+   If you want to check an account balance without interactive prompting, you can specify all of the required arguments in a single command.
+   For example:
+
+   ```bash
+   kadena account details --account="pistolas-local" --network="devnet" --chain-ids="3" 
+   ```
+   
+   In this case, there are no warnings, so the command simply returns the account details:
+
+   ```bash
+   Details of account "pistolas-local" on network "development"
+   Name                             ChainID Public Keys                                                      Predicate Balance
+   k:fe4b6da33219....74518827f608b7 3       fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7 keys-all  14     
+   ```
+
+## Using a transaction template
+
+You can also create a transaction template for checking account balances.
+Transaction templates are similar to YAML execution requests like the one in [Using a YAML request and curl](#using-a-yaml-request-and-curl).
+However, transaction templates allow you to use variables for input values that can be set when adding and executing transactions using Kadena CLI commands.
+
+To get an account balance using `kadena-cli` and a transaction template:
+
+1. Open a terminal on your local computer.
+
+2. Check that you have `kadena` installed by running the following command:
+   
+   ```bash
+    which kadena
+   ```
+
+   You should see the path to the file similar to the following:
+   
+   ```bash
+   /usr/local/bin/kadena
+   ```
+
+3. Create a YAML API request file to use as a transaction template with the variables required to call the `coin.get-balance` function:
+   
+   ```yaml
+   code: |-
+     (coin.get-balance "{{{account}}}")
+   meta:
+     chainId: '{{chain-id}}'
+     sender: '{{{tx-sender}}}'
+     gasLimit: 600
+     gasPrice: 0.000001
+     ttl: 600
+   networkId: '{{network:networkId}}'
+   signers:
+     - public: "{{signer-key}}"
+       caps: []
+   type: exec 
+   ```
+
+   You can learn more about transaction templates, variables, and inputting values in Construct transactions. 
+   For more information about using YAML request files for transactions, see Formatting API requests in YAML.
+
+4. Save the file with the `.ktpl` file extension in the `.kadena/transaction-templates` folder.
+
+   For example, save the file as `.kadena/transaction-templates/get-balance.ktpl` in your working directory.
+
+5. Add a transaction that uses the template by running the following command:
+   
+   ```bash
+   kadena tx add
+   ```
+
+6. Select the `get-balance.ktpl` template, then follow the prompts to enter the appropriate values for template variable.
+   
+   For this example, the prompts and values look like this:
+
+   ```bash
+   ? File path of data to use for template .json or .yaml (optional):
+   ? Template value account: k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
+   ? Template value chain-id: 3
+   ? Template value tx-sender: k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
+   ? Select network id for template value networkId: devnet
+   ? Template value signer-key: fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
+   ? Where do you want to save the output: pistolas-balance
+  ```
+
+  The values you enter for the command are saved in a JSON file.
     
+1. Sign the transaction by running the following command and following the prompts displayed to select the transaction:
+   
+   ```bash
+   kadena tx sign
+   ```
+   
+   You must select a wallet or key pair to sign the transaction and the transaction file that you want to sign.
+   After you enter the information required, the command output confirms the signature with information similar to the following:
+
+   ```bash
+   Command 1 (hash: ZBu4fPOtxhGCZUxT9clO8UqtjWXzrCNCC_XNTGL6Kzw) will now be signed with the following signers:
+   Public Key                                                       Capabilities
+   fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7             
+   Transaction executed code: 
+   "(coin.get-balance \"k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7\")"
+   
+   Transaction with hash: ZBu4fPOtxhGCZUxT9clO8UqtjWXzrCNCC_XNTGL6Kzw was successfully signed.
+   Signed transaction saved to /Users/lisagunn/.kadena/transaction-templates/transaction-ZBu4fPOtxh-signed.json
+   
+   Executed:
+   kadena tx sign --tx-sign-with="wallet" --tx-unsigned-transaction-files="pistolas-balance.json" --wallet-name="pistolas-dev" 
+   ```
+   
+   After signing the transaction, you can retrieve the account information without submitting the transaction or send the request to the blockchain for on-chain processing.
+
+1. Get the account balance by running the following command:
+   
+   ```bash
+   --tx-signed-transaction-files transaction-ZBu4fPOtxh-signed.json
+   ```
+   
+   In this example, the balance for account on the development network, chain 3—returned in the `data` field—is 14.
+
+   ```bash
+   txSignedTransaction test result:                                              
+   --------------------------------------------------------------------------------
+     Transaction info:
+        fileName: transaction-ZBu4fPOtxh-signed.json
+        transactionHash: ZBu4fPOtxhGCZUxT9clO8UqtjWXzrCNCC_XNTGL6Kzw
+   
+   
+     Response:
+       Response:
+          gas: 21
+          result:
+            status: success
+            data: 14
+          reqKey: ZBu4fPOtxhGCZUxT9clO8UqtjWXzrCNCC_XNTGL6Kzw
+          logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
+          metaData:
+            publicMeta:
+              creationTime: 1728076660
+              ttl: 600
+              gasLimit: 600
+              chainId: 3
+              gasPrice: 0.000001
+              sender: k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
+            blockTime: 1728077254903367
+            prevBlockHash: MaSZcnXDBQGpnF4ZDCtuEtc1TOQRS27RWLqPf2uwmGw
+            blockHeight: 938
+          continuation: null
+          txId: null
+   
+   
+     Details:
+        chainId: 3
+        network: devnet
+        networkId: development
+        networkHost: http://localhost:8080
+        networkExplorerUrl: http://localhost:8080/explorer/development/tx/
+   
+   
+     Transaction Command:
+        cmd: {"payload":{"exec":{"code":"(coin.get-balance \"k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7\")","data":{}}},"nonce":"","networkId":"development","meta":{"sender":"k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7","chainId":"3","creationTime":1728076660,"gasLimit":600,"gasPrice":0.000001,"ttl":600},"signers":[{"pubKey":"fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7","clist":[]}]}
+        hash: ZBu4fPOtxhGCZUxT9clO8UqtjWXzrCNCC_XNTGL6Kzw
+        sigs:
+         [0]:
+            sig: d13558e1d10ed5aa977232d5311eeafd04ec51d66e2b6515bda93000932f1f26b71ee8c5a4634996b2a434df45c64f7ba0808e42ec3f5df06d001304b7e7fc03
+   --------------------------------------------------------------------------------
+   
+   Executed:
+   kadena tx test --tx-signed-transaction-files="transaction-ZBu4fPOtxh-signed.json" --tx-transaction-network="devnet" 
+   ```
+
 ## Using the Kadena client library
 
-Here's the basic structure for using Kadena.js:
+If you're familiar with JavaScript or TypeScript, you can use the `@kadena/client` library. The `@kadena/client` library implements a TypeScript-based API for interacting with smart contracts and Chainweb nodes. The library provides functions that simplify building transactions with Pact commands and connecting to blockchain nodes.
 
-    ```javascript
+To get an account balance using `@kadena/client` functions:
+
+```javascript
   import {Pact, createClient} from '@kadena/client'
 
     async function getBalance(account) {
