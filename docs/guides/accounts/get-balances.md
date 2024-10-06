@@ -391,26 +391,30 @@ If you're familiar with JavaScript or TypeScript, you can use the `@kadena/clien
 
 To get an account balance using `@kadena/client` functions:
 
-```javascript
-  import {Pact, createClient} from '@kadena/client'
+1. Open a terminal on your local computer.
 
+2. Create a new file in your code editor and add code to call the `getBalance` function and create the client:
+   
+   ```javascript
+   import {Pact, createClient} from '@kadena/client'
+   
     async function getBalance(account) {
-  // `Pact.builder.execution` accepts a number of `Pact.modules.<module>.<fun>` calls
-    const transaction = Pact.builder
-      .execution(Pact.modules.coin['get-balance'](account))
-      .setMeta({ chainId: '1' })
-      .createTransaction();
-
-    // client creation is separate from the transaction builder
-    const staticClient = createClient('https://api.chainweb.com/chainweb/0.0/mainnet01/chain/1/pact');
-
-    const res = await staticClient.local(transaction, {
-      preflight: false,
-      signatureVerification: false,
-    });
-
-}
-
-getBalance(account).catch(console.error);
-```
+      // `Pact.builder.execution` accepts a number of `Pact.modules.<module>.<fun>` calls
+      const transaction = Pact.builder
+         .execution(Pact.modules.coin['get-balance'](account))
+         .setMeta({ chainId: '1' })
+         .createTransaction();
+   
+      // client creation is separate from the transaction builder
+      const staticClient = createClient('https://api.chainweb.com/chainweb/0.0/mainnet01/chain/1/pact');
+   
+      const res = await staticClient.local(transaction, {
+         preflight: false,
+         signatureVerification: false,
+      });
+   
+    }
+   
+   getBalance(account).catch(console.error);
+   ```
 
