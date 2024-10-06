@@ -154,7 +154,7 @@ const sidebars: SidebarsConfig = {
              },
            items: [
                 //'reference/pact-lang-intro',
-                //'reference/pact-reference-intro',
+                'reference/syntax',
                 //'reference/functions',
                 //'reference/builtin-functions',
                 //'reference/smart-contract-language',
