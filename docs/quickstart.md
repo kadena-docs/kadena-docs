@@ -74,7 +74,7 @@ Wallets are an important part of interacting with any blockchain, so you can cre
 Follow the prompts displayed to continue setting up your local development environment with a development wallet and an account.
 
 For more information about getting started with `kadena-cli` commands, see [Develop with kadena-cli](guides/kadena-cli).
-For command-line reference information, see [Kadena CLI](guides/kadena-cli).
+For command-line reference information, see [kadena-cli command reference](reference/kadena-cli-ref).
 
 ## Write your first smart contract
 
