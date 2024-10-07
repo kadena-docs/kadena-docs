@@ -158,6 +158,7 @@ const sidebars: SidebarsConfig = {
                 //'reference/functions',
                 //'reference/builtin-functions',
                 'reference/pact-cli',
+                'reference/kadena-cli',
                 {
                   type: 'category',
                   label: 'Functions',
