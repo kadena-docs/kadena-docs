@@ -4,7 +4,7 @@ description:
   The `@kadena/kadena-cli` library provides commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line. The commands in this section support creating and managing accounts.
 id: cli-account
 sidebar_position: 2
-layout: full
+toc_max-heading_level: 2
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---
 
@@ -151,7 +151,7 @@ Use `kadena account details` to retrieve information about a specified account.
 The account details include the account balance, the guard public keys and predicate, and the account name. 
 To get this information, you must specify the Kadena network and chain identifier for the account. 
 
-## Basic usage
+### Basic usage
 
 The basic syntax for the `kadena account details` command is:
 

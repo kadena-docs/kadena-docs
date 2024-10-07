@@ -7,7 +7,7 @@ sidebar_position: 7
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---
 
-# Kadena-cli command-line reference
+# Kadena-cli commands
 
 The Kadena command-line interface (`kadena-cli`) provides direct access to the Kadena blockchain and to commands that help you create, test, deploy, and manage applications for the Kadena network.
 You can use the Kadena command-line interface to perform tasks interactively or in scripts and automated workflows that don't allow interactive input.
@@ -16,7 +16,7 @@ The Kadena CLI has one primary entry point—the `kadena` parent command.
 By providing a single entry point for performing a wide range of tasks, the Kadena CLI integrates naturally into the typical development workflow.
 With commands designed specifically for building, testing, and managing Kadena-based applications, you can focus on building innovative applications using familiar tools and processes.
 
-## Before you begin
+## Prerequisites
 
 Before you use the Kadena command-line interface, verify the following basic requirements:
 

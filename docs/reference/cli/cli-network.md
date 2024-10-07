@@ -88,7 +88,7 @@ kadena network add --network-name="testnet" --network-id="testnet08" --network-h
 Use `kadena network set-default` to specify the network to use as your default network in your development environment.
 You can specify the network as `none` to remove a previously-set default network.
 
-## Basic usage
+### Basic usage
 
 The basic syntax for the `kadena network set-default` command is:
 
@@ -129,7 +129,7 @@ kadena network set-default --network="none" --confirm
 
 Use `kadena network update` to update properties for an existing network.   
 
-## Basic usage
+### Basic usage
 
 The basic syntax for the `kadena network update` command is:
 
@@ -173,7 +173,7 @@ kadena network update --network="mainnet" --network-id="mainnet01" --network-hos
 
 Use `kadena network list` to list all available networks.
 
-## Basic usage
+### Basic usage
 
 The basic syntax for the `kadena network list` command is:
 
@@ -227,7 +227,7 @@ networks:
 
 Use `kadena network delete` to remove a network and its configuration settings from your development environment.
 
-## Basic usage
+### Basic usage
 
 The basic syntax for the `kadena network delete` command is:
 
