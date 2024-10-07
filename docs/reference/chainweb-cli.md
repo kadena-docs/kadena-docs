@@ -178,12 +178,12 @@ Remote URLs must start with either "http://" or "https://". |
 | --exit-timeout INT | 
 | -c|--color ARG |
 | --log-format text|json |
-| --log-handle stdout|stderr|file:<FILENAME>|es:[APIKEY]:<URL> |
+| --log-handle stdout|stderr|file:_FILENAME_|es:[APIKEY]:_URL_ |
 | --enable-telemetry-logger | 
 | --disable-telemetry-logger |
 | -c|--telemetry-color ARG |
 | --telemetry-log-format text|json |
-| --telemetry-log-handle stdout|stderr|file:<FILENAME>|es:[APIKEY]:<URL> |
+| --telemetry-log-handle stdout|stderr|file:_FILENAME_|es:[APIKEY]:_URL_ |
 | --cluster-id ARG |
 | --log-filter-rule KEY:VALUE:LOGLEVEL[:RATE]|
 | --log-filter-default LOGLEVEL:RATE
@@ -285,7 +285,7 @@ Available options:
   --exit-timeout INT       timeout for flushing the log message queue on exit
   -c,--color ARG           whether to use ANSI terminal colors in the output
   --log-format text|json   format that is use for writing logs to file handles
-  --log-handle stdout|stderr|file:<FILENAME>|es:[APIKEY]:<URL>
+  --log-handle stdout|stderr|file:_FILENAME_|es:[APIKEY]:_URL_
                            handle where the logs are written
   --enable-telemetry-logger
                            whether telemetry-logger is enabled or disabled
@@ -294,7 +294,7 @@ Available options:
   -c,--telemetry-color ARG whether to use ANSI terminal colors in the output
   --telemetry-log-format text|json
                            format that is use for writing logs to file handles
-  --telemetry-log-handle stdout|stderr|file:<FILENAME>|es:[APIKEY]:<URL>
+  --telemetry-log-handle stdout|stderr|file:_FILENAME_|es:[APIKEY]:_URL_
                            handle where the logs are written
   --cluster-id ARG         a label that is added to all log messages from this
                            node
