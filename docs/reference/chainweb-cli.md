@@ -43,7 +43,7 @@ Remote URLs must start with either "http://" or "https://". |
 | --------------- | ---------- 
 | -v, --chainweb-version _networkId_ | Specify the Chainweb network identifier for the node. Valid values are `development`, `testnet04`, `testnet05`, and `mainnet01`. The default is `mainnet01`. |
 |--database-directory _path_ | Specify the path to the `chainweb-node` database root folder. |
-| --header-stream | Enable the endpoint for streaming block updates. For information about streaming block updates, see [](). |
+| --header-stream | Enable the endpoint for streaming block updates. For information about streaming block updates, see [Stream block header event updates](/api/service-api/api-update-event-stream). |
 | --no-header-stream | Unset the `--header-stream` option and disable streaming block updates. |
 | --enable-tx-reintro | Enable transactions from losing forks of the chain to be resubmitted. |
 | --disable-tx-reintro | Unset the `--enable-tx-reintro` option and prevent transactions from losing forks to be resubmitted. |
