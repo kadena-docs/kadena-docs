@@ -157,7 +157,7 @@ const sidebars: SidebarsConfig = {
                 'reference/syntax',
                 //'reference/functions',
                 //'reference/builtin-functions',
-                //'reference/pact-cli',
+                'reference/pact-cli',
                 'reference/kadena-cli',
                 {
                   type: 'category',
