@@ -75,21 +75,19 @@ kadena <subject> [...<subject>] <action> [--flags] [args]
 
 For example, you can create and manage all wallet-related information by specifying `wallet` as the command subject.
 
-### Available subjects
+### Command subjects
 
 Use the following command subjects to select the category of information for the operation you want to perform.
 
 | Use this command subject | To do this
 | ------------------------ | -----------
-| `config` | Configure the initial context and properties for working with the `kadena` command-line interface.
-| `dapp` | Create and manage an application project using a frontend framework template.
-| `wallet` | Generate keys and manage wallets.
-| `key` | Generate and manage public and secret keys.
-| `account` | Create, fund, and manage accounts that contain fungibles assets.
-| `network` | Create and manage network information.
-| `tx` | Create and manage transactions.
-| `help` | Display usage information for a specified command.
-| `version` | Display version information.
+| [`config`](/reference/cli/cli-config) | Configure the initial context and properties for working with the `kadena` command-line interface.
+| [`dapp`](/reference/cli/cli-dapp) | Create and manage an application project using a frontend framework template.
+| [`wallet`](/reference/cli-wallet) | Generate keys and manage wallets.
+| [`key`](/reference/cli/cli-key) | Generate and manage public and secret keys.
+| [`account`](/reference/cli/cli-account) | Create, fund, and manage accounts that contain fungibles assets.
+| [`network`](reference/cli/cli-network) | Create and manage network information.
+| [`tx`](/reference/cli/cli-tx) | Create and manage transactions.
 
 ### Global flags
 
