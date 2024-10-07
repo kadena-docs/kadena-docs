@@ -157,7 +157,8 @@ const sidebars: SidebarsConfig = {
                 'reference/syntax',
                 //'reference/functions',
                 //'reference/builtin-functions',
-                //'reference/smart-contract-language',
+                //'reference/pact-cli',
+                'reference/kadena-cli',
                 {
                   type: 'category',
                   label: 'Functions',

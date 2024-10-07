@@ -2,10 +2,8 @@
 title: kadena-cli command reference
 description:
   The `@kadena/kadena-cli` library provides a complete set of commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line.
-menu: Command-line interface
-label: Common options and flags
-order: 2
-layout: full
+id: kadena-cli
+sidebar_position: 7
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---
 
@@ -64,7 +62,7 @@ kadena <subcommand> <action> [arguments] [flag]
 
 The following diagram provides an overview of the kadena command-line interface:
 
-![Kadena command-line interface at a glance](/assets/docs/kadena-cli-overview.png)
+![Kadena command-line interface at a glance](/img/kadena-cli-overview.png)
 
 ## Command subjects
 
