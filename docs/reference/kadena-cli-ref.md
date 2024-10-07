@@ -7,7 +7,7 @@ sidebar_position: 7
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---
 
-# Kadena-cli command-line reference
+# Kadena-cli commands
 
 The Kadena command-line interface (`kadena-cli`) provides direct access to the Kadena blockchain and to commands that help you create, test, deploy, and manage applications for the Kadena network.
 You can use the Kadena command-line interface to perform tasks interactively or in scripts and automated workflows that don't allow interactive input.
@@ -16,7 +16,7 @@ The Kadena CLI has one primary entry point—the `kadena` parent command.
 By providing a single entry point for performing a wide range of tasks, the Kadena CLI integrates naturally into the typical development workflow.
 With commands designed specifically for building, testing, and managing Kadena-based applications, you can focus on building innovative applications using familiar tools and processes.
 
-## Before you begin
+## Prerequisites
 
 Before you use the Kadena command-line interface, verify the following basic requirements:
 
@@ -64,7 +64,7 @@ The following diagram provides an overview of the kadena command-line interface:
 
 ![Kadena command-line interface at a glance](/img/kadena-cli-overview.png)
 
-## Command subjects
+## Command subjects and syntax
 
 Commands in the Kadena CLI are organized into categories that describe the **subject** of the action you want to perform.
 The commands are structured using the following basic format:
@@ -81,25 +81,23 @@ Use the following command subjects to select the category of information for the
 
 | Use this command subject | To do this
 | ------------------------ | -----------
-| `config` | Configure the initial context and properties for working with the `kadena` command-line interface.
-| `dapp` | Create and manage an application project using a frontend framework template.
-| `wallet` | Generate keys and manage wallets.
-| `key` | Generate and manage public and secret keys.
-| `account` | Create, fund, and manage accounts that contain fungibles assets.
-| `network` | Create and manage network information.
-| `tx` | Create and manage transactions.
-| `help` | Display usage information for a specified command.
-| `version` | Display version information.
+| [`account`](/reference/cli/cli-account) | Create, fund, and manage accounts that contain fungibles assets.
+| [`config`](/reference/cli/cli-config) | Configure the initial context and properties for working with the `kadena` command-line interface.
+| [`dapp`](/reference/cli/cli-dapp) | Create and manage an application project using a frontend framework template.
+| [`key`](/reference/cli/cli-key) | Generate and manage public and secret keys.
+| [`network`](reference/cli/cli-network) | Create and manage network information.
+| [`tx`](/reference/cli/cli-tx) | Create and manage transactions.
+| [`wallet`](/reference/cli-wallet) | Generate keys and manage wallets.
 
 ### Global flags
 
 |  Flag | Description |
 | ----- | ----------- |
-| --help | Display usage information. |
-| --version | Display version information. |
-| --quiet | Eliminate interactive prompts and confirmations. |
-| --json  | Use JSON format to display relevant result data in standard output (stdout) stream. |
-| --yaml  | Use YAML format to display relevant result data in standard output (stdout) stream. |
+| `--help` | Display usage information. |
+| `--json` | Use JSON format to display relevant result data in standard output (stdout) stream. |
+| `--quiet` | Eliminate interactive prompts and confirmations. |
+| `--version` | Display version information. |
+| `--yaml` | Use YAML format to display relevant result data in standard output (stdout) stream. |
 
 ### Command-specific help
 

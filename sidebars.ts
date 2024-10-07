@@ -155,10 +155,6 @@ const sidebars: SidebarsConfig = {
            items: [
                 //'reference/pact-lang-intro',
                 'reference/syntax',
-                //'reference/functions',
-                //'reference/builtin-functions',
-                'reference/pact-cli',
-                'reference/kadena-cli',
                 {
                   type: 'category',
                   label: 'Functions',
@@ -170,8 +166,28 @@ const sidebars: SidebarsConfig = {
                        'reference/functions/general',
                        //'reference/operators/addition',
                        //'reference/operators/and'
-                  ]
-                }
+                  ],
+                },
+                'reference/pact-cli',
+                {
+                  type: 'category',
+                  label: 'kadena-cli commands',
+                  link: {
+                    type: 'doc',
+                    id: 'reference/kadena-cli',
+                  },
+                  items: [
+                       'reference/cli/cli-account',
+                       'reference/cli/cli-config',
+                       'reference/cli/cli-dapp',
+                       'reference/cli/cli-key',
+                       'reference/cli/cli-network',
+                       'reference/cli/cli-tx',
+                       'reference/cli/cli-wallet',
+                  ],
+                },
+                //'reference/chainweb-config',
+                //'reference/client-libs',
 
             ],
       },
