@@ -1,10 +1,9 @@
 ---
 title: kadena account
 description:
-  The `@kadena/kadena-cli` package provides a complete set of commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line.
-menu: Command-line interface
-label: kadena account
-order: 2
+  The `@kadena/kadena-cli` library provides commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line. The commands in this section support creating and managing accounts.
+id: cli-account
+sidebar_position: 2
 layout: full
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---

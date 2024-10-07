@@ -166,14 +166,14 @@ const sidebars: SidebarsConfig = {
                     id: 'reference/kadena-cli',
                   },
                   items: [
-                       'reference/cli/cli-account'
+                       'reference/cli/cli-account',
                        'reference/cli/cli-config',
                        'reference/cli/cli-dapp',
                        'reference/cli/cli-key',
                        'reference/cli/cli-network',
                        'reference/cli/tx',
                        'reference/cli/wallet',
-                  ]
+                  ],
                 },
                 {
                   type: 'category',

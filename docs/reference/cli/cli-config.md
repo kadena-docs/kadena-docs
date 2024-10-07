@@ -1,11 +1,9 @@
 ---
 title: kadena config
 description:
-  The `@kadena/kadena-cli` package provides a complete set of commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line.
-menu: Command-line interface
-label: kadena config
-order: 2
-layout: full
+  The `@kadena/kadena-cli` library provides commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line. The commands in this section support creating and viewing an initial configuration folder and default settings for the development environment.
+label: cli-config
+sidebar_position: 3
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---
 
