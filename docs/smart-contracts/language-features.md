@@ -12,14 +12,16 @@ This part of the documentation presents an overview of Pact language features an
 
 ## Command-line interpreter
 
-n the [Quick start](/quickstart), you got a first look at writing Pact smart contract code and using the Pact command-line interpreter, also referred to as the Pact read-eval-print-loop (REPL) environment.
-The Pact REPL enables you to write and execute Pact code interactively from the command-line. but its real power lies in the ability to execute code in smart contract modules—that is, `.pact` files—or in test modules with the `.repl` file extension for testing your code as you go.
-With test modules, you can take advantage of features that are only available to use `.repl` file in the Pact REPL interpreter.
+In the [Quick start](/quickstart), you got a first look at writing Pact smart contract code and using the Pact command-line interpreter, also referred to as the Pact read-eval-print-loop (REPL) environment.
+The Pact REPL enables you to write and execute Pact code interactively from the command-line. but its real power lies in the ability to execute code in smart contract modules—that is, `.pact` files—or in test files with the `.repl` file extension that help you test your code as you go.
+With test `.repl` files, you can execute `.pact` module code and take advantage of features that are only available to use in`.repl` files run by the Pact REPL interpreter.
+For example, `.repl` files can include functions to set up environment data that's required for testing, but that is otherwise difficult to replicate in a test.
 In most cases, you can use the features provided by the Pact REPL in combination with an integrated development environment (IDE), like Visual Studio Code, to provide an end-to-end development environment. 
 
 ## Parenthesis
 
 Pact uses parentheses to enclose each statement in the code.
+The statements enclosed by parentheses are often referred to as symbolic expressions or **S-expressions**.
 Parentheses enclose all module declarations, all function declarations, and any related logic.
 Often, the code requires nested parenthetical statements to resolve the logic.
 For example, the outermost parentheses in the following code contain the **helloWorld** module:
@@ -37,7 +39,8 @@ Within the module `helloworld` declaration, the next set of parentheses contain 
 
 There are several ways that you can embed comments in Pact programs.
 The most common convention is to use semicolons (;) at the start or end of a line to add comments in smart contracts.
-In most cases, you should follow a convention similar to the following for readability:
+With this notation, all comments are introduced by a single semi-colon followed by text to the end of the line.
+Although there's no difference between using a single semi-colon and multiple semi-colons, it's common for code to follow a convention similar to the following for readability:
 
 - A single semicolon (;) for short notes on a single line of code. 
   
@@ -80,7 +83,7 @@ The following is an example of a multi-line documentation string that describes 
 ```
  
 The `@doc` metadata tag is optional.
-For example, a module definition, function definition, or table definition can include comments in strings without the @doc tag:
+For example, a module definition, function definition, or table definition can include comments in strings without the `@doc` tag:
 
 ```pact
 (module helloWorld 'admin-keyset
@@ -104,10 +107,10 @@ For example, Pact allows you define the following types of data:
 | Data type | Description | Examples |
 | :--------- | :----------- | :------- |
 | Integer | Any whole number value—positive or negative—that doesn't include a decimal.| `1`, `2`, `-19` |
-| Decimal | Any number value that includes a decimal. Decimal values can have a potentially unlimited precision. | `1.0`, `23.5`, `3.14159265359` |
+| Decimal | Any number value that includes a decimal. Decimal precision is represented as `m*10^(-e)` in which `m` is unbounded, but `e` has, at most, a value of 255. As a result, decimal values have, at most, 255 decimal places, but the total number can be unbounded with a potentially unlimited precision. | `1.0`, `23.5`, `3.14159265359` |
 | String | Any text within quotes. You can represent strings using double quotes. It's also possible to prepend strings used as function names or table names with a single quotation mark (').| `“Hello”`, `"Welcome to the show"`, `'balances` |
 | Boolean | Anything that is represented by true and false literals. | `true`, `false` |
-| List | List literals are created inside square brackets ([ ]). List items can be separated with spaces or commas. If all of the items in the list have the same type, then the type is defined by the content of the list. Otherwise, the type is just defined as a “list”. | `[1,2,3]` or `[1 2 3]`  is an integer list, `[1 2 true]` is a list |
+| List | List literals are created inside square brackets (`[ ]`). List items can be separated with spaces or commas. If all of the items in the list have the same type, then the type is defined by the content of the list. Otherwise, the type is just defined as a “list”. | `[1,2,3]` or `[1 2 3]`  is an integer list, `[1 2 true]` is a list |
 | Object | Objects are dictionaries specifying key-value pairs created inside curly braces (`{ }`). |` {“house”:”blue”, “locked”:”no”}` |
 
 For more information about data types, see [Pact syntax](/reference/syntax).
@@ -586,19 +589,19 @@ To add simple calculator functions:
    
    ```pact   
     (defun addNumbers (a b)
-    (+ a b)
+      (+ a b)
     )
 
     (defun subtractNumbers (a b)
-    (- a b)
+      (- a b)
     )
 
     (defun multiplyNumbers (a b)
-    (* a b)
+      (* a b)
     )
 
     (defun divNumbers (a b)
-    (/ a b)
+      (/ a b)
     )
    ```
 
