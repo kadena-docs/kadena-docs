@@ -182,7 +182,7 @@ const sidebars: SidebarsConfig = {
          id: 'coding-projects/coding-projects',
          },
          items: [
-              //'coding-projects/hello-world',
+              'coding-projects/hello-world',
               //'coding-projects/transfers',
               //'coding-projects/pact-testing',
               //'coding-projects/interaction',
