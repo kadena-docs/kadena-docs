@@ -158,7 +158,23 @@ const sidebars: SidebarsConfig = {
                 //'reference/functions',
                 //'reference/builtin-functions',
                 'reference/pact-cli',
-                'reference/kadena-cli',
+                {
+                  type: 'category',
+                  label: 'kadena-cli command reference',
+                  link: {
+                    type: 'doc',
+                    id: 'reference/kadena-cli',
+                  },
+                  items: [
+                       'reference/cli/cli-account'
+                       'reference/cli/cli-config',
+                       'reference/cli/cli-dapp',
+                       'reference/cli/cli-key',
+                       'reference/cli/cli-network',
+                       'reference/cli/tx',
+                       'reference/cli/wallet',
+                  ]
+                },
                 {
                   type: 'category',
                   label: 'Functions',

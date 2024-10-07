@@ -135,7 +135,7 @@ You can use the following command-line arguments with the `kadena key list` comm
 
 | Use this argument | To do this                           |
 | ----------------- | ------------------------------------ |
-| -d, --directory <directory> | Specify the path to the configuration folder on the local filesystem. The default is the current working directory. |
+| -d, --directory _directory_ | Specify the path to the configuration folder on the local filesystem. The default is the current working directory. |
 
 ### Examples
 
