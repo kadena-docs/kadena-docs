@@ -103,11 +103,7 @@ not exceed the value you set for the _max_ argument.|
 | --no-log-gas | Disables the `--log-gas` option to stopping logging the gas consumed by Pact commands.
 | --min-gas-price _price_ | Specify the minimum gas price allowed for an individual transaction in a block. The gas fee for any individual transaction in a block cannot be below the value you set for the _price_ argument. |
 
-<<<<<<< HEAD
-## Pact and Pact state (Sqlite) options
-=======
 ## Pact options
->>>>>>> 39588f3 (Chainweb-node CLI)
 
 | Use this option | To do this 
 | --------------- | ---------- 
