@@ -1,11 +1,11 @@
 ---
-title: chainweb-node command-line reference
+title: chainweb-node command-line
 description: "Command-line options and usage information for running the chainweb-node binary."
 id: chainweb-cli
 sidebar_position: 6
 ---
 
-# chainweb-node command-line reference
+# chainweb-node command-line
 
 You can configure many aspects of Chainweb node operations using configuration settings in one or more configuration files or by specifying command-line options and arguments.
 
@@ -23,7 +23,7 @@ The basic syntax for setting chainweb-node command-line options is:
 chainweb-node [option] [arguments]
 ```
 
-## Basic information options
+## Node information options
 
 | Use this option | To do this |
 | --------------- | ---------- |
@@ -103,7 +103,11 @@ not exceed the value you set for the _max_ argument.|
 | --no-log-gas | Disables the `--log-gas` option to stopping logging the gas consumed by Pact commands.
 | --min-gas-price _price_ | Specify the minimum gas price allowed for an individual transaction in a block. The gas fee for any individual transaction in a block cannot be below the value you set for the _price_ argument. |
 
+<<<<<<< HEAD
 ## Pact and Pact state (Sqlite) options
+=======
+## Pact options
+>>>>>>> 39588f3 (Chainweb-node CLI)
 
 | Use this option | To do this 
 | --------------- | ---------- 
