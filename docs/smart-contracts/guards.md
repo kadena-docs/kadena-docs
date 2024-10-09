@@ -1,8 +1,8 @@
 ---
 title: Guards
-description:
+description: "Guards are an important concept in Kadena that provide a flexible way for you to enforce authorization rules that grant or restrict access based on specific conditions."
 id: guards
-sidebar_position: 
+sidebar_position: 5
 ---
 
 # Guards
