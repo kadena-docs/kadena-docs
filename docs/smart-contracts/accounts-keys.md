@@ -64,7 +64,9 @@ In the `coin` contract, an account consists of the following parts:
 - Key: An **account name** in the form of a string of 3 to 256 LATIN-1 characters (key).
 - Vale: An **account object** that holds the **decimal balance** of funds in the account and the **keyset** that governs the account.
 
+```text
 key: "Valencia-HOA" -> value: { 0.0, { ["1d5a5e10...",""4fe7981d...",""58705e86..."], "keys-any" }}
+```
 
 As you saw in the previous example, the keyset consists of one or more public keys and the predicate function that specifies the number of keys that must sign a transaction for the account.
 
@@ -80,7 +82,7 @@ For example, the `keys-2` predicate requires that at least two public keys defin
 
 The following diagram illustrates the relationship between keys, keysets, and accounts:
 
-![Keys, keysets, and accounts on the Kadena network](/assets/docs/kadena-account.png)
+![Keys, keysets, and accounts on the Kadena network](/img/kadena-account.png)
 
 If you would like to learn more about keys and accounts in Kadena, see [Beginner's Guide to Kadena: Accounts + Keysets](https://medium.com/kadena-io/beginners-guide-to-kadena-accounts-keysets-fb7f32104291).
 
