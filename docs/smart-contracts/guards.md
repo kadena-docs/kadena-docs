@@ -360,38 +360,26 @@ PvBool = Bool
 The following pseudo code provides type information for decoding Pact values returned by recursive guards:
 
 ```json
-
-Union PactValue = 
-  PvLiteral | PvList | PvGuard | PvObject | PvModRef | PvTime | PvCapToken
+Union PactValue = PvLiteral | PvList | PvGuard | PvObject | PvModRef | PvTime | PvCapToken
 
 PvList = Array[PactValue]
 
 PvGuard = Guard
 
-# Note this means fields can be any string, but their value is a pactvalue
-
-```json
 PvObject = { f : PactValue | f in {String} } 
-```
+// Fields can be any string, but their value is a pact value:
 
-PvModRef =
-  { "refName":String, "refSpec":Array[ModuleName]) ; See # Misc types for module names
+PvModRef = { "refName":String, "refSpec":Array[ModuleName]) 
+// See # Misc type for module names
 
-# Note: There's specific formatting here depending on the utc denom.
-# See https://github.com/kadena-io/pact/blob/e72d86749f5d65ac8d6e07a7652dd2ffb468607b/src/Pact/Types/Codec.hs#L150 for
-# further details
+PvTime = { "time" : String } | { "timep" : String }
+// There's specific formatting here depending on the UTC denom.
+// See https://github.com/kadena-io/pact/blob/e72d86749f5d65ac8d6e07a7652dd2ffb468607b/src/Pact/Types/Codec.hs#L150
+// for further details.
 
-PvTime =
-  { "time" : String } | { "timep" : String }
+PvCapToken = { "ctName":String, "ctArgs":Array[PactValue] } 
+// Only after pact 5:
 
-
-# Only after pact 5:
-
-PvCapToken = 
-  { "ctName":String, "ctArgs":Array[PactValue] }
-
-## Misc types
-
-ModuleName = 
-  { "name":String, "namespace":String? }
+ModuleName = { "name":String, "namespace":String? } 
+// Misc type
 ```
