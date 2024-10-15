@@ -9,7 +9,7 @@ tags: ['pact', 'language reference', 'syntax']
 # Syntax and keywords
 
 This reference provide a summary of syntactical conventions and reserved keywords for the Pact smart contract programming language.
-This section doesn't include explanatory text, use case examples, or general information about the Pact langauge. Therefore, this section is typically not suitable for readers who are new to programming languages or who are looking for a general introduction to using Pact.
+This section doesn't include explanatory text, use case examples, or general information about the Pact language. Therefore, this section is typically not suitable for readers who are new to programming languages or who are looking for a general introduction to using Pact.
 
 ## Text strings
 
