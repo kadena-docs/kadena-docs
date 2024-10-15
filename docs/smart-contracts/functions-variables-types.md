@@ -1,7 +1,7 @@
 ---
 title: Functions, variables, and types
-description:
-id: 
+description: "Work with common built-in functions and writing your own function declarations that include variables and types."
+id: functions-variables
 sidebar_position:
 ---
 
