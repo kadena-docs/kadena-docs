@@ -287,7 +287,7 @@ For a complete list with more information about each function, including functio
 - [xor](operators/bitwise-xor.md): Bitwise XOR
 - [shift](operators/shift.md): Bitwise shift
 
-## Math-related operators
+### Math-related operators
 
 - [mod](operators/modulus.md): Modulus
 - [abs](operators/absolute-value.md): Absolute value
@@ -316,3 +316,18 @@ The functions are grouped into the following categories:
 Click a category to see a complete list of the functions in that category.
 Within each category, you can click individual function names to see more information, including function signatures and examples.
 You can also view information about built-in functions using the Pact command-line interpreter and interactive REPL.
+
+## Pacts
+
+One of the key features of the Pact programming language is support for multi-step transactions using coroutines—called **pacts**—that can start, stop, continue, or rollback the execution of specific operations in a transaction. 
+
+With pacts, you can define the steps to be executed by different parties as sequential operations on the blockchain.
+For example, pacts are used for cross-chain transfers where a burn operation takes place on the first chain and a mint operation takes place on the second chain. 
+Because pacts enable you to orchestrate a series of transactions in a strict sequence, they have two primary use cases:
+
+- For public two-party transactions—similar to an escrow process—with rules for the operations that are required to be performed by each participant to complete the transaction.
+- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state.
+
+With pacts, you can enable each participant to run only a subset of functions—for example, as a buyer who can make an offer or a seller who can start a sale—while preserving the integrity of the transaction as a whole. 
+For more information about defining and using pacts, see the syntax description for the [`defpact`](/reference/syntax#defpact) reserved keyword.
+For a more detailed example of using `defpact` in a smart contract, see the Marmalade [ledger](https://github.com/kadena-io/marmalade/blob/main/pact/ledger/ledger.pact) contract.
