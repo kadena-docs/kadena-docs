@@ -192,7 +192,7 @@ const sidebars: SidebarsConfig = {
                 },
                 //'reference/chainweb-config',
                 //'reference/client-libs',
-
+                //'reference/guard-json',
             ],
       },
       {
