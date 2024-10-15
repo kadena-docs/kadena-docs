@@ -69,7 +69,7 @@ Although there's no difference between using a single semi-colon and multiple se
 - Three semicolons (;;;) or more file-level comments or to separate larger sections of code.
   
   ```pact
-  ;;; Accounts module demonstrates using row-level keysets, private pacts, and escrow.
+  ;;; Accounts module demonstrates using row-level keysets, defpact steps, and escrow.
   ;;; Version: 0.2 
   ;;; Author: Stuart Popejoy
   ```
@@ -317,17 +317,17 @@ Click a category to see a complete list of the functions in that category.
 Within each category, you can click individual function names to see more information, including function signatures and examples.
 You can also view information about built-in functions using the Pact command-line interpreter and interactive REPL.
 
-## Pacts
+## Defpacts
 
-One of the key features of the Pact programming language is support for multi-step transactions using coroutines—called **pacts**—that can start, stop, continue, or rollback the execution of specific operations in a transaction. 
+One of the key features of the Pact programming language is support for multi-step transactions using coroutines—called **defpacts**—that can start, stop, continue, or rollback the execution of specific operations in a transaction. 
 
-With pacts, you can define the steps to be executed by different parties as sequential operations on the blockchain.
-For example, pacts are used for cross-chain transfers where a burn operation takes place on the first chain and a mint operation takes place on the second chain. 
-Because pacts enable you to orchestrate a series of transactions in a strict sequence, they have two primary use cases:
+With defpacts, you can define the steps to be executed by different parties as sequential operations on the blockchain.
+For example, defpacts are used for cross-chain transfers where a burn operation takes place on the first chain and a mint operation takes place on the second chain. 
+Because defpacts enable you to orchestrate a series of transactions in a strict sequence, they have two primary use cases:
 
 - For public two-party transactions—similar to an escrow process—with rules for the operations that are required to be performed by each participant to complete the transaction.
-- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state.
+- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state. Note that private multi-step transaction aren't supported in Pact-5 or later.
 
-With pacts, you can enable each participant to run only a subset of functions—for example, as a buyer who can make an offer or a seller who can start a sale—while preserving the integrity of the transaction as a whole. 
-For more information about defining and using pacts, see the syntax description for the [`defpact`](/reference/syntax#defpact) reserved keyword.
+With defpacts, you can enable each participant to run only a subset of functions—for example, as a buyer who can make an offer or a seller who can start a sale—while preserving the integrity of the transaction as a whole. 
+For more information about defining and using defpacts, see the syntax description for the [`defpact`](/reference/syntax#defpact) reserved keyword.
 For a more detailed example of using `defpact` in a smart contract, see the Marmalade [`ledger`](https://github.com/kadena-io/marmalade/blob/main/pact/ledger/ledger.pact) contract.
