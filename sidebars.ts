@@ -191,9 +191,9 @@ const sidebars: SidebarsConfig = {
                        'reference/cli/cli-wallet',
                   ],
                 },
-                //'reference/chainweb-config',
+                'reference/chainweb-cli',
                 //'reference/client-libs',
-               'reference/guard-json',
+                'reference/guard-json',
             ],
       },
       {
