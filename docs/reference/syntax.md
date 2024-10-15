@@ -1,0 +1,912 @@
+---
+title: Syntax and keywords
+description: This reference provide a summary of syntax conventions for the Pact smart contract programming language.
+id: syntax
+sidebar_position: 2
+tags: ['pact', 'language reference', 'syntax']
+---
+
+# Syntax and keywords
+
+This reference provide a summary of syntactical conventions and reserved keywords for the Pact smart contract programming language.
+This section doesn't include explanatory text, use case examples, or general information about the Pact langauge. Therefore, this section is typically not suitable for readers who are new to programming languages or who are looking for a general introduction to using Pact.
+
+## Text strings
+
+Text string literals are delimited using double quotation marks:
+
+```pact
+pact> "This is a literal text string"
+"This is a literal text string"
+```
+
+In programs, you can specify multiline strings by putting a backslash before and after whitespace within the quotation marks.
+For example:
+
+```pact
+(defun id (a)
+  "Identity function. \
+  \Argument is returned."
+  a)
+```
+Multiline strings aren't support when using the Pact command-line interpreter interactively.
+
+## Symbols
+
+Symbols are string literals that represent a unique item in the runtime, like a function identifier or a table name. 
+Internally, symbols are treated as string literals.
+However, if you want to make use of symbols to distinguish identifiers from other strings, precede the string with a single quotation mark.
+For example:
+
+```bash
+pact> 'accounts
+"accounts"
+```
+
+Symbol notation doesn't support whitespace nor multiline strings.
+
+## Integers
+
+Integer literals are unbounded, and can be positive or negative.
+
+```bash
+pact> 12345
+12345
+pact> -922337203685477580712387461234
+-922337203685477580712387461234
+```
+
+## Decimals
+
+Decimal literals have potentially unlimited precision.
+
+```bash
+pact> 100.25
+100.25
+pact> -356452.234518728287461023856582382983746
+-356452.234518728287461023856582382983746
+```
+
+## Booleans
+
+Booleans are represented by `true` and `false` literals.
+
+```bash
+pact> (and true false)
+false
+```
+
+## Lists
+
+List literals are created with square brackets (`[]`).
+Optionally, list items can be separated with commas. 
+Uniform literal lists are given a type in parsing.
+
+```bash
+pact> [1 2 3]
+[1 2 3]
+pact> [1,2,3]
+[1 2 3]
+
+pact> (typeof [1 2 true])
+"list"
+```
+
+## Objects
+
+Objects are dictionaries, created with curly braces (`{}`) specifying key-value pairs using a colon (`:`). 
+For certain applications, such as database updates, keys must be strings.
+
+```bash
+pact> { "foo": (+ 1 2), "bar": "baz" }
+{"bar": "baz","foo": 3}
+```
+
+## Bindings
+
+Bindings are dictionary-like forms, also created with curly braces, to bind database results to variables using the `:=` operator. 
+Bindings are used in the following functions to assign variables to named columns in a row, or values in an object:
+
+- [with-read](/reference/functions/database#with-readh866473533)
+- [with-default-read](/reference/functions/database#with-default-readh1087687497)
+- [bind](/reference/functions/general#bindh3023933)
+- [resume](/reference/functions/general#resumeh-934426579) 
+
+```pact
+(defun check-balance (id)
+  (with-read accounts id { "balance" := bal }
+    (enforce (> bal 0) (format "Account in overdraft: {}" [bal]))))
+```
+
+## Lambdas
+
+Lambda expressions are code blocks that create anonymous functions that can be applied in a local scope, rather than at the top level of a program with the `defun` keyword.
+
+Lambdas are supported in `let` and `let*` expression, and can be as inline arguments for built-in function applications.
+
+```pact
+; identity function
+  (let ((f (lambda (x) x))) (f a))
+
+; native example
+  (let ((f (lambda (x) x))) (map (f) [1 2 3]))
+
+; Inline native example:
+  (map (lambda (x) x) [1 2 3])
+```
+
+## Type specifiers
+
+You can specify types for functions, variables, and objects by using the colon (`:`) operator followed by one of the following type literal or a user type specification:
+
+- `string`
+- `integer`
+- `decimal`
+- `bool`
+- `time`
+- `keyset`
+- `list` or `[type]` to specify the list type
+- `object`, which can be further typed with a schema
+- `table`, which can be further typed with a schema
+- `module`, which must be further typed with required interfaces
+
+For example:
+
+```pact
+  (defun mint:bool
+    ( id:string
+      account:string
+      guard:guard
+      amount:decimal
+    )
+    ...
+  )
+```
+
+### Function arguments and return types
+
+```pact
+(defun prefix:string (pfx:string str:string) (+ pfx str))
+```
+
+### Let variables
+
+```pact
+(let ((a:integer 1) (b:integer 2)) (+ a b))
+```
+
+## Schema type literals
+
+A schema defined with [defschema](/reference/syntax#defschemah-1003560474) is referenced by a name enclosed in curly braces (`{}`).
+
+
+```pact
+  (defschema token-schema
+    id:string
+    uri:string
+    precision:integer
+    supply:decimal
+    policies:[module{kip.token-policy-v2}]
+  )
+
+  (defschema version
+    version:integer
+  )
+
+  (deftable tokens:{token-schema})
+  (deftable versions:{version})
+```
+
+Tables and objects can only take a schema type literal.
+
+```pact
+(deftable accounts:{account})
+
+(defun get-order:{order} (id) (read orders id))
+```
+
+## Module type literals
+
+[Module references](/build/pact/advanced#modrefs-and-polymorphismh83727950) are specified by the interfaces they demand as a comma-delimited list.
+
+```pact
+module:{fungible-v2,user.votable}
+```
+
+## Dereference operator
+
+The dereference operator `::` allows a member of an interface specified in the type of a [module reference](/smart-contracts/modules#modrefs-and-polymorphism) to be invoked at runtime.
+
+```pact
+(interface baz
+  (defun quux:bool (a:integer b:string))
+  (defconst ONE 1)
+  )
+...
+(defun foo (bar:module{baz})
+  (bar::quux 1 "hi") ;; invokes 'quux' on whatever module is passed in
+  bar::ONE             ;; directly references interface const
+)
+```
+
+## bless
+
+Use the `bless` keyword to identify a previous version of a module—identified by its `hash` value—that you want to continue to support.
+
+For more information about using the `bless` keyword in a module declaration, see [Dependency management](/smart-contracts/modules#dependency-managementh304790584).
+
+### Basic syntax
+
+To support a previous version of a module, use the following syntax model:
+
+```pact
+(bless HASH)
+```
+
+### Examples
+
+The following example illustrates supporting two previous versions of the `provider` module:
+
+```pact
+(module provider 'keyset
+  (bless "ZHD9IZg-ro1wbx7dXi3Fr-CVmA-Pt71Ov9M1UNhzAkY")
+  (bless "bctSHEz4N5Y1XQaic6eOoBmjty88HMMGfAdQLPuIGMw")
+  ...
+)
+```
+
+## cond
+
+Use the `cond` keyword to produce a series of `if-elseif-else` expressions to evaluate one after another.
+For example, if the first condition evaluated passes, then branch-1 is executed. 
+If the first condition isn't met, the second condition is evaluated and if that condition passes, then branch-2 is executed. 
+The `else-branch` is only evaluated if all other conditions fail.
+
+`cond` is syntactically expanded such that:
+
+```pact
+(cond
+   (a b)
+   (c d)
+   (e f)
+   g)
+```
+
+is expanded to:
+
+```pact
+(if a b (if c d (if e f g)))
+```
+
+### Basic syntax
+
+To evaluate a series of conditions, use the following syntax model:
+
+```pact
+(cond (condition-1 branch-1) [(condition-2 branch-2) [...]] else-branch)
+```
+
+## defcap
+
+Use the `defcap` keyword to signal the start of a capability definition followed by the capability name, required or optional arguments, optional documentation, and the capability body composed of one or more expressions. 
+A `defcap` code block defines a capability token you want to store in the environment to grant some type of permission or privilege. The body of the code block can consist of one or more expressions.
+
+The body of the capability definition is only called with the `with-capability` and `compose-capability` functions when the token—parameterized by its arguments—isn't found in the environment. 
+When the code is executed, the arguments are in scope.
+
+### Basic syntax
+
+To define a capability token that grants a permission or a privilege, use the following syntax model:
+
+```pact
+(defcap name arguments [doc] capability-body ...)
+```
+
+### Examples
+
+The following example illustrates defining the `USER_GURAD` capability:
+
+```pact
+(defcap USER_GUARD (user)
+  "Enforce user account guard
+  (with-read accounts user
+    { "guard": guard }
+    (enforce-guard guard)))
+```
+
+The following example illustrates defining the `DEBIT` capability:
+
+```pact
+(defcap DEBIT (id:string sender:string)
+    (enforce-guard (account-guard id sender))
+)
+``` 
+
+## defconst
+
+Use the `defconst` keyword to define a constant name with the specified value and optional documentation or metadata. The value is evaluated when the module is loaded and held in memory for the duration of module execution.
+
+### Basic syntax
+
+To define a constant value, use the following syntax model:
+
+```pact
+(defconst name value [doc-or-metadata])
+```
+
+### Examples
+
+The following examples illustrate defining constants with optional documentation:
+
+```pact
+(defconst COLOR_RED="#FF0000" "Red in hex")
+(defconst COLOR_GRN="#00FF00" "Green in hex")
+(defconst PI 3.14159265 "Pi to 8 decimals")
+```
+
+The following example illustrates defining the constant `PENNY` with an explicit type:
+
+```pact
+(defconst PENNY:decimal 0.1)
+```
+
+## defun
+
+Use the `defun` keyword to signal the start of a function definition followed by the function name, required or optional arguments, optional documentation or metadata, and the function body composed of one or more expressions. 
+Arguments are in scope for the function body.
+
+### Basic syntax
+
+To define a function, use the following syntax model:
+
+```pact
+(defun name [arguments] [doc-or-metadata] function-body ...)
+```
+
+### Examples
+
+The following examples illustrate defining an `add3` function and a `scale3` function:
+
+```pact
+(defun add3 (a b c) (+ a (+ b c)))
+
+(defun scale3 (a b c s)
+  "multiply sum of A B C times s"
+  (* s (add3 a b c)))
+```
+
+## defpact
+
+Use the `defpact` keyword to define a multi-step transaction with the specified `name` as a pact. 
+The computation for a pact is composed from a sequence of steps that must be executed in a specific order and occur in distinct transactions. 
+The `defpact` syntax is identical to the [defun](/reference/syntax#defun keyword except that the `defpact` body must be comprised of [steps](/reference/syntax#step) to be executed in strict sequential order.
+
+### Basic syntax
+
+To define a pact, use the following syntax model:
+
+```pact
+(defpact name [arguments] [doc-or-metadata] steps ...)
+```
+
+### Examples
+
+```pact
+(defpact payment (payer payer-entity payee
+                  payee-entity amount)
+  (step-with-rollback payer-entity
+    (debit payer amount)
+    (credit payer amount))
+  (step payee-entity
+    (credit payee amount)))
+```
+
+You can nest `defpact` calls.
+However, the following restrictions apply:
+
+- The number of steps in the child `defpact` must match the number of steps of the parent `defpact`.
+- If a parent `defpact` step has the rollback field, so must the child. 
+- If a parent step rolls back, so do child steps.
+- You must call the `continue` function with the same continuation arguments as the `defpact` originally dispatched to support multiple nested `defpact` calls to the same function but with different arguments.
+
+The following example shows a well-formed `defpact` with an equal number of steps, nested rollbacks, and `continue` calls:
+
+```pact
+(defpact payment (payer payee amount)
+  (step-with-rollback
+    (debit payer amount)
+    (credit payer amount))
+  (step payee-entity
+    (credit payee amount)))
+
+...
+(defpact split-payment (payer payee1 payee2 amount ratio)
+  (step-with-rollback
+    (let
+      ((payment1 (payment payer payee1 (* amount ratio)))
+      (payment2 (payment payer payee2 (* amount (- 1 ratio))))
+      )
+      "step 0 complete"
+    )
+    (let
+      ((payment1 (continue (payment payer payee1 (* amount ratio))))
+       (payment2 (continue (payment payer payee2 (* amount (- 1 ratio)))))
+      )
+      "step 0 rolled back"
+    )
+  )
+  (step
+    (let
+      ((payment1 (continue (payment payer payee1 (* amount ratio))))
+       (payment2 (continue (payment payer payee2 (* amount (- 1 ratio)))))
+      )
+      "step 1 complete"
+    )
+  )
+)
+```
+
+### defschema
+
+Use the `defschema` keyword to define a _schema_ of table `fields` with the specified `name`. 
+Each field in the schema takes the form of `fieldname[:fieldtype]`.
+
+### Basic syntax
+
+To define a schema, use the following syntax model:
+
+```pact
+(defschema name [doc-or-metadata] fields ...)
+```
+
+### Examples
+
+The following example illustrates defining the `accounts` schema and an `accounts` table:
+
+```pact
+(defschema accounts
+  "Schema for accounts table"
+  balance:decimal
+  amount:decimal
+  ccy:string
+  data)
+```
+
+### deftable
+
+Use the `deftable` keyword to define a database _table_ with the specified `name`. 
+The name you specify is used in database functions to identify the table you want to work with. 
+Note the table must still be created with [create-table](/reference/functions/database#create-table) function.
+
+### Basic syntax
+
+To define a table, use the following syntax model:
+
+```pact
+(deftable name[:schema] [doc-or-metadata])
+```
+
+### Examples
+
+The following example illustrates defining a schema and an `accounts` table:
+
+```pact
+  (defschema account
+    "Row type for accounts table."
+     balance:decimal
+     amount:decimal
+     ccy:string
+     rowguard:guard
+     date:time
+     data:object
+     )
+
+  (deftable accounts:{account}
+    "Main table for accounts module.")
+```
+
+## implements
+
+Use the `implements` keyword to specify that a module _implements_ the specified `interface`. 
+This KEYWORD requires the module to implement all of the functions, pacts, and capabilities that are specified in the interface with identical signatures, including the same argument names and declared types.
+
+A module thus specified can be used as a [module reference](/build/pact/advanced#modrefs-and-polymorphismh83727950) for the specified interface(s).
+
+<!--Note that [models](/reference/property-checking) declared for the implemented interface and its members will be appended to whatever models are declared within the implementing module. -->
+
+### Basic syntax
+
+To implement an interface in a module, use the following syntax model:
+
+
+```pact
+(implements interface)
+```
+
+## interface
+
+Use the `interface` keyword to define and install an interface with the specified `name` and optional documentation or metadata.
+
+The `body` of the interface is composed of definitions that will be scoped in the module. 
+Valid expressions in a module include the following:
+
+- [defun](/reference/syntax#defun)
+- [defconst](/reference/syntax#defconst2)
+- [defschema](/reference/syntax#defschema)
+- [defpact](/reference/syntax#defpact)
+- [defcap](/reference/syntax#defcap)
+- [use](/reference/syntax#use)
+<!--- [models](/reference/property-checking)-->
+
+### Basic syntax
+
+To define an interface, use the following syntax model:
+
+```pact
+(interface name [doc-or-metadata] body ...)
+```
+
+### Examples
+
+The following example illustrates defining the `coin-sig` interface with documentation:
+
+```pact
+(interface coin-sig
+  "'coin-sig' represents the Kadena Coin Contract interface. This contract     \
+  \provides both the general interface for a Kadena's token, supplying a   \
+  \transfer function, coinbase, account creation and balance query."
+  (defun create-account:string (account:string guard:guard)
+    @doc "Create an account for ACCOUNT, with GUARD controlling access to the  \
+    \account."
+    @model [ (property (not (= account ""))) ]
+    )
+  (defun transfer:string (sender:string receiver:string amount:decimal)
+    @doc "Transfer AMOUNT between accounts SENDER and RECEIVER on the same    \
+    \chain. This fails if either SENDER or RECEIVER does not exist.           \
+    \Create-on-transfer can be done using the 'transfer-and-create' function."
+    @model [ (property (> amount 0.0))
+             (property (not (= sender receiver)))
+           ]
+    )
+  (defun account-balance:decimal (account:string)
+    @doc "Check an account's balance"
+    @model [ (property (not (= account ""))) ]
+    )
+)
+```
+
+## let
+
+Use the `let` keyword to bind variables in pairs to over the scope of the code body. 
+Variables within bind-pairs cannot refer to previously-declared variables in the same `let` declaration. 
+For this, use [let\*](/reference/syntax#let).
+
+### Basic syntax
+
+To bind a variable to a value, use the following syntax model:
+
+```pact
+(let (bind-pair [bind-pair [...]]) body)
+```
+
+### Examples
+
+The following example illustrates binding variables to values in a `let` declaration:
+
+```pact
+pact > (let ((x 2) (y 5)) (* x y))
+10
+```
+
+## let\*
+
+Use the `let*` keyword to bind variables in pairs to over the scope of the code `body`. 
+Variables can reference previously-declared variables in the same `let` declaration. 
+The `let*` keyword is expanded at compile-time to nested `let` calls for each `bind-pair`.
+Therefore, you should use `let` statements where possible.
+
+### Basic syntax
+
+To bind a variable to a value, use the following syntax model:
+
+```pact
+(let* (bind-pair [bind-pair [...]]) body)
+```
+
+### Examples
+
+The following example illustrates referencing a previously-declared variable in the same `let*` declaration:
+
+```pact
+(let* ((x 2) (y (* x 10)))
+(+ x y))
+22
+```
+
+## Metadata prefix (@)
+
+As several examples demonstrate in this section, you can often embed optional documentation strings in code blocks that use reserved keywords like `defun` and `deftable` like this:
+
+```pact
+(defun average (a b)
+  "take the average of a and b"
+  (/ (+ a b) 2))
+```
+
+You can also add metadata by using the `@`-prefix. 
+Supported metadata fields include: 
+
+- `@doc` to provide a documentation string.
+- `@event` to emit an event.
+- `@managed` to manage specific data associated with a capability.
+- `@model` to specify a property that can be checked for correctness in format verification.
+
+```pact
+(defun average (a b)
+  @doc   "take the average of a and b"
+  (/ (+ a b) 2))
+```
+
+Embedded documentation strings like `"Row type for accounts table."` are just a short form of `@doc` metadata.
+
+## module
+
+Use the `module` keyword to define and install a module with the specified `name` that is governed by the specified `keyset-or-governance`, with optional documentation or metadata.
+
+If the `keyset-or-governance` is a string, the string represents a keyset that has been installed with the `define-keyset` function that will be checked whenever module administrative privileges are required. 
+If `keyset-or-governance` is an unqualified [atom](/reference/syntax#atoms), it represents a `defcap` capability that will be acquired if module administrative privileges are requested.
+
+The body of a module is composed of definitions are scoped to the module. 
+A module can include the following types of declarations:
+
+- [defun](/reference/syntax#defunh95462750)
+- [defpact](/reference/syntax#defpacth1545231271)
+- [defcap](/reference/syntax#defcaph-1335639635)
+- [deftable](/reference/syntax#deftableh661222121)
+- [defschema](/reference/syntax#defschemah-1003560474)
+- [defconst](/reference/syntax#defconsth645951102)
+- [implements](/reference/syntax#implementsh-915384400)
+- [use](/reference/syntax#useh116103)
+- [bless](/reference/syntax#blessh93823227)
+
+### Basic syntax
+
+To define a module, use the following syntax model:
+
+
+```pact
+(module name keyset-or-governance [doc-or-metadata] body...)
+```
+
+### Examples
+
+The following example illustrates a defining the `accounts` module with a keyset and two functions:
+
+```pact
+(module accounts 'accounts-admin
+  "Module for interacting with accounts"
+
+  (defun create-account (id bal)
+   "Create account ID with initial balance BAL"
+   (insert accounts id { "balance": bal }))
+
+  (defun transfer (from to amount)
+   "Transfer AMOUNT from FROM to TO"
+   (with-read accounts from { "balance": fbal }
+    (enforce (<= amount fbal) "Insufficient funds")
+     (with-read accounts to { "balance": tbal }
+      (update accounts from { "balance": (- fbal amount) })
+      (update accounts to { "balance": (+ tbal amount) }))))
+)
+```
+
+## step
+
+Use the `step` keyword to define a step within a [defpact](/reference/syntax#defpact), such that any prior steps will be executed in prior transactions, and later steps in later transactions.
+You can include an `entity` argument to indicate that a specific step is intended for confidential transactions. With this argument, only the specified `entity` would execute the step, and other participants would skip the execution of the step.
+
+### Basic syntax
+
+To define a step in a `defpact`, use the following syntax model:
+
+```pact
+(step expression)
+(step entity expression)
+```
+
+### Examples
+
+The following example illustrates a `defpact` for depositing funds with two `step` transactions:
+
+```pact
+  (defpact deposit(sender:string receiver:string guard:guard amount:decimal)
+    @doc "Deposit KDA from L1 to L2"
+
+    (step
+      (with-capability (LOCK_DEPOSIT sender)
+        (let ((deposit-details:object{deposit-schema}
+            { 'receiver : receiver
+            , 'amount   : amount
+            , 'guard    : guard
+            }
+          ))
+          (lock-deposit sender amount)
+          (enforce (validate-principal guard receiver) "Guard must be a principal")
+          (yield deposit-details "crossnet:L2.2")
+        )
+      )
+    )
+
+    (step
+      (resume
+        { 'receiver := receiver
+        , 'amount   := amount
+        , 'guard    := guard
+        }
+        (claim-deposit receiver guard amount)
+      )
+    )
+  )
+```
+
+## step-with-rollback
+
+Use the `step-with-rollback` keyword to define a step within a [defpact](/reference/syntax#defpact) similar to using the step keyword except that you specify a `rollback-expression`.
+If you include an `entity` argument, the `rollback-expression` is only be executed upon failure of a subsequent step, as part of a reverse-sequence "rollback cascade" going back from the step that failed to the first step. 
+Without the `entity` argument, the `rollback-expression` acts as a cancel function that is be explicitly executed by a participant.
+
+### Basic syntax
+
+To define a step in a `defpact`, use the following syntax model:
+
+```pact
+(step-with-rollback expression rollback-expression)
+(step-with-rollback entity expression rollback-expression)
+```
+
+### Examples
+
+The following example illustrates a `defpact` for offering a token for sale with one `step-with-rollback`:
+
+```pact
+  (defpact sale:string
+    ( id:string
+      seller:string
+      amount:decimal
+      timeout:integer
+    )
+    (step-with-rollback
+      ;; Step 0: offer
+      (let ((token-info (get-token-info id)))
+        (with-capability (OFFER-CALL id seller amount timeout (pact-id))
+          (marmalade-v2.policy-manager.enforce-offer token-info seller amount timeout (pact-id)))
+        (with-capability (SALE id seller amount timeout (pact-id))
+          (offer id seller amount))
+        (pact-id)
+      )
+      ;; Step 0, rollback: withdraw
+      (let ((token-info (get-token-info id)))
+        (with-capability (WITHDRAW-CALL id seller amount timeout (pact-id))
+          (marmalade-v2.policy-manager.enforce-withdraw token-info seller amount timeout (pact-id)))
+        (with-capability (WITHDRAW id seller amount timeout (pact-id))
+          (withdraw id seller amount))
+        (pact-id)
+      )
+    )
+    (step
+      ;; Step 1: buy
+      (let ( (buyer:string (read-msg "buyer"))
+              (buyer-guard:guard (read-msg "buyer-guard")) )
+          (with-capability (BUY-CALL id seller buyer amount (pact-id))
+            (marmalade-v2.policy-manager.enforce-buy (get-token-info id) seller buyer buyer-guard amount (pact-id))
+          )
+          (with-capability (BUY id seller buyer amount (pact-id))
+            (buy id seller buyer buyer-guard amount)
+          )
+          (pact-id)
+    ))
+  )
+```
+
+## use
+
+Use the `use` keyword to import the specified `module` into a namespace. 
+This keyword is only valid at the top-level of a contract or within a module declaration. 
+The specified `module` can be a string, symbol, or bare atom. 
+
+You specify the `hash` argument to validate that the imported module's hash matches specified `hash` and fail if the hashes are not the same. 
+You can use the [describe-module](/reference/functions/repl-only-functions#describe-module) function to query for the hash of a loaded module on the chain.
+
+You can also specify an optional list of `imports` consisting of function, constant, and schema names to import from the specified `module`. 
+If you explicitly define the function, constant, and schema names to import, only the listed items are available for you to use in the module body. 
+If you don't specify an import list, then every name in the imported module is brought into scope. 
+If two modules are defined in the same transaction, all names are in scope for both modules, and the import behavior defaults to the entire module. 
+
+### Basic syntax
+
+To import a specified module, use the following syntax models:
+
+```pact
+(use module)
+(use module hash)
+(use module imports)
+(use module hash imports)
+```
+
+### Examples
+
+The following example illustrates importing all of the definitions from the `accounts` module and using the `transfer` function:
+
+```pact
+(use accounts)
+(transfer "123" "456" 5 (time "2016-07-22T11:26:35Z"))
+"Write succeeded"
+```
+
+The following example illustrates importing all of the definitions from a specific version of `accounts` module with the hash `"ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s"` and using the `transfer` function:
+
+```pact
+(use accounts "ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s")
+(transfer "123" "456" 5 (time "2016-07-22T11:26:35Z"))
+"Write succeeded"
+```
+
+The following example illustrates importing only the `transfer` and `example-fun` definitions from the `accounts` module and using the `transfer` function:
+
+```pact
+(use accounts [ transfer example-fun ])
+(transfer "123" "456" 5 (time "2016-07-22T11:26:35Z"))
+"Write succeeded"
+```
+
+The following example illustrates importing only the `transfer` and `example-fun` definitions from a specific version of `accounts` module with the hash `"ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s"` and using the `transfer` function:
+
+```pact
+(use accounts "ToV3sYFMghd7AN1TFKdWk_w00HjUepVlqKL79ckHG_s" [ transfer example-fun ])
+(transfer "123" "456" 5 (time "2016-07-22T11:26:35Z"))
+"Write succeeded"
+```
+
+## Expressions
+
+Expressions can be [literals](/reference/syntax#literals), atoms, s-expressions, or references.
+
+### Atoms
+
+Atoms are non-reserved barewords that start with a letter or allowed symbol, and contain letters, digits, and allowed symbols. 
+Allowed symbols are `%#+-_&$@<>=?*!|/`. 
+Atoms must resolve to a variable bound by one of the following:
+
+- [defun](/reference/syntax#defun) definition.
+- [defpact](/reference/syntax#defpact) definition.
+- [binding](/reference/syntax#binding) form.
+- [lambda](/reference/syntax#lambdas) form.
+- Symbols imported into the namespace with [use](/reference/syntax#use).
+
+### S-expressions
+
+S-expressions are formed with parentheses, with the first atom determining if the expression is a special form with a reserved keyword or a function application.
+If the expression is a function application, the first atom must refer to a definition.
+
+An application with less than the required arguments is in some contexts a valid _partial application_ of the function. However, this is only supported in Pact's [functional-style functions](/build/pact/advanced#functional-concepts).Using a partial application anywhere else results in a runtime error.
+
+### References
+
+References are multiple atoms joined by a dot `.` that directly resolve to definitions found in other modules.
+
+```pact
+pact > accounts.transfer
+"(defun accounts.transfer (src,dest,amount,date) \"transfer AMOUNT from
+SRC to DEST\")"
+pact> transfer
+Eval failure:
+transfer<EOF>: Cannot resolve transfer
+pact> (use 'accounts)
+"Using \"accounts\""
+pact> transfer
+"(defun accounts.transfer (src,dest,amount,date) \"transfer AMOUNT from
+SRC to DEST\")"
+```
+
+References are preferred over `use` for transactions because references resolve faster. 
+However, when defining a module, `use` is preferred for legibility.

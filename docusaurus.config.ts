@@ -95,7 +95,7 @@ const config: Config = {
       },
       tableOfContents: {
          minHeadingLevel: 2,
-         maxHeadingLevel: 4
+         maxHeadingLevel: 2
       },
       algolia: {
          appId: 'NESUIAE93R',
@@ -117,7 +117,7 @@ const config: Config = {
             docs: {
                routeBasePath: '/',
                sidebarPath: './sidebars.ts',
-               editUrl: 'https://github.com/kadena-docs/kadena-docs/tree/main/',
+               editUrl: 'https://github.com/kadena-docs/kadena-docs/blob/master/',
             },
             blog: {
                showReadingTime: false,
@@ -125,7 +125,7 @@ const config: Config = {
                   type: ['rss', 'atom'],
                   xslt: true,
                },
-               editUrl: 'https://github.com/kadena-docs/kadena-docs/tree/main/',
+               editUrl: 'https://github.com/kadena-docs/kadena-docs/blob/master/',
                onInlineTags: 'warn',
                onInlineAuthors: 'warn',
                onUntruncatedBlogPosts: 'warn',
