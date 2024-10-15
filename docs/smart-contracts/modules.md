@@ -2,7 +2,7 @@
 title: Modules
 description: "Modules that define the business logic and essential functions for blockchain applications and provide the basic foundation for all Pact smart contracts."
 id: modules
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 # Modules
@@ -33,7 +33,7 @@ The code related to these elements is considered to be outside of and separate f
 ## Module and smart contracts
 
 When you start working with Pact, you typically create single modules that contain the full functionality of your smart contract, much like most of the examples in the [coding projects](/coding-projects/coding-projects).
-Using a single module to define a contract keeps your code organized and starightforward.
+Using a single module to define a contract keeps your code organized and straightforward.
 However, as you begin writing more complex or sophisticated programs, you'll find it more convenient to split the smart contract logic into multiple modules that work together to compose the complete application. 
 In a typical smart contract—the full application—each individual module can provide a focused set of functionality with clear organizational logic.
 
@@ -198,9 +198,6 @@ in later tutorials.
 For now, the important takeaway is to understand what a module is, as well as to
 recognize the key elements that belong inside and outside of Pact modules.
 
-Take some time now to continue exploring the examples provided. When you’re ready, you can learn more about the Pact programming
-language in our next tutorial.
-
 
 ## Module declaration
 
@@ -271,3 +268,28 @@ Transactional vs local execution is accomplished by targeting different API endp
 ### Static type inference on modules
 
 With the [typecheck](/reference/functions/repl-only-functions) repl command, the Pact interpreter will analyze a module and attempt to infer types on every variable, function application or const definition. Using this in project repl scripts is helpful to aid the developer in adding "just enough types" to make the typecheck succeed. Successful typechecking is usually a matter of providing schemas for all tables, and argument types for ancillary functions that call ambiguous or overloaded native functions.
+
+### Module table guards
+
+When [creating](/reference/functions/database#create-tableh447366077) a table, a module name must also be specified. By this mechanism, tables are "guarded" or "encapsulated" by the module, such that direct access to the table via [data-access functions](/reference/functions/database) is authorized only by the module's governance. However, _within module functions_, table access is unconstrained. This gives contract authors great flexibility in designing data access, and is intended to enshrine the module as the main "user data access API".
+
+See also [module guards](/build/pact/advanced#module-guardsh-1103833470) for how this concept can be leveraged to protect more than just tables.
+
+Note that as of Pact 3.5, the option has been added to selectively allow unguarded reads and transaction history access in local mode only, at the discretion of the node operator.
+
+### Row-level keysets
+
+Keysets can be stored as a column value in a row, allowing for _row-level_ authorization. The following code indicates how this might be achieved:
+
+```pact
+(defun create-account (id)
+  (insert accounts id { "balance": 0.0, "keyset": (read-keyset "owner-keyset") }))
+
+(defun read-balance (id)
+  (with-read accounts id { "balance":= bal, "keyset":= ks }
+    (enforce-keyset ks)
+    (format "Your balance is {}" [bal])))
+```
+
+In the example, `create-account` reads a keyset definition from the message payload using [read-keyset](/reference/functions/general#read-keyseth2039204282) to store as "keyset" in the table. `read-balance` only allows that owner's keyset to read the balance, by first enforcing the keyset using [enforce-keyset](/reference/functions/keysets#enforce-keyseth1553446382).
+
