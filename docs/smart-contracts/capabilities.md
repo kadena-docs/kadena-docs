@@ -1,7 +1,7 @@
 ---
 title: Capabilities and events
 description: "Capabilities are the primary means by which you can grants granular permission to perform tasks that you wan to control access to."
-id: capabilitiess
+id: capabilities
 sidebar_position: 8
 ---
 
