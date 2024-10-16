@@ -32,6 +32,7 @@ const sidebars: SidebarsConfig = {
                 'smart-contracts/basic-concepts',
                 'smart-contracts/accounts',
                 'smart-contracts/lang-features',
+                'smart-contracts/functions-variables',
                 //'smart-contracts/modules',
                 //'smart-contracts/capabilities',
                 'smart-contracts/guards',
