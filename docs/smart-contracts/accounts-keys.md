@@ -20,7 +20,7 @@ The rules for how many keys are required to act on behalf of the account are def
 
 ## Defining a keyset
 
-A keyset is a specific type of **guard** that consists of one or morepublic keys and a **predicate function** that specifies how many of the keys are required to perform an operation. 
+A keyset is a specific type of **guard** that consists of one or more public keys and a **predicate function** that specifies how many of the keys are required to perform an operation. 
 In JSON, a keyset object looks similar to the following example:
 
 ```json
