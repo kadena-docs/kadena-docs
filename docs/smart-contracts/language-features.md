@@ -1,11 +1,11 @@
 ---
-title: Language features and conventions
+title: Pact features and conventions
 id: lang-features
 sidebar_position: 3
 description: "Learn the basics of Pact programming language features and coding conventions with an introduction to built-in functions and writing your own simple functions."
 ---
 
-# Language features and conventions
+# Pact features and conventions
 
 Pact has a lot in common with other programming languages, but some of its conventions and intentional restrictions are either unique or unlike other programming languages you might be familiar with.
 This part of the documentation presents an overview of Pact language features and conventions you should be familiar with as you start reading and writing smart contract code.

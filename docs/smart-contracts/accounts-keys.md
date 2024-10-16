@@ -20,7 +20,7 @@ The rules for how many keys are required to act on behalf of the account are def
 
 ## Defining a keyset
 
-A keyset is a specific type of **guard** that consists of one or more  public keys and a **predicate function** that specifies how many of the keys are required to perform an operation. 
+A keyset is a specific type of **guard** that consists of one or more public keys and a **predicate function** that specifies how many of the keys are required to perform an operation. 
 In JSON, a keyset object looks similar to the following example:
 
 ```json
@@ -38,7 +38,7 @@ In JSON, a keyset object looks similar to the following example:
 In this keyset, there are three public keys defined as owners associated with this keyset.
 The predicate function of `keys-any` means that any of the three public keys can sign transactions and act on the behalf of the account associated with this keyset.
 To make this keyset usable for practical purposes in a smart contract, it's assigned a name.
-You can then reference the name to check whether an action is valid by verifying at least one (keys-any)  of these three public keys has authorized it.
+You can then reference the name to check whether an action is valid by verifying at least one (keys-any) of these three public keys has authorized it.
 
 ```json
 {
