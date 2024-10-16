@@ -248,16 +248,6 @@ You can test scoped signatures using the `env-sigs` REPL-only function as follow
   (accounts.pay "alice" "bob" 10.0))
 ```
 
-## Capabilities and guards
-
-Guards and capabilities can be confusing: given we have guards like keysets, what do we need the capability concept for?
-
-Guards allow us to define a _rule_ that must be satisfied for the transaction to proceed. As such, they really are just a way to declare a pass-fail condition or predicate. The Pact guard system is flexible enough to express any rule you can code.
-
-Capabilities allow us to declare how that rule is deployed to grant some authority. In doing so, they enumerate the critical rights that are extended to users of the smart contract, and "protect" code from being called incorrectly.
-
-Note also that **capabilities can only be granted inside the module code that declares them**, whereas guards are simply data that can be tested anywhere. This is an important security property, as it ensures an attacker cannot elevate their privileges from outside the module code.
-
 ## Events
 
 In Pact, events are emitted as part of transaction execution and are included in the transaction results. 
