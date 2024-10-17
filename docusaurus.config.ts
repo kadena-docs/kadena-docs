@@ -86,6 +86,7 @@ const config: Config = {
          style: 'primary',
       },
       prism: {
+         additionalLanguages: ['lisp'],
          theme: prismThemes.github,
          darkTheme: prismThemes.dracula,
       },
