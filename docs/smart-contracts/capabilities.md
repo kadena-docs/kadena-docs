@@ -1,6 +1,6 @@
 ---
 title: Capabilities and events
-description: "Capabilities are the primary means by which you can grants granular permission to perform tasks that you wan to control access to."
+description: "Capabilities are the primary means by which you can grant granular permissions to perform tasks for which you wan to control access."
 id: capabilities
 sidebar_position: 8
 ---
@@ -30,7 +30,7 @@ The user acquires the `coin.TRANSFER` capability with a signature to authorize t
 
 ## Expressing capabilities
 
-As a system for managing rights during the execution of a transaction, capabilities consist of a name, a list of arguments, optional metadata, and a function body that returns a boolean.
+As a system for managing rights during the execution of a transaction, capabilities consist of a name, a list of arguments, optional metadata, and a function body that returns a boolean value.
 
 You can define capabilities in Pact modules by using the `defcap` reserved keyword and specifying the following attributes:
 
@@ -101,6 +101,11 @@ To demand or _require_ the capability, you would call the `require-capability` f
 By requiring a capability, you can define private or restricted functions than cannot be called directly. 
 In this example, the `do-entry` function can only be called by code inside the module somewhere and can only be called in an outer operation for this user in particular, restricting it to that user.
 
+However, it's important to note that the `require-capability` function doesn't scope to a body of code. 
+The position at which you insert it affects the semantics of the function call and the operations that happen first, before the capability requirement is applied. 
+If you insert the `require-capability` call at an inappropriate position, you might see unexpected behavior or error messages.
+In general, you should insert  the `require-capability` call at the beginning of a function call.
+
 ## Composing capabilities
 
 A `defcap` can import other capabilities, for modular factoring of guard code, or to compose an outer capability from smaller, inner capabilities.
@@ -135,7 +140,27 @@ By scoping the signature to this capability, the account signature can't be used
 Whereas most capabilities act as tickets you show to authorize a protected operation, Pact also supports **managed capabilities**.
 Managed capabilities can change the state of a capability as it is brought into and out of scope. 
 Managed capabilities are dynamic objects that mediate whether capabilities are acquired.
-Managed capabilities are _installed_ by attaching them to the signature list for a transaction.
+Managed capabilities are _installed_ with the `install-capability` function by attaching them to the signature list for a transaction.
+For example, the following transaction excerpt attaches two capabilities to the public key "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7" signature:
+
+```json
+{
+    "signers": [
+        {
+            "pubKey": "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7",
+            "clist": [
+            {
+                "name": "coin.TRANSFER",
+                "args": ["k:fe4b6da3...27f608b7" "k:4fe7981d...0bc284d0\",2]},
+            {
+                "name": "coin.GAS",
+                "args":[]}
+            ]
+        }
+    ]
+}
+```
+
 If the predicate function for a managed capability allows the signer to install the capability, the installed capability then governs the code required to unlock protected operations through the use of a **management function**.
 
 Managed capabilities can also be installed by [_verifier plug-ins_](https://github.com/kadena-io/KIPs/pull/57).
@@ -152,7 +177,7 @@ By signing with a managed capability, you are _allowing_ some untrusted code to 
 If the capability is not in the signature list, the untrusted code cannot request it.
 
 If the capability _management function_ doesn't grant the request, the untrusted code fails to execute. 
-The common usage of this is to grant a payment to third-party code, such that the third-party code can directly transfer on behalf of the user some amount of coin, but only up to the indicated amount.
+The most common use case for management functions is to grant a payment to third-party code, such that the third-party code can directly transfer on behalf of the user some amount of coin, but only up to a specified amount.
 
 The following example illustrates this use case with the `TRANSFER` managed capability:
 
@@ -169,10 +194,22 @@ The following example illustrates this use case with the `TRANSFER` managed capa
 ```
 
 In this example, the `TRANSFER` capability allows the `sender` to approve any number of payments to `receiver` up to some `amount`. 
-After the amount is exceeded, the capability can no longer be brought into scope.
+The `@managed` keyword specifies two pieces of information:
 
-This allows third-party code to directly enact payments. 
-Managed capabilities are an important feature to allow smart contracts to directly call other trusted code in a tightly-constrained context.
+- The _resource_ being managed, in this case, the `amount` value.
+- The _management function name_ that manages the resource value, in this case, the `TRANSFER_mgr` function. 
+
+After transfers reach the limit specified by the `amount` value, the `TRANSFER` capability can no longer be brought into scope.
+When you install this capability using the `install-capability` function, you scope the capability to a signature and set the initial `amount` for the resource to be managed. 
+In subsequent calls using the `with-capability` function, the `amount` argument is the amount of resource being requested before the capability can be granted. 
+In that case, the value passed as the first argument to the management function comes from the current amount held in the Pact state.
+
+You can use managed capabilities and management functions in other ways.
+However, the `@managed` keyword only allows you to specify a single resource to be managed—that is, updated—by the management function. 
+The argument you use to specify the resource doesn't have to be an integer or decimal value. 
+You could specify a list or an object as the resource you want to manager.
+For example, you could provide a list of names as the resource, and write a management function that removes names from the list based on some condition.
+In practice, though, managed capabilities are most often used to allow smart contracts to directly call code to make payments and govern transfer operations.
 
 ### Automatic capability management
 
@@ -180,13 +217,20 @@ A managed capability that does not specify a management function is **automatica
 After the capability is installed, it can be granted exactly once for the given parameters. 
 Further attempts will fail after the initial grant goes out of scope.
 
-In the following example, the VOT capability is automatically managed:
+In the following example, the VOTE capability is automatically managed:
 
 ```pact
 (defcap VOTE (member:string)
   @managed
   (validate-member member))
 ```
+
+### Managed capability events
+
+Managed capabilities always emit events automatically with the parameters specified when the capability is first installed or acquired.
+However, managed capabilities only emit events once.
+Other capabilities, that aren't managed, can emit events any number fo times.
+For more information about events, see [Events](#events).
 
 ## Modeling capabilities with compose-capability
 
