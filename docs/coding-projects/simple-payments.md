@@ -17,8 +17,8 @@ For this project, you'll create one Pact `simple-payments` module smart contract
 - `get-balance`
 - `pay` 
  
-These functions store information in a `payments` database table.
-The `payments` table manages payments between two accounts `Sarah` and `James`.
+These functions store information in a `payments-table` database table.
+The `payments-table` manages payments between two accounts `Sarah` and `James`.
 
 ![Simple payments project overview](/img/simple-payments-overview.png)
 
@@ -60,151 +60,362 @@ To get started:
    | `simple-payment` | The final smart contract application without any of challenge comments. |
 
 1. Open and review the `simple-payments.pact` file.
+   
+   This file describes all of the tasks that you need to complete for the _Simple payments_ coding project.
+   You can follow the instructions embedded in the file to try to tackle this coding project on your own
+   without looking at the solutions to each step, or follow the instructions in the next section if you need additional guidance.
 
-## Module and Keyset
+## Define a module and keyset
 
-The first step is to set up the module and keysets for the smart contract.
+The module declaration is a core part of any Pact smart contract.
+To define a module, you must also specify the administrative keyset or governance capability that owns the module. 
+For this coding project, you need to define one module—the `payments` module—and the administrative keyset for the `payments` module.
 
-:::caution Code Challenge
+1. Open the `simple-payments.pact` file in your code editor.
 
-Define and read the admin-keyset, create the payments module, and give the
-admin-keyset access to the module.
+2. Define and read an administrative keyset with the name `admin-keyset` to own the `payments` module.
+   
+   ```pact
+   (define-keyset 'admin-keyset (read-keyset "admin-keyset"))
+   ```
+   
+   In essence, this line creates an administrative keyset using the keyset name of `admin-keyset` that will have one or more public keys and a predicate function read from a message or as environment data.
+   The `admin-keyset` data that needs to be passed into the environment looks similar to the following:
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/1-module-and-keysets/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/1-module-and-keysets/solution.pact)
+   ```pact
+   {"admin-keyset":{ "keys": ["fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7"], "pred": "keys-all" } }
+   ```
 
-:::
+3. Create a module named `payments` that is governed by the `admin-keyset`.
+   
+   ```pact
+   (module payments 'admin-keyset
+   )
+   ```
 
-:::info
+1. Save your changes.
+   
+   Now that you have a module, you need to add the code for this module inside of the `payments` declaration—that is, before the closing parenthesis that marks the end of the module declaration. 
+   
+   For more information about defining modules, see [Modules](/smart-contracts/modules).
 
-If you’re unfamiliar with modules and keyset, our
-[Pact Modules Tutorial](/build/pact/modules)
+## Define a schema and table
 
-is a great place to get started.
+The `payments` modules stores information about accounts and balances in the `payments-table` database table.
+This table keeps track of the balance of the accounts that are associated with th  `Sarah` and `James` account keysets. accounts for.
+The schema for the payments-table looks like this:
 
-:::
-
-## 2. Define Schema and Table
-
-The next step is to define the schema and table for the smart contract.
-
-The **payments-table**, will keep track of the balance of the accounts and
-associate that to the account’s keyset.
-
-**Payments Table**
-
-| fieldname | fieldtype |
+| Field name | Field type |
 | --------- | --------- |
-| balance   | decimal   |
-| keyset    | keyset    |
+| balance | decimal |
+| keyset | keyset |
 
-:::caution Code Challenge
+1. Open the modified `simple-payments.pact` file in your code editor.
 
-Define a schema and table with columns **balance** and **keyset**.
+2. Define a `payments` schema for a table with the columns `balance` as type decimal and `keyset` as type keyset.
+   
+   ```pact
+     (defschema payments
+        balance:decimal
+        keyset:keyset)
+   ```
+1. Define the `payments-table` to use the schema `{payments}` you created in the previous step.
+   
+   ```pact
+     (deftable payments-table:{payments})
+   ```
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/2-schema-and-table/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/2-schema-and-table/solution.pact)
+1. Move the closing parenthesis that marks the end of the `payments` module declaration after the table definition to include the schema and table inside of the module.
+   
+   Without comments, your code should look similar to the following:
+   
+   ```pact
+   (define-keyset 'admin-keyset (read-keyset "admin-keyset"))
 
-:::
+   (module payments 'admin-keyset
+   
+     (defschema payments
+       balance:decimal
+       keyset:keyset)
+   
+     (deftable payments-table:{payments})
+   )
+   ```
 
-:::info
+1. Save your changes.
+   
+   Now you have a schema and table definition inside of the `payments` declaration.
 
-Schema definitions are introduced in the
-[Pact Schemas and Tables Tutorial](/build/pact/schemas-and-tables#define-schemas).
+   For more information about defining schema and tables, see [Databases, schemas, and tables](/smart-contracts/databases).
 
-:::
+## Define functions
 
-## 3. Functions
+For this coding project, the payments module provides three functions:
 
-This smart contract will contain 3 functions create-account, get-balance, and
-pay. Each of these are essential functions to allow users to manage their
-accounts.
+- `create-account` to allow the module administrator to create accounts. 
+- `get-balance` to allow the module administrator and account owner to view account balance.
+- `pay` to allow one account to pay another account.
 
-:::info
+### Define the create-account function
 
-You can review each of the function types in the
-[Schemas and Tables Tutorial](/build/pact/schemas-and-tables) as well as the
-[Pact Language Basics Tutorial](/build/pact/language-basics).
+The `create-account` function allows the `payments` module administrator—identified by the `admin-keyset` keyset—to create any number of accounts. 
 
-:::
+1. Open the modified `simple-payments.pact` file in your code editor.
 
-### 3.1 Create Account
+1. Start the `create-account` function definition with the keyword `defun` and add the parameters `id`, `initial-balance`, and `keyset`.
+   
+   ```pact
+   (defun create-account (id initial-balance keyset)
+   
+   )
+   ```
 
-First, add a function that allows the administrator to create accounts. This
-will allow you to add as many accounts as you’d like.
+2. Within the function, use `enforce-keyset` to ensure that all accounts are created by the `admin-keyset` administrator.
+   
+   ```pact
+     (enforce-keyset 'admin-keyset)
+   ```
 
-:::caution Code Challenge
+3. Within the function, use `enforce` to ensure the initial-balance is zero and with an optional documentation.
+   
+   ```pact
+     (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+   ```
 
-Create a function **create-account** that allows administrator to create
-accounts.
+1. Within the function, insert the `initial-balance` and `keyset` into the `payments-table`.
+   
+   ```pact
+     (insert payments-table id
+            { "balance": initial-balance,
+              "keyset": keyset })
+   ```
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/3-functions/3.1-create-account/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/3-functions/3.1-create-account/solution.pact)
+2. Check that the closing parenthesis for the `create-account` function is after the last expression and move and move the closing parenthesis the `payments` module declaration after the function.
+   
+   Without comments, your code should look similar to the following:
+   
+   ```pact
+   (define-keyset 'admin-keyset (read-keyset "admin-keyset"))
+   
+   (module payments 'admin-keyset
+   
+     (defschema payments
+       balance:decimal
+       keyset:keyset)
+   
+     (deftable payments-table:{payments})
 
-:::
+     (defun create-account (id initial-balance keyset)
+        (enforce-keyset 'admin-keyset)
+        (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+        (insert payments-table id
+            { "balance": initial-balance,
+              "keyset": keyset })
+     )
+   )
+   ```
 
-:::info
+### Define the get-balance function
 
-Try using [enforce](/reference/functions/general#enforceh-1604583454) to regulate
-who has access to create an account.
+Now that you can create accounts, it is helpful to be able to view the balance of these accounts. 
+The `get-balance` function allows account owners and the module administrator to view account balances.
 
-:::
+1. Start the `get-balance` function definition with the keyword `defun` and takes the argument `id`.
+   
+   ```pact
+     (defun get-balance (id)
+     
+     )
+   ```
 
-### 3.2 Get Balance
+1. Within the function, use `with-read` to view the `id` from the `payments-table`.
+   
+   ```pact
+       (with-read payments-table id   
+   ```
 
-Now that you can create accounts, it is helpful to be able to view the balance
-of these accounts. In this case, we’ll allow both users and administrators to
-view the balance.
+2. Within the function, use `enforce-one` to check that the keyset calling the function is the `admin-keyset` or the `id` keyset.
+   
+   ```pact
+        (enforce-one "Access denied"
+          [(enforce-keyset keyset)
+           (enforce-keyset 'admin-keyset)])
+   ```
 
-:::caution Code Challenge
+3. Within the function, return the `balance` for the specified `id` keyset.
+   
+   ```pact
+        balance)
+   ```
 
-Create a function **get-balance** that allows administrators and users to view
-the balance of their account.
+2. Check that the closing parenthesis for the `get-balance` function is after the last expression and move and move the closing parenthesis for the `payments` module declaration after the function.
+   
+   Without comments, your code should look similar to the following:
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/3-functions/3.2-function-get-balance/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/3-functions/3.2-function-get-balance/solution.pact)
+   ```pact
+   (define-keyset 'admin-keyset (read-keyset "admin-keyset"))
+   
+   (module payments 'admin-keyset
+   
+     (defschema payments
+       balance:decimal
+       keyset:keyset)
+   
+     (deftable payments-table:{payments})
 
-:::
+     (defun create-account (id initial-balance keyset)
+        (enforce-keyset 'admin-keyset)
+        (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+        (insert payments-table id
+          { "balance": initial-balance,
+            "keyset": keyset })
+     )
+    
+     (defun get-balance (id)
+        (with-read payments-table id
+          { "balance":= balance, "keyset":= keyset }
+        (enforce-one "Access denied"
+          [(enforce-keyset keyset)
+           (enforce-keyset 'admin-keyset)])
+        balance)
+     )
+   )
+   ```
 
-### 3.3 Pay
+### Define the pay function
 
-Next, you’ll create the function that allows one account to pay another account.
-This allows accounts to transfer value from their account to another to begin
-making payments and managing their finances.
+The `pay` function allows one account to transfer assets to another account defined in the `payments-table`.
 
-:::caution Code Challenge
+1. Start the `pay` function definition with the keyword `defun` and takes the parameters `from`, `to`, and `amount`.
+   
+   ```pact
+     (defun pay (from to amount)
+     
+     )
+   ```
 
-Create a function **pay** that allows an account to pay another account.
+2. Within the function, use `with-read` to view the` payments-table` for the `from` account and bind the `balance` and `keyset` of this account to the `from-bal` and `keyset` variables.
+   
+   ```pact
+       (with-read payments-table from { "balance":= from-bal, "keyset":= keyset }
+   ```
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/3-functions/3.3-function-pay/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/3-functions/3.3-function-pay/solution.pact)
+1. Within the function, enforce that the `keyset` is the keyset of the account.
+   
+   ```pact
+         (enforce-keyset keyset)
+   ```
 
-:::
+2. Within the function, use `with-read` to get the balance of the `to` account, and bind this balance to the `to-bal` variable. 
 
-## 4. Create Table
+   ```pact
+        (with-read payments-table to { "balance":= to-bal }
+   ```   
 
-You have now completed the module. Outside of the module you can create the
-table that you defined earlier.
+2. Within the function, enforce that the amount being transferred is greater than zero.
 
-:::caution Code Challenge
+   ```pact
+        (enforce (> amount 0.0) "Negative Transaction Amount")
+   ``` 
 
-Create the **payments-table**.
+3. Within the function, enforce that `balance` for the `from` account is greater than what is being transferred.
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/4-create-table/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/4-create-table/solution.pact)
+   ```pact
+        (enforce (>= from-bal amount) "Insufficient Funds")
+   ```     
 
-:::
+4. Within the function, update the `payments-table` to reflect the new balance for the `from` account.
+   
+   ```pact
+        (update payments-table from
+           { "balance": (- from-bal amount) })
+   ```
 
-:::info
+4. Within the function, update the `payments-table` to reflect the new balance for the `to` account.
 
-At this point you have completed the module. You will notice the previous
-challenge containing a final parenthesis to close out the module. The remaining
-steps are meant to help you call functions from within the module you created to
-put your smart contract to use.
+   ```pact
+        (update payments-table to
+           { "balance": (+ to-bal amount) })
+   ```        
 
-:::
+1. Within the function, return a formatted string to say that the from account has paid the to account the amount paid
+   
+   ```pact
+        (format "{} paid {} {}" [from to amount])))
+   ```
 
-## 5. Create Accounts
+2. Check that the closing parenthesis for the `pay` function is after the last expression and move and move the closing parenthesis for the `payments` module declaration after the function.
+   
+   Without comments, your code should look similar to the following:
+
+   ```pact
+   (define-keyset 'admin-keyset (read-keyset "admin-keyset"))
+
+   (module payments 'admin-keyset
+   
+     (defschema payments
+        balance:decimal
+        keyset:keyset)
+   
+     (deftable payments-table:{payments})
+
+     (defun create-account (id initial-balance keyset)
+        (enforce-keyset 'admin-keyset)
+        (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+        (insert payments-table id
+           { "balance": initial-balance,
+             "keyset": keyset })
+     )
+
+     (defun get-balance (id)
+        (with-read payments-table id
+           { "balance":= balance, "keyset":= keyset }
+        (enforce-one "Access denied"
+           [(enforce-keyset keyset)
+            (enforce-keyset 'admin-keyset)])
+        balance)
+     )
+
+     (defun pay (from to amount)
+        (with-read payments-table from { "balance":= from-bal, "keyset":= keyset }
+           (enforce-keyset keyset)
+           (with-read payments-table to { "balance":= to-bal }
+             (enforce (> amount 0.0) "Negative transaction amount")
+             (enforce (>= from-bal amount) "Insufficient funds")
+             (update payments-table from
+                     { "balance": (- from-bal amount) })
+             (update payments-table to
+                     { "balance": (+ to-bal amount) })
+             (format "{} paid {} {}" [from to amount])
+           )
+         )
+      )
+   )
+   ```
+
+1. Save your changes.
+   
+   The `pay` function is the last code that you need to include within the `payments` module. 
+
+## Create table
+
+Although you defined a schema and a tables inside of the `payments` module, tables are created outside of the module code.
+
+1. Open the modified `simple-payments.pact` file in your code editor.
+
+2. Locate the closing parenthesis for the `payments` module.
+
+3. Create the table using the create-table reserved keyword.
+   
+   ```pact
+   (create-table payments-table)
+   ```
+
+## Call contract functions
+
+At this point, you have completed all of the code for the `simple-payments.pact` contract. 
+The remaining steps illustrate how to create a test file—the simple-payments.repl file—and call the functions you've defined in the module.
+
 
 The next step is to create the accounts that will transfer value.
 
@@ -226,7 +437,7 @@ Call the **create-account** function to create accounts for **Sarah** and
 
 :::
 
-## 6. Make Payment
+## Make a payment
 
 The final step is to make a payment from one account to another. You can do this
 using the pay function created earlier.
@@ -242,8 +453,7 @@ Sarah and James.
 
 ### Deploy the smart contract
 
-Congratulations, at this point you have completed the Simple Payment smart
-contract!
+Congratulations, at this point you have completed the _Simple payment_ coding project.
 
 If you’d like, you can try deploying this smart contract. 
 You can deploy this contract locally on the development network using **Chainweaver** or from the **Pact Atom SDK**. 
