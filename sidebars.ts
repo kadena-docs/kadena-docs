@@ -30,9 +30,14 @@ const sidebars: SidebarsConfig = {
                  ],
                 },
                 'smart-contracts/basic-concepts',
+                'smart-contracts/accounts',
                 'smart-contracts/lang-features',
+                'smart-contracts/functions-variables',
                 //'smart-contracts/modules',
+                //'smart-contracts/capabilities',
+                'smart-contracts/guards',
                 //'smart-contracts/database-model'
+               //'smart-contracts/transactions',
                 ],
       },
       {
@@ -154,10 +159,7 @@ const sidebars: SidebarsConfig = {
              },
            items: [
                 //'reference/pact-lang-intro',
-                //'reference/pact-reference-intro',
-                //'reference/functions',
-                //'reference/builtin-functions',
-                //'reference/smart-contract-language',
+                'reference/syntax',
                 {
                   type: 'category',
                   label: 'Functions',
@@ -169,9 +171,29 @@ const sidebars: SidebarsConfig = {
                        'reference/functions/general',
                        //'reference/operators/addition',
                        //'reference/operators/and'
-                  ]
-                }
-
+                  ],
+                },
+                'reference/pact-cli',
+                {
+                  type: 'category',
+                  label: 'kadena-cli commands',
+                  link: {
+                    type: 'doc',
+                    id: 'reference/kadena-cli',
+                  },
+                  items: [
+                       'reference/cli/cli-account',
+                       'reference/cli/cli-config',
+                       'reference/cli/cli-dapp',
+                       'reference/cli/cli-key',
+                       'reference/cli/cli-network',
+                       'reference/cli/cli-tx',
+                       'reference/cli/cli-wallet',
+                  ],
+                },
+                'reference/chainweb-cli',
+                //'reference/client-libs',
+                'reference/guard-json',
             ],
       },
       {
