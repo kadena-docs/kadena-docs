@@ -1,7 +1,7 @@
 ---
 title: Simple payments
 description: "Build a simple contract that transfers value between two accounts, one of the most common and most important operations that smart contracts are use to perform."
-id: payments
+id: transfers
 sidebar_position: 3
 ---
 
@@ -411,20 +411,135 @@ Although you defined a schema and a tables inside of the `payments` module, tabl
    (create-table payments-table)
    ```
 
-## Call contract functions
+## Create a file for local testing
 
-At this point, you have completed all of the code for the `simple-payments.pact` contract. 
-The remaining steps illustrate how to create a test file—the simple-payments.repl file—and call the functions you've defined in the module.
+At this point, you have completed all of the essential code for the `simple-payments.pact` contract. 
+However, you can't test or deploy the code in its current state.
+Because keysets are defined outside of contract code, the most common way to test a module locally is to create a test file that makes use of REPL-only built-in functions to simulate data that must be provided by the environment, like keysets and signatures.
+In this part of the project, you'll see how to create a test file—the `simple-payments.repl` file—to call REPL-only functions and test the functions you've defined in the `payments` module.
 
+1. Copy the `simple-payments.pact` file and rename the file as `simple-payments.repl`.
+2. Open the `simple-payments.repl` file in your code editor.
+3. Add the `env-data` built-in function to set environment data to simulate keyset information.
+   
+   ```pact
+   ;; Set keyset information
+   (env-data
+       { 'user-keyset :
+         { 'keys : [ 'user-public-key ]
+         , 'pred : 'keys-all
+         }
+       , 'admin-keyset :
+         { 'keys : [ 'admin-public-key ]
+         , 'pred : 'keys-all
+         }
+       }
+   )
+   ```
 
-The next step is to create the accounts that will transfer value.
+1. Add a transaction using the `begin-tx` and `commit-tx` functions to define a namespace for your module.
+   
+   ```pact
+   ;; Define a namespace
+   (begin-tx)
+     (define-namespace 'ns-dev-local (read-keyset 'admin-keyset) (read-keyset 'admin-keyset))
+   (commit-tx)
+   ```
+
+   Namespaces are required to define a context for modules when they are deployed on a network.
+   For local testing, you must define a namespace before you can define a keyset. testing, you must define a namespace before you define a local keyset.
+   Keysets must be defined inside of a namespace.
+
+1. Add a signature using the `env-sigs` function for signing transactions to your environment.
+   
+   ```pact
+   ;; Add a signature for signing transactions
+   (env-sigs
+     [{ 'key  : 'admin-public-key
+      , 'caps : []
+     }]
+   )
+   ```
+
+2. Add a transaction to define a keyset inside of the namespace.
+   
+   ```pact
+   ;; Enter the namespace and define a keyset
+   (begin-tx
+     "Define a new keyset"
+   )
+   (namespace 'ns-dev-local)
+   (expect
+     "A keyset can be defined"
+     "Keyset defined"
+   (define-keyset "ns-dev-local.admin-keyset" (read-keyset 'admin-keyset)))
+   (commit-tx)
+   ```
+
+   This example uses the `expect` built-in function to test the assertion that the Keyset can be defined.
+
+1. Add the `begin-tx` function before the module declaration and modify the governing entity to be the `ns-dev-local.admin-keyset` edined in this namespace.
+   
+   ```pact
+   (begin-tx
+     "Update the module"
+   )
+     (module payments "ns-dev-local.admin-keyset"
+      ...
+     )
+   ```
+
+1. Scroll to the bottom of the file and add the closing `commit-tx` function.
+   
+   ```pact
+   ;; ===================================================================
+   ;;  4-Create-table
+   ;; ===================================================================
+   
+   ;; Create the payments-table.
+   (create-table payments-table)
+   (commit-tx)
+   ```
+
+1. Save your changes.
+
+1. Open a terminal shell on your computer and test execution by running the following command:
+   
+   ```bash
+   pact simple-payment.repl --trace
+   ```
+
+   You should see output similar to the following:
+
+   ```bash
+   simple-payment.repl:2:0:Trace: Setting transaction data
+   simple-payment.repl:15:0:Trace: Begin Tx 0
+   simple-payment.repl:16:2:Trace: Namespace defined: ns-dev-local
+   simple-payment.repl:17:0:Trace: Commit Tx 0
+   simple-payment.repl:20:0:Trace: Setting transaction signatures/caps
+   simple-payment.repl:27:0:Trace: Begin Tx 1: Define a new keyset
+   simple-payment.repl:30:0:Trace: Namespace set to ns-dev-local
+   simple-payment.repl:31:0:Trace: Expect: success: A keyset can be defined
+   simple-payment.repl:35:0:Trace: Commit Tx 1: Define a new keyset
+   simple-payment.repl:37:0:Trace: Begin Tx 2: Update the module
+   simple-payment.repl:40:2:Trace: Loaded module payments, hash J9JQQ3Gi3fpgXTHm4j3wlbC2PFVVXifOXj6_lWicReM
+   simple-payment.repl:126:0:Trace: TableCreated
+   simple-payment.repl:127:0:Trace: Commit Tx 2: Update the module
+   Load successful
+   ```
+
+## Call module functions
+
+In the next step, you can add calls to your module functions inside of the `simple-payments.repl` test file.
+
+1. Create the accounts that will transfer value using the **create-account** function.
 
 For this tutorial, create 2 accounts.
 
 - Sarah
 - James
 
-To do this, you use the **create-account** function built earlier. This function
+To do this, you  built earlier. This function
 takes 3 arguments; **id**, **initial-balance**, and **keyset**.
 
 :::caution Code Challenge
