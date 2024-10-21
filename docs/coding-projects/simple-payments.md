@@ -20,7 +20,7 @@ For this project, you'll create one Pact `simple-payments` module smart contract
 These functions store information in a `payments-table` database table.
 The `payments-table` manages payments between two accounts `Sarah` and `James`.
 
-![Simple payments project overview](/img/simple-payments-overview.png)
+![Simple payments project overview](/img/payments-overview.png)
 
 ## Before you begin
 
@@ -50,28 +50,26 @@ To get started:
    cd pact-coding-projects/01-simple-payments
    ```
 
-   If you list the contents of this directory, you'll see the following folders:
-   
-   | Folder name | What it contains |
-   | ----------- | ---------------- |
-   | `start` | Provides a starting point with the framework for the project code and all comments for every challenge. |
-   | `challenges` | Coding challenges that enable you to test what you've learned or experiment with your own ideas. There are separate files for each part of the project for you to work through on your own.  |
-   | `finish` | Final code including all coding challenge comments for the final application. |
-   | `simple-payment` | The final smart contract application without any of challenge comments. |
+   If you list the contents of this directory, you'll see the following files:
 
-1. Open and review the `simple-payments.pact` file.
+   - `starter-simple-payment.pact` provides a starting point with the framework for the project code and comments for every challenge.
+   - `simple-payment.repl` provides an example of a test file that uses REPL-only functions for testing contracts locally using the Pact command-line  interpreter.
+   - `solution-simple-payment.pact` contains the final code that can be deployed.
+   - `raw-simple-payment.pact` contains the final smart contract application without any comments.
+
+4. Open and review the `starter-simple-payments.pact` file.
    
    This file describes all of the tasks that you need to complete for the _Simple payments_ coding project.
    You can follow the instructions embedded in the file to try to tackle this coding project on your own
-   without looking at the solutions to each step, or follow the instructions in the next section if you need additional guidance.
+   without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
 
-## Define a module and keyset
+## Define a module and module owner
 
 The module declaration is a core part of any Pact smart contract.
 To define a module, you must also specify the administrative keyset or governance capability that owns the module. 
 For this coding project, you need to define one module—the `payments` module—and the administrative keyset for the `payments` module.
 
-1. Open the `simple-payments.pact` file in your code editor.
+1. Open the `starter-simple-payment.pact` file in your code editor and save it as `simple-payment.pact`.
 
 2. Define and read an administrative keyset with the name `admin-keyset` to own the `payments` module.
    
@@ -108,16 +106,16 @@ The schema for the payments-table looks like this:
 | Field name | Field type |
 | --------- | --------- |
 | balance | decimal |
-| keyset | keyset |
+| guard | guard |
 
-1. Open the modified `simple-payments.pact` file in your code editor.
+1. Open the modified `simple-payment.pact` file in your code editor.
 
-2. Define a `payments` schema for a table with the columns `balance` as type decimal and `keyset` as type keyset.
+2. Define a `payments` schema for a table with the columns `balance` as type decimal and `guard` as type guard.
    
    ```pact
      (defschema payments
         balance:decimal
-        keyset:keyset)
+        guard:guard)
    ```
 1. Define the `payments-table` to use the schema `{payments}` you created in the previous step.
    
@@ -136,7 +134,7 @@ The schema for the payments-table looks like this:
    
      (defschema payments
        balance:decimal
-       keyset:keyset)
+       guard:guard)
    
      (deftable payments-table:{payments})
    )
@@ -150,10 +148,10 @@ The schema for the payments-table looks like this:
 
 ## Define functions
 
-For this coding project, the payments module provides three functions:
+For this coding project, the `payments` module provides three functions:
 
 - `create-account` to allow the module administrator to create accounts. 
-- `get-balance` to allow the module administrator and account owner to view account balance.
+- `get-balance` to allow the module administrator and account owner to view account balances.
 - `pay` to allow one account to pay another account.
 
 ### Define the create-account function
@@ -528,66 +526,168 @@ In this part of the project, you'll see how to create a test file—the `simple-
    Load successful
    ```
 
-## Call module functions
+## Deploy the contract
 
-In the next step, you can add calls to your module functions inside of the `simple-payments.repl` test file.
+After testing the contract using the Pact interpreter and the REPL file, you can deploy the contract on your development network or the Kadena test network.
+Note that you can only define namespaces in the local development environment.
+You must deploy to an existing namespace—such as the `free` namespace—or register a principal namespace to deploy on the Kadena test network on a production  network.
+To deploy in an existing namespace, you must also ensure that your module name and keyset name are unique across all of the modules that exist in that namespace.
 
-1. Create the accounts that will transfer value using the **create-account** function.
+For this coding project, you can deploy the `simple-payment.pact` contract using the Chainweaver desktop or web-based application and its integrated development environment. 
 
-For this tutorial, create 2 accounts.
+### Prepare to deploy
 
-- Sarah
-- James
+Because you're going to deploy the contract on the Kadena test network, you can update the contract code to use the free namespace, a unique keyset name, and a unique module name before you deploy the contract.
 
-To do this, you  built earlier. This function
-takes 3 arguments; **id**, **initial-balance**, and **keyset**.
+To prepare to deploy on the Kadena test network:
 
-:::caution Code Challenge
+1. Open the contract you want to deploy in your code editor.
 
-Call the **create-account** function to create accounts for **Sarah** and
-**James**.
+   For example, open the `simple-payments.pact` file in your code editor.
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/5-create-accounts/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/5-create-accounts/solution.pact)
+2. Add the `free` namespace before the module definition, define an administrative keyset inside of the namespace, and update the module name and governing keyset.
 
-:::
+   For example:
 
-## Make a payment
+   ```pact
+   (namespace "free")
+   (define-keyset "free.pistolas" (read-keyset 'pistolas))
 
-The final step is to make a payment from one account to another. You can do this
-using the pay function created earlier.
+   (module pistolas-simple-payment "free.pistolas"
+      ...
+   )
+   ```
 
-:::caution Code Challenge Use the pay function to transfer **25.0** to **James**
-from **Sarah’s** account. After making the payment, read the balance of both
-Sarah and James.
+3. Update the other references to the `admin-keyset` to use the keyset you are defining for the namespace.
+   
+   For example, update the `enforce-keyset` lines in the `create-account` and `get-balance` functions:
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/6-make-payment/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/payments/2-challenges/6-make-payment/solution.pact)
+   ```pact
+       (enforce-keyset "free.pistolas")
+   ```
 
-:::
+4. Save the changes in the code editor.
 
-### Deploy the smart contract
+### Load the module using Chainweaver
 
-Congratulations, at this point you have completed the _Simple payment_ coding project.
+Because you must define the keyset keys and predicate for your contract in the environment outside of the contract code, the Chainweaver integrated development environment provides the most convenient way to add the required keysets.
 
-If you’d like, you can try deploying this smart contract. 
-You can deploy this contract locally on the development network using **Chainweaver** or from the **Pact Atom SDK**. 
-If you choose to deploy this locally, you’ll need the REPL file which you can find inside of the repository you cloned.
+To load the contract using Chainweaver:
 
-For help getting started and deploying in each of these environments, try the following tutorials.
+1. Open and unlock the Chainweaver desktop and web-based application, then select the **testnet** network.
 
-- [Set up a local development network](/build/pact/dev-network)
-- [Develop with Atom SDK](/build/pact/atom-sdk)
+2. Click **Accounts** in the Chainweaver navigation pane and verify that you have at least one account with funds on at least one chain in the test network. 
+   
+   If you don't have keys and at least one account on any chain on the test network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
+   You'll use the public key for this account and the chain where you have funds in the account to deploy the contract and identify the contract owner.
 
-## Review
+3. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the `simple-payments.pact` contract that you want to deploy.
 
-Congratulations on completing the **Accounts and Transfers Tutorial**!
+   After you select the contract and click **Open**, the contract is displayed in the editor panel on the left with contract navigation on the right.
+   You'll also notice that the line where you define the keyset indicates an error, and the error message is `No such key in message` because your administrative keyset doesn't exist in the environment.
 
-In this tutorial, you built a **Simple Payment** application that creates
-accounts, views account balances, and makes payments between accounts. This is
-an important function of smart contracts and will set you up to create more
-complex applications using accounts and transfers.
+4. Under Data on the **Keysets** tab, type the name of your administrative keyset, click **Create**, then select the public key and predicate function for the administrative keyset.
+   
+   You'll see that adding the keyset dismisses the error message.
 
-This is a key feature of many smart contracts and can be extended into all types
-of use cases. Take some time now to experiment with these features to try them
-out in creative new ways.
+   ![Add your administrative keyset to the environment data](/img/simple-payment-admin.jpg)
+
+5. Click **Load into REPL** to load the contract into the interactive  Pact interpreter for testing its functions.
+   
+   You should see the following message:
+
+   ```pact
+   "TableCreated"
+   ```
+
+6. Click the **ENV** tab to add keysets for the test accounts Sarah and James.
+   
+   - Type `sarah-keyset`, click **Create**, then select a public key and predicate function for the Sarah account keyset.
+   - Type `james-keyset`, click **Create**, then select a public key and predicate function for the James account keyset.
+     
+     ![Three keysets for testing your contract](/img/simple-payment-keysets.jpg)
+
+7. Click the **REPL** tab to return to the loaded module to test its functions:
+   
+   - Call the `create-account` function to create test accounts in your uniquely-named module in the `free` namespace.
+     For example, to create the accounts for Sarah and James:
+     
+     ```pact
+     (free.pistolas-simple-payment.create-account "Sarah" 100.25 (read-keyset "sarah-keyset"))
+     "Write succeeded"
+     
+     (free.pistolas-simple-payment.create-account "James" 250.0 (read-keyset "james-keyset"))
+     "Write succeeded"
+     ```
+
+   - Call the `pay` function to pay 25.0 from Sarah to James:
+     
+     ```pact
+     (free.pistolas-simple-payment.pay "Sarah" "James" 25.0)
+     "Sarah paid James 25.0"
+     ```
+
+   - Call the `get-balance` function as Sarah and James:
+     
+     ```pact
+     (format "Sarah's balance is {}" [(free.pistolas-simple-payment.get-balance "Sarah")])
+     "Sarah's balance is 75.25"
+     
+     (format "James's balance is {}" [(free.pistolas-simple-payment.get-balance "James")])
+     "James's balance is 275.0"
+     ```
+### Deploy using Chainweaver
+
+Now that you've tested that the contract functions work as expected, you can use Chainweaver to deploy the contract on the test netnetwork in the free namespace.
+
+To deploy the contract using Chainweaver:
+
+1. Click **Deploy** to display the Configuration tab.
+2. On the Configuration tab, update General and Advanced settings like this:
+   
+   - Select the **Chain identifier** for the chain where you want to deploy the contract.
+   - Select a **Transaction Sender**.
+   - Click **Advanced** and add the `free` namespace keyset to the environment.
+     Because this transaction includes multiple keysets for the administrative and test accounts, select the administrative public key and the keys-any predicate function.
+
+     ![Add namespace keyset to the transaction](/img/free-keyset-any.jpg)
+   - Click **Next**.
+
+3. On the Sign tab, select the public key for the administrative keyset as an **Unrestricted Signing Key**, then click **Next**.
+   
+
+3. On the Preview tab, scroll to see the Raw Response is "TableCreated", then click **Submit** to deploy the contract.
+
+## View the deployed module
+
+After you deploy a contract, you can view its details and call its functions using Chainweaver.
+
+To view and call your contract:
+
+1. Click **Contracts** in the Chainweaver navigation pane, then click **Module Explorer**.
+2. Under Deployed Contracts, search for your module name in the **free** namespace and chain where you deployed, then click **Refresh** to update the list of deployed contracts to display only your just-deployed contract.
+   
+   In this example, the unique module name is **free.pistolas-simple-payment** and the contract was deployed on the testnet chain **1**. 
+   
+   ![Search for and view your deployed contract](/img/free-deployed-module.jpg)
+
+3. Click **View** to display the functions and capabilities defined in your contract.
+
+4. Click **Call** for the **create-account** function to display the function parameters.
+   
+   On the **Parameters** tab, set the parameters like this, then click **Next**:
+  
+   - For **id**, type "ben" in quotes.
+   - For **initial-balance**, type 4.0.
+   - For **keyset**, type (read-keyset "ben-keyset").
+  
+   On the **Configuration** tab, review and update the General settings, then click **Advanced**.
+   
+   - Under Data and Keysets, type `ben-keyset`, then click **Create**.
+   - Select a public key and predicate, then click **Next**.
+
+   On the **Sign** tab, select the public key for the contract owner you used to deploy the contract as an **Unrestricted Signing Key** , then click **Next**.
+
+   On the **Preview** tab, scroll to see the **Raw Response** is "Write succeeded" for function.
+   
+   You can click **Submit** if you want to submit the transaction to the blockchain or close the function call without submitting the transaction.
