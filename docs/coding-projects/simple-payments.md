@@ -11,7 +11,7 @@ The simple payments project is designed to help you build a simple contract that
 Because a blockchain acts as a digital ledger, transferring value between accounts is one of the most common blockchain operations.
 Knowing how to create a smart contract that can be securely transfer assets is one of the most important building blocks that will enable you up to create more complex applications.
 
-For this project, you'll create one Pact `simple-payments` module smart contract that consists of three functions:
+For this project, you'll create one Pact `payments` module smart contract that consists of three functions:
 
 - `create-account`
 - `get-balance`
@@ -47,7 +47,7 @@ To get started:
 3. Change to the `01-simple-payment` directory by running the following command:
 
    ```bash
-   cd pact-coding-projects/01-simple-payments
+   cd pact-coding-projects/01-simple-payment
    ```
 
    If you list the contents of this directory, you'll see the following files:
@@ -57,7 +57,7 @@ To get started:
    - `solution-simple-payment.pact` contains the final code that can be deployed.
    - `raw-simple-payment.pact` contains the final smart contract application without any comments.
 
-4. Open and review the `starter-simple-payments.pact` file.
+4. Open and review the `starter-simple-payment.pact` file.
    
    This file describes all of the tasks that you need to complete for the _Simple payments_ coding project.
    You can follow the instructions embedded in the file to try to tackle this coding project on your own
@@ -158,7 +158,7 @@ For this coding project, the `payments` module provides three functions:
 
 The `create-account` function allows the `payments` module administrator—identified by the `admin-keyset` keyset—to create any number of accounts. 
 
-1. Open the modified `simple-payments.pact` file in your code editor.
+1. Open the modified `simple-payment.pact` file in your code editor.
 
 1. Start the `create-account` function definition with the keyword `defun` and add the parameters `id`, `initial-balance`, and `keyset`.
    
@@ -399,7 +399,7 @@ The `pay` function allows one account to transfer assets to another account defi
 
 Although you defined a schema and a tables inside of the `payments` module, tables are created outside of the module code.
 
-1. Open the modified `simple-payments.pact` file in your code editor.
+1. Open the modified `simple-payment.pact` file in your code editor.
 
 2. Locate the closing parenthesis for the `payments` module.
 
@@ -411,13 +411,13 @@ Although you defined a schema and a tables inside of the `payments` module, tabl
 
 ## Create a file for local testing
 
-At this point, you have completed all of the essential code for the `simple-payments.pact` contract. 
+At this point, you have completed all of the essential code for the `simple-payment.pact` contract. 
 However, you can't test or deploy the code in its current state.
 Because keysets are defined outside of contract code, the most common way to test a module locally is to create a test file that makes use of REPL-only built-in functions to simulate data that must be provided by the environment, like keysets and signatures.
-In this part of the project, you'll see how to create a test file—the `simple-payments.repl` file—to call REPL-only functions and test the functions you've defined in the `payments` module.
+In this part of the project, you'll see how to create a test file—the `simple-payment.repl` file—to call REPL-only functions and test the functions you've defined in the `payments` module.
 
-1. Copy the `simple-payments.pact` file and rename the file as `simple-payments.repl`.
-2. Open the `simple-payments.repl` file in your code editor.
+1. Copy the `simple-payment.pact` file and rename the file as `simple-payment.repl`.
+2. Open the `simple-payment.repl` file in your code editor.
 3. Add the `env-data` built-in function to set environment data to simulate keyset information.
    
    ```pact
@@ -476,7 +476,7 @@ In this part of the project, you'll see how to create a test file—the `simple-
 
    This example uses the `expect` built-in function to test the assertion that the Keyset can be defined.
 
-1. Add the `begin-tx` function before the module declaration and modify the governing entity to be the `ns-dev-local.admin-keyset` edined in this namespace.
+1. Add the `begin-tx` function before the module declaration and modify the governing entity to be the `ns-dev-local.admin-keyset` defined in this namespace.
    
    ```pact
    (begin-tx
@@ -543,7 +543,7 @@ To prepare to deploy on the Kadena test network:
 
 1. Open the contract you want to deploy in your code editor.
 
-   For example, open the `simple-payments.pact` file in your code editor.
+   For example, open the `simple-payment.pact` file in your code editor.
 
 2. Add the `free` namespace before the module definition, define an administrative keyset inside of the namespace, and update the module name and governing keyset.
 
@@ -581,7 +581,7 @@ To load the contract using Chainweaver:
    If you don't have keys and at least one account on any chain on the test network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
    You'll use the public key for this account and the chain where you have funds in the account to deploy the contract and identify the contract owner.
 
-3. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the `simple-payments.pact` contract that you want to deploy.
+3. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the `simple-payment.pact` contract that you want to deploy.
 
    After you select the contract and click **Open**, the contract is displayed in the editor panel on the left with contract navigation on the right.
    You'll also notice that the line where you define the keyset indicates an error, and the error message is `No such key in message` because your administrative keyset doesn't exist in the environment.
