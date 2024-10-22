@@ -53,9 +53,9 @@ To get started:
    If you list the contents of this directory, you'll see the following files:
 
    - `starter-simple-payment.pact` provides a starting point with the framework for the project code and comments for every challenge.
-   - `simple-payment.repl` provides an example of a test file that uses REPL-only functions for testing contracts locally using the Pact command-line  interpreter.
-   - `solution-simple-payment.pact` contains the final code that can be deployed.
-   - `raw-simple-payment.pact` contains the final smart contract application without any comments.
+   - `simple-payment.pact` contains the final solution code that can be deployed.
+   - `local-simple-payment.repl` provides a simplified example of a test file that illustrates using REPL-only functions for testing contracts locally.
+   - `simple-payment.repl` provides a complete test file for testing the final `simple-payment.pact` contract.
 
 4. Open and review the `starter-simple-payment.pact` file.
    
@@ -143,8 +143,7 @@ The schema for the payments-table looks like this:
 1. Save your changes.
    
    Now you have a schema and table definition inside of the `payments` declaration.
-
-   For more information about defining schema and tables, see [Databases, schemas, and tables](/smart-contracts/databases).
+   For more information about defining schemas and tables, see [Databases, schemas, and tables](/smart-contracts/databases).
 
 ## Define functions
 
@@ -398,6 +397,10 @@ The `pay` function allows one account to transfer assets to another account defi
 ## Create table
 
 Although you defined a schema and a tables inside of the `payments` module, tables are created outside of the module code.
+This distinction between what you define inside of the module and outside of the module is important because the module acts as a guard to protect access to database functions and records. 
+This separation also allows module code to be potentially updated without replacing the table in Pact state. 
+
+To create the table:
 
 1. Open the modified `simple-payment.pact` file in your code editor.
 
@@ -414,20 +417,18 @@ Although you defined a schema and a tables inside of the `payments` module, tabl
 At this point, you have completed all of the essential code for the `simple-payment.pact` contract. 
 However, you can't test or deploy the code in its current state.
 Because keysets are defined outside of contract code, the most common way to test a module locally is to create a test file that makes use of REPL-only built-in functions to simulate data that must be provided by the environment, like keysets and signatures.
-In this part of the project, you'll see how to create a test file—the `simple-payment.repl` file—to call REPL-only functions and test the functions you've defined in the `payments` module.
+In this part of the project, you'll see how to create a test file—the `local-simple-payment.repl` file—to call REPL-only functions and test the functions you've defined in the `payments` module.
 
-1. Copy the `simple-payment.pact` file and rename the file as `simple-payment.repl`.
-2. Open the `simple-payment.repl` file in your code editor.
+To create the test file:
+
+1. Copy the `simple-payment.pact` file and rename the file as `local-simple-payment.repl`.
+2. Open the `local-simple-payment.repl` file in your code editor.
 3. Add the `env-data` built-in function to set environment data to simulate keyset information.
    
    ```pact
    ;; Set keyset information
    (env-data
-       { 'user-keyset :
-         { 'keys : [ 'user-public-key ]
-         , 'pred : 'keys-all
-         }
-       , 'admin-keyset :
+       { 'admin-keyset :
          { 'keys : [ 'admin-public-key ]
          , 'pred : 'keys-all
          }
@@ -445,10 +446,10 @@ In this part of the project, you'll see how to create a test file—the `simple-
    ```
 
    Namespaces are required to define a context for modules when they are deployed on a network.
-   For local testing, you must define a namespace before you can define a keyset. testing, you must define a namespace before you define a local keyset.
+   For local testing, you must define a namespace before you can define a keyset.
    Keysets must be defined inside of a namespace.
 
-1. Add a signature using the `env-sigs` function for signing transactions to your environment.
+2. Add a signature using the `env-sigs` function for signing transactions to your environment.
    
    ```pact
    ;; Add a signature for signing transactions
@@ -459,7 +460,7 @@ In this part of the project, you'll see how to create a test file—the `simple-
    )
    ```
 
-2. Add a transaction to define a keyset inside of the namespace.
+3. Add a transaction to define a keyset inside of the namespace.
    
    ```pact
    ;; Enter the namespace and define a keyset
@@ -474,9 +475,9 @@ In this part of the project, you'll see how to create a test file—the `simple-
    (commit-tx)
    ```
 
-   This example uses the `expect` built-in function to test the assertion that the Keyset can be defined.
+   This example uses the `expect` built-in function to test the assertion that the keyset can be defined.
 
-1. Add the `begin-tx` function before the module declaration and modify the governing entity to be the `ns-dev-local.admin-keyset` defined in this namespace.
+4. Add the `begin-tx` function before the module declaration and modify the governing entity to be the `ns-dev-local.admin-keyset` defined in this namespace.
    
    ```pact
    (begin-tx
@@ -487,7 +488,7 @@ In this part of the project, you'll see how to create a test file—the `simple-
      )
    ```
 
-1. Scroll to the bottom of the file and add the closing `commit-tx` function.
+5. Scroll to the bottom of the file and add the closing `commit-tx` function.
    
    ```pact
    ;; ===================================================================
@@ -499,32 +500,35 @@ In this part of the project, you'll see how to create a test file—the `simple-
    (commit-tx)
    ```
 
-1. Save your changes.
+6. Save your changes.
 
-1. Open a terminal shell on your computer and test execution by running the following command:
+7. Open a terminal shell on your computer and test execution by running the following command:
    
    ```bash
-   pact simple-payment.repl --trace
+   pact local-simple-payment.repl --trace
    ```
 
    You should see output similar to the following:
 
    ```bash
-   simple-payment.repl:2:0:Trace: Setting transaction data
-   simple-payment.repl:15:0:Trace: Begin Tx 0
-   simple-payment.repl:16:2:Trace: Namespace defined: ns-dev-local
-   simple-payment.repl:17:0:Trace: Commit Tx 0
-   simple-payment.repl:20:0:Trace: Setting transaction signatures/caps
-   simple-payment.repl:27:0:Trace: Begin Tx 1: Define a new keyset
-   simple-payment.repl:30:0:Trace: Namespace set to ns-dev-local
-   simple-payment.repl:31:0:Trace: Expect: success: A keyset can be defined
-   simple-payment.repl:35:0:Trace: Commit Tx 1: Define a new keyset
-   simple-payment.repl:37:0:Trace: Begin Tx 2: Update the module
-   simple-payment.repl:40:2:Trace: Loaded module payments, hash J9JQQ3Gi3fpgXTHm4j3wlbC2PFVVXifOXj6_lWicReM
-   simple-payment.repl:126:0:Trace: TableCreated
-   simple-payment.repl:127:0:Trace: Commit Tx 2: Update the module
+   local-simple-payment.repl:2:0:Trace: Setting transaction data
+   local-simple-payment.repl:11:0:Trace: Begin Tx 0
+   local-simple-payment.repl:12:2:Trace: Namespace defined: ns-dev-local
+   local-simple-payment.repl:13:0:Trace: Commit Tx 0
+   local-simple-payment.repl:16:0:Trace: Setting transaction signatures/caps
+   local-simple-payment.repl:23:0:Trace: Begin Tx 1: Define a new keyset
+   local-simple-payment.repl:26:0:Trace: Namespace set to ns-dev-local
+   local-simple-payment.repl:27:0:Trace: Expect: success: A keyset can be defined
+   local-simple-payment.repl:31:0:Trace: Commit Tx 1: Define a new keyset
+   local-simple-payment.repl:33:0:Trace: Begin Tx 2: Update the module
+   local-simple-payment.repl:36:2:Trace: Loaded module payments, hash J9JQQ3Gi3fpgXTHm4j3wlbC2PFVVXifOXj6_lWicReM
+   local-simple-payment.repl:122:0:Trace: TableCreated
+   local-simple-payment.repl:124:0:Trace: Commit Tx 2: Update the module
    Load successful
    ```
+
+   This sample test file only covers the most minimal steps for testing your module locally.
+   For a more complete set of tests for the `simple-payment.pact` contract, including function calls, see the `simple-payment.repl` file.
 
 ## Deploy the contract
 
