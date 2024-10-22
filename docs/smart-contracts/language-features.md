@@ -1,7 +1,7 @@
 ---
 title: Pact features and conventions
 id: lang-features
-sidebar_position: 3
+sidebar_position: 5
 description: "Learn the basics of Pact programming language features and coding conventions with an introduction to built-in functions and writing your own simple functions."
 ---
 
@@ -258,11 +258,11 @@ For a complete list with more information about each function, including functio
 
 ### Arithmetic operators
 
-- [+](operators/addition.md): Addition
-- [-](operators/subtraction.md): Subtraction
-- [*](operators/multiplication.md): Multiplication
-- [/](operators/division.md): Division
-- [^](operators/exponentiation.md): Exponentiation
+- [+](../pact-5/operators/add): Addition
+- [-](../pact-5/operators/sub): Subtraction
+- [*](../pact-5/operators/mult): Multiplication
+- [/](../pact-5/operators/div): Division
+- [^](../pact-5/operators/exp): Exponentiation
 
 ### Comparison operators
 
@@ -301,7 +301,7 @@ Functions are an important part of any programming language, whether you are wor
 In addition to the operator functions, Pact provides many other built-in functions to handle different types of tasks.
 The functions are grouped into the following categories:
 
-- Capabilities
+- [Capabilities](/pact-5/Capabilities/0-capability)
 - Commitments
 - Database
 - General
