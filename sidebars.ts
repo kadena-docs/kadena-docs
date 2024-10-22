@@ -165,10 +165,12 @@ const sidebars: SidebarsConfig = {
                   label: 'Functions',
                   link: {
                     type: 'doc',
-                    id: 'reference/functions',
+                    id: 'pact-5/pact-5',
                   },
                   items: [
-                       'reference/functions/general',
+                       'pact-5/General/acquire-module-admin',
+                       'pact-5/Capabilities/0-capability',
+                       'pact-5/Capabilities/compose-capability',
                        //'reference/operators/addition',
                        //'reference/operators/and'
                   ],

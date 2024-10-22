@@ -65,7 +65,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-sections-item' href="./reference/functions">
+               <a className='home-main-sections-item' href="./pact-5">
 
                   <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
 
