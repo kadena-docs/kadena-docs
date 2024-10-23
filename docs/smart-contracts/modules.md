@@ -258,7 +258,19 @@ The constant declared in the interface is accessed directly by its fully qualifi
 ## Implements and use keywords
 
 You can create complex and layered relationships between interfaces and modules.
-The following example is an excerpt from the `marmalade-v2.ledger` module that illustrates the relationships.
+One important way you can create this layered relationships is by using combinations of the `implements` and `use` keywords.
+The `use` keyword enables you to import elements from the specified `module` into a namespace, interface, or module. 
+For example, you can specify the `use` keyword in an interface declaration to import table schemas and types from a specified module. 
+
+You can also include `use` statements at the top-level of a contract or within a module declaration to make all or parts of a specified module available in the current module context. 
+For example, you can specify a list of functions, constants, and schema names to import from the specified `module`. 
+If you explicitly define the function, constant, and schema names to import, only those items are available in the module body. 
+
+You can also specify a `hash` argument in `use` statements to check that an imported module's hash matches the `hash` you expect, and fail if the hashes are not the same. 
+By including the `hash` argument in a `use` statement, you can perform a simplified form of version control or dependency checking.
+
+
+The following example is an excerpt from the `marmalade-v2.ledger` module that illustrates the relationships created by combining `implements` and `use` statements.
 In this example, `marmalade-v2` is the primary namespace where the `ledger` contract is deployed.
 
 ```pact
@@ -331,6 +343,8 @@ The module also implements the `poly-fungible-v3` interface and imports the spec
 ...
 )
 ```
+
+For more information about the syntax for using these keywords, see the [implements](/reference/syntax#implements) and [use](/reference/syntax#use) syntax descriptions.
 
 ## Module references
 
