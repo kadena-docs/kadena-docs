@@ -34,7 +34,7 @@ const sidebars: SidebarsConfig = {
                 'smart-contracts/lang-features',
                 'smart-contracts/functions-variables',
                 'smart-contracts/modules',
-                //'smart-contracts/capabilities',
+                'smart-contracts/capabilities',
                 'smart-contracts/guards',
                 //'smart-contracts/database-model'
                //'smart-contracts/transactions',
@@ -205,7 +205,7 @@ const sidebars: SidebarsConfig = {
          },
          items: [
               'coding-projects/hello-world',
-              //'coding-projects/transfers',
+              'coding-projects/transfers',
               //'coding-projects/pact-testing',
               //'coding-projects/interaction',
               //'coding-projects/wallets',
@@ -294,6 +294,10 @@ const sidebars: SidebarsConfig = {
             'solutions/spirekey/spirekey',
          ],
       },
+   ],
+
+   workspace: [
+      'workspace/workspace',
    ],
 };
 
