@@ -255,7 +255,7 @@ The following example illustrates how to declare and implement an interface with
 As you can see in this example, the `my-module` module implements the `hello-number` function signature. 
 The constant declared in the interface is accessed directly by its fully qualified name `namespace.interface.const`.
 
-## Implement interface and use imported modules
+## Implements and use keywords
 
 You can create complex and layered relationships between interfaces and modules.
 The following example is an excerpt from the `marmalade-v2.ledger` module that illustrates the relationships.
