@@ -228,7 +228,7 @@ Modules can implement interfaces that include the following components:
 - [defpact](/reference/syntax#defpact) specifications
 - [models](/reference/property-checking) for properties
 - [capability](/build/pact/advanced#capabilities) specifications
-- [imports](/reference/syntax#use)
+- [imported definitions](/reference/syntax#use) from other modules
 
 The following example illustrates how to declare and implement an interface with one function signature and one constant value:
 
