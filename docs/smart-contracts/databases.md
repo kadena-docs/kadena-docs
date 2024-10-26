@@ -44,6 +44,7 @@ Pact database operations are optimized for transaction performance.
 
 ## Working with Pact tables
 
+Tables are a core component of Pact smart contracts because they enable you to store, manipulate, and read data using familiar patterns.
 Interacting with Pact databases is much like interacting with any other type of database, but with constraints that reflect the unique requirements of blockchain execution.
 For example, working with Pact databases is similar to working with other SQL-based databases, with similar database operations.
 There are built-in functions to insert, read, and update values stored in tables.
@@ -95,7 +96,7 @@ In the following example, the **accounts** table has three columns with the fiel
 | amount | decimal |
 | currency | string |
 
-In this example, the **balance** and **amount** columns require the decimal as the data type and the currency column requires data to be a string value.
+In this example, the **balance** and **amount** columns require `decimal` as the data type and the currency column requires data to be a `string` value.
 You can create the schema for this table in Pact like this:
 
 ```pact
@@ -111,6 +112,10 @@ All table schemas you create look similar to this example, but with different fi
 There are no specific requirements for field names. 
 In general, you should field names that are short but recognizable.
 For each field, the field type must be one the data types that Pact supports.
+
+Types that are declared in code are enforced at runtime when expressions are evaluated.
+For tables, any write to a table is type-checked against the table schema to ensure the data matches the expected type.
+Execution fails if type checking fails.
 
 For information about the data types that Pact supports, see [Data types](/smart-contracts/lang-featuresd#data-types).
 
@@ -206,7 +211,7 @@ In the following example, the `accounts-table` has two rows of data storing the 
 | account-1 | 4.00    | USD |
 | account-2 | 3.00    | USD |
 
-You can use the `read` function to retrieve the information for the  key value.
+You can use the `read` function to retrieve the information for the key value.
 For example, you can get the `balance` and `currency` information for `account-1` like this:
 
 ```pact
@@ -259,13 +264,14 @@ For this example, the `asset-update` function updates the `status` column, then 
 
 ## Select
 
-You can use the [select](/pact-5/database/select) function to select values from a table based on some criteria.
+You can use the [select](/pact-5/database/select) function to select values from one or more rows in a table.
+The `select` function is similar to the `read` function except that the `read` function retrieves information for a single key-row value. 
+The `select` function enables you to retrieve multiple rows from a table based on the criteria you provide.
+Because you can specify other criteria and not just a single key-row value, the `select` function provides you with more flexibility in what information you choose to return. 
 
-The `select` function is similar to the `read` function but provides you with more flexibility in what information you choose to select. 
 The syntax for the Pact `select` function is similar to the syntax for standard SQL `SELECT` statements.
-
-The simplest `select` statement retrieves all values from a specified table.
-In the following example, the `select` statement is used in a `select-assets` function to return all values from the `assets-table`.
+In its simplest form, the `select` statement retrieves all values from a specified table.
+In the following example, the `select` statement is used in a `select-assets` function to return all values from the `assets-table`:
 
 ```pact
   (defun select-assets ()
@@ -282,8 +288,8 @@ For example:
 | asset-2 | Asset 2   | 6.0        | in progress |
 | asset-3 | Asset 3   | 7.0        | done        |
 
-Like standard SQL SELECT statements, you can use a `where` clause to refine your results.
-For example:
+Like standard SQL `SELECT` statements, you can use a `where` clause to refine your results.
+For example, you can return only the `assetName` and `assetPrice` for a specific asset name like this::
 
 ```pact
   (select assets-table ['assetName,'assetPrice] (where 'assetName (= "Asset 2")))
@@ -295,7 +301,7 @@ This query returns the following values from the sample `assets-table`:
 | --------- | ---------- |
 | Asset 2   | 6.0        |
 
-You can also specify operators—such as greater than (>) or less than (<)—from within the `where` clause.
+You can also specify operators—such as greater than (`>`) or less than (`<`)—from within the `where` clause.
 For example:
 
 ```pact
@@ -306,7 +312,48 @@ This query returns the following values from the sample `assets-table`:
 
 | key      | assetName | assetPrice | status |
 | -------- | --------- | ---------- | ------ |
-| entity-3 | Asset 3   | 7.0        | done   |
+| asset-3 | Asset 3   | 7.0        | done   |
+
+
+### Select queries and performance
+
+You should note that when you write queries using the Pact `select` function, the `select` and `where` operations provide a streaming interface that applies filters to the specified table, then operates on the row set as a list data structure using [sort](/pact-5/general/sort) and other functions.
+
+The following query selects `Programmers` with salaries >= 90000 and sorts by `age` in descending order:
+
+```pact
+(reverse (sort ['age]
+  (select 'employees ['first-name,'last-name,'age]
+    (and? (where 'title (= "Programmer"))
+          (where 'salary (<= 90000))))))
+```
+
+You can write the same query using the `filter` function and sorting the resulting list:
+
+```pact
+(reverse (sort ['age]
+  (filter (and? (where 'title (= "Programmer"))
+                (where 'salary (< 90000)))
+          employees))
+)
+```
+
+For performance reasons, Pact database interactions are optimized for single-row reads and writes.
+Queries that use the `select` statement to scan multiple rows in a table can be slow and prohibitively expensive computationally. 
+Therefore, the best practice is to use `select` statements in local, non-transactional operations and to avoid using `select` on large tables in functions that perform transactional operations.
+
+### Transactional and local execution
+
+Pact doesn't distinguish between transactional and local execution.
+However, transactions typically involve business events that must be executed and recorded in a timely fashion.
+Queries rarely represent a business event, and can often involve data payloads that could impact performance.
+The best practice is to query data locally on a node by using the `/local` endpoint. 
+You can also query historical data using the `/local` endpoint and a _transaction identifier_ as a point of reference.
+
+For transactions, you should use the `/send` endpoint.
+
+For more information about transaction execution, see [Transaction lifecycle](/smart-contracts/transactions).
+For more information about Pact endpoints, see [Pact API](/api/pact-api).
 
 ## Keys
 
@@ -341,31 +388,6 @@ Blockchain execution can be likened to online transaction processing database wo
 
 As a result, Pact does not support _joining_ tables, which is more suited for an OLAP (online analytical processing) database, populated from exports from the Pact database. This does not mean Pact cannot _record_ transactions using relational techniques -- for example, a Customer table whose keys are used in a Sales table would involve the code looking up the Customer record before writing to the Sales table.
 
-### Queries and performance
-
-Pact offers a powerful query mechanism for selecting multiple rows from a table. While visually similar to SQL, the [select](/build/pact/schemas-and-tables#selecth-1822154468) and [where](/reference/functions/general#whereh113097959) operations offer a _streaming interface_ to a table, where the user provides filter functions, and then operates on the rowset as a list data structure using [sort](/reference/functions/general#sorth3536286) and other functions.
-
-```pact
-
-;; the following selects Programmers with salaries >= 90000 and sorts by age descending
-
-(reverse (sort ['age]
-  (select 'employees ['first-name,'last-name,'age]
-    (and? (where 'title (= "Programmer"))
-          (where 'salary (< 90000))))))
-
-;; the same query could be performed on a list with the filter function:
-
-(reverse (sort ['age]
-  (filter (and? (where 'title (= "Programmer"))
-                (where 'salary (< 90000)))
-          employees)))
-
-```
-
-In a transactional setting, Pact database interactions are optimized for single-row reads and writes, meaning such queries can be slow and prohibitively expensive computationally. However, using the [local](/build/pact/advanced#queries-and-local-executionh-453550016) execution capability, Pact can utilize the user filter functions on the streaming results, offering excellent performance.
-
-The best practice is therefore to use select operations via local, non-transactional operations, and avoid using select on large tables in the transactional setting.
 
 ### No nulls
 
@@ -379,44 +401,23 @@ The key-row model is augmented by every change to column values being versioned 
 
 Pact guarantees identical, correct execution at the smart-contract layer within the blockchain. As a result, the backing store need not be identical on different consensus nodes. Pact's implementation allows for integration of industrial RDBMSs, to assist large migrations onto a blockchain-based system, by facilitating bulk replication of data to downstream systems.
 
-## Types and schemas
-
-Pact gains explicit type specification, albeit optional. Pact 1.0 code without types still functions as before, and writing code without types is attractive for rapid prototyping.
-
-Schemas provide the main impetus for types. A schema [is defined](/reference/syntax#defschemah-1003560474) with a list of columns that can have types. Tables are then [defined](/reference/syntax#deftableh661222121) with a particular schema.
-
-Note that schemas also can be used on/specified for object types.
-
-### Runtime type enforcement
-
-Any types declared in code are enforced at runtime. For table schemas, this means any write to a table will be typechecked against the schema. Otherwise, if a type specification is encountered, the runtime enforces the type when the expression is evaluated.
-
-
 ## Row-level keysets
 
 Keysets can be stored as a column value in a row, allowing for row-level authorization. The following code indicates how this might be achieved:
 
 ```pact
 (defun create-account (id)
-  (insert accounts id { "balance": 0.0, "keyset": (read-keyset "owner-keyset") }))
+  (insert accounts-table id { "balance": 0.0, "keyset": (read-keyset "owner-keyset") }))
  
 (defun read-balance (id)
-  (with-read accounts id { "balance":= bal, "keyset":= ks }
+  (with-read accounts-table id { "balance":= bal, "keyset":= ks }
     (enforce-keyset ks)
     (format "Your balance is {}" [bal])))
 ```
 
-In the example, create-account reads a keyset definition from the message payload using read-keyset to store as "keyset" in the table. read-balance only allows that owner's keyset to read the balance, by first enforcing the keyset using enforce-keyset.
+In this example, the `create-account` function reads the `owner-keyset` definition from the message payload using `read-keyset`, then stores it in the `keyset` column in the `accounts-table` table. 
+The `read-balance` function only allows the `owner-keyset` to read the balance by first enforcing the keyset using `enforce-keyset` function.
 
-
-
-
-Tables are one of the three core elements of Pact smart contracts. Tables are
-defined using **deftable**, which references a schema defined by **defschema**,
-and are later created using **create-table**. 
-
-There are many ways to build
-functions that store, manipulate, and read data from smart contract tables.
 
 ## Changing a table schema 
 
