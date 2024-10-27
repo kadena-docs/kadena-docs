@@ -1,11 +1,11 @@
 ---
-title: Modules
+title: Modules and references
 description: "Modules that define the business logic and essential functions for blockchain applications and provide the basic foundation for all Pact smart contracts."
 id: modules
 sidebar_position: 7
 ---
 
-# Modules
+# Modules and references
 
 The fundamental building blocks for all Pact smart contracts are defined as Pact **modules**. 
 For simple contracts, a module often acts as a mostly self-contained logical unit with all of the code necessary to create an application or a service. 
@@ -17,7 +17,7 @@ components:
 - Schema definitions
 - Table definitions
 - Functions definitions
-- Pact special functions
+- Multi-step defpact definitions
 - Constant values
 
 Some elements of smart contracts are defined in modules but aren't contained withing the module itself.
@@ -33,7 +33,7 @@ The code related to these elements is considered to be outside of and separate f
 ## Modules and smart contracts
 
 When you start working with Pact, you typically create single modules that contain the full functionality of your smart contract, much like most of the examples in the [coding projects](/coding-projects/coding-projects).
-Using a single module to define a contract keeps your code organized and straightforward.
+Using a single module to define a contract keeps your codebase simple and straightforward because there's only one file to keep track of.
 However, as you begin writing more complex or sophisticated programs, you'll find it more convenient to split the smart contract logic into multiple modules that work together to compose the complete application. 
 In a typical smart contract—the full application—each individual module can provide a focused set of functionality with clear organizational logic.
 
@@ -115,12 +115,12 @@ If the `GOVERNANCE` capability is installed or granted, it's scoped like any oth
 
 ### Module administrator scope
 
-The special module administrator capability, once automatically invoked, stays in scope for the rest of the calling transaction. 
+The module administrator capability, once automatically invoked, stays in scope for the rest of the calling transaction. 
 This is unlike other capabilities that can only be acquired in a fixed scope specified by the body of a `with-capability` function call.
-The reason for this difference in behavior is ensure that a governance capability doesn't rely on transient information that can change during a single transaction. 
+The reason for this difference in behavior is to ensure that a governance capability doesn't rely on transient information that can change during a single transaction. 
 This is important, for example, in the case of module upgrades.
 A module upgrade might change the governance capability itself.
-If the module administrator didn't remain in scope for the completion of the transaction, the upgrade might fail, for example, because the upgrade requires migrating data with direct table rights.
+If the module administrator capability didn't remain in scope through the completion of the transaction, the upgrade might fail because the administrative capability is required to migrate table data as part of the upgrade process.
 
 ### Stakeholder upgrade vote
 
@@ -278,12 +278,6 @@ In this example, `marmalade-v2` is the primary namespace where the `ledger` cont
 
 (module ledger GOVERNANCE
 
-  @model
-    [
-      (defproperty valid-account (account:string)
-          (> (length account) 2))
-    ]
-
   (implements marmalade-v2.ledger-v2)
   (implements kip.poly-fungible-v3)
 
@@ -317,11 +311,6 @@ The module also implements the `poly-fungible-v3` interface and imports the spec
   (defschema account-details
     @doc
       " Account details: token ID, account name, balance, and guard."
-    @model
-      [ (invariant (!= id ""))
-        (invariant (!= account ""))
-        (invariant (>= balance 0.0))
-      ]
     id:string
     account:string
     balance:decimal
