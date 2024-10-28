@@ -61,9 +61,30 @@ However, in Pact, you use the `insert` function in place of the create functiona
 Pact doesn't provide a delete function because of the potential issues with performance, data integrity, and data migration that row-level delete operations can introduce.
 In addition, being able to delete rows or tables violates one of the most important properties of a blockchain environment: that it provides an immutable record of state. 
 
+### Data access model
+
 Most smart contracts use one or more tables to store all of the information required for the application or service that the smart contract provides. 
-You access the information stored in Pact tables by using the table's key-row structure.
+You access the information stored in Pact tables by using the table's _key-row_ structure.
 This access model is similar to using a primary key to access table data in other relational databases. 
+
+With the Pact _key-row_ model, you access a row of column values by using a single key.
+As a result of this access model, Pact doesn't support _joining_ tables in a way that an online analytical processing database would support if populated from data exported from the Pact database.
+However, Pact can record transactions using relational techniques.
+For example, if you have a Customer table with keys used in a Sales table, a Pact smart contract could include code to look up the Customer record before writing to the Sales table.
+
+### Null values aren't allowed
+
+The Pact database model doesn't support NULL values as a safety feature to ensure _totality_ for transactions and to avoid unsafe control-flow for handling null values. 
+The main function for working with database results is the [with-read](/pact-5/database/with-read) function.
+This function will return an error if any column value it attempts to read isn't found. 
+To prevent transactions from failing with these errors, you should ensure that there are values in the columns you attempt to read in a transaction. 
+This 
+
+### Versioned history
+
+The key-row model is augmented by every change to column values being versioned by a transaction identifier. 
+For example, if you have a table with columns for `name`, `age`, and `role`, you might update the `name` column in a transaction with the identifier 100, and later update the `age` and `role` columns in a transaction identified as 102. 
+If you retrieve historical data for the table, only the change to the `name` column is returned for transaction identifier 100 and only the change to `age` and `role` columns are returned for transaction 102.
 
 ## Table creation
 
@@ -314,7 +335,6 @@ This query returns the following values from the sample `assets-table`:
 | -------- | --------- | ---------- | ------ |
 | asset-3 | Asset 3   | 7.0        | done   |
 
-
 ### Select queries and performance
 
 You should note that when you write queries using the Pact `select` function, the `select` and `where` operations provide a streaming interface that applies filters to the specified table, then operates on the row set as a list data structure using [sort](/pact-5/general/sort) and other functions.
@@ -373,34 +393,6 @@ For example:
   )
 ```
 
-
----
-
-
-
-### Atomic execution
-
-A single message sent into the blockchain to be evaluated by Pact is _atomic_: the transaction succeeds as a unit, or does not succeed at all, known as "transactions" in database literature. There is no explicit support for rollback handling, except in [multi-step transactions](/reference/pacts).
-
-### Key-row model
-
-Blockchain execution can be likened to online transaction processing database workloads, which favor denormalized data written to a single table. Pact's data-access API reflects this by presenting a _key-row_ model, where a row of column values is accessed by a single key.
-
-As a result, Pact does not support _joining_ tables, which is more suited for an OLAP (online analytical processing) database, populated from exports from the Pact database. This does not mean Pact cannot _record_ transactions using relational techniques -- for example, a Customer table whose keys are used in a Sales table would involve the code looking up the Customer record before writing to the Sales table.
-
-
-### No nulls
-
-Pact has no concept of a NULL value in its database metaphor. The main function for computing on database results, [with-read](/reference/functions/database#with-readh866473533), will error if any column value is not found. Authors must ensure that values are present for any transactional read. This is a safety feature to ensure _totality_ and avoid needless, unsafe control-flow surrounding null values.
-
-### Versioned history
-
-The key-row model is augmented by every change to column values being versioned by transaction ID. For example, a table with three columns "name", "age", and "role" might update "name" in transaction #1, and "age" and "role" in transaction #2. Retrieving historical data will return just the change to "name" under transaction 1, and the change to "age" and "role" in transaction #2.
-
-### Back-ends
-
-Pact guarantees identical, correct execution at the smart-contract layer within the blockchain. As a result, the backing store need not be identical on different consensus nodes. Pact's implementation allows for integration of industrial RDBMSs, to assist large migrations onto a blockchain-based system, by facilitating bulk replication of data to downstream systems.
-
 ## Row-level keysets
 
 Keysets can be stored as a column value in a row, allowing for row-level authorization. The following code indicates how this might be achieved:
@@ -417,7 +409,6 @@ Keysets can be stored as a column value in a row, allowing for row-level authori
 
 In this example, the `create-account` function reads the `owner-keyset` definition from the message payload using `read-keyset`, then stores it in the `keyset` column in the `accounts-table` table. 
 The `read-balance` function only allows the `owner-keyset` to read the balance by first enforcing the keyset using `enforce-keyset` function.
-
 
 ## Changing a table schema 
 
