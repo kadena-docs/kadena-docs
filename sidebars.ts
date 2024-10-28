@@ -33,10 +33,10 @@ const sidebars: SidebarsConfig = {
                 'smart-contracts/accounts',
                 'smart-contracts/lang-features',
                 'smart-contracts/functions-variables',
-                //'smart-contracts/modules',
+                'smart-contracts/modules',
                 'smart-contracts/capabilities',
                 'smart-contracts/guards',
-                //'smart-contracts/database-model'
+                'smart-contracts/databases',
                //'smart-contracts/transactions',
                 ],
       },
@@ -48,32 +48,49 @@ const sidebars: SidebarsConfig = {
               id: 'guides/guides',
          },
          items: [
-              //'guides/howto-read-state',
-              //'guides/howto-create-accounts',
-              //'guides/howto-fund-accounts',
-              //'guides/howto-get-balances',
-              //'guides/howto-construct-tx',
-              //'guides/howto-sign-submit-tx',
-              //'guides/howto-deploy-contracts',
-              //'guides/howto-sign-submit-tx',
-              //'guides/howto-check-tx-status',
-              //'guides/howto-sign-submit-tx',
-              //'guides/howto-call-functions',
-              //'guides/howto-rotate-owners',
-              //'guides/howto-verify-signatures',
-              //{
-                //type: 'category',
-                //label: 'Nodes',
-                //link: {
-                   //type: 'doc',
-                   //id: 'guides/nodes/nodes',
-              //},
-              //items: [
-                     //'guides/nodes/compaction',
-                     //'guides/nodes/configure',
-                     //'guides/nodes/monitoring',
-              //],
-           //}
+            {
+               type: 'category',
+               label: 'Accounts',
+               items: [
+                'guides/accounts/howto-create-accounts',
+                'guides/accounts/howto-fund-accounts',
+                'guides/accounts/howto-get-balances',
+                'guides/accounts/howto-rotate-owners',
+                'guides/accounts/howto-safe-transfers',
+               ],
+            },
+            {
+               type: 'category',
+               label: 'Contracts',
+               items: [
+                'guides/contracts/howto-read-state',
+                'guides/contracts/howto-deploy-contracts',
+                'guides/contracts/howto-call-functions',
+               ],
+            },
+            {
+               type: 'category',
+               label: 'Transactions',
+               items: [
+                'guides/transactions/howto-construct-tx',
+                'guides/transactions/howto-sign-submit-tx',
+                'guides/transactions/howto-check-tx-status',
+                'guides/transactions/howto-verify-signatures',
+               ],
+            },
+            {
+                type: 'category',
+                label: 'Nodes',
+                link: {
+                   type: 'doc',
+                   id: 'guides/nodes/nodes',
+              },
+                 items: [
+                     'guides/nodes/compact-databases',
+                     'guides/nodes/configure',
+                     'guides/nodes/monitoring',
+              ],
+           },
          ],
       },
       {
@@ -173,6 +190,15 @@ const sidebars: SidebarsConfig = {
                        'pact-5/Capabilities/0-capability',
                        'pact-5/Database/0-database',
                        'pact-5/General/0-general',
+                       //'pact-5/Guards/0-guards',
+                       //'pact-5/Keysets/0-keysets',
+                       //'pact-5/Guards/0-guards',
+                       //'pact-5/Operators/0-operators',
+                       //'pact-5/Repl/0-repl',
+                       //'pact-5/Time/0-time',
+                       //'pact-5/Commitments/0-commitments',
+                       //'pact-5/SPV/0-spv',
+                       //'pact-5/ZK/0-zk',
                        //'reference/operators/addition',
                        //'reference/operators/and'
                   ],
@@ -209,7 +235,7 @@ const sidebars: SidebarsConfig = {
          },
          items: [
               'coding-projects/hello-world',
-              //'coding-projects/transfers',
+              'coding-projects/transfers',
               //'coding-projects/pact-testing',
               //'coding-projects/interaction',
               //'coding-projects/wallets',
