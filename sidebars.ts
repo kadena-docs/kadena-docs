@@ -37,7 +37,7 @@ const sidebars: SidebarsConfig = {
                 'smart-contracts/capabilities',
                 'smart-contracts/guards',
                 'smart-contracts/databases',
-               //'smart-contracts/transactions',
+                'smart-contracts/transactions',
                 ],
       },
       {
