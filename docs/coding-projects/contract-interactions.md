@@ -93,8 +93,8 @@ The first step in the `auth.pact` file is to define the keysets that control the
 
 ```lisp
 ;; define-keysets
-(define-keyset 'module-admin (read-keyset "module-admin-keyset"))
-(define-keyset 'operate-admin (read-keyset "module-operate-keyset"))
+(define-keyset "free.module-admin" (read-keyset "module-admin-keyset"))
+(define-keyset "free.operate-admin" (read-keyset "module-operate-keyset"))
 ```
 
 These keysets will help manage access control throughout the contract.
@@ -104,7 +104,7 @@ These keysets will help manage access control throughout the contract.
 Now, create the `auth` module, which will handle user authentication and management.
 
 ```lisp
-(module auth 'module-admin
+(module auth "free.module-admin"
 ```
 
 ### 1.3 Define User Schema and Table
@@ -125,7 +125,7 @@ The `create-user` function adds a new user to the system, restricted to the oper
 
 ```lisp
   (defun create-user (id nickname keyset)
-    (enforce-keyset 'operate-admin)
+    (enforce-keyset "free.operate-admin")
     (insert users id {
       "keyset": (read-keyset keyset),
       "nickname": nickname
@@ -160,7 +160,7 @@ Close the module and create the table.
 In the `payments.pact` file, define the keyset that will manage this module.
 
 ```lisp
-(define-keyset 'admin-keyset (read-keyset "admin-keyset"))
+(define-keyset "free.admin-keyset" (read-keyset "admin-keyset"))
 ```
 
 ### 2.2 Start the Payments Module
@@ -168,7 +168,7 @@ In the `payments.pact` file, define the keyset that will manage this module.
 Now, create the `payments` module and use the `auth` module.
 
 ```lisp
-(module payments 'admin-keyset
+(module payments "free.admin-keyset"
 
   (use auth)
 ```
