@@ -123,7 +123,7 @@ To define the schema and table:
 
 1. Open the modified `auth.pact` file in your code editor.
 
-2. Define a `users` schema for a table with the columns `nickname` with the type of string and `keyset` with the type of keyset.
+2. Define a `user` schema for a table with the columns `nickname` with the type of `string` and `keyset` with the type of `keyset`.
    
    ```pact
    (defschema user
@@ -132,10 +132,10 @@ To define the schema and table:
    )
    ```  
 
-1. Define the `users-table` to use the schema `{users}` you created in the previous step.
+1. Define the `users-table` to use the schema `{user}` you created in the previous step.
 
    ```pact
-   (deftable users:{user})
+   (deftable users-table:{user})
    ```
 
 1. Move the closing parenthesis that marks the end of the `auth` module declaration after the table definition to include the schema and table inside of the module.
@@ -157,12 +157,11 @@ To define the schema and table:
           keyset:keyset
       )
    
-      (deftable users:{user})
+      (deftable users-table:{user})
    )
    ```
 
-For more information about creating schemas and tables, see the descriptions for the [defschema](/reference/syntax#defschema) and
-[deftable](/reference/syntax#deftable) keywords.
+For more information about creating schemas and tables, see the descriptions for the [defschema](/reference/syntax#defschema) and [deftable](/reference/syntax#deftable) keywords.
 
 ## Define functions
 
@@ -191,120 +190,117 @@ To define the `create-user` function:
    )
    ```
 
-2. Within the function, use `enforce-keyset` to ensure that all accounts are created by the `admin-keyset` administrator.
+2. Within the function, use `enforce-keyset` to restrict access to this function, so that users can created by the `operate-admin` keyset.
    
    ```pact
-     (enforce-keyset 'admin-keyset)
+     (enforce-keyset "free.operate-admin")
    ```
 
+3. Within the function, insert a row into the `users-table` with the specified `nickname` and `keyset`.
+   
+   ```pact
+     (insert users-table id {
+        "keyset": keyset,
+        "nickname": nickname
+       }
+     )
+   ```
 
-Define a function named **create-user** that takes 3 arguments; id, nickname,
-and keyset. Next, restrict access for function calls to the **operate-admin**.
-Finally, insert a row into the **users** table using the inputs specified by the
-user.
+For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [insert](/pact-5/database/insert) functions.
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.1-create-user/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.1-create-user/solution.pact)
-  :::
+### Define the enforce-user-auth function
 
-:::info
+It’s sometimes useful to restrict access to data to specific users. 
+For example, users might not want others to see the balance of their account or other sensitive information. 
+In Pact, you can restrict access to specific rows in a table by using **row-level keysets**.
 
-View
-[enforce-keyset](/reference/functions/keysets#enforce-keyseth1553446382)
+To define a row-level keyset, you must first be able to view the keyset associated with a specific key-row. 
+The following function is an example of reading a keyset in a specific row for a specified `id`:
 
-and [insert](/reference/functions/database#inserth-1183792455) for more
-information related to completing this challenge.
-
-:::
-
-### 4.2 Enforce User
-
-It’s sometimes useful to restrict access to data to specific users. For example,
-users may not want others to see the balance of their account or other sensitive
-information. This can be done in Pact by enforcing access to rows of data using
-row-level keysets.
-
-The first step toward making this happen is to be able to view the keyset
-associated with a specific id. The following function shows an example of
-reading a keyset in a specific row from a given id.
-
-```pact title=" "
+```pact
 (defun enforce-keyset-of-id (id)
-  (with-read table id { "keyset":= keyset }
+  (with-read table id { "keyset" := keyset }
   (enforce-keyset keyset)
   keyset)
 )
 ```
 
-This function doesn’t yet give any access to the data in a row. It’s purpose is
-for other functions to call on it in the case that they want to do something
-like place row level restrictions on data. This will be valuable shortly when
-you write code that needs to call this function.
+The purpose of this function is only to identify the keyset associated with the specified `id` key-row.
+This function doesn’t provide access to any of the data in a row. 
+However, other functions can call this function if they want to act on the information, for example, to place row-level restrictions on the data. 
 
-:::caution Code Challenge
+To define the `enforce-user-auth` function:
 
-Define a function named **enforce-user-auth** that returns the keyset associated
-with a given id.
+1. Open the modified `auth.pact` file in your code editor.
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.2-enforce-user/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.2-enforce-user/solution.pact)
+2. Start the `enforce-user-auth` function definition that takes the parameter `id`.
+   
+   ```pact
+   (defun enforce-user-auth (id)
+   
+   )
+   ```
 
-:::
+3. Within the function, use `with-read` to read the `users-table` to find the specified `id`, and bind the `keyset` column for the `id` to the `keyset` variable, then return the `keyset` value. 
 
-:::info
+   ```pact
+      (with-read users-table id { "keyset":= k }
+      ;; enforce user authorization of data to the given keyset
+      (enforce-keyset k)
+      ;; return the value of the keyset
+      k)
+   ``` 
 
-View
-[enforce-keyset](/reference/functions/keysets#enforce-keyseth1553446382),
-[with-read](/reference/functions/database#with-readh866473533), and
-[bind](/reference/functions/general#bindh3023933) for more information related to
-completing this challenge.
+For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset), [with-read](/pact-5/database/with-read), and [bind](/pact-5/general/bind) functions.
 
-:::
 
-### 4.3 Change Nickname
+### Define the change-nickname function
 
-Once you can restrict access to data, you’re ready to allow users to take
-specific actions based on the data they have access to. For example, a user may
-want to update their profile name, or make changes to sensitive information that
-other users should not be able to access.
+After you define a function to restrict access to data, you can allow users to take specific actions based on the data they have access to. 
+For example, users might want to update their profile name, or make changes to sensitive information that other users should not be able to access.
 
-To do that, you can write a function that utilizes the previous function you
-created. From there, you can add in functionality that allows users to update
-their data.
+To do that, you can write a function that calls the `enforce-user-auth` function to only allow users to update their own data.
+For example, the following `update-data` function allows users to update existing information in the `example-table` by leveraging the `enforce-keyset-of-id` function:
 
-Here is an example function **update-data** that allows users to update existing
-information. It leverages the previous example function **enforce-keyset-of-id**
-to make an update to a row in the table **example-table**.
-
-```pact title=" "
+```pact
 (defun update-data (id new-data)
   (enforce-keyset-of-id id)
   (update example-table id { "data": new-data })
   (format "Data updated in row {} to {}" [id new-data]))
 ```
 
-This function combined with the previous function allows users with a specific
-keyset to make updates to restricted information.
+By calling the `enforce-keyset-of-id` function, this function allows users with a specific keyset to make updates to restricted information.
 
-:::caution Code Challenge
+To define the `change-nickname` function:
 
-Define a function named **change-nickname** that allows users with a specific
-keyset to update their nickname in the **users** table.
+1. Open the modified `auth.pact` file in your code editor.
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.3-change-nickname/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.3-change-nickname/solution.pact)
+2. Start the `change-nickname` function definition that takes the parameters `id` and `new-name`.
+   
+   ```pact
+  (defun change-nickname (id new-name)
+  )
+  ```
+    
+2. Within the function, use the `enforce-user-auth` function to enforce authorization for the specified `id`.
 
-:::
+   ```pact
+   (enforce-user-auth id)
+   ```
 
-:::info
+2. Within the function, call the `update` function to update the `nickname` column for the specified `id`.
 
-View [update](/build/pact/schemas-and-tables#updateh-1754979095) and
-[format](/reference/functions/general#formath-1268779017) for more information
-related to completing this challenge.
+   ```pact
+   (update users-table id { "nickname": new-name })
+   ``` 
 
-:::
+1. Within the function, return a message to the user formatted as "Updated name for user [id] to [name]".
+   
+   ```pact
+   (format "Updated name for user {} to {}" [id new-name])
+   ```
 
-### 4.4 Rotate Keyset
+### Define the rotate-keyset function
 
 Now that users can update their name, you can apply this same functionality to
 other information.
