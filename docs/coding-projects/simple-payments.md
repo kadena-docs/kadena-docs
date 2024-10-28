@@ -69,6 +69,8 @@ The module declaration is a core part of any Pact smart contract.
 To define a module, you must also specify the administrative keyset or governance capability that owns the module. 
 For this coding project, you need to define one module—the `payments` module—and the administrative keyset for the `payments` module.
 
+To start the module declaration:
+
 1. Open the `starter-simple-payment.pact` file in your code editor and save it as `simple-payment.pact`.
 
 2. Define and read an administrative keyset with the name `admin-keyset` to own the `payments` module.
@@ -95,18 +97,20 @@ For this coding project, you need to define one module—the `payments` module�
    
    Now that you have a module, you need to add the code for this module inside of the `payments` declaration—that is, before the closing parenthesis that marks the end of the module declaration. 
    
-   For more information about defining modules, see [Modules](/smart-contracts/modules).
+   For more information about defining modules, see [Modules and references](/smart-contracts/modules).
 
 ## Define a schema and table
 
 The `payments` modules stores information about accounts and balances in the `payments-table` database table.
-This table keeps track of the balance of the accounts that are associated with th  `Sarah` and `James` account keysets. accounts for.
-The schema for the payments-table looks like this:
+This table keeps track of the balance of the accounts that are associated with the `Sarah` and `James` account keysets.
+The schema for the `payments-table` looks like this:
 
 | Field name | Field type |
 | --------- | --------- |
 | balance | decimal |
 | guard | guard |
+
+To define the schema and table:
 
 1. Open the modified `simple-payment.pact` file in your code editor.
 
@@ -117,13 +121,13 @@ The schema for the payments-table looks like this:
         balance:decimal
         guard:guard)
    ```
-1. Define the `payments-table` to use the schema `{payments}` you created in the previous step.
+3. Define the `payments-table` to use the schema `{payments}` you created in the previous step.
    
    ```pact
      (deftable payments-table:{payments})
    ```
 
-1. Move the closing parenthesis that marks the end of the `payments` module declaration after the table definition to include the schema and table inside of the module.
+4. Move the closing parenthesis that marks the end of the `payments` module declaration after the table definition to include the schema and table inside of the module.
    
    Without comments, your code should look similar to the following:
    
@@ -140,10 +144,10 @@ The schema for the payments-table looks like this:
    )
    ```
 
-1. Save your changes.
+5. Save your changes.
    
    Now you have a schema and table definition inside of the `payments` declaration.
-   For more information about defining schemas and tables, see [Databases, schemas, and tables](/smart-contracts/databases).
+   For more information about defining schemas and tables, see [Database model](/smart-contracts/databases).
 
 ## Define functions
 
@@ -156,6 +160,8 @@ For this coding project, the `payments` module provides three functions:
 ### Define the create-account function
 
 The `create-account` function allows the `payments` module administrator—identified by the `admin-keyset` keyset—to create any number of accounts. 
+
+To define the `create-account` function:
 
 1. Open the modified `simple-payment.pact` file in your code editor.
 
@@ -173,7 +179,7 @@ The `create-account` function allows the `payments` module administrator—ident
      (enforce-keyset 'admin-keyset)
    ```
 
-3. Within the function, use `enforce` to ensure the initial-balance is zero and with an optional documentation.
+3. Within the function, use `enforce` to ensure the `initial-balance` is greater than or equal to zero and include an optional documentation string.
    
    ```pact
      (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
@@ -187,7 +193,7 @@ The `create-account` function allows the `payments` module administrator—ident
               "keyset": keyset })
    ```
 
-2. Check that the closing parenthesis for the `create-account` function is after the last expression and move and move the closing parenthesis the `payments` module declaration after the function.
+2. Check that the closing parenthesis for the `create-account` function is after the last expression and move the closing parenthesis for the `payments` module declaration after the function.
    
    Without comments, your code should look similar to the following:
    
@@ -216,6 +222,8 @@ The `create-account` function allows the `payments` module administrator—ident
 
 Now that you can create accounts, it is helpful to be able to view the balance of these accounts. 
 The `get-balance` function allows account owners and the module administrator to view account balances.
+
+To define the `get-balance` function:
 
 1. Start the `get-balance` function definition with the keyword `defun` and takes the argument `id`.
    
@@ -282,6 +290,8 @@ The `get-balance` function allows account owners and the module administrator to
 ### Define the pay function
 
 The `pay` function allows one account to transfer assets to another account defined in the `payments-table`.
+
+To define the `pay` function:
 
 1. Start the `pay` function definition with the keyword `defun` and takes the parameters `from`, `to`, and `amount`.
    
@@ -640,6 +650,7 @@ To load the contract using Chainweaver:
      (format "James's balance is {}" [(free.pistolas-simple-payment.get-balance "James")])
      "James's balance is 275.0"
      ```
+     
 ### Deploy using Chainweaver
 
 Now that you've tested that the contract functions work as expected, you can use Chainweaver to deploy the contract on the test netnetwork in the free namespace.
