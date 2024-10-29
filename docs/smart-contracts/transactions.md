@@ -1,5 +1,5 @@
 ---
-title: Transaction format and lifecycle
+title: Transaction format and flow
 id: transactions
 sidebar_position: 10
 description: "There are two types of transaction in Pact smart contracts: transactions that execute in a single step and transactions that consist of more than one step."

@@ -256,8 +256,12 @@ Pact.builder.execution(...codes).addSigner(signerOrSignersList, capabilityCallba
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| signer | string or object\| { pubKey: string; scheme?: 'ED25519' \| 'ETH' \| 'WebAuthn'; address?: string;} \| ISigner[] | Public key of the signer or the signer object (this can also be a list of signers if all of the signers sign for the same capabilities). |
-| capabilityCallback | (signFor) => ReturnType<signFor>[] | Allows you to scope what the signer is signing for to a specific list of capabilities. |
+| signer | string or object | Public key of the signer or the signer object (this can also be a list of signers if all of the signers sign for the same capabilities). |
+| capabilityCallback | `(signFor) => ReturnType<signFor>[]` | Allows you to scope what the signer is signing for to a specific list of capabilities. |
+
+```
+{ pubKey: string; scheme?: 'ED25519' \| 'ETH' \| 'WebAuthn'; address?: string;} \| ISigner[]
+```
 
 Chainweb supports the following signature schemes for public keys:
 
@@ -434,7 +438,7 @@ Pact.builder
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| meta | { chainId: ChainId, senderAccount: string, gasLimit: number, gasPrice: number, ttl: number, creationTime: number } | Add a metadata object to the command. |
+| meta | object | Add a metadata object to the command. |
 
 The `meta` object consists of the following properties:
 
@@ -594,7 +598,7 @@ If you find yourself repeating certain parts of methods for different commands, 
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| initial | Partial<IPactCommand> | The initial Pact command values that you want to reuse. |
+| initial | `Partial<IPactCommand>` | The initial Pact command values that you want to reuse. |
 
 ```typescript
 const builder: ITransactionBuilder =
@@ -708,7 +712,7 @@ createSignWithChainweaver(options:{ host?: string }): ISignFunction
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| option | { host?: string } | option including host URL default `{ host: 'http://127.0.0.1:9467' }` |
+| option | object | option including host URL default `{ host: 'http://127.0.0.1:9467' }` |
 
 #### Examples
 
@@ -942,7 +946,7 @@ addSignatures(transaction, ...signatures): IUnsignedCommand | ICommand
 | Parameter | Type | Description |
 | --- | --- | --- |
 | transaction | IUnsignedCommand | The partially signed or unsigned transaction. |
-| ...signatures | Array<{ sig: string; pubKey: string }> \| Array<{ sig: string }> | List of signatures to be added to the transaction. |
+| ...signatures | Array of objects or strings `{ sig: string; pubKey: string }` or `{ sig: string }`| List of signatures to be added to the transaction. |
 
 #### Examples
 
@@ -1012,8 +1016,8 @@ const { submit, local, pollCreateSpv } = createClient();
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| host | string \| (options: {chainId: ChainId; networkId: string}) => string | The Pact service URL as a string or the function that returns the URL. |
-| options | { confirmationDepth?: number } | Additional options for the client. It has only one property now: `confirmationDepth`, which can be used in the poll endpoint. Default value is `0`. |
+| host | string \| `(options: {chainId: ChainId; networkId: string}) => string` | The Pact service URL as a string or the function that returns the URL. |
+| options | `{ confirmationDepth?: number }` | Additional options for the client. It has only one property now: `confirmationDepth`, which can be used in the poll endpoint. Default value is `0`. |
 
 Both `host` and `options` are optional. The default value of `host` is a function that returns the Chainweb node URLs for mainnet and testnet. If you want to use different URLs, you must specify the `host` parameter.
 
@@ -1418,7 +1422,7 @@ runPact(code: string, data?: Record<string, unknown>, options?: { chainId: Chain
 | Parameter | Type | Description |
 | --- | --- | --- |
 | code | string | Pact code |
-| data | Record<string, unknown> | Data to be sent with the transaction |
+| data | Record, string, or unknown | Data to be sent with the transaction |
 | options | object |
 | chainId | string | Specifies the chain identifier that you want to send the transaction to. The valid values are "0" to "19". |
 | networkId | string | Specifies the network identifier that you want to send the transaction to. |
@@ -1532,7 +1536,7 @@ The return value is also a `CommandReducer` function that you can pass to anothe
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| ...reducersOrPartialCommands | Array<IPartialPactCommand \| CommandReducer> | List of command reducers or partial Pact commands. |
+| ...reducersOrPartialCommands | Array `<IPartialPactCommand \| CommandReducer>` | List of command reducers or partial Pact commands. |
 
 #### Examples
 

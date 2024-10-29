@@ -236,9 +236,9 @@ const sidebars: SidebarsConfig = {
          items: [
               'coding-projects/hello-world',
               'coding-projects/transfers',
+              'coding-projects/rotate-auth',
               //'coding-projects/pact-testing',
               //'coding-projects/interaction',
-              //'coding-projects/wallets',
               //'coding-projects/loans',
               ],
     },

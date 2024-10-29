@@ -5,10 +5,9 @@ id: rotate-auth
 sidebar_position: 5
 ---
 
-# Rotate wallet keys
+# Rotate authorized keys
 
-The Rotate wallet keys coding project demonstrates how to create a smart contract with rotatable authorization keys and how to enforce row level permissions.
-For this project, you'll build an `auth` module for a wallet application that supports key rotation.
+The Rotate authorized keys coding project demonstrates how to create a smart contract with rotatable authorization keys and how to enforce row level permissions.
 This project continues to build on concepts and challenges presented in other coding projects and covered in [Smart contracts](/smart-contracts/smart-contract-dev) topics.
 Specifically, this project demonstrates the following:
 
@@ -16,7 +15,7 @@ Specifically, this project demonstrates the following:
 - How to allow users to update information in tables based on their keyset.
 - How to change ownership by rotating keyset values to authorize a new owner.
 
-Within the `auth` module, you need to define the functions, table, and keysets for the smart contract to complete this coding projects.
+To implement these features, you'll create an `auth` module with four functions, one table, and two keysets:
 
 ![Rotate wallet keys overview](/img/rotate-auth-overview.png)
 
@@ -117,7 +116,7 @@ The schema for this table is named **user** with two columns:
 | Field name | Field type |
 | --------- | --------- |
 | nickname  | string |
-| keyset | keyset |
+| keyset | guard |
 
 To define the schema and table:
 
@@ -128,11 +127,11 @@ To define the schema and table:
    ```pact
    (defschema user
        nickname:string
-       keyset:keyset
+       keyset:guard
    )
    ```  
 
-1. Define the `users-table` to use the schema `{user}` you created in the previous step.
+1. Define the `users-table` to use the `{user}` schema you created in the previous step.
 
    ```pact
    (deftable users-table:{user})
@@ -154,7 +153,7 @@ To define the schema and table:
    (module auth "free.module-admin"
       (defschema user
           nickname:string
-          keyset:keyset
+          keyset:guard
       )
    
       (deftable users-table:{user})
@@ -185,12 +184,12 @@ To define the `create-user` function:
 1. Start the `create-user` function definition with the keyword `defun` and add the parameters `id`, `nickname`, and `keyset`.
    
    ```pact
-   (defun create-user (id nickname keyset)
+   (defun create-user (id:string nickname:string keyset:guard)
    
    )
    ```
 
-2. Within the function, use `enforce-keyset` to restrict access to this function, so that users can created by the `operate-admin` keyset.
+2. Within the function, use `enforce-keyset` to restrict access to this function, so that new users can only be created by the `operate-admin` keyset.
    
    ```pact
      (enforce-keyset "free.operate-admin")
@@ -206,16 +205,47 @@ To define the `create-user` function:
      )
    ```
 
+   Without comments, your code should look similar to the following:
+
+   ```pact
+   (namespace "free")
+
+   (define-keyset "free.module-admin" 
+      (read-keyset "module-admin-keyset"))
+   
+   (define-keyset "free.operate-admin"
+      (read-keyset "module-operate-keyset"))
+   
+   (module auth "free.module-admin"
+   
+      (defschema user
+          nickname:string
+          keyset:keyset
+      )
+   
+      (deftable users-table:{user})
+   
+      (defun create-user (id:string nickname:string keyset:keyset)
+         (enforce-keyset "free.operate-admin")
+         (insert users-table id {
+             "keyset": keyset,
+             "nickname": nickname
+           }
+         )
+      )
+   )
+   ```
+
 For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [insert](/pact-5/database/insert) functions.
 
 ### Define the enforce-user-auth function
 
-It’s sometimes useful to restrict access to data to specific users. 
-For example, users might not want others to see the balance of their account or other sensitive information. 
+It’s sometimes useful to restrict access to specific data for specific users. 
+For example, you might want to prevent users from seeing account balances or other sensitive information that should be private. 
 In Pact, you can restrict access to specific rows in a table by using **row-level keysets**.
 
 To define a row-level keyset, you must first be able to view the keyset associated with a specific key-row. 
-The following function is an example of reading a keyset in a specific row for a specified `id`:
+The following example demonstrates reading a keyset for a specified `id` key-row:
 
 ```pact
 (defun enforce-keyset-of-id (id)
@@ -226,7 +256,7 @@ The following function is an example of reading a keyset in a specific row for a
 ```
 
 The purpose of this function is only to identify the keyset associated with the specified `id` key-row.
-This function doesn’t provide access to any of the data in a row. 
+This function doesn’t provide access to any of the data in the row. 
 However, other functions can call this function if they want to act on the information, for example, to place row-level restrictions on the data. 
 
 To define the `enforce-user-auth` function:
@@ -236,23 +266,58 @@ To define the `enforce-user-auth` function:
 2. Start the `enforce-user-auth` function definition that takes the parameter `id`.
    
    ```pact
-   (defun enforce-user-auth (id)
+   (defun enforce-user-auth (id:string)
    
    )
    ```
 
-3. Within the function, use `with-read` to read the `users-table` to find the specified `id`, and bind the `keyset` column for the `id` to the `keyset` variable, then return the `keyset` value. 
+3. Within the function, use `with-read` to read the `users-table` to find the specified `id`, and bind the `keyset` column for the `id` to the `k` variable, then return the `keyset` value with the `k` variable. 
 
    ```pact
-      (with-read users-table id { "keyset":= k }
-      ;; enforce user authorization of data to the given keyset
+   (with-read users-table id { "keyset":= k }
       (enforce-keyset k)
-      ;; return the value of the keyset
       k)
-   ``` 
+   ```
 
-For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset), [with-read](/pact-5/database/with-read), and [bind](/pact-5/general/bind) functions.
+   Without comments, your code should look similar to the following:
 
+   ```pact
+   (namespace "free")
+
+   (define-keyset "free.module-admin" 
+      (read-keyset "module-admin-keyset"))
+   
+   (define-keyset "free.operate-admin"
+      (read-keyset "module-operate-keyset"))
+   
+   (module auth "free.module-admin"
+   
+      (defschema user
+          nickname:string
+          keyset:keyset
+      )
+   
+      (deftable users-table:{user})
+   
+      (defun create-user (id:string nickname:string keyset:keyset)
+         (enforce-keyset "free.operate-admin")
+         (insert users-table id {
+             "keyset": keyset,
+             "nickname": nickname
+           }
+         )
+      )
+
+
+      (defun enforce-user-auth (id:string)
+          (with-read users-table id { "keyset":= k }      
+          (enforce-keyset k)       
+          k)
+       )
+   )
+   ```
+
+For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [with-read](/pact-5/Database/with-read) functions.
 
 ### Define the change-nickname function
 
@@ -278,7 +343,7 @@ To define the `change-nickname` function:
 2. Start the `change-nickname` function definition that takes the parameters `id` and `new-name`.
    
    ```pact
-  (defun change-nickname (id new-name)
+  (defun change-nickname (id:string new-name:string)
   )
   ```
     
@@ -300,50 +365,156 @@ To define the `change-nickname` function:
    (format "Updated name for user {} to {}" [id new-name])
    ```
 
+   Without comments, your code should look similar to the following:
+
+   ```pact
+   (namespace "free")
+
+   (define-keyset "free.module-admin" 
+      (read-keyset "module-admin-keyset"))
+   
+   (define-keyset "free.operate-admin"
+      (read-keyset "module-operate-keyset"))
+   
+   (module auth "free.module-admin"
+   
+      (defschema user
+          nickname:string
+          keyset:keyset
+      )
+   
+      (deftable users-table:{user})
+   
+      (defun create-user (id:string nickname:string keyset:keyset)
+         (enforce-keyset "free.operate-admin")
+         (insert users-table id {
+             "keyset": keyset,
+             "nickname": nickname
+           }
+         )
+      )
+
+      (defun enforce-user-auth (id:string)
+          (with-read users-table id { "keyset":= k }      
+          (enforce-keyset k)       
+          k)
+       )
+
+       (defun change-nickname (id:string new-name:string)
+          (enforce-user-auth id)
+          (update users-table id { "nickname": new-name })
+          (format "Updated name for user {} to {}" [id new-name])
+       )
+   )
+   ```
+
+For more information, see the descriptions for the [update](/pact-5/database/update) and [format](/pact-5/general/format) functions.
+
 ### Define the rotate-keyset function
 
-Now that users can update their name, you can apply this same functionality to
-other information.
+Now that users can update their name, you can apply this same functionality to other information.
+For this coding project, you can allow users to update their authorized keyset. 
+Being able to rotate the keyset is similar to being able to update your password.
+For single key keysets, this feature enables a user to replace a potentially compromised key.
+For keysets with multiple keys, this feature enables the set of owners or authorized signers to change when needed.
 
-For example, you can allow users to update their keyset. The ability to update
-keysets is known as ‘rotating keysets’ and this is where the name ‘Rotatable
-wallets’ came from for this demonstration. This feature is comparable to being
-able to update a password, and it’s an extremely useful feature to have in an
-application.
+To define the `rotate-keyset` function:
 
-For this final function, use the information learned from previous steps to add
-rotating keysets as a feature of your smart contract.
+1. Open the modified `auth.pact` file in your code editor.
 
-:::caution Code Challenge
+2. Start the `rotate-keyset` function definition that takes the parameters `id` and `new-keyset`.
+   
+   ```pact
+  (defun rotate-keyset (id:string new-keyset:string)
+  )
+  ```
+    
+2. Within the function, use the `enforce-user-auth` function to enforce authorization for the specified `id`.
 
-Define a function named rotate-keyset that allows the owner of a keyset to
-change their keyset.
+   ```pact
+   (enforce-user-auth id)
+   ```
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.4-rotate-keyset/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/4-functions/4.4-rotate-keyset/solution.pact)
+2. Within the function, call the `update` function to update the `keyset` column to the `new-keyset` for the specified `id`.
 
-:::
+   ```pact
+   (update users-table id { "keyset": new-keyset })
+   ``` 
 
-:::info
+2. Within the function, return a message describing the update in the format "Updated keyset for user [id]".
+   
+   ```pact
+   (format "Updated keyset for user {}" [id])
+   ```
 
-View [update](/build/pact/schemas-and-tables#updateh-1754979095) and
-[format](/reference/functions/general#format) for more information related to
-completing this challenge.
+      Without comments, your code should look similar to the following:
 
-:::
+   ```pact
+   (namespace "free")
 
-## 5. Create Table
+   (define-keyset "free.module-admin" 
+      (read-keyset "module-admin-keyset"))
+   
+   (define-keyset "free.operate-admin"
+      (read-keyset "module-operate-keyset"))
+   
+   (module auth "free.module-admin"
+   
+      (defschema user
+          nickname:string
+          keyset:keyset
+      )
+   
+      (deftable users-table:{user})
+   
+      (defun create-user (id:string nickname:string keyset:keyset)
+         (enforce-keyset "free.operate-admin")
+         (insert users-table id {
+             "keyset": keyset,
+             "nickname": nickname
+           }
+         )
+      )
 
-The last step is to create the **user** table defined within the module.
+      (defun enforce-user-auth (id:string)
+          (with-read users-table id { "keyset":= k }      
+          (enforce-keyset k)       
+          k)
+       )
 
-:::caution Code Challenge
+       (defun change-nickname (id:string new-name:string)
+          (enforce-user-auth id)
+          (update users-table id { "nickname": new-name })
+          (format "Updated name for user {} to {}" [id new-name])
+       )
 
-Create the user table.
+       (defun rotate-keyset (id:string new-keyset:guard)
+          (enforce-user-auth id)
+          (update users-table id { "keyset": new-keyset})
+          (format "Updated keyset for user {}" [id])
+       )
+   )
+   ```
 
-- [Challenge](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/5-create-table/challenge.pact)
-- [Solution](https://github.com/kadena-io/pact-lang.org-code/blob/master/rotatable-wallet/2-challenges/5-create-table/solution.pact)
+For more information about updating a table, see [Update](/smart-contracts/databases/update).
 
-:::
+## Create table
+
+Although you defined a schema and a tables inside of the `auth` module, tables are created outside of the module code.
+This distinction between what you define inside of the module and outside of the module is important because the module acts as a guard to protect access to database functions and records. 
+This separation also allows module code to be potentially updated without replacing the table in Pact state. 
+
+To create the table:
+
+1. Open the modified `auth.pact` file in your code editor.
+
+2. Locate the closing parenthesis for the `auth` module.
+
+3. Create the table using the `create-table` reserved keyword.
+   
+   ```pact
+   (create-table users-table)
+   ```
 
 ## Deploy the Smart Contract
 
@@ -357,21 +528,3 @@ tutorials.
 - [Set up a local development network](/build/pact/dev-network)
 - [Develop with Atom SDK](/build/pact/atom-sdk)
 
-## Review
-
-That wraps up this tutorial on the **Rotatable Wallet** application.
-
-Throughout this tutorial, you built a smart contract named **Rotatable Wallets**
-that demonstrated many important Pact features that you learned throughout
-previous tutorials.
-
-Most importantly, you showed how modules can be permissioned to ensure the
-security of running your code on a decentralized network and allow for row level
-permissions when necessary.
-
-Having the ability to permission modules is an extremely valuable feature of
-Pact, and you can use this in many other applications in the future. Take some
-time now to experiment with this feature to try applying it in new situations.
-
-When you’re ready, move to the next tutorial to continue building Pact
-applications!
