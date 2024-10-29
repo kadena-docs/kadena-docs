@@ -59,7 +59,10 @@ There are built-in functions to insert, read, and update values stored in tables
 If you've worked with other databases or programming languages, you should be familiar with similar functions that enable you to create, read, update, and delete (CRUD) information.
 However, in Pact, you use the `insert` function in place of the create functionality to add rows to a table and there isn't a function to delete rows from a table.
 Pact doesn't provide a delete function because of the potential issues with performance, data integrity, and data migration that row-level delete operations can introduce.
-In addition, being able to delete rows or tables violates one of the most important properties of a blockchain environment: that it provides an immutable record of state. 
+In addition, being able to delete rows or tables violates one of the most important properties of a blockchain environment: that it provides an immutable record of state.
+
+Although Pact doesn't provide a delete function, you can use an `active` column in tables to mark table rows as active or inactive.
+For more information about using an active column to indicate active and inactive rows, see [Identifying active and inactive rows](#identifying-active-and-inactive-rows).
 
 ### Data access model
 
@@ -424,3 +427,69 @@ To update a table schema:
 3. Deploy the updated module with the new table schema on the network.
 
 The original table and database state remain unchanged on the blockchain, but won't receive any new information after you deploy the new module.
+
+## Identifying active and inactive rows
+
+Because deleting information from tables could cause problems for replaying transactions or synchronizing nodes and leave the chain in an unhealthy state, Pact doesn't support deleting rows or tables.
+However, you can use an `active` column in tables to identify active rows and later flag rows with obsolete information as inactive.
+
+For example, you might define the `user` schema and `users-table` like this:
+
+```pact
+   (defschema user
+       nickname:string
+       keyset:guard
+       active:bool
+   )
+
+   (deftable users-table:{user})
+```
+
+To add new users to the table, you might define a `create-user` function similar to the following:
+
+```pact
+   (defun create-user (id:string nickname:string keyset:guard active:bool)
+      (enforce-keyset "free.operate-admin")
+      (insert users-table id {
+          "keyset": keyset,
+          "nickname": nickname,
+          "active": true
+        }
+      )
+    )
+```
+
+You can then define a separate function to identify rows—using the `id` key-row—that are no longer active similar to the following:
+
+```pact
+
+    (defun tombstone:string (id:string) 
+       "Mark the specified row as inactive"
+       (update users-table id { "active" : false })
+    )
+```
+
+You can then check whether the `active` column is `true` or `false` for a specific row. 
+
+```pact
+   (defun change-nickname (id:string new-name:string)
+      (with-read users-table id {"active" := active}
+        (if (= active true)
+          (update users-table id { "nickname": new-name })
+          (format "Update NOT ALLOWED for user {}" [id])))
+    )
+```
+
+For example, you can set the `active` column to false for the row identified by `tai` with a call similar to this:
+
+```pact
+(tombstone "tai")
+"Write succeeded"
+```
+
+If you then attempt to update the `nickname` column for the `tai` row, you'll see the message that the change isn't allowed:
+
+```pact
+(change-nickname "tai" "INACTIVE USER Tai's Nickname")
+"Update NOT ALLOWED for user tai"
+```
