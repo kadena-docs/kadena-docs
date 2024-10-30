@@ -58,8 +58,6 @@ There are built-in functions to insert, read, and update values stored in tables
 
 If you've worked with other databases or programming languages, you should be familiar with similar functions that enable you to create, read, update, and delete (CRUD) information.
 However, in Pact, you use the `insert` function in place of the create functionality to add rows to a table and there isn't a function to delete rows from a table.
-Pact doesn't provide a delete function because of the potential issues with performance, data integrity, and data migration that row-level delete operations can introduce.
-In addition, being able to delete rows or tables violates one of the most important properties of a blockchain environment: that it provides an immutable record of state.
 
 Although Pact doesn't provide a delete function, you can use an `active` column in tables to mark table rows as active or inactive.
 For more information about using an active column to indicate active and inactive rows, see [Identifying active and inactive rows](#identifying-active-and-inactive-rows).
