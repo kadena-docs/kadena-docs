@@ -39,7 +39,8 @@ There are built-in functions to insert, read, and update values stored in tables
 | :------------ | :---------- |
 | [Insert](/pact-5/database/database#insert) | Insert new rows into a table. |
 | [Read](/pact-5/database/database#read) | Read values from a table. |
-| [Update](/pact-5/database/update) | Update values within a table. |
+| [Update](/pact-5/database/update) | Update values for a column that contains data in a table. |
+| [Write](/pact-5/database/update) | Write values for a column in a table, regardless of whether the column contains data or not. |
 | Delete | Not available in Pact. |
 
 If you've worked with other databases or programming languages, you should be familiar with similar functions that enable you to create, read, update, and delete (CRUD) information.
