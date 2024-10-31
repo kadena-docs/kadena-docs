@@ -1,6 +1,6 @@
 ---
 title: Database model
-description: "Kadena blockchain nodes store information in two different data stores, with a RocksDB key-value store that stores information about nodes, chains, and blocks and a SQLite database that stores information about Pact smart contracts and transactions."
+description: "Kadena blockchain nodes store information in two different data stores, with a key-value store that keeps track of information about nodes, chains, and blocks and a SQL-based database that stores information about Pact smart contracts and transactions."
 id: databases
 order: 7
 tags:
@@ -17,29 +17,15 @@ tags:
 # Database model
 
 Kadena blockchain nodes store information in two different data stores.
-On each Chainweb node, there's a RocksDB key-value stores that stores information about the peer network, chains, and blocks.
-Each node also hosts a set of SQLite database files that store information about Pact smart contracts and transaction results for each chain in the network.
+On each Chainweb node, there's a RocksDB key-value store that keeps track of information about the peer network, chains, and blocks.
+Each node also hosts a set of SQLite database files that store information about Pact smart contracts and transaction results with one file for each chain in the network.
 
 The following diagram presents a simplified view of this separation of concerns.
 
 ![Data store overview](/img/database-overview.png)
 
-If you explore the folders and files on a Chainweb node, you'll see this structure reflected in the file system with a hierarchy like this:
-
-```bash
-chainweb
- |_ db
-   |_ 0
-     |_ rocksDb
-     |_ sqlite
-        |_ pact-v1-chain-0.sqlite
-        |_ pact-v1-chain-0.sqlite.shm
-        |_ pact-v1-chain-0.sqlite.wal
-        ...
-```
-
 As a smart contract developer, you're primarily interested in writing to and reading from the Pact state, but it's helpful to know how data is organized and optimized for different execution modes and to perform different tasks.
-The rockDb—sometimes referred to as the chain database—is optimized for efficient network communication and resiliency.
+The RocksDb database—sometimes referred to as the chain database—is optimized for efficient network communication and resiliency.
 Pact database operations are optimized for transaction performance.
 
 ## Working with Pact tables
@@ -53,13 +39,15 @@ There are built-in functions to insert, read, and update values stored in tables
 | :------------ | :---------- |
 | [Insert](/pact-5/database/database#insert) | Insert new rows into a table. |
 | [Read](/pact-5/database/database#read) | Read values from a table. |
-| [Update](/pact-5/database/update) | Update values within a table. |
+| [Update](/pact-5/database/update) | Update values for a column that contains data in a table. |
+| [Write](/pact-5/database/update) | Write values for a column in a table, regardless of whether the column contains data or not. |
 | Delete | Not available in Pact. |
 
 If you've worked with other databases or programming languages, you should be familiar with similar functions that enable you to create, read, update, and delete (CRUD) information.
 However, in Pact, you use the `insert` function in place of the create functionality to add rows to a table and there isn't a function to delete rows from a table.
-Pact doesn't provide a delete function because of the potential issues with performance, data integrity, and data migration that row-level delete operations can introduce.
-In addition, being able to delete rows or tables violates one of the most important properties of a blockchain environment: that it provides an immutable record of state. 
+
+Although Pact doesn't provide a delete function, you can use an `active` column in tables to mark table rows as active or inactive.
+For more information about using an active column to indicate active and inactive rows, see [Identifying active and inactive rows](#identifying-active-and-inactive-rows).
 
 ### Data access model
 
@@ -70,7 +58,7 @@ This access model is similar to using a primary key to access table data in othe
 With the Pact _key-row_ model, you access a row of column values by using a single key.
 As a result of this access model, Pact doesn't support _joining_ tables in a way that an online analytical processing database would support if populated from data exported from the Pact database.
 However, Pact can record transactions using relational techniques.
-For example, if you have a Customer table with keys used in a Sales table, a Pact smart contract could include code to look up the Customer record before writing to the Sales table.
+For example, if you have a `Customer` table with keys used in a `Sales` table, a Pact smart contract could include code to look up the `Customer` record before writing to the `Sales` table.
 
 ### Null values aren't allowed
 
@@ -78,7 +66,6 @@ The Pact database model doesn't support NULL values as a safety feature to ensur
 The main function for working with database results is the [with-read](/pact-5/database/with-read) function.
 This function will return an error if any column value it attempts to read isn't found. 
 To prevent transactions from failing with these errors, you should ensure that there are values in the columns you attempt to read in a transaction. 
-This 
 
 ### Versioned history
 
@@ -130,8 +117,8 @@ You can create the schema for this table in Pact like this:
 ```
 
 All table schemas you create look similar to this example, but with different field names and data types. 
-There are no specific requirements for field names. 
-In general, you should field names that are short but recognizable.
+Field names must start with a valid alphabetic character, but can contain alphabetic, numeric, and special characters. 
+In general, you should use field names that are short but recognizable.
 For each field, the field type must be one the data types that Pact supports.
 
 Types that are declared in code are enforced at runtime when expressions are evaluated.
@@ -303,14 +290,14 @@ In the following example, the `select` statement is used in a `select-assets` fu
 This query returns all of the values currently stored in the `assets-table` fields.
 For example:
 
-| assetId  | assetName | assetPrice | status      |
-|:-------- |:--------- |:---------- |:----------- |
-| asset-1 | My Asset  | 5.0        | todo        |
+| assetId  | assetName | assetPrice | status |
+|:-------- |:--------- |:---------- |:------ |
+| asset-1 | My Asset  | 5.0        | todo |
 | asset-2 | Asset 2   | 6.0        | in progress |
-| asset-3 | Asset 3   | 7.0        | done        |
+| asset-3 | Asset 3   | 7.0        | done |
 
 Like standard SQL `SELECT` statements, you can use a `where` clause to refine your results.
-For example, you can return only the `assetName` and `assetPrice` for a specific asset name like this::
+For example, you can return only the `assetName` and `assetPrice` for a specific asset name like this:
 
 ```pact
   (select assets-table ['assetName,'assetPrice] (where 'assetName (= "Asset 2")))
@@ -338,8 +325,10 @@ This query returns the following values from the sample `assets-table`:
 ### Select queries and performance
 
 You should note that when you write queries using the Pact `select` function, the `select` and `where` operations provide a streaming interface that applies filters to the specified table, then operates on the row set as a list data structure using [sort](/pact-5/general/sort) and other functions.
+Because of the computational overhead, you should avoid using `select` statements to work with on-chain data.
 
-The following query selects `Programmers` with salaries >= 90000 and sorts by `age` in descending order:
+Although it can be convenient to use select statements to retrieve data, you can often return the same results more efficiently using other functions.
+For example, the following query selects `Programmers` with salaries >= 90000 and sorts by `age` in descending order:
 
 ```pact
 (reverse (sort ['age]
@@ -348,7 +337,7 @@ The following query selects `Programmers` with salaries >= 90000 and sorts by `a
           (where 'salary (<= 90000))))))
 ```
 
-You can write the same query using the `filter` function and sorting the resulting list:
+You can write the same query using the `filter` function and sorting the resulting list like this:
 
 ```pact
 (reverse (sort ['age]
@@ -377,17 +366,31 @@ For more information about Pact endpoints, see [Pact API](/api/pact-api).
 
 ## Keys
 
-You can use the [keys](/pact-5/database/keys) function to return all of the **key** values in a table.
+You can use the [keys](/pact-5/database/keys) function from within a module to return all of the **key** values in a table.
 For example, you can return the `key` values for the sample `assets-table` with the following code:
 
 ```pact
+(module asset-manager ADMIN
+  (defcap ADMIN () true)
+
+  (defschema assets
+     assetId:string
+     assetName:string
+     assetPrice:decimal
+     status:string
+  )
+
+  (deftable assets-table:{assets})
+  ...
+
   (keys assets-table)
+)
 ```
 
-You can also use this function within another function.
+You can also use the `keys` function within another function.
 For example:
 
-```pact title=" "
+```pact
   (defun get-keys (table-name)
     (keys table-name)
   )
@@ -424,3 +427,73 @@ To update a table schema:
 3. Deploy the updated module with the new table schema on the network.
 
 The original table and database state remain unchanged on the blockchain, but won't receive any new information after you deploy the new module.
+
+## Identifying active and inactive rows
+
+Pact doesn't provide a delete function because of the potential issues with performance, data integrity, and data migration that row-level delete operations can introduce.
+In addition, being able to delete rows or tables violates one of the most important properties of a blockchain environment: that it provides an immutable record of state.
+
+Because deleting information from tables could also cause problems for replaying transactions or synchronizing nodes and leave the chain in an unhealthy state, Pact doesn't support deleting rows or tables.
+However, you can use an `active` column in tables to identify active table rows on insert, then later flag rows with obsolete information as inactive.
+Inactive rows remain in the database, but you can write logic to prevent them from being updated or retrieved.
+
+For example, you might define the `user` schema and `users-table` like this:
+
+```pact
+   (defschema user
+       nickname:string
+       keyset:guard
+       active:bool
+   )
+
+   (deftable users-table:{user})
+```
+
+To add new users to the table, you might define a `create-user` function similar to the following:
+
+```pact
+   (defun create-user (id:string nickname:string keyset:guard active:bool)
+      (enforce-keyset "free.operate-admin")
+      (insert users-table id {
+          "keyset": keyset,
+          "nickname": nickname,
+          "active": true
+        }
+      )
+    )
+```
+
+You can then define a separate function to identify rows—using the `id` key-row—that are no longer active similar to the following:
+
+```pact
+
+    (defun tombstone:string (id:string) 
+       "Mark the specified row as inactive"
+       (update users-table id { "active" : false })
+    )
+```
+
+You can then check whether the `active` column is `true` or `false` for a specific row before allowing the row to be updated with code similar to the following:
+
+```pact
+   (defun change-nickname (id:string new-name:string)
+      (with-read users-table id {"active" := active}
+        (if (= active true)
+          (update users-table id { "nickname": new-name })
+          (format "Update NOT ALLOWED for user {}" [id])))
+    )
+```
+
+For example, you can set the `active` column to `false` for the row identified by `tai` with a call similar to this:
+
+```pact
+(tombstone "tai")
+"Write succeeded"
+```
+
+If you then attempt to update the `nickname` column for the `tai` row, you'll see the message that the change isn't allowed:
+
+```pact
+(change-nickname "tai" "INACTIVE USER Tai's Nickname")
+"Update NOT ALLOWED for user tai"
+```
