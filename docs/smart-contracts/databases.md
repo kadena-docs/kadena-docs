@@ -24,20 +24,6 @@ The following diagram presents a simplified view of this separation of concerns.
 
 ![Data store overview](/img/database-overview.png)
 
-If you explore the folders and files on a Chainweb node, you'll see this structure reflected in the file system with a hierarchy like this:
-
-```bash
-chainweb
- |_ db
-   |_ 0
-     |_ rocksDb
-     |_ sqlite
-        |_ pact-v1-chain-0.sqlite
-        |_ pact-v1-chain-0.sqlite.shm
-        |_ pact-v1-chain-0.sqlite.wal
-        ...
-```
-
 As a smart contract developer, you're primarily interested in writing to and reading from the Pact state, but it's helpful to know how data is organized and optimized for different execution modes and to perform different tasks.
 The RocksDb database—sometimes referred to as the chain database—is optimized for efficient network communication and resiliency.
 Pact database operations are optimized for transaction performance.
