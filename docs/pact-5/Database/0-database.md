@@ -5,7 +5,7 @@ id: 0-database
 ---
 
 Database functions are used to perform database-related tasks, such as creating new tables, reading data from existing tables, or updating table records.
-For an introduction to creating database schemas and tables and using database functions, see [Databases](/smart-contracts/databases).
+For an introduction to creating database schemas and tables and using database functions, see [Database model](/smart-contracts/databases).
 
 | Function | Description |
 | :-------- | :----------- |

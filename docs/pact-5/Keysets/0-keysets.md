@@ -4,17 +4,12 @@ description: "Reference information for the Pact built-in Keyset functions."
 id: 0-keysets
 ---
 
-Guard functions are used to create and manage account principals for different types of guards and to enforce guard predicate functions.
+Keyset functions are used to create and manage keysets and to define and enforce keyset predicate functions.
 
 | Function | Description |
 | :-------- | :----------- |
-| [create&#8209;capability&#8209;guard](/pact-5/guards/create-capability-guard) | Create a predicate function that ensures that specific conditions are true and can be enforced to grant the specified `CAPABILITY`. |
-| [create&#8209;capability&#8209;pact&#8209guard](/pact-5/guards/create-capability-pact-guard) | Create a predicate function that ensures that specific conditions are true and can be enforced to grant the specified `CAPABILITY` for steps defined in a `defpact` multi-step transaction. |
-| [create&#8209;module&#8209;guard](/pact-5/guards/create-module-guard) | Create a predicate function with the specified `name` that ensures that specific conditions are true for the current module.|
-| [create&#8209;pact&#8209;guard](/pact-5/guards/create-pact-guard) | Define a predicate function with the specified `name` that captures the results of the `pact-id` function for a `defpact` transaction.  |
-| [create&#8209;principal](/pact-5/guards/create-principal) | Create a principal account that unambiguously identifies a specified `guard` predicate function. |
-| [create&#8209;user&#8209;guard](/pact-5/guards/create-user-guard) | Define a custom guard to evaluate and enforce. |
-| [is&#8209;principal](/pact-5/guards/is-principal) | Determine whether a string conforms to the principal format *without* proving its validity.|
-| [keyset&#8209;ref&#8209;guard](/pact-5/guards/keyset-ref-guard) | Create a guard for the keyset registered as `keyset-ref` in the database. |
-| [typeof&#8209;principal](/pact-5/guards/typeof-principal) | Return the protocol type of the specified `principal` value.  |
-| [validate&#8209;principal](/pact-5/guards/validate-principal) | Validate that a principal identifies a specified guard. |
+| [define&#8209;keyset](/pact-5/Keysets/define-keyset) | Define a keyset with the specified `name` and `keyset` guard.|
+| [enforce&#8209;keyset](/pact-5/Keysets/enforce-keysetd) | Enforce the predicate logic for a keyset or guard.|
+| [keys&#8209;2](/pact-5/Keysets/keys-2) | Determine if there are at least two keys that match the keys defined in a keyset.|
+| [keys&#8209;all](/pact-5/Keysets/keys-all) | Determine if all of the keys defined in the keyset are matched.|
+| [keys](/pact-5/Keysets/keys) | Return all keys present in a specified table.|

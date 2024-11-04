@@ -4,17 +4,39 @@ description: "Reference information for the Pact built-in operator functions."
 id: 0-operators
 ---
 
-Operator functions are used to create and manage account principals for different types of guards and to enforce guard predicate functions.
+Operator functions are used to tell the compiler the specific type of mathematical or logical action you want to perform.
 
 | Function | Description |
 | :-------- | :----------- |
-| [create&#8209;capability&#8209;guard](/pact-5/guards/create-capability-guard) | Create a predicate function that ensures that specific conditions are true and can be enforced to grant the specified `CAPABILITY`. |
-| [create&#8209;capability&#8209;pact&#8209guard](/pact-5/guards/create-capability-pact-guard) | Create a predicate function that ensures that specific conditions are true and can be enforced to grant the specified `CAPABILITY` for steps defined in a `defpact` multi-step transaction. |
-| [create&#8209;module&#8209;guard](/pact-5/guards/create-module-guard) | Create a predicate function with the specified `name` that ensures that specific conditions are true for the current module.|
-| [create&#8209;pact&#8209;guard](/pact-5/guards/create-pact-guard) | Define a predicate function with the specified `name` that captures the results of the `pact-id` function for a `defpact` transaction.  |
-| [create&#8209;principal](/pact-5/guards/create-principal) | Create a principal account that unambiguously identifies a specified `guard` predicate function. |
-| [create&#8209;user&#8209;guard](/pact-5/guards/create-user-guard) | Define a custom guard to evaluate and enforce. |
-| [is&#8209;principal](/pact-5/guards/is-principal) | Determine whether a string conforms to the principal format *without* proving its validity.|
-| [keyset&#8209;ref&#8209;guard](/pact-5/guards/keyset-ref-guard) | Create a guard for the keyset registered as `keyset-ref` in the database. |
-| [typeof&#8209;principal](/pact-5/guards/typeof-principal) | Return the protocol type of the specified `principal` value.  |
-| [validate&#8209;principal](/pact-5/guards/validate-principal) | Validate that a principal identifies a specified guard. |
+| [abs](/pact-5/operators/abs) | |
+| [add (+)](/pact-5/operators/add) | |
+| [and?](/pact-5/operators/and-q) | |
+| [and](/pact-5/operators/cand) | |
+| [bitwise&#8209;and](/pact-5/operators/bitwise-and) |  |
+| [bitwise&#8209;or](/pact-5/operators/bitwise-or) | |
+| [bitwise&#8209;reverse](/pact-5/operators/bitwise-reverse) | |
+| [ceiling](/pact-5/operators/ceiling) |  |
+| [dec](/pact-5/operators/dec) |  |
+| [divide (/)/](/pact-5/operators/div) | |
+| [equal (=)](/pact-5/operators/eq) | |
+| [exp](/pact-5/operators/exp) | |
+| [floor](/pact-5/operators/floor) | |
+| [greater-than equal-to (`>=`)](/pact-5/operators/geq) | |
+| [greater-than (`>`)](/pact-5/operators/gt) | |
+| [less-than equal-to (`<=`)](/pact-5/operators/leq) | |
+| [ln](/pact-5/operators/ln) | |
+| [log](/pact-5/operators/log) | |
+| [less-than (`<`)](/pact-5/operators/lt) | |
+| [mod](/pact-5/operators/mod) | |
+| [multiply (`*`)](/pact-5/operators/mult) | |
+| [not-equal-to (`!=`)](/pact-5/operators/neq) | |
+| [not?](/pact-5/operators/not-q) | |
+| [not](/pact-5/operators/not-) | |
+| [or?](/pact-5/operators/or-q) | |
+| [or](/pact-5/operators/or) | |
+| [power-of (`^`)](/pact-5/operators/pow) | |
+| [shift](/pact-5/operators/shift) | |
+| [sqrt](/pact-5/operators/sqrt) | |
+| [subtract (`-`)](/pact-5/operators/sub) | |
+| [xor](/pact-5/operators/xor) | |
+
