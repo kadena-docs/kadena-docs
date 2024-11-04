@@ -16,7 +16,7 @@ id: func-quick-ref
 - [base64-decode](/pact-5/general/base64-decode) Decode a base64-encoded string.
 - [base64-encode](/pact-5/general/base64-encode) Encode a string as unpadded base64.
 - [begin-tx](/pact-5/repl/begin-tx) Begin a new transaction with an optional name (REPL only).
-- [bind](/pact-5/general/bind) Evaluate an object with bindings.
+- [bind](/pact-5/General/bind) Evaluate an object with bindings.
 - [bitwise-and (`&`)](/pact-5/operators/bitwise-and) Compute the bitwise AND operation between arguments.
 - [bitwise-or (`|`)](/pact-5/operators/bitwise-or) Computes the bitwise OR operation between two integers.
 - [bitwise-reverse (`~`)](/pact-5/operators/bitwise-reverse) Reverse all bits in the provided integer.

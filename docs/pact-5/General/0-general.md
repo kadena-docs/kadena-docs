@@ -14,7 +14,7 @@ For an introduction to creating and working with modules, see [Modules and refer
 | [at](/pact-5/general/at) | Retrieve the value at the location specified by an `index` number or by a `key` string. |
 | [base64&#8209;decode](/pact-5/general/base64-decode) | Convert a previously-encoded `string` from unpadded base64 encoding to a string. |
 | [base64&#8209;encode](/pact-5/general/base64-encode) | Convert the specified `string` to an unpadded base64-encoded string. |
-| [bind](/pact-5/general/bind) | Bind variables to values over subsequent body statements. |
+| [bind](/pact-5/General/bind) | Bind variables to values over subsequent body statements. |
 | [chain-data](/pact-5/general/chain-data) | Retrieve the blockchain-specific public metadata for a transaction. |
 | [charset-ascii](/pact-5/general/charset-ascii) | Use the standard ASCII character set. |
 | [charset-latin1](/pact-5/general/charset-latin1) | Use the standard Latin-1 character set. |
