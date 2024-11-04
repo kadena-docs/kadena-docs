@@ -6,7 +6,7 @@ id: special-use
 
 # Specialized functions
 
-Pact includes several built-in functions that are intended for very specific use cases, including integration with other tools and zero knowledge proofs.
+Pact includes several built-in functions that are intended for very specific use cases, such as integrating with other tools and working with zero knowledge proofs.
 
 ## Commitments
 
