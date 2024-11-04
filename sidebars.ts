@@ -464,7 +464,7 @@ const sidebars: SidebarsConfig = {
               'coding-projects/transfers',
               'coding-projects/rotate-auth',
               //'coding-projects/pact-testing',
-              //'coding-projects/interaction',
+              //'coding-projects/import-functions',
               //'coding-projects/loans',
               ],
     },
@@ -550,6 +550,10 @@ const sidebars: SidebarsConfig = {
             'solutions/spirekey/spirekey',
          ],
       },
+   ],
+
+   workspace: [
+      'workspace/workspace',
    ],
 };
 

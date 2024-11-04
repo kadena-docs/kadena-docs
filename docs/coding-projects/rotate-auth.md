@@ -17,7 +17,7 @@ Specifically, this project demonstrates the following:
 
 To implement these features, you'll create an `auth` module with four functions, one table, and two keysets:
 
-![Rotate wallet keys overview](/img/rotate-auth-overview.png)
+![Rotate authorized keys overview](/img/rotate-auth-overview.png)
 
 ## Before you begin
 
@@ -41,10 +41,10 @@ To get started:
    git clone https://github.com/kadena-docs/pact-coding-projects.git
    ```
 
-3. Change to the `02-rotate-wallet` directory by running the following command:
+3. Change to the `02-rotate-auth` directory by running the following command:
 
    ```bash
-   cd pact-coding-projects/02-rotate-wallet
+   cd pact-coding-projects/02-rotate-auth
    ```
 
    If you list the contents of this directory, you'll see the following files:
@@ -67,17 +67,21 @@ Like namespaces, keysets are also defined outside of module code and passed into
 This coding project requires two keysets:
 
 - The **module-admin** keyset allows authorized users to define and update modules. 
-- The **operate-admin** keyset allows authorized users to create wallet accounts.
+- The **operate-admin** keyset allows authorized users to create user accounts.
 
 To define the module keysets:
 
 1. Open the `starter-auth.pact` file in your code editor and save it as `auth.pact`.
 
-2. Enter the free namespace as the workspace for the keysets and module.
+2. Enter the `free` namespace as the workspace for the keysets and module.
    
     ```pact
    (namespace "free")
    ```
+
+   You can define custom namespaces in the local development environment.
+   The `free` namespace is a public namespace that you can use to deploy smart contracts on the Kadena test network.
+
 3. Define and read the module administrative keyset with the name `module-admin` to own the `auth` module.
    
    ```pact
@@ -85,7 +89,7 @@ To define the module keysets:
      (read-keyset "module-admin-keyset"))
    ```
    
-4. Define and read the operator keyset with the name `operate-admin` to allow users to create wallet accounts.
+4. Define and read the operator keyset with the name `operate-admin` to control who can create new user accounts.
 
    ```pact
    (define-keyset "free.operate-admin"
@@ -98,7 +102,7 @@ For more information about defining and reading keysets, see [define-keyset](/pa
 
 ## Define the module
 
-The next step is to create the module that will contain the logic of your smart contract.
+The next step is to create the module that will contain the logic for your smart contract.
 
 1. Create a module named `auth` that is governed by the `free.module-admin` keyset.
    
@@ -122,7 +126,7 @@ To define the schema and table:
 
 1. Open the modified `auth.pact` file in your code editor.
 
-2. Define a `user` schema for a table with the columns `nickname` with the type of `string` and `keyset` with the type of `keyset`.
+2. Define a `user` schema for a table with the columns `nickname` with the type of `string` and `keyset` with the type of `guard`.
    
    ```pact
    (defschema user
@@ -447,7 +451,7 @@ To define the `rotate-keyset` function:
    (format "Updated keyset for user {}" [id])
    ```
 
-      Without comments, your code should look similar to the following:
+   Without comments, your code should look similar to the following:
 
    ```pact
    (namespace "free")
@@ -516,15 +520,115 @@ To create the table:
    (create-table users-table)
    ```
 
-## Deploy the Smart Contract
+The code for the _Rotate authorized keys_ smart contract is now complete.
+From here, the next steps involve testing module functions, adding features, and deploying the contract in your local development environment or the Kadena public test network.
 
-Your Rotatable Wallet smart contract is complete! If you’d like, you can deploy
-this contract similar to how you would deploy other smart contracts.
+## Test the module using Chainweaver
 
-For more information on deploying this smart contract, view the following
-tutorials.
+Because you must define the keyset keys and predicate for your contract in the environment outside of the contract code, the Chainweaver integrated development environment provides the most convenient way to add the required keysets and test contract functions in the `free` public namespace on the Kadena test network.
 
-- [Hello World with Pact](/build/pact/hello-world)
-- [Set up a local development network](/build/pact/dev-network)
-- [Develop with Atom SDK](/build/pact/atom-sdk)
+To load the contract using Chainweaver:
 
+1. Open and unlock the Chainweaver desktop and web-based application, then select the **testnet** network.
+
+2. Click **Accounts** in the Chainweaver navigation pane and verify that you have at least one account with funds on at least one chain in the test network. 
+   
+   If you don't have keys and at least one account on any chain on the test network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
+   You'll use the public key for this account and the chain where you have funds in the account to deploy the contract and identify the contract owner.
+
+3. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the `auth.pact` contract that you want to deploy.
+
+   After you select the contract and click **Open**, the contract is displayed in the editor panel on the left with contract navigation on the right.
+   You'll also notice that the line where you define the keyset indicates an error, and the **Env** tab indicates that the error message is `No such key in message` because your `module-admin-keyset` doesn't exist in the environment yet.
+
+   In the Chainweaver integrated development environment, you can add keysets on the **Env** tab, under the **Data** section.
+
+4. Under **Keysets**, type the name of your administrative keyset—in this example, type `module-admin-keyset` as the keyset name—click **Create**, then select the public key and predicate function for the administrative keyset.
+   
+   You'll see that adding the keyset replaces the first error message with a second error message for the missing `module-operate-keyset` keyset.
+
+   Add the `module-operate-keyset` name, key, and predicate function to the environment to dismiss the second error message.
+
+5. Click **Load into REPL** to load the contract into the interactive Pact interpreter for testing its functions.
+   
+   You should see the following message:
+
+   ```pact
+   "TableCreated"
+   ```
+
+6. Click the **ENV** tab to add a keyset for the test user account.
+   
+   - Type `sarah-keyset`, click **Create**, then select a public key and predicate function for the Sarah account keyset.
+   - Remove the `module-admin-keyset` keyset from the environment to test that the `module-operate-keyset` keyset can add users.
+   
+7. Click the **REPL** tab to return to the loaded `auth` module to test its functions:
+   
+   - Call the `create-user` function to create the test user in the `free` namespace.
+     For example, to create the `sarah` user:
+     
+     ```pact
+     (free.auth.create-user "sarah" "Sarah Rae Fitzpatrick" (read-keyset "sarah-keyset"))
+     "Write succeeded"     
+     ```
+   
+   - Remove the `module-operate-keyset` keyset from the environment to test that the `sarah-keyset` keyset can change the user `nickname` field.
+
+   - Call the `change-nickname` function to change the `nickname` field for the `sarah` key-row, for example, to "S. R. Fitzpatrick-Perez":
+     
+     ```pact
+     (free.auth.change-nickname "sarah" "S. R. Fitzpatrick-Perez")
+     "Updated name for user sarah to S. R. Fitzpatrick-Perez"
+     ```
+   - Read information from the `users-table` for the `sarah` key-row:
+     
+     ```pact
+     (with-read free.auth.users-table "sarah" {"nickname" := n, "keyset" := k} (format "User Nickname: {} Keyset: {}" [n,k]))
+     "User Nickname: S. R. Fitzpatrick-Perez Keyset: KeySet {keys: [58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c],pred: keys-all}"
+     ```
+   
+   - Call the `rotate-keyset` function for the `sarah` key-row, then read the information from the `users-table`:
+     
+     ```pact
+     (free.auth.rotate-keyset "sarah" (read-keyset "new-sarah-keyset")) "Updated keyset for user sarah"
+     
+     (with-read free.auth.users-table "sarah" {"nickname" := n, "keyset" := k} (format "User Nickname: {} Keyset: {}" [n,k]))
+     "User Nickname: S. R. Fitzpatrick-Perez Keyset: KeySet {keys: [9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99],pred: keys-any}"
+     ```
+
+## Deploy using Chainweaver
+
+After testing that the contract functions work as expected in the interactive REPL, you can use Chainweaver to deploy the contract on the test network in the `free` namespace.
+To deploy in an existing namespace, you must also ensure that your module name and keyset name are unique across all of the modules that exist in that namespace.
+
+To deploy the contract using Chainweaver:
+
+1. Update the module name and keysets to make them unique in the namespace.
+   
+   For example:
+   
+   ```pact
+   (namespace "free")
+
+   (define-keyset "free.pistolas-module-admin" 
+      (read-keyset "module-admin-keyset"))
+   
+   (define-keyset "free.pistolas-operate-admin"
+      (read-keyset "module-operate-keyset"))
+   
+   (module pistolas-auth-project "free.pistolas-module-admin"
+   ...
+   )
+   ```
+
+2. Click **Deploy** to display the Configuration tab.
+3. On the Configuration tab, update General and Advanced settings like this:
+   
+   - Select the **Chain identifier** for the chain where you want to deploy the contract.
+   - Select the **Transaction Sender**.
+   - Click **Advanced** and add the updated ` module-admin` keyset to the environment.
+   - Click **Next**.
+
+4. On the Sign tab, select the public key for the administrative keyset as an **Unrestricted Signing Key**, then click **Next**.
+   
+3. On the Preview tab, scroll to see the Raw Response is "TableCreated", then click **Submit** to deploy the contract.
