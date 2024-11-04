@@ -9,26 +9,26 @@ id: pact-5
 Pact is a smart contract programming language that's specifically designed for correct, transactional execution on the Kadena blockchain network. 
 The language includes many native, built-in functions to perform many types of common programming tasks and to perform operations that are unique to the Pact programming language.
 Pact also provides functions for specialized use cases. 
-The built-in functions are grouped into the categories to make them easier to navigate.
+The built-in functions are grouped into several categories to make them easier to navigate.
 
 ## Common operations
 
 The built-in functions for the most common operations are grouped into the following categories:
 
 - [Capabilities](/pact-5/Capabilities/0-capability)
-- Database
-- General
-- Guards
-- Keysets
-- Operators
-- REPL-only
-- Time
+- [Database](/pact-5/database/0-database)
+- [General](/pact-5/general/0-general)
+- [Guards](/pact-5/guards/0-guards)
+- [Keysets](/pact-5/keysets/0-keysets)
+- [Operators](/pact-5/operators/0-operators)
+- [REPL-only](/pact-5/repl/0-repl)
+- [Time](/pact-5/time/0-time)
 
 ## Specialized use cases
 
-- Commitments
-- SPV
-- ZK
+- [Commitments](/pact-5/commitments)
+- [Simple payment verification (SPV)](/pact-5/spv/verify-spv)
+- [Zero-knowledge (ZK)](/pact-5/zk)
 
 Click a category to see a complete list of the functions in that category.
 Within each category, you can click individual function names to see more information, including function signatures and examples.

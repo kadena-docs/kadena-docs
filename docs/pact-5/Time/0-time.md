@@ -1,10 +1,10 @@
 ---
-title: Guard functions
-description: "Reference information for the Pact built-in guard-related functions."
-id: 0-guards
+title: Time functions
+description: "Reference information for the Pact built-in time functions."
+id: 0-time
 ---
 
-Guard functions are used to create and manage account principals for different types of guards and to enforce guard predicate functions.
+Time functions are used to create and manage account principals for different types of guards and to enforce guard predicate functions.
 
 | Function | Description |
 | :-------- | :----------- |

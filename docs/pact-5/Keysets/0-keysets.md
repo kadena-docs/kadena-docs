@@ -1,7 +1,7 @@
 ---
-title: Guard functions
-description: "Reference information for the Pact built-in guard-related functions."
-id: 0-guards
+title: Keyset functions
+description: "Reference information for the Pact built-in Keyset functions."
+id: 0-keysets
 ---
 
 Guard functions are used to create and manage account principals for different types of guards and to enforce guard predicate functions.
