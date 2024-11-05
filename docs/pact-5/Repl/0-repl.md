@@ -21,7 +21,7 @@ REPL-only functions are used to control environment settings and expected behavi
 | [env&#8209;gaslog](/pact-5/Repl/env-gaslog) | Enable gas logging for a block of code. |
 | [env&#8209;gasmodel](/pact-5/Repl/env-gasmodel) | Query or update the current gas model. |
 | [env&#8209;hash](/pact-5/Repl/env-hash) | Set the current transaction hash. |
-| [env&#8209;keys](/pact-5/Repl/envkeys) | Set the transaction signer keys (deprecated). |
+| [env&#8209;keys](/pact-5/Repl/env-keys) | Set the transaction signer keys (deprecated). |
 | [env&#8209;namespace&#8209;policy](/pact-5/Repl/env-namespace-policy) | Install a managed namespace policy. |
 | [env&#8209;sigs](/pact-5/Repl/env-sigs) | Set signature keys for signing transactions and granting capabilities.|
 | [expect&#8209;failure](/pact-5/Repl/expect-failure) | Evaluate an expression and succeed only if the expressions results in an error.|

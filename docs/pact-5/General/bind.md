@@ -1,8 +1,12 @@
-## bind
+---
+title: bind
+description: "Use `bind` to evaluate an object, then bind field variables to values over subsequent body statements."
+id: bind
+---
 
 Use `bind` to evaluate a `src` object, then apply the specified `bindings` to bind field variables to values over subsequent body statements.
 
-### Basic syntax
+## Basic syntax
 
 To evaluate `src` to an object and bind it with `bindings` over subsequent body statements, use the following syntax:
 
@@ -10,7 +14,7 @@ To evaluate `src` to an object and bind it with `bindings` over subsequent body 
 (bind src bindings)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the `src` object and `bindings` for the `bind` special form.
 
@@ -19,12 +23,12 @@ Use the following arguments to specify the `src` object and `bindings` for the `
 | `src` | object:{row} | Specifies the source object to evaluate. |
 | `bindings` | binding:{row} | Specifies the bindings to apply to the `src` object. |
 
-### Return values
+## Return values
 
 The `bind` returns the result of evaluating the `src` object with the specifies `bindings`.
 The data type depends on the data type of the field you specify for the `bindings` argument.
 
-### Examples
+## Examples
 
 The following example demonstrates the `bind` special form in the Pact REPL:
 

@@ -78,7 +78,7 @@ Work bytes - (ChainBytes4 + TargetBytes32 + HeaderBytes286)
 
 This is the minimum information required to perform proof-of-work validation. 
 No knowledge of Chainweb internals is necessary.
-For information about the encoding of work bytes, see [Binary encoding](/reference/chainweb-api/binary-encoding#work-header-binary-encodingh861308059).
+For information about the encoding of work bytes, see [Binary encoding](/api/binary-encoding#work-header-binary-encoding).
 
 ## Solved mining work
 

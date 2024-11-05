@@ -107,10 +107,10 @@ pact> { "foo": (+ 1 2), "bar": "baz" }
 Bindings are dictionary-like forms, also created with curly braces, to bind database results to variables using the `:=` operator. 
 Bindings are used in the following functions to assign variables to named columns in a row, or values in an object:
 
-- [with-read](/reference/functions/database#with-readh866473533)
-- [with-default-read](/reference/functions/database#with-default-readh1087687497)
-- [bind](/reference/functions/general#bindh3023933)
-- [resume](/reference/functions/general#resumeh-934426579) 
+- [with-read](/pact-5/Database/with-read)
+- [with-default-read](/pact-5/Database/with-default-read)
+- [bind](/pact-5/General/bind)
+- [resume](/pact-5/General/resume) 
 
 ```pact
 (defun check-balance (id)
@@ -177,7 +177,7 @@ For example:
 
 ## Schema type literals
 
-A schema defined with [defschema](/reference/syntax#defschemah-1003560474) is referenced by a name enclosed in curly braces (`{}`).
+A schema defined with [defschema](/reference/syntax#defschema) is referenced by a name enclosed in curly braces (`{}`).
 
 
 ```pact
@@ -207,7 +207,7 @@ Tables and objects can only take a schema type literal.
 
 ## Module type literals
 
-[Module references](/build/pact/advanced#modrefs-and-polymorphismh83727950) are specified by the interfaces they demand as a comma-delimited list.
+[Module references](/smart-contracts/modules#module-references) are specified by the interfaces they demand as a comma-delimited list.
 
 ```pact
 module:{fungible-v2,user.votable}
@@ -215,7 +215,7 @@ module:{fungible-v2,user.votable}
 
 ## Dereference operator
 
-The dereference operator `::` allows a member of an interface specified in the type of a [module reference](/smart-contracts/modules#modrefs-and-polymorphism) to be invoked at runtime.
+The dereference operator `::` allows a member of an interface specified in the type of a [module reference](/smart-contracts/modules#module-references) to be invoked at runtime.
 
 ```pact
 (interface baz
@@ -233,7 +233,7 @@ The dereference operator `::` allows a member of an interface specified in the t
 
 Use the `bless` keyword to identify a previous version of a module—identified by its `hash` value—that you want to continue to support.
 
-For more information about using the `bless` keyword in a module declaration, see [Dependency management](/smart-contracts/modules#dependency-managementh304790584).
+For more information about using the `bless` keyword in a module declaration, see [Dependency management](/smart-contracts/modules#module-versioning-and-dependencies).
 
 ### Basic syntax
 
@@ -476,7 +476,7 @@ The following example illustrates defining the `accounts` schema and an `account
 
 Use the `deftable` keyword to define a database _table_ with the specified `name`. 
 The name you specify is used in database functions to identify the table you want to work with. 
-Note the table must still be created with [create-table](/reference/functions/database#create-table) function.
+Note the table must still be created with [create-table](/pact-5/Database/create-table) function.
 
 ### Basic syntax
 
@@ -508,9 +508,9 @@ The following example illustrates defining a schema and an `accounts` table:
 ## implements
 
 Use the `implements` keyword to specify that a module _implements_ the specified `interface`. 
-This KEYWORD requires the module to implement all of the functions, pacts, and capabilities that are specified in the interface with identical signatures, including the same argument names and declared types.
+This keyword requires the module to implement all of the functions, defpacts, and capabilities that are specified in the interface with identical signatures, including the same argument names and declared types.
 
-A module thus specified can be used as a [module reference](/build/pact/advanced#modrefs-and-polymorphismh83727950) for the specified interface(s).
+A module that implements an interface can be used as a [module reference](/smart-contracts/modules#module-references) for the specified interfaces.
 
 <!--Note that [models](/reference/property-checking) declared for the implemented interface and its members will be appended to whatever models are declared within the implementing module. -->
 
@@ -531,7 +531,7 @@ The `body` of the interface is composed of definitions that will be scoped in th
 Valid expressions in a module include the following:
 
 - [defun](/reference/syntax#defun)
-- [defconst](/reference/syntax#defconst2)
+- [defconst](/reference/syntax#defconst)
 - [defschema](/reference/syntax#defschema)
 - [defpact](/reference/syntax#defpact)
 - [defcap](/reference/syntax#defcap)
@@ -659,15 +659,15 @@ If `keyset-or-governance` is an unqualified [atom](/reference/syntax#atoms), it 
 The body of a module is composed of definitions are scoped to the module. 
 A module can include the following types of declarations:
 
-- [defun](/reference/syntax#defunh95462750)
-- [defpact](/reference/syntax#defpacth1545231271)
-- [defcap](/reference/syntax#defcaph-1335639635)
-- [deftable](/reference/syntax#deftableh661222121)
-- [defschema](/reference/syntax#defschemah-1003560474)
-- [defconst](/reference/syntax#defconsth645951102)
-- [implements](/reference/syntax#implementsh-915384400)
-- [use](/reference/syntax#useh116103)
-- [bless](/reference/syntax#blessh93823227)
+- [defun](/reference/syntax#defun)
+- [defpact](/reference/syntax#defpact)
+- [defcap](/reference/syntax#defcap)
+- [deftable](/reference/syntax#deftable)
+- [defschema](/reference/syntax#defschema)
+- [defconst](/reference/syntax#defconst)
+- [implements](/reference/syntax#implements)
+- [use](/reference/syntax#use)
+- [bless](/reference/syntax#bless)
 
 ### Basic syntax
 
@@ -815,7 +815,7 @@ This keyword is only valid at the top-level of a contract or within a module dec
 The specified `module` can be a string, symbol, or bare atom. 
 
 You specify the `hash` argument to validate that the imported module's hash matches specified `hash` and fail if the hashes are not the same. 
-You can use the [describe-module](/reference/functions/repl-only-functions#describe-module) function to query for the hash of a loaded module on the chain.
+You can use the [describe-module](/pact-5/Database/describe-module) function to query for the hash of a loaded module on the chain.
 
 You can also specify an optional list of `imports` consisting of function, constant, and schema names to import from the specified `module`. 
 If you explicitly define the function, constant, and schema names to import, only the listed items are available for you to use in the module body. 
@@ -869,7 +869,7 @@ The following example illustrates importing only the `transfer` and `example-fun
 
 ## Expressions
 
-Expressions can be [literals](/reference/syntax#literals), atoms, s-expressions, or references.
+Expressions can be literals, atoms, s-expressions, or references.
 
 ### Atoms
 
@@ -879,7 +879,7 @@ Atoms must resolve to a variable bound by one of the following:
 
 - [defun](/reference/syntax#defun) definition.
 - [defpact](/reference/syntax#defpact) definition.
-- [binding](/reference/syntax#binding) form.
+- [bindings](/reference/syntax#bindings) form.
 - [lambda](/reference/syntax#lambdas) form.
 - Symbols imported into the namespace with [use](/reference/syntax#use).
 
@@ -888,7 +888,16 @@ Atoms must resolve to a variable bound by one of the following:
 S-expressions are formed with parentheses, with the first atom determining if the expression is a special form with a reserved keyword or a function application.
 If the expression is a function application, the first atom must refer to a definition.
 
-An application with less than the required arguments is in some contexts a valid _partial application_ of the function. However, this is only supported in Pact's [functional-style functions](/build/pact/advanced#functional-concepts).Using a partial application anywhere else results in a runtime error.
+An application with less than the required arguments is in some contexts a valid _partial application_ of the function. 
+However, this is only supported in a limited number of Pact functions, such the `map`, `fold`, and `filter` functions. 
+With these functions, the list item can be appended to the application arguments to serially execute the function.
+
+```pact
+(map (+ 2) [1 2 3])
+(fold (+) "" ["Concatenate" " " "me"])
+```
+
+Using a partial application with most functions results in a runtime error.
 
 ### References
 

@@ -91,6 +91,8 @@ const sidebars: SidebarsConfig = {
                      'guides/nodes/monitoring',
               ],
            },
+           'guides/dev-kadena-cli',
+           'guides/chainweaver',
          ],
       },
       {
@@ -435,7 +437,7 @@ const sidebars: SidebarsConfig = {
          label: 'kadena-cli commands',
          link: {
             type: 'doc',
-            id: 'reference/kadena-cli',
+            id: 'reference/kadena-cli-ref',
          },
          items: [
             'reference/cli/cli-account',

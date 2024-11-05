@@ -121,7 +121,7 @@ built-in function.
 To try it yourself:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact
@@ -154,7 +154,7 @@ For more information about using a single quotation mark for function or table n
 To work with strings:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact
@@ -167,14 +167,14 @@ To work with strings:
    "Where the wild things are"
    ```
 
-3. Use a single quotation mark to identify a string.
+4. Use a single quotation mark to identify a string.
 
    ```pact
    pact> 'hello
    "hello"
    ```
 
-1. Concatenate two strings using the built-in `add` function.
+5. Concatenate two strings using the built-in `add` function.
    
    ```pact
    pact> (+ 'Hello " darkness my old friend")
@@ -189,7 +189,7 @@ Pact objects are similar to JavaScript objects defined using key-value pairs.
 To create lists and objects:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact
@@ -248,52 +248,52 @@ For example, you can replace the numeric representing the month of the year with
 pact> (format-time "%Y-%b-%d" (time "2024-07-24T13:30:45Z"))
 "2024-Jul-24"
 ```
-For more information about all of the formats supported, see [Time formats](/reference/functions/time).
+For more information about all of the formats supported, see [Time formats](/pact-5/Time/0-time).
 
 ## Operators
 
 Pact provides operator functions to perform common arithmetic, comparison, and logical operations.
 The most common of these operator functions are listed in this section.
-For a complete list with more information about each function, including function signatures and examples, see [Operators](/reference/functions/operators).
+For a complete list with more information about each function, including function signatures and examples, see [Operators](/pact-5/Operators/0-operators).
 
 ### Arithmetic operators
 
-- [+](../pact-5/operators/add): Addition
-- [-](../pact-5/operators/sub): Subtraction
-- [*](../pact-5/operators/mult): Multiplication
-- [/](../pact-5/operators/div): Division
-- [^](../pact-5/operators/exp): Exponentiation
+- [+](/pact-5/Operators/add): Addition
+- [-](/pact-5/Operators/sub): Subtraction
+- [*](/pact-5/Operators/mult): Multiplication
+- [/](/pact-5/Operators/div): Division
+- [^](/pact-5/Operators/exp): Exponentiation
 
 ### Comparison operators
 
-- [=](operators/equality.md): Equality
-- [!=](operators/inequality.md): Inequality
-- [`<`](operators/less-than.md): Less than
-- [`<=`](operators/less-than-or-equal.md): Less than or equal to
-- [`>`](operators/greater-than.md): Greater than
-- [`>=`](operators/greater-than-or-equal.md): Greater than or equal to
+- [=](/pact-5/Operators/eq): Equality
+- [!=](/pact-5/Operators/neq): Inequality
+- [`<`](/pact-5/Operators/lt): Less than
+- [`<=`](/pact-5/Operators/leq): Less than or equal to
+- [`>`](/pact-5/Operators/gt): Greater than
+- [`>=`](/pact-5/Operators/geq): Greater than or equal to
 
 ### Logical operators
 
-- [and](operators/and.md): Logical AND
-- [or](operators/or.md): Logical OR
-- [not](operators/not.md): Logical NOT
+- [and](/pact-5/Operators/and): Logical AND
+- [or](/pact-5/Operators/or): Logical OR
+- [not](/pact-5/Operators/not): Logical NOT
 
 ### Bitwise operators
 
-- [&](operators/bitwise-and.md): Bitwise AND
-- [|](operators/bitwise-or.md): Bitwise OR
-- [~](operators/bitwise-not.md): Bitwise NOT
-- [xor](operators/bitwise-xor.md): Bitwise XOR
-- [shift](operators/shift.md): Bitwise shift
+- [&](/pact-5/Operators/bitwise-and): Bitwise AND
+- [|](/pact-5/Operators/bitwise-or): Bitwise OR
+- [~](/pact-5/Operators/bitwise-reverse): Bitwise NOT
+- [xor](/pact-5/Operators/xor): Bitwise XOR
+- [shift](/pact-5/Operators/shift): Bitwise shift
 
 ### Math-related operators
 
-- [mod](operators/modulus.md): Modulus
-- [abs](operators/absolute-value.md): Absolute value
-- [round](operators/round.md): Rounding
-- [ceiling](operators/ceiling.md): Ceiling
-- [floor](operators/floor.md): Floor
+- [mod](/pact-5/Operators/mod): Modulus
+- [abs](/pact-5/Operators/abs): Absolute value
+- [round](/pact-5/General/round): Rounding
+- [ceiling](/pact-5/Operators/ceiling): Ceiling
+- [floor](/pact-5/Operators/floor): Floor
 
 ## Functions
 
@@ -302,16 +302,13 @@ In addition to the operator functions, Pact provides many other built-in functio
 The functions are grouped into the following categories:
 
 - [Capabilities](/pact-5/Capabilities/0-capability)
-- Commitments
-- Database
-- General
-- Guards
-- Keysets
-- Operators
-- Repl
-- SPV
-- Time
-- ZK
+- [Database](/pact-5/Database/0-database)
+- [General](/pact-5/General/0-general)
+- [Guards](/pact-5/Guards/0-guards)
+- [Keysets](/pact-5/Keysets/0-keysets)
+- [Operators](/pact-5/Operators/0-operators)
+- [Repl](/pact-5/Repl/0-repl)
+- [Time](/pact-5/Time/0-time)
 
 Click a category to see a complete list of the functions in that category.
 Within each category, you can click individual function names to see more information, including function signatures and examples.

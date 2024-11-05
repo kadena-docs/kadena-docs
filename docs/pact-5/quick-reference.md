@@ -6,168 +6,168 @@ id: func-quick-ref
 
 # Function quick reference
 
-- [abs](/pact-5/operators/abs) Calculate the absolute value of a number.
-- [acquire-module-admin](/pact-5/general/acquire-module-admin) Grant module administrative privileges for a specified module.
-- [add-time](/pact-5/time/add-time) Add a specified number of seconds to a time.
-- [add (`+`)](/pact-5/operators/add) Add numbers, concatenation for strings, or merge objects.
-- [and?](/pact-5/operators/and-q) Apply a logical AND operation to a result.
-- [and](/pact-5/operators/and) Perform a boolean logic AND operation.
-- [at](/pact-5/general/at) Get a value using an index for a list or a key for an object.
-- [base64-decode](/pact-5/general/base64-decode) Decode a base64-encoded string.
-- [base64-encode](/pact-5/general/base64-encode) Encode a string as unpadded base64.
-- [begin-tx](/pact-5/repl/begin-tx) Begin a new transaction with an optional name (REPL only).
-- [bind](/pact-5/General/bind) Evaluate an object with bindings.
-- [bitwise-and (`&`)](/pact-5/operators/bitwise-and) Compute the bitwise AND operation between arguments.
-- [bitwise-or (`|`)](/pact-5/operators/bitwise-or) Computes the bitwise OR operation between two integers.
-- [bitwise-reverse (`~`)](/pact-5/operators/bitwise-reverse) Reverse all bits in the provided integer.
-- [ceiling](/pact-5/operators/ceiling) Round up the value of a decimal to the nearest integer or specified precision.
-- [chain-data](/pact-5/general/chain-data) Retrieve public metadata.
-- [charset-ascii](/pact-5/general/charset-ascii) Use the standard ASCII character set.
-- [charset-latin](/pact-5/general/charset-latin1) Use the standard Latin1 character set.
-- [commit-tx](/pact-5/repl/commit-tx) Commit the current transaction (REPL only). 
-- [compose-capability](/pact-5/capabilities/compose-capability) Request the grant of a capability within a capability. 
-- [compose](/pact-5/general/compose) Compose functions to operate on value.
-- [concat](/pact-5/general/concat) Concatenate a list of strings.
-- [constantly](/pact-5/general/constantly) Ignore specified arguments.
-- [contains](/pact-5/general/contains) Evaluate the contents of a list, object, or string.
-- [continue-pact](/pact-5/repl/continue-pact) Continue a previously-initiated multi-step `defpact` transaction (REPL only).
-- [continue](/pact-5/general/continue) Continue a previously started `defpact` step.
-- [create-capability-guard](/pact-5/guards/create-capability-guard) Create a guard to enforce a specified capability.
-- [create-capability-pact-guard](/pact-5/guards/create-capability-pact-guard) Create a guard to enforces a specified capability in an executing `defpact` step.
-- [create-module-guard](/pact-5/guards/create-module-guard) Define a guard to enforce the current module administrator predicate.
-- [create-pact-guard](/pact-5/guards/create-pact-guard) Define a guard predicate that captures the `pact-id` for a `defpact` step.
-- [create-principal](/pact-5/guards/create-principal) Create a principal that identifies a guard.
-- [create-table](/pact-5/database/create-table) Create a table.
-- [create-user-guard](/pact-5/guards/create-user-guard) Define a custom guard.
-- [days](/pact-5/time/days) Specify a number of days to add or subtract days from a given time.
-- [dec](/pact-5/operators/dec) Convert an integer to a decimal value.
-- [decrypt-cc20p1305](/pact-5/commitments/decrypt-cc20p1305) Decrypt using the CHACHA20-POLY1305 encryption algorithm.
-- [define-keyset](/pact-5/keysets/define-keyset) Define an authorization keyset from keyset data set in the environment.
-- [define-namespace](/pact-5/general/define-namespace) Create a new namespace or update the guards of an existing namespace.
-- [describe-keyset](/pact-5/database/describe-keyset) Retrieve metadata for a specified keyset.
-- [describe-module](/pact-5/database/describe-module) Get metadata for a specified module.
-- [describe-namespace](/pact-5/general/describe-namespace) Describe the specified namespace.
-- [describe-table](/pact-5/database/describe-table) Get metadata for a specified table.
-- [diff-time](/pact-5/time/diff-time) Compute the difference in seconds between two specified times.
-- [distinct](/pact-5/general/distinct) Return a list with duplicates removed.
-- [div (`/`)](/pact-5/operators/div) Divide the first argument by the second argument.
-- [drop](/pact-5/general/drop) Remove values from a list or string.
-- [emit-event](/pact-5/capabilities/emit-event) Emit a specified capability as an event.
-- [enforce-guard](/pact-5/general/enforce-guard) Execute a specified guard or keyset to enforce predicate logic.
-- [enforce-keyset](/pact-5/keysets/enforce-keyset) Execute a keyset to enforce predicate logic.
-- [enforce-one](/pact-5/general/enforce-one) Evaluate a series of tests in order.
-- [enforce-pact-version](/pact-5/general/enforce-pact-version) Enforce the runtime Pact version to be within a specified range.
-- [enforce-verifier](/pact-5/general/enforce-verifier) Enforce that a verifier with the specified name is in scope.
-- [enforce](/pact-5/general/enforce) Fail a transaction if an expression evaluates to false. 
-- [enumerate](/pact-5/general/enumerate) Return a sequence of numbers as a list.
-- [env-chain-data](/pact-5/repl/env-chain-data) Define chain information for transactions in your testing environment (REPL only).
-- [env-data](/pact-5/repl/env-data) Set transaction data for your testing environment (REPL only).
-- [env-enable-repl-natives](/pact-5/repl/env-enable-repl-natives) Control whether REPL native functions are allowed in module code (REPL only).
-- [env-events](/pact-5/repl/env-events) Retrieve any accumulated events and optionally clear the event state (REPL only).
-- [env-exec-config](/pact-5/repl/env-exec-config) Query or set configuration information for transactions in your testing environment (REPL only).
-- [env-gas](/pact-5/repl/env-gas) Query the current gas state or set it to a specific value (REPL only).
-- [env-gaslimit](/pact-5/repl/env-gaslimit) Set the environment gas limit to a specific value (REPL only).
-- [env-gaslog](/pact-5/repl/env-gaslog) Enable gas logging for a block of code (REPL only).
-- [env-gasmodel](/pact-5/repl/env-gasmodel) Query or update the current gas model (REPL only).
-- [env-hash](/pact-5/repl/env-hash) Set the current transaction hash (REPL only).
-- [env-keys](/pact-5/repl/env-keys) Set the transaction signer keys (REPL only, deprecated).
-- [env-namespace-policy](/pact-5/repl/env-namespace-policy) Install a managed namespace policy (REPL only).
-- [env-sigs](/pact-5/repl/env-sigs) Set signature keys for signing transactions and granting capabilities (REPL only).
-- [equal (`=`)](/pact-5/operators/eq) Return true if the first argument is equal to the second argument.
-- [exp](/pact-5/operators/exp) Calculate the exponential function of a value.
-- [expect-failure](/pact-5/repl/expect-failure) Evaluate an expression and succeed only if the expressions results in an error (REPL only).
-- [expect-that](/pact-5/repl/expect-that) Evaluate an expression and succeed if the resulting value passes a predicate function (REPL only).
-- [expect](/pact-5/repl/expect) Evaluate an expression and verify that the result equals an expected value (REPL only).
-- [filter](/pact-5/general/filter) Filter a list by applying a function to each element. 
-- [floor](/pact-5/operators/floor) Round down the value of a decimal to an integer or to a specified precision.
-- [fold-db](/pact-5/database/fold-db) Select rows from a table using a predicate and accumulate the results.
-- [fold](/pact-5/general/fold) Reduce a list iteratively by applying a function to each element.
-- [format-time](/pact-5/time/format-time) Format a time value using a specified format.
-- [format](/pact-5/general/format) Format a message using placeholders and variables.
-- [greater-than or equal (`>=`)](/pact-5/operators/qeq) Return true if the first argument is greater than or equal to the second argument.
-- [greater-thant (`>`)](/pact-5/operators/gt) Return true if the first argument is greater than the second argument.
-- [hash-keccak256](/pact-5/general/hash-keccak256) Compute the hash of a list of inputs.
-- [hash](/pact-5/general/hash) Compute the BLAKE2b 256-bit hash of a value.
-- [hours](/pact-5/time/hours) Add a specific number of hours to a given time.
-- [hyperlane-decode-token-message](/pact-5/commitments/hyperlane-decode-token-message) Decode a base-64-unpadded encoded Hyperlane Token Message into an object.
-- [hyperlane-encode-token-message](/pact-5/commitments/hyperlane-encode-token-message) Encode an object into base-64-unpadded encoded Hyperlane Token Message.
-- [hyperlane-message-id](/pact-5/commitments/hyperlane-message-id) Get the message identifier of a Hyperlane Message object.
-- [identity](/pact-5/general/identity) Return the provided value.
-- [if](/pact-5/general/if) Test whether a condition is true to determine the operation to perform.
-- [insert](/pact-5/database/insert) Add a new value to a database record in a specified table.
-- [install-capability](/pact-5/capabilities/install-capability) Specify and provision a managed capability.
-- [int-to-str](/pact-5/general/int-to-str) Represent an integer value as a string in a specified base.
-- [is-charset](/pact-5/general/is-charset) Check whether a string conforms to a supported character set.
-- [is-principal](/pact-5/guards/is-principal) Check whether a principal string conforms to the principal format.
-- [keylog](/pact-5/database/keylog) Return a log of the updates to a specified table for a specified key-row.
-- [keys-2](/pact-5/keysets/keys-2) Determine whether a keyset has at least two required keys.
-- [keys-all](/pact-5/keysets/keys-all) Determine whether a keyset has all of its required keys.
-- [keys](/pact-5/database/keys) Return all of the keys for a specified table in a module.
-- [keys](/pact-5/keysets/keys) Return all of the keys for a specified table in a module.
-- [keyset-ref-guard](/pact-5/guards/keyset-ref-guard) Create a guard for the keyset in the guard database.
-- [length](/pact-5/general/length) Compute the length of a list, string, or object.
-- [less-than or equal (`<=`)](/pact-5/operators/leq) Return true if the first argument is less than or equal to the second argument.
-- [list-module](/pact-5/general/list-module) List modules available for loading.
-- [list-modules](/pact-5/database/list-modules) List all of the modules deployed on a particular chain using the `/local` endpoint.
-- [list](/pact-5/general/list) Create a list from the specified elements (deprecated).
-- [ln](/pact-5/operators/ln) Compute the natural logarithm of a specified value.
-- [log](/pact-5/operators/log) Compute the logarithm of the specified value with the specified base.
-- [less-than `<`](/pact-5/operators/lt) Return true if the first argument is less than the second argument.
-- [make-list](/pact-5/general/make-list) Create a list by repeating a specified value a certain number of times.
-- [map](/pact-5/general/map) Apply a function (APP) to each element in a list.
-- [minutes](/pact-5/tine/minutes) Add a specific number of minutes to a given time.
-- [mod](/pact-5/operators/mod) Compute the remainder for the first value divided by the second value.
-- [multiply (`*`)](/pact-5/operators/mult) Multiply the first argument by the second argument.
-- [namespace](/pact-5/general/namespace) Set the current namespace to a specified value.
-- [not-equal (`!=`)](/pact-5/operators/neq) Return true if the first argument does not equal the second argument.
-- [not?](/pact-5/operators/not-q) Apply a logical NOT to the results of a function.
-- [not](/pact-5/operators/not) Perform a boolean logic NOT operation.
-- [or?](/pact-5/operators/or-q) Apply a logical OR to the results a function.
-- [or](/pact-5/operators/or) Perform a boolean logic NOT operation.
-- [pact-id](/pact-5/general/pact-id) Return the identifier associated with `defpact` execution.
-- [pact-version](/pact-5/general/pact-version) Get the current Pact build version.
-- [pairing-check](/pact-5/zk/pairing-check) Perform pairing and final exponentiation on points for a zero knowledge proof.
-- [parse-time](/pact-5/time/parse-time) Construct time from a UTC value using a specified format. 
-- [point-add](/pact-5/zk/poibnt-add) Add two points together for a zero knowledge proof.
-- [poseidon-hash-hack-a-chain](/pact-5/general/poseidon-hash-hack-a-chain) Compute a hash using the Poseidon hash function used by Hack-a-Chain.
-- [power-of (`^`)](/pact-5/operators/pow) Raise an argument to the power of the second argument.
-- [read-decimal](/pact-5/general/read-decimal) Read a `key` string or number value from the message data as a decimal.
-- [read-integer](/pact-5/general/read-integer) Read a `key` string or number value from the message data as an integer.
-- [read-keyset](/pact-5/general/read-keyset) Read a `key` from the message data as a keyset with a list of keys and a predicate function.
-- [read-msg](/pact-5/general/read-msg) Read a `key` from the message data body.
-- [read-string](/pact-5/general/read-string) Read a `key` string or number value from the message data as a string.
-- [read](/pact-5/database/read) Retrieve information from a specified `table` based on a given `key` row.
-- [remove](/pact-5/general/remove) Remove an entry associated with a specified `key` from an object.
-- [require-capability](/pact-5/capabilities/require-capability) Check whether a specified capability has been granted.
-- [resume](/pact-5/general/resume) Bind a yielded object value from a `defpact` step to the execution of the next `defpact` step.
-- [reverse](/pact-5/general/reverse) Reverse the order of elements in a given list.
-- [round](/pact-5/general/round) Perform Banker's rounding to return an integer or decimal value.
-- [scalar-mult](/pact-5/zk/scalar-mult) Multiply a point by an integer value for a zero-knowledge proof.
-- [select](/pact-5/database/select) Retrieve full rows or specific columns from a table.
-- [shift](/pact-5/operators/shift) Perform a bitwise shift operation on the specified integer by the specified number of bits.
-- [sort](/pact-5/general/sort) Sort a list of primitive values or objects.
-- [static-redeploy](/pact-5/general/static-redeploy) Redeploy a module without any code changes. 
-- [sqrt](/pact-5/operators/sqrt) Compute the square root of the given value.
-- [str-to-int](/pact-5/general/str-to-int) Compute the integer value of the specified string.
-- [str-to-list](/pact-5/general/str-to-list) Convert a string into a list where each element is a single-character string.
-- [subtract (`-`)](/pact-5/operators/sub) Negate an argument or subtract the second argument from the first argument.
-- [take](/pact-5/general/take) Retrieve a specified number of values from a list, string, or object.
-- [time](/pact-5/time/time) Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.
-- [try](/pact-5/general/try) Attempt a pure action without input, output, or state-changing operations.
-- [tx-hash](/pact-5/general/tx-hash) Get the hash of the current transaction as a string.
-- [txids](/pact-5/database/txids) Return all transaction identifier greater than or equal to a specified identifier.
-- [txlog](/pact-5/database/txlog) Returns a log of all updates made to a specified table in a specific transaction identifier.
-- [typeof-principal](/pact-5/guards/typeof-principal) Return the protocol type of a given principal.
-- [typeof](/pact-5/general/typeof) Return a description of the data type for a specified value.
-- [update](/pact-5/database/update) Update a value for a database record in the specified table.
-- [validate-keypair](/pact-5/commitments/validate-keypair) Verify that the public key and secret key are valid.
-- [validate-principal](/pact-5/guards/validate-principal) Validate that a principal identifies a specified guard.
-- [verify-spv](/pact-5/spv/verify-spv) Perform a platform-specific simplified payment verification (SPV) proof.
-- [where](/pact-5/general/where) Define a clause to refine the results from `filter` or `select` operations.
-- [with-capability](/pact-5/capabilities/with-capability) Specify the capability that must be granted to perform a privileged operation.
-- [with-default-read](/pact-5/database/with-default-read) Read a row from a specified table and use default values for columns if the row isn't found.
-- [with-read](/pact-5/database/with-read) Read a row from a specified table and bind columns names to variables.
-- [write](/pact-5/database/write) Write or overwrite a value for a database record in the specified table.
-- [xor](/pact-5/operators/xor) Compute the bitwise exclusive OR operation between two integers.
-- [yield](/pact-5/general/yield) Yield an object to use with the `resume` function in a `defpact` step.
-- [zip](/pact-5/general/zip) Combine two lists using a specified function to create a new list.
+- [abs](/pact-5/Operators/abs) Calculate the absolute value of a number.
+- [acquire-module-admin](/pact-5/General/acquire-module-admin) Grant module administrative privileges for a specified module.
+- [add-time](/pact-5/Time/add-time) Add a specified number of seconds to a time.
+- [add (`+`)](/pact-5/Operators/add) Add numbers, concatenation for strings, or merge objects.
+- [and?](/pact-5/Operators/and-q) Apply a logical AND operation to a result.
+- [and](/pact-5/Operators/and) Perform a boolean logic AND operation.
+- [at](/pact-5/General/at) Get a value using an index for a list or a key for an object.
+- [base64-decode](/pact-5/General/base64-decode) Decode a base64-encoded string.
+- [base64-encode](/pact-5/General/base64-encode) Encode a string as unpadded base64.
+- [begin-tx](/pact-5/Repl/begin-tx) Begin a new transaction with an optional name (REPL only).
+- [bind](/pact-5/General/bind.md) Evaluate an object with bindings.
+- [bitwise-and (`&`)](/pact-5/Operators/bitwise-and) Compute the bitwise AND operation between arguments.
+- [bitwise-or (`|`)](/pact-5/Operators/bitwise-or) Computes the bitwise OR operation between two integers.
+- [bitwise-reverse (`~`)](/pact-5/Operators/bitwise-reverse) Reverse all bits in the provided integer.
+- [ceiling](/pact-5/Operators/ceiling) Round up the value of a decimal to the nearest integer or specified precision.
+- [chain-data](/pact-5/General/chain-data) Retrieve public metadata.
+- [charset-ascii](/pact-5/General/charset-ascii) Use the standard ASCII character set.
+- [charset-latin](/pact-5/General/charset-latin1) Use the standard Latin1 character set.
+- [commit-tx](/pact-5/Repl/commit-tx) Commit the current transaction (REPL only). 
+- [compose-capability](/pact-5/Capabilities/compose-capability) Request the grant of a capability within a capability. 
+- [compose](/pact-5/General/compose) Compose functions to operate on value.
+- [concat](/pact-5/General/concat) Concatenate a list of strings.
+- [constantly](/pact-5/General/constantly) Ignore specified arguments.
+- [contains](/pact-5/General/contains) Evaluate the contents of a list, object, or string.
+- [continue-pact](/pact-5/Repl/continue-pact) Continue a previously-initiated multi-step `defpact` transaction (REPL only).
+- [continue](/pact-5/General/continue) Continue a previously started `defpact` step.
+- [create-capability-guard](/pact-5/Guards/create-capability-guard) Create a guard to enforce a specified capability.
+- [create-capability-pact-guard](/pact-5/Guards/create-capability-pact-guard) Create a guard to enforces a specified capability in an executing `defpact` step.
+- [create-module-guard](/pact-5/Guards/create-module-guard) Define a guard to enforce the current module administrator predicate.
+- [create-pact-guard](/pact-5/Guards/create-pact-guard) Define a guard predicate that captures the `pact-id` for a `defpact` step.
+- [create-principal](/pact-5/Guards/create-principal) Create a principal that identifies a guard.
+- [create-table](/pact-5/Database/create-table) Create a table.
+- [create-user-guard](/pact-5/Guards/create-user-guard) Define a custom guard.
+- [days](/pact-5/Time/days) Specify a number of days to add or subtract days from a given time.
+- [dec](/pact-5/Operators/dec) Convert an integer to a decimal value.
+- [decrypt-cc20p1305](/pact-5/Commitments/decrypt-cc20p1305) Decrypt using the CHACHA20-POLY1305 encryption algorithm.
+- [define-keyset](/pact-5/Keysets/define-keyset) Define an authorization keyset from keyset data set in the environment.
+- [define-namespace](/pact-5/General/define-namespace) Create a new namespace or update the guards of an existing namespace.
+- [describe-keyset](/pact-5/Database/describe-keyset) Retrieve metadata for a specified keyset.
+- [describe-module](/pact-5/Database/describe-module) Get metadata for a specified module.
+- [describe-namespace](/pact-5/General/describe-namespace) Describe the specified namespace.
+- [describe-table](/pact-5/Database/describe-table) Get metadata for a specified table.
+- [diff-time](/pact-5/Time/diff-time) Compute the difference in seconds between two specified times.
+- [distinct](/pact-5/General/distinct) Return a list with duplicates removed.
+- [div (`/`)](/pact-5/Operators/div) Divide the first argument by the second argument.
+- [drop](/pact-5/General/drop) Remove values from a list or string.
+- [emit-event](/pact-5/Capabilities/emit-event) Emit a specified capability as an event.
+- [enforce-guard](/pact-5/General/enforce-guard) Execute a specified guard or keyset to enforce predicate logic.
+- [enforce-keyset](/pact-5/Keysets/enforce-keyset) Execute a keyset to enforce predicate logic.
+- [enforce-one](/pact-5/General/enforce-one) Evaluate a series of tests in order.
+- [enforce-pact-version](/pact-5/General/enforce-pact-version) Enforce the runtime Pact version to be within a specified range.
+- [enforce-verifier](/pact-5/General/enforce-verifier) Enforce that a verifier with the specified name is in scope.
+- [enforce](/pact-5/General/enforce) Fail a transaction if an expression evaluates to false. 
+- [enumerate](/pact-5/General/enumerate) Return a sequence of numbers as a list.
+- [env-chain-data](/pact-5/Repl/env-chain-data) Define chain information for transactions in your testing environment (REPL only).
+- [env-data](/pact-5/Repl/env-data) Set transaction data for your testing environment (REPL only).
+- [env-enable-repl-natives](/pact-5/Repl/env-enable-repl-natives) Control whether REPL native functions are allowed in module code (REPL only).
+- [env-events](/pact-5/Repl/env-events) Retrieve any accumulated events and optionally clear the event state (REPL only).
+- [env-exec-config](/pact-5/Repl/env-exec-config) Query or set configuration information for transactions in your testing environment (REPL only).
+- [env-gas](/pact-5/Repl/env-gas) Query the current gas state or set it to a specific value (REPL only).
+- [env-gaslimit](/pact-5/Repl/env-gaslimit) Set the environment gas limit to a specific value (REPL only).
+- [env-gaslog](/pact-5/Repl/env-gaslog) Enable gas logging for a block of code (REPL only).
+- [env-gasmodel](/pact-5/Repl/env-gasmodel) Query or update the current gas model (REPL only).
+- [env-hash](/pact-5/Repl/env-hash) Set the current transaction hash (REPL only).
+- [env-keys](/pact-5/Repl/env-keys) Set the transaction signer keys (REPL only, deprecated).
+- [env-namespace-policy](/pact-5/Repl/env-namespace-policy) Install a managed namespace policy (REPL only).
+- [env-sigs](/pact-5/Repl/env-sigs) Set signature keys for signing transactions and granting capabilities (REPL only).
+- [equal (`=`)](/pact-5/Operators/eq) Return true if the first argument is equal to the second argument.
+- [exp](/pact-5/Operators/exp) Calculate the exponential function of a value.
+- [expect-failure](/pact-5/Repl/expect-failure) Evaluate an expression and succeed only if the expressions results in an error (REPL only).
+- [expect-that](/pact-5/Repl/expect-that) Evaluate an expression and succeed if the resulting value passes a predicate function (REPL only).
+- [expect](/pact-5/Repl/expect) Evaluate an expression and verify that the result equals an expected value (REPL only).
+- [filter](/pact-5/General/filter) Filter a list by applying a function to each element. 
+- [floor](/pact-5/Operators/floor) Round down the value of a decimal to an integer or to a specified precision.
+- [fold-db](/pact-5/Database/fold-db) Select rows from a table using a predicate and accumulate the results.
+- [fold](/pact-5/General/fold) Reduce a list iteratively by applying a function to each element.
+- [format-time](/pact-5/Time/format-time) Format a time value using a specified format.
+- [format](/pact-5/General/format) Format a message using placeholders and variables.
+- [greater-than or equal (`>=`)](/pact-5/Operators/geq) Return true if the first argument is greater than or equal to the second argument.
+- [greater-thant (`>`)](/pact-5/Operators/gt) Return true if the first argument is greater than the second argument.
+- [hash-keccak256](/pact-5/General/hash-keccak256) Compute the hash of a list of inputs.
+- [hash](/pact-5/General/hash) Compute the BLAKE2b 256-bit hash of a value.
+- [hours](/pact-5/Time/hours) Add a specific number of hours to a given time.
+- [hyperlane-decode-token-message](/pact-5/Commitments/hyperlane-decode-token-message) Decode a base-64-unpadded encoded Hyperlane Token Message into an object.
+- [hyperlane-encode-token-message](/pact-5/Commitments/hyperlane-encode-token-message) Encode an object into base-64-unpadded encoded Hyperlane Token Message.
+- [hyperlane-message-id](/pact-5/Commitments/hyperlane-message-id) Get the message identifier of a Hyperlane Message object.
+- [identity](/pact-5/General/identity) Return the provided value.
+- [if](/pact-5/General/if) Test whether a condition is true to determine the operation to perform.
+- [insert](/pact-5/Database/insert) Add a new value to a database record in a specified table.
+- [install-capability](/pact-5/Capabilities/install-capability) Specify and provision a managed capability.
+- [int-to-str](/pact-5/General/int-to-str) Represent an integer value as a string in a specified base.
+- [is-charset](/pact-5/General/is-charset) Check whether a string conforms to a supported character set.
+- [is-principal](/pact-5/Guards/is-principal) Check whether a principal string conforms to the principal format.
+- [keylog](/pact-5/Database/keylog) Return a log of the updates to a specified table for a specified key-row.
+- [keys-2](/pact-5/Keysets/keys-2) Determine whether a keyset has at least two required keys.
+- [keys-all](/pact-5/Keysets/keys-all) Determine whether a keyset has all of its required keys.
+- [keys](/pact-5/Database/keys) Return all of the keys for a specified table in a module.
+- [keys](/pact-5/Keysets/keys) Return all of the keys for a specified table in a module.
+- [keyset-ref-guard](/pact-5/Guards/keyset-ref-guard) Create a guard for the keyset in the guard database.
+- [length](/pact-5/General/length) Compute the length of a list, string, or object.
+- [less-than or equal (`<=`)](/pact-5/Operators/leq) Return true if the first argument is less than or equal to the second argument.
+- [list-module](/pact-5/General/list-module) List modules available for loading.
+- [list-modules](/pact-5/Database/list-modules) List all of the modules deployed on a particular chain using the `/local` endpoint.
+- [list](/pact-5/General/list) Create a list from the specified elements (deprecated).
+- [ln](/pact-5/Operators/ln) Compute the natural logarithm of a specified value.
+- [log](/pact-5/Operators/log) Compute the logarithm of the specified value with the specified base.
+- [less-than `<`](/pact-5/Operators/lt) Return true if the first argument is less than the second argument.
+- [make-list](/pact-5/General/make-list) Create a list by repeating a specified value a certain number of times.
+- [map](/pact-5/General/map) Apply a function (APP) to each element in a list.
+- [minutes](/pact-5/Time/minutes) Add a specific number of minutes to a given time.
+- [mod](/pact-5/Operators/mod) Compute the remainder for the first value divided by the second value.
+- [multiply (`*`)](/pact-5/Operators/mult) Multiply the first argument by the second argument.
+- [namespace](/pact-5/General/namespace) Set the current namespace to a specified value.
+- [not-equal (`!=`)](/pact-5/Operators/neq) Return true if the first argument does not equal the second argument.
+- [not?](/pact-5/Operators/not-q) Apply a logical NOT to the results of a function.
+- [not](/pact-5/Operators/not) Perform a boolean logic NOT operation.
+- [or?](/pact-5/Operators/or-q) Apply a logical OR to the results a function.
+- [or](/pact-5/Operators/or) Perform a boolean logic NOT operation.
+- [pact-id](/pact-5/General/pact-id) Return the identifier associated with `defpact` execution.
+- [pact-version](/pact-5/General/pact-version) Get the current Pact build version.
+- [pairing-check](/pact-5/ZK/pairing-check) Perform pairing and final exponentiation on points for a zero knowledge proof.
+- [parse-time](/pact-5/Time/parse-time) Construct time from a UTC value using a specified format. 
+- [point-add](/pact-5/ZK/point-add) Add two points together for a zero knowledge proof.
+- [poseidon-hash-hack-a-chain](/pact-5/General/poseidon-hash-hack-a-chain) Compute a hash using the Poseidon hash function used by Hack-a-Chain.
+- [power-of (`^`)](/pact-5/Operators/pow) Raise an argument to the power of the second argument.
+- [read-decimal](/pact-5/General/read-decimal) Read a `key` string or number value from the message data as a decimal.
+- [read-integer](/pact-5/General/read-integer) Read a `key` string or number value from the message data as an integer.
+- [read-keyset](/pact-5/General/read-keyset) Read a `key` from the message data as a keyset with a list of keys and a predicate function.
+- [read-msg](/pact-5/General/read-msg) Read a `key` from the message data body.
+- [read-string](/pact-5/General/read-string) Read a `key` string or number value from the message data as a string.
+- [read](/pact-5/Database/read) Retrieve information from a specified `table` based on a given `key` row.
+- [remove](/pact-5/General/remove) Remove an entry associated with a specified `key` from an object.
+- [require-capability](/pact-5/Capabilities/require-capability) Check whether a specified capability has been granted.
+- [resume](/pact-5/General/resume) Bind a yielded object value from a `defpact` step to the execution of the next `defpact` step.
+- [reverse](/pact-5/General/reverse) Reverse the order of elements in a given list.
+- [round](/pact-5/General/round) Perform Banker's rounding to return an integer or decimal value.
+- [scalar-mult](/pact-5/ZK/scalar-mult) Multiply a point by an integer value for a zero-knowledge proof.
+- [select](/pact-5/Database/select) Retrieve full rows or specific columns from a table.
+- [shift](/pact-5/Operators/shift) Perform a bitwise shift operation on the specified integer by the specified number of bits.
+- [sort](/pact-5/General/sort) Sort a list of primitive values or objects.
+- [static-redeploy](/pact-5/General/static-redeploy) Redeploy a module without any code changes. 
+- [sqrt](/pact-5/Operators/sqrt) Compute the square root of the given value.
+- [str-to-int](/pact-5/General/str-to-int) Compute the integer value of the specified string.
+- [str-to-list](/pact-5/General/str-to-list) Convert a string into a list where each element is a single-character string.
+- [subtract (`-`)](/pact-5/Operators/sub) Negate an argument or subtract the second argument from the first argument.
+- [take](/pact-5/General/take) Retrieve a specified number of values from a list, string, or object.
+- [time](/pact-5/Time/time.md) Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.
+- [try](/pact-5/General/try) Attempt a pure action without input, output, or state-changing operations.
+- [tx-hash](/pact-5/General/tx-hash) Get the hash of the current transaction as a string.
+- [txids](/pact-5/Database/txids) Return all transaction identifier greater than or equal to a specified identifier.
+- [txlog](/pact-5/Database/txlog) Returns a log of all updates made to a specified table in a specific transaction identifier.
+- [typeof-principal](/pact-5/Guards/typeof-principal) Return the protocol type of a given principal.
+- [typeof](/pact-5/General/typeof) Return a description of the data type for a specified value.
+- [update](/pact-5/Database/update) Update a value for a database record in the specified table.
+- [validate-keypair](/pact-5/Commitments/validate-keypair) Verify that the public key and secret key are valid.
+- [validate-principal](/pact-5/Guards/validate-principal) Validate that a principal identifies a specified guard.
+- [verify-spv](/pact-5/SPV/verify-spv) Perform a platform-specific simplified payment verification (SPV) proof.
+- [where](/pact-5/General/where) Define a clause to refine the results from `filter` or `select` operations.
+- [with-capability](/pact-5/Capabilities/with-capability) Specify the capability that must be granted to perform a privileged operation.
+- [with-default-read](/pact-5/Database/with-default-read) Read a row from a specified table and use default values for columns if the row isn't found.
+- [with-read](/pact-5/Database/with-read) Read a row from a specified table and bind columns names to variables.
+- [write](/pact-5/Database/write) Write or overwrite a value for a database record in the specified table.
+- [xor](/pact-5/Operators/xor) Compute the bitwise exclusive OR operation between two integers.
+- [yield](/pact-5/General/yield) Yield an object to use with the `resume` function in a `defpact` step.
+- [zip](/pact-5/General/zip) Combine two lists using a specified function to create a new list.

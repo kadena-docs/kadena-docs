@@ -2,7 +2,7 @@
 title: kadena-cli command reference
 description:
   The `@kadena/kadena-cli` library provides a complete set of commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line.
-id: kadena-cli
+id: kadena-cli-ref
 sidebar_position: 7
 tags: ['TypeScript', 'Kadena client', 'frontend']
 ---
@@ -85,9 +85,9 @@ Use the following command subjects to select the category of information for the
 | [`config`](/reference/cli/cli-config) | Configure the initial context and properties for working with the `kadena` command-line interface.
 | [`dapp`](/reference/cli/cli-dapp) | Create and manage an application project using a frontend framework template.
 | [`key`](/reference/cli/cli-key) | Generate and manage public and secret keys.
-| [`network`](reference/cli/cli-network) | Create and manage network information.
+| [`network`](/reference/cli/cli-network) | Create and manage network information.
 | [`tx`](/reference/cli/cli-tx) | Create and manage transactions.
-| [`wallet`](/reference/cli-wallet) | Generate keys and manage wallets.
+| [`wallet`](/reference/cli/cli-wallet) | Generate keys and manage wallets.
 
 ### Global flags
 

@@ -162,7 +162,7 @@ const code = Pact.modules["free.my-module"].["my-function"](["first", { time: ne
 
 ### Create type definitions
 
-You can use [@kadena/pactjs-cli](/reference/kadena-client/pactjs-cli) to create the type definitions for the Pact module you use. After you generate the type definitions file, the code editor in your development environment should provide code completion for functions and capabilities.
+You can use [@kadena/pactjs-cli](https://www.npmjs.com/package/@kadena/pactjs-cli) to create the type definitions for the Pact module you use. After you generate the type definitions file, the code editor in your development environment should provide code completion for functions and capabilities.
 
 To create a type definition file for the `coin` contract:
 

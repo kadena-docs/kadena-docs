@@ -67,17 +67,17 @@ A few of the most common general purpose functions include the following:
 - map
 - format
   
-You can use the [at](/reference/functions/general#at) built-in function to return a value from a list or an object.
-The [bind](/reference/functions/general#bind) built-in function allows you to map a variable to a value from within an object.
-You can use the [map](/reference/functions/general#map) built-in function to apply a specific operation to all elements in a list and return the results.
-The [format](/reference/functions/general#format) built-in function allows you to create messages using strings and variables. 
+You can use the [at](/pact-5/General/at) built-in function to return a value from a list or an object.
+The [bind](/pact-5/General/bind) built-in function allows you to map a variable to a value from within an object.
+You can use the [map](/pact-5/General/map) built-in function to apply a specific operation to all elements in a list and return the results.
+The [format](/pact-5/General/format) built-in function allows you to create messages using strings and variables. 
 
 Let's try a few simple examples to see how these functions work.
 
 To use the common general functions:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact

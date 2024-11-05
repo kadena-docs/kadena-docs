@@ -15,4 +15,4 @@ Time functions are used to manage and manipulate time-based information and form
 | [hours](/pact-5/Time/hours) |  Add a specific number of hours to a given time.|
 | [minutes](/pact-5/Time/minutes) | Add a specific number of minutes to a given time.|
 | [parse&#8209;time](/pact-5/Time/parse-time) | Construct time from a UTC value using a specified format. |
-| [time](/pact-5/Time/time) | Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.|
+| [time](/pact-5/Time/time.md) | Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.|

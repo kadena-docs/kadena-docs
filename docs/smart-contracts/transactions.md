@@ -16,7 +16,7 @@ There are two types of transaction in Pact smart contracts:
 
 ## Atomic execution
 
-A single message sent into the blockchain to be evaluated by Pact is _atomic_: the transaction succeeds as a unit, or does not succeed at all, known as "transactions" in database literature. There is no explicit support for rollback handling, except in [multi-step transactions](/reference/pacts).
+A single message sent into the blockchain to be evaluated by Pact is _atomic_: the transaction succeeds as a unit, or does not succeed at all, known as "transactions" in database literature. There is no explicit support for rollback handling, except in multi-step transactions.
 
 I personally think of things like cross-chain transfers as "multiple-transaction workflows", just because technically, each part is a transaction
 

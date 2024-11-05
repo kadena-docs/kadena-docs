@@ -1,12 +1,8 @@
 ---
 title: Sign and submit transactions
+description: "A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js"
 id: howto-sign-submit-tx
 ---
-
-<head>
-  <title>Sign and submit transactions</title>
-  <meta name="description" content="A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js" />
-</head>
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
@@ -257,9 +253,9 @@ the command and all the signatures on stdout.
 Both `add-sig` and `combine-sigs` will output YAML if the output transaction
 hasn't accumulated enough signatures to be valid. If all the necessary
 signatures are present, then they will output JSON in final form that is ready
-to be sent to the blockchain on the [`/send` endpoint](#send). If you would like
+to be sent to the blockchain on the `/send` endpoint. If you would like
 to do a test run of the transaction, you can use the `-l` flag to generate
-output suitable for use with the [`/local` endpoint](#local).
+output suitable for use with the `/local` endpoint.
 
 The above example adds signatures in parallel, but the `add-sig` command can
 also be used to add signatures sequentially in separate steps or all at once in
@@ -305,8 +301,8 @@ the full command.
 
 ### Detached Signature Transaction Format
 
-The YAML input expected by `pact -u` is similar to the [Public Blockchain YAML
-format](#request-yaml-public-chain) described above with one major difference.
+The YAML input expected by `pact -u` is similar to the YAML request
+format described above with one major difference.
 Instead of the `keyPairs` field which requires both the public and secret keys,
 `pact -u` expects a `signers` field that only needs a public key. This allows
 signatures to be added on incrementally as described above without needing

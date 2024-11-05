@@ -439,7 +439,7 @@ that delivers technically accurate information.
 
 ### Diagrams
 
-Use the [Kadena visual library][2] to create diagrams with a consistent design
+Use the Kadena visual library to create diagrams with a consistent design
 language.
 
 ### Product names and capitalization
@@ -703,7 +703,7 @@ Most cross references should include information that clarifies what the reader
 can expect to be found in the referenced topic. For cross references to topics
 in the Kadena documentation, use the following format:
 
-- For more information about viewing audit logs, see [Troubleshooting][3].
+- For more information about viewing audit logs, see Troubleshooting.
 
 For cross references to external resources, use the title of the destination
 instead of the URL of the destination. Avoid using links to unnamed
@@ -711,7 +711,3 @@ destinations. For example, don't use links like click <ins>here</ins> or see
 this <ins>article</ins>>.
 
 [1]: https://documentation.divio.com/
-
-[2]: <>
-
-[3]: #troubleshooting

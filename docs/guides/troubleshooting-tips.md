@@ -12,4 +12,4 @@
 
 Remember, these are simplified examples. In a production environment, you'd need to handle signing, error checking, and other details more robustly.
 
-For more detailed information on specific endpoints and their parameters, refer to our [API documentation](/api/pact-rest).
+For more detailed information about specific endpoints and their parameters, refer to the [API documentation](/api).

@@ -1,5 +1,5 @@
 ## parse-time
-Use `parse-time` to construct time from a UTC value using a specified format. See ["Time Formats" docs](https://docs.kadena.io/reference/functions/time#time-formatsh-299815639) for supported formats.
+Use `parse-time` to construct time from a UTC value using a specified format.
 
 ### Basic syntax
 

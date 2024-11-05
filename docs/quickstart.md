@@ -55,7 +55,7 @@ npm install
 docker run --rm --interactive --tty --publish 8080:8080 --volume kadena_devnet:/data --name devnet kadena/devnet`}
 ```
 
-For more information about starting the Kadena development network in a Docker container, see [Set up the local network](/smart-contracts/install/devnet).
+For more information about starting the Kadena development network in a Docker container, see [Set up the local network](/smart-contracts/install/local-dev-node).
 
 ## Install the Kadena command-line interface
 
@@ -73,8 +73,8 @@ This command creates the `.kadena` configuration folder location is your current
 Wallets are an important part of interacting with any blockchain, so you can create one now as part of your initial configuration steps.
 Follow the prompts displayed to continue setting up your local development environment with a development wallet and an account.
 
-For more information about getting started with `kadena-cli` commands, see [Develop with kadena-cli](guides/kadena-cli).
-For command-line reference information, see [kadena-cli command reference](reference/kadena-cli-ref).
+For more information about getting started with `kadena-cli` commands, see [Develop with kadena-cli](/guides/dev-kadena-cli).
+For command-line reference information, see [kadena-cli command reference](/reference/kadena-cli-ref/).
 
 ## Write your first smart contract
 
@@ -125,11 +125,9 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
 Congratulations! 
 In this _Quick start_, you learned the basics of how to set up a development environment with the Pact programming language, a local development network, and the Kadena developer command-line interface.
 You also got a first look at how to write and execute a simple Pact contract in the interactive interpreter.
-You can learn more about these topics in [Smart contracts](/smart-contracts) documentation. 
+You can learn more about these topics in [Smart contracts](/smart-contract-dev) documentation. 
 
 Here are some suggested next steps:
-
-- Start learning the Pact programming language with [Get started: Introduction to Pact](/smart-contracts/get-started-intro).
 
 - Start learning the Pact programming language with [Get started: Introduction to Pact](/smart-contracts/get-started-intro).
 

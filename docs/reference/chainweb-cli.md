@@ -111,7 +111,7 @@ not exceed the value you set for the _max_ argument.|
 | --full-historic-pact-state | Keep the full historic Pact state n the database. You should only only set this option for custodial or archive nodes. |
 | --no-full-historic-pact-state | Reset the `--full-historic-pact-state` option from true to false. |
 | --module-cache-limit _bytes_ | Set the maximum size of the per-chain `checkpointer` module cache in bytes.|
-| --enable-local-timeout _seconds_ | Enable timeout support for `/local` endpoint calls.
+| --enable-local-timeout _seconds_ | Enable timeout support for `/local` endpoint calls.|
 
 ## Cut options
 
@@ -120,16 +120,15 @@ not exceed the value you set for the _max_ argument.|
 | --fast-forward-block-height-limit _height_| Set the limit for fast-forwarding block height (null means no limit). If you set the `--only-sync-pact` option, chain synchronization uses this block height. If you haven't the `--only-sync-pact` option, this option is ignored.|
 | --cut-fetch-timeout _microseconds_ | Set a timeout for fetching cuts (in microseconds).|
 | --initial-block-height-limit _height_| Reset the initial cut to this block height (null means no limit).|
-- `pruneChainDatabase`: Database pruning strategy (set to 'none' here).
 | --prune-chain-database none|headers|headers-checked|full | Specify a database pruning strategy to run when the node starts. You can specify the _strategy_ are `none`, `headers`, `headers-checked`, or `full`. Note that database pruning can take several hours. |
 
 ## Service API options
 
 | Use this option | To do this 
 | --------------- | ---------- 
-| --service-port _port_ | Specify the port number for exposing the service API.
-| --service-interface _interface_ |  Set the interface for the service REST API endpoints to bind to. For more information, see the HostPreference documentation.
-| --service-payload-batch-limit _max_| Set the upper limit for the number of payload batches that can be returned in response to a service API request. Note that increasing this upper limit can make payload requests a potential attack vector for Denial of Service (DoD) attacks.
+| --service-port _port_ | Specify the port number for exposing the service API.|
+| --service-interface _interface_ |  Set the interface for the service REST API endpoints to bind to. For more information, see the HostPreference documentation.|
+| --service-payload-batch-limit _max_| Set the upper limit for the number of payload batches that can be returned in response to a service API request. Note that increasing this upper limit can make payload requests a potential attack vector for Denial of Service (DoD) attacks.|
 
 ## Mining options
 
@@ -145,7 +144,7 @@ not exceed the value you set for the _max_ argument.|
 | --mining-payload-refresh-delay _seconds_ | Specify the frequency with which the mining payload is refreshed. |
 | --enable-node-mining | Enable in-node mining. Only use this option for internal network testing.|
 | --disable-node-mining | Unset the `--enable-node-mining` option.|
-| --node-mining-public-key _key_ | Set the public key for a miner account in hexadecimal encoding. Account names typically use the prefix `k:` followed by the account public key. You can specify this option multiple times.
+| --node-mining-public-key _key_ | Set the public key for a miner account in hexadecimal encoding. Account names typically use the prefix `k:` followed by the account public key. You can specify this option multiple times.|
  
 ## Synchronization and replay options
 
@@ -181,11 +180,11 @@ not exceed the value you set for the _max_ argument.|
 | --disable-telemetry-logger | Disable the telemetry logger.|
 | -c, --telemetry-color _color_ | Specify whether to use ANSI terminal colors in the output.|
 | --telemetry-log-format _format_ | Specify the format to use for writing telemetry logs to the specified log output location. The log format can be `text` or `json`.|
-| --telemetry-log-handle _location_| Specify where the logs are written. Valid location are `stdout`, `stderr`, `file:filename`, or `es:[apikey]:URL`. |
+| --telemetry-log-handle _location_| Specify where the logs are written. Valid location are `stdout`, `stderr`, `file\:filename`, or `es\:[apikey]:URL`. |
 | --cluster-id _label_ | Specify a label to add to all log messages from this node.
-| --log-filter-rule KEY:VALUE:LOGLEVEL[:RATE]| Define a log filter rule. Log messages that match the filter rule are discarded if they don't meet the log level threshold you specify.|
+| --log-filter-rule KEY\:VALUE\:LOGLEVEL[\:RATE]| Define a log filter rule. Log messages that match the filter rule are discarded if they don't meet the log level threshold you specify.|
 | --log-filter-default LOGLEVEL:RATE | Define a default log filter. This filter is applied to all messages that don't match any other log filter rule.|
-| --queue-size _max_ | Set the maximum size of the internal logger queue.
+| --queue-size _max_ | Set the maximum size of the internal logger queue.|
 
 ## Rosetta options
 

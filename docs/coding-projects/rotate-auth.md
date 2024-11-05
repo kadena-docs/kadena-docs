@@ -8,7 +8,7 @@ sidebar_position: 5
 # Rotate authorized keys
 
 The Rotate authorized keys coding project demonstrates how to create a smart contract with rotatable authorization keys and how to enforce row level permissions.
-This project continues to build on concepts and challenges presented in other coding projects and covered in [Smart contracts](/smart-contracts/smart-contract-dev) topics.
+This project continues to build on concepts and challenges presented in other coding projects and covered in [Smart contracts](/smart-contract-dev) topics.
 Specifically, this project demonstrates the following:
 
 - How you can use keysets as row level **guards** for assets.
@@ -98,7 +98,7 @@ To define the module keysets:
 
 5. Save your changes.
    
-For more information about defining and reading keysets, see [define-keyset](/pact-5/keysets/define-keyset)
+For more information about defining and reading keysets, see [define-keyset](/pact-5/Keysets/define-keyset)
 
 ## Define the module
 
@@ -240,7 +240,7 @@ To define the `create-user` function:
    )
    ```
 
-For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [insert](/pact-5/database/insert) functions.
+For more information, see the descriptions for the [enforce-keyset](/pact-5/Keysets/enforce-keyset) and [insert](/pact-5/Database/insert) functions.
 
 ### Define the enforce-user-auth function
 
@@ -321,7 +321,7 @@ To define the `enforce-user-auth` function:
    )
    ```
 
-For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [with-read](/pact-5/Database/with-read) functions.
+For more information, see the descriptions for the [enforce-keyset](/pact-5/Keysets/enforce-keyset) and [with-read](/pact-5/Database/with-read) functions.
 
 ### Define the change-nickname function
 
@@ -412,7 +412,7 @@ To define the `change-nickname` function:
    )
    ```
 
-For more information, see the descriptions for the [update](/pact-5/database/update) and [format](/pact-5/general/format) functions.
+For more information, see the descriptions for the [update](/pact-5/Database/update) and [format](/pact-5/General/format) functions.
 
 ### Define the rotate-keyset function
 
@@ -500,7 +500,7 @@ To define the `rotate-keyset` function:
    )
    ```
 
-For more information about updating a table, see [Update](/smart-contracts/databases/update).
+For more information about updating a table, see [Update](/smart-contracts/databases#update).
 
 ## Create table
 
