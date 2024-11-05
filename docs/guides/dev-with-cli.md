@@ -1,5 +1,5 @@
 ---
-title: Develop with kadena--cli
+title: Develop with kadena-cli
 description:
   The `@kadena/kadena-cli` library provides a complete set of commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line.
 id: dev-kadena-cli
