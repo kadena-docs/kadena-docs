@@ -133,7 +133,7 @@ Here are some suggested next steps:
 
 - Explore hands-on coding projects in [Coding projects](/coding-projects/coding-projects).
 
-- Learn how to interact with the blockchain and deployed contracts using [Kadena API](/api) calls and [How-to guide](/guides).
+- Learn how to interact with the blockchain and deployed contracts using [Kadena API](/api) calls and [How-to guides](/guides).
 
 - Join the [Kadena Discord community](https://discord.gg/kadena) for support and discussions.
 
