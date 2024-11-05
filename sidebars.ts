@@ -184,7 +184,7 @@ const sidebars: SidebarsConfig = {
             label: 'Capability functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Capabilities/0-capability',
+               id: 'pact-5/Capabilities/capabilities',
             },
             items: [
                'pact-5/Capabilities/compose-capability',
@@ -199,7 +199,7 @@ const sidebars: SidebarsConfig = {
             label: 'Database functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Database/0-database',
+               id: 'pact-5/Database/database',
             },
             items: [
                'pact-5/Database/create-table',
@@ -226,7 +226,7 @@ const sidebars: SidebarsConfig = {
             label: 'General functions',
             link: {
                type: 'doc',
-               id: 'pact-5/General/0-general',
+               id: 'pact-5/General/general',
             },
             items: [
                'pact-5/General/acquire-module-admin',
@@ -295,7 +295,7 @@ const sidebars: SidebarsConfig = {
             label: 'Guard functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Guards/0-guards',
+               id: 'pact-5/Guards/guards',
             },
             items: [
                'pact-5/Guards/create-capability-guard',
@@ -315,7 +315,7 @@ const sidebars: SidebarsConfig = {
             label: 'Keyset functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Keysets/0-keysets',
+               id: 'pact-5/Keysets/keysets',
             },
             items: [
                'pact-5/Keysets/define-keyset',
@@ -330,7 +330,7 @@ const sidebars: SidebarsConfig = {
             label: 'Operator functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Operators/0-operators',
+               id: 'pact-5/Operators/operators',
             },
             items: [
                'pact-5/Operators/abs',
@@ -371,7 +371,7 @@ const sidebars: SidebarsConfig = {
             label: 'REPL-only functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Repl/0-repl',
+               id: 'pact-5/Repl/repl',
             },
             items: [
                'pact-5/Repl/begin-tx',
@@ -399,7 +399,7 @@ const sidebars: SidebarsConfig = {
             label: 'Time functions',
             link: {
                type: 'doc',
-               id: 'pact-5/Time/0-time',
+               id: 'pact-5/Time/time-functions',
             },
             items: [
                'pact-5/Time/add-time',
