@@ -197,7 +197,7 @@ By combining module imports with module hashes, you can ensure that updated modu
 ### Module table creation
 
 Tables are created at the same time as modules and include the module name as a prefix to the table name.
-With this naming convention, the module acts as a guard to protect direct access to [database functions](/pact-5/Database/0-database) that are controlled by the module owner.
+With this naming convention, the module acts as a guard to protect access to tables using [database functions](/pact-5/Database) that are controlled by the module owner.
 You can create any number of tables in a module.
 
 It’s important to note that you define table schemas, the tables that use the schemas, and the functions that insert, read, and modify database records inside of module code, but you create tables outside of module code.
