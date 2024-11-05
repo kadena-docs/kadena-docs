@@ -181,7 +181,7 @@ However, you must deploy modules to a registered namespace in the Kadena test or
 - [use](/reference/syntax#use) to import functions from other modules into the module.
 - [implements](/reference/syntax#implements) to implement functions from interfaces exposed in other modules into the module.
 
-Modules can also include different types of [metadata](/reference/syntax/metadata), such as documentation strings or information for emitted events.
+Modules can also include different types of metadata, such as documentation strings or information for emitted events.
 
 When a module is declared, all references to native functions, interfaces, or definitions from other modules are resolved. 
 Resolution failure results in transaction rollback.
@@ -197,7 +197,7 @@ By combining module imports with module hashes, you can ensure that updated modu
 ### Module table creation
 
 Tables are created at the same time as modules and include the module name as a prefix to the table name.
-With this naming convention, the module acts as a guard to protect direct access to [database functions](/pact-5/database) that are controlled by the module owner.
+With this naming convention, the module acts as a guard to protect access to tables using [database functions](/pact-5/Database) that are controlled by the module owner.
 You can create any number of tables in a module.
 
 It’s important to note that you define table schemas, the tables that use the schemas, and the functions that insert, read, and modify database records inside of module code, but you create tables outside of module code.
@@ -226,8 +226,7 @@ Modules can implement interfaces that include the following components:
 - [constant](/reference/syntax#defconst) values
 - [schema](/reference/syntax#defschema) definitions
 - [defpact](/reference/syntax#defpact) specifications
-- [models](/reference/property-checking) for properties
-- [capability](/build/pact/advanced#capabilities) specifications
+- [capability](/reference/syntax#defcap) specifications
 - [imported definitions](/reference/syntax#use) from other modules
 
 The following example illustrates how to declare and implement an interface with one function signature and one constant value:
