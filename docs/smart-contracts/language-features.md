@@ -228,17 +228,17 @@ pact> (format-time "%Y-%m-%d %H:%M:%S%N" (time "2024-07-23T13:30:45Z"))
 ```
 
 The `time` function constructs a time object from a UTC value using the ISO8601 format (%Y-%m-%dT%H:%M:%SZ).
-The format-time built-in functions takes a format argument and a time argument to produce the specified time in the specified format.
+The `format-time` built-in functions takes a `format` argument and a `time` argument to produce the specified time in the specified format.
 The following table provides a summary of time formats used in the previous example:
 
-| format | purpose |
+| Format | Purpose |
 | --- | --- |
 | %Y | Year, no padding. |
-| %m | Month of the year, 0-padded to two chars, "01"–"12" |
-| %d | Day of the month, 0-padded to two chars, "01"–"31" |
-| %H | Hour of the day (24-hour), 0-padded to two chars, "00"–"23" |
-| %M | Minute of of the hour, 0-padded to two chars, "00"–"59" |
-| %S | Second of the minute (without decimal part), 0-padded to two chars, "00"–"60" |
+| %m | Month of the year, zero-padded to two characters, "01"–"12" |
+| %d | Day of the month, zero-padded to two characters, "01"–"31" |
+| %H | Hour of the day using a 24-hour clock, zero-padded to two characters, "00"–"23" |
+| %M | Minute of of the hour, zero0-padded to two characters, "00"–"59" |
+| %S | Second of the minute, zero-padded to two characters, "00"–"60" |
 | %N | ISO 8601 style numeric time zone (for example, "-06:00" or "+01:00")|
 
 There are many other formatting options than included in the previous example.
@@ -248,7 +248,7 @@ For example, you can replace the numeric representing the month of the year with
 pact> (format-time "%Y-%b-%d" (time "2024-07-24T13:30:45Z"))
 "2024-Jul-24"
 ```
-For more information about all of the formats supported, see [Time formats](/pact-5/Time/0-time).
+For more information about all of the formats supported, see [Time formats](/pact-5/Time/time-functions).
 
 ## Operators
 

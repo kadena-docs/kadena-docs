@@ -12,17 +12,22 @@ There are two types of transaction in Pact smart contracts:
 - Transactions that execute in a single step, identified in Pact code as `exec` transactions.
 - Transactions that consist of more than one step, identified in Pact code as `cont` transactions.
 
+Most transactions execute as a single step with a single message that is sent to a blockchain node to be evaluated by Pact.
+The execution of the code in the message is _atomic_ and the transaction succeeds as a complete unit, or doesn't succeed at all.
+For these types of transactions, Pact doesn't allow partial execution or provide any concept for rollback handling.
 
+For transactions that consist of more than one step, each step is effectively a single transaction.
+However, each step must be executed in sequence and if any step in the sequence fails, the entire transaction can be rolled back to its initial state or allowed to continue without rollback handling. 
+For example, a cross-chain transfer is essentially a two-step transaction, with a debit transaction initiated on a source chain and a separate credit transaction occurring on a destination chain.
+Without rollback handling, if the second step isn't called to complete the transaction, the first step becomes an orphan and the intended transfer operation remains in an incomplete, interrupted state.
+However, multi-step transactions can include a rollback step so that if a specific condition exists, a previously completed steps can be reversed.
+For example, if an asset is moved to from a seller's account to an escrow account awaiting a buyer to complete the transaction, the transfer can be reversed if the buyer doesn't complete necessary steps within a previously agreed upon time.
 
-## Atomic execution
+## Transaction formats
 
-A single message sent into the blockchain to be evaluated by Pact is _atomic_: the transaction succeeds as a unit, or does not succeed at all, known as "transactions" in database literature. There is no explicit support for rollback handling, except in multi-step transactions.
+Given that there are two types of transactions, there are also two transaction formats.
 
-I personally think of things like cross-chain transfers as "multiple-transaction workflows", just because technically, each part is a transaction
-
-A "transaction" means to me specifically that either all or none of it happens, but with a cross-chain transfer, you can just not complete the final step
-
-With that out of the way, just the lifecycle of a transaction
+## Transaction flow
 
 You start by submitting this transaction to a node, usually a node you control, via the pact /send endpoint
 
