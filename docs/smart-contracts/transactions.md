@@ -27,20 +27,24 @@ For example, if an asset is moved to from a seller's account to an escrow accoun
 
 Given that there are two types of transactions, there are also two transaction formats.
 
+
+
 ## Transaction flow
 
-You start by submitting this transaction to a node, usually a node you control, via the pact /send endpoint
+After you have a transaction message properly formatted as a JSON object, it can be executed locally for testing purposes or sent to the blockchain for execution on-chain.
+You submit transactions to the blockchain for on-chain execution by connecting to a node using the Pact `/send` endpoint.
+In most cases, the node you connect to is a node that you control—in the local development environment, the public test network, or the production main network. 
 
-This does a first pass at validating the transaction just for your convenience, so that any obvious issues with the transaction can be caught early and reported, specifically issues that would cause the transaction to be so invalid that it doesn't even make it into a block
+Before moving the transaction into a pending state, Pact performs some initial checks on the message to validate that the transaction doesn't have errors that would prevent it from being executed. 
+These initial checks include verifying the signatures format, metadata, and the availability of funds to pay transaction fees. 
+If there are issues—like an invalid signature or a time-to-live (TTL) that has expired—the transaction fails immediately without further processing.
+If the initial checks pass, the node receiving the transaction message inserts the transaction into its holding area for pending transactions, called the mempool.
+The transactions waiting to be included in a block are synchronized across all of the nodes.
 
-Like broken signatures, insufficient funds to pay for gas, invalid metadata like TTL expiration
+Mining nodes, typically Chainweb nodes with specialized application-specific integrated circuit hardware attached, periodically check the transaction pool—the mempool—for new work and select transactions to validate based on their transaction fees.
+After the mining node computes the solution that validates the transaction, it includes the transaction in its next block.
+The block that includes the transaction is then sent to all of the nodes in the network, including the node where the transaction originated, enabling you to see the result of the transaction by using the Pact `/poll` endpoint or block explorer.
 
-Then it inserts the transaction into that node's mempool, which yes is a place for transactions to wait before being included in a block, but it's not exactly a queue, rather the order in which transactions make it into blocks is based on their gas price, not their creation time
+The following diagram provides a simplified view of the transaction flow for a single-step exec transaction.
 
-Higher gas price, that's a bribe to miners to include the transaction in the block sooner
-
-Anyway all nodes synchronize their mempool contents with one another
-
-Eventually a mining node that has the transaction in its mempool will include it into its next block, and the block will be mined
-
-The block with the transaction is then sent around the network, including back to the node that the transaction was submitted to originally, at which point the pact /poll endpoint will return the result of that transaction
+![Transaction lifecycle](/img/tx-workflow.png)
