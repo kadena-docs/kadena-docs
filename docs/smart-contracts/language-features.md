@@ -323,7 +323,7 @@ For example, defpacts are used for cross-chain transfers where a burn operation 
 Because defpacts enable you to orchestrate a series of transactions in a strict sequence, they have two primary use cases:
 
 - For public two-party transactions—similar to an escrow process—with rules for the operations that are required to be performed by each participant to complete the transaction.
-- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state. Note that private multi-step transaction aren't supported in Pact-5 or later.
+- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state. Note that **private multi-step transactions** aren't supported in Pact-5 or later.
 
 With defpacts, you can enable each participant to run only a subset of functions—for example, as a buyer who can make an offer or a seller who can start a sale—while preserving the integrity of the transaction as a whole. 
 For more information about defining and using defpacts, see the syntax description for the [`defpact`](/reference/syntax#defpact) reserved keyword.
