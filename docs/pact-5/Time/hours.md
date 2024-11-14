@@ -1,7 +1,7 @@
 ## hours
 The `hours` function calculates a time duration in hours, which can be used with the `add-time` function to add a specific number of hours to a given time.
 
-### Syntax
+### Basic syntax
 
 The syntax for the `hours` function is as follows:
 

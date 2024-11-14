@@ -126,7 +126,7 @@ To get an account balance:
 
 ## Using kadena-cli commands
 
-If you have installed the `kadena-cli` package in your development environment, you can use the kadena account details command to look up account balances on the development, test, or main network.
+If you have installed the `kadena-cli` package in your development environment, you can use the `kadena account details` command to look up account balances on the development, test, or main network.
 
 To get an account balance using `kadena-cli`:
 
