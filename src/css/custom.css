@@ -122,7 +122,7 @@ nav.navbar .navbar__link { font-weight: 550; }
    text-align: center;
    margin: 12.5vw 0; }
 
-   .home-header-title { font-size: 80px; font-weight: 750; }
+   .home-header-title { font-size: 80px; font-weight: 750; line-height: 1.1; }
 
    .home-header-excerpt {
       display: block;
@@ -130,16 +130,12 @@ nav.navbar .navbar__link { font-weight: 550; }
       font-weight: 475;
       margin-bottom: 50px; }
 
-   .home-header-search {
-      display: inline-block;
-      min-width: 35%;
-      padding: 10px 20px;
-      border-radius: 15px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      background-color: var(--k-action);
-      color: var(--k-light-0); }
+   .home-header-algolia .DocSearch-Button {
+      width: 75%;
+      height: 50px;
+      margin: 0 auto;
+      background: var(--k-light-3) !important;
+      color: var(--k-dark-0) !important; }
 
       @media (max-width: 1000px) { .home-header-title { font-size: 65px; } }
 
@@ -483,6 +479,11 @@ html[data-theme='dark'] .table-of-contents__link code {
    color: var(--k-light-0) !important;
    text-decoration: underline !important;
    font-weight: 700 !important; }
+
+html[data-theme='dark'] .home-header-algolia .DocSearch-Button {
+   background: var(--k-dark-2) !important;
+   color: var(--k-light-1) !important; }
+
 
 /*
  * DOCUSAURUS
