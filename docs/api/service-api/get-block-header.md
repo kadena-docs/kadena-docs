@@ -1,5 +1,5 @@
 ---
-title: GET block header
+title: Get block headers
 description:
   Provides reference information for the chainweb-node block header endpoints.
 id: get-block-header
@@ -7,13 +7,13 @@ sidebar_position: 3
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference', 'block header']
 ---
 
-# Get block header
+# Get block headers
 
-Block header endpoints return block headers from the chain database.
+Block header endpoints return block headers from the specified chain database.
 Similar to the block service and block hash endpoints, block headers are generally returned in ascending order and include headers of orphaned blocks.
 
-If you only want to query for blocks that are included in the canonical branch of the chain, you can use the `/branch` endpoint.
-The `/branch` endpoint returns blocks in descending order starting from the leafs of branches of the block chain.
+If you only want to query for blocks that are included in the canonical branch of the chain, you can use the `/header/branch` endpoint.
+The `/header/branch` endpoint returns blocks in descending order starting from the leafs of branches of the block chain.
 
 Block headers are returned in three different formats depending on the content type specified in the Accept header of the request:
 
