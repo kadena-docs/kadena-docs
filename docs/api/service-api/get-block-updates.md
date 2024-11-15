@@ -1,5 +1,5 @@
 ---
-title: Stream block header event updates
+title: Stream block header events
 description:
   Send API requests to this endpoint to monitor a node for new blocks.
 id: api-update-event-stream
@@ -7,7 +7,7 @@ sidebar_position: 11
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Stream block header event updates
+# Stream block header events
 
 The block updates endpoint enables you to connect to a server-side event stream to be notified when new blocks are added to the blockchain.
 
