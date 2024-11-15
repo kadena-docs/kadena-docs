@@ -1,5 +1,5 @@
 ---
-title: GET block
+title: Retrieve full blocks
 description:
   Provides reference information for the chainweb-node service API block endpoints.
 id: get-block
@@ -7,9 +7,9 @@ sidebar_position: 9
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Get block header and payload
+# Retrieve full blocks
 
-You can use the `/block` API endpoint to return full blocks—that is, headers and payloads—from the chain database.
+You can use the `/block` API endpoint to return full blocks—that is, headers and payloads—from the specified chain database.
 Generally, blocks are returned in **ascending** order and include orphaned blocks.
 
 If you only want to retrieve blocks that are included in the winning branch of the chain, you can call the `/block/branch` endpoint.
