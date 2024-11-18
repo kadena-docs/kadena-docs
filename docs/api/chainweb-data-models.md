@@ -18,7 +18,7 @@ It's duplicated here as a quick reference.
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
-| origin | object | Defines a peer information object that consists of an `id` string and an `address` object. The `origin` parameter is required to use the `PUT /cut` endpoint. For more information, see the [Peer information](#peer-information-modelh-1716301923) data model.
+| origin | object | Defines a peer information object that consists of an `id` string and an `address` object. The `origin` parameter is required to use the `PUT /cut` endpoint. For more information, see the [Peer information](#peer-information-model) data model.
 | height&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Defines the cut height. The cut height is the sum of the height of all blocks of the cut. You should avoid using this value in any applications or tools because its semantics might change.
 | weight&nbsp;(required) | string | Defines the cut weight. The cut weight is the sum of the weights from all of the blocks included in the cut. The weight string consists of 43 characters from the `a-zA-Z0-9_-` character set.
 | hashes&nbsp;(required) | object | Defines an object that maps chain identifiers to their respective block `hash` and block `height`. The block `hash` property is a required string value with characters from the `a-zA-Z0-9_-` character set. The block `height` property is a required integer value >= 0. The `hashes` object includes the `height` and `hash` properties for each chain, as illustrated for chains 0 and 1 in the truncated JSON example.

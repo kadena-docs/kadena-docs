@@ -2,7 +2,7 @@
 title: Accounts, keys, and principals
 description: Learn about how public and secret keys are used in accounts and how accounts on Kadena blockchain differ from accounts and addresses on most blockchains.
 id: accounts
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 # Accounts, keys, and principals
@@ -32,7 +32,6 @@ In JSON, a keyset object looks similar to the following example:
     ],
   "pred": "keys-any"
 }
-
 ```
 
 In this keyset, there are three public keys defined as owners associated with this keyset.

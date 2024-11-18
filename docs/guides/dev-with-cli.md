@@ -1,5 +1,5 @@
 ---
-title: Develop with kadena--cli
+title: Develop with kadena-cli
 description:
   The `@kadena/kadena-cli` library provides a complete set of commands for creating applications and interacting with the Kadena network interactively or by using scripts from the command-line.
 id: dev-kadena-cli
@@ -210,7 +210,7 @@ In this example, the public key for the wallet is 61cf22aa8f209b1a5549242601b4a2
 You also have the principal account associated with the key.
 In this example, the principal **account name** is k:61cf22aa8f209b1a5549242601b4a217f034e3d931b6522ccb7743bf6c355546.
 
-For more information about accounts names, keys, and principal accounts, see [Accounts, keys, and principals](/learn/accounts).
+For more information about accounts names, keys, and principal accounts, see [Accounts, keys, and principals](/smart-contracts/accounts).
 
 ## View wallet and account information
 
@@ -607,8 +607,8 @@ To create a transaction template:
    networkId: '{{network:networkId}}'   
    ```
    
-   This transaction uses template variables to construct a transaction. You can learn more about transaction templates and variables in [Construct a transaction](/build/templates#construct-a-transactionh-767926026) and [Template prefixes and input values](/build/templates#template-prefixes-and-input-valuesh1392140091).
-   For more information about using YAML request files for transactions, see [Formatting API requests in YAML](/reference/rest-api#formatting-api-requests-in-yamlh-1442205183).
+   This transaction uses template variables to construct a transaction. You can learn more about transaction templates and variables in [Construct a transaction](/guides/transactions/howto-construct-tx).
+   For more information about using YAML request files for transactions, see [Formatting API requests in YAML](/api/pact-api#formatting-api-requests-in-yaml).
 
 3. Save the file as a transaction template by giving it a name with the `.ktpl` file extension and moving the file to the `.kadena/transaction-templates` folder.
    
@@ -858,6 +858,6 @@ To create a new project from a template:
 
 ## Next steps
 
-Learn more about the Kadena command-line interface and the actions you can perform using CLI commands in the [Command-line reference](/reference/kadena-cli) section.
-To get started with building a smart contract backend for your application, see [Smart contracts](/build/pact).
-For information about using the Kadena client libraries and packages, see [Frontend frameworks](/build/frontend).
+Learn more about the Kadena command-line interface and the actions you can perform using CLI commands in the [Command-line reference](/reference/kadena-cli-ref) section.
+To get started with building a smart contract backend for your application, see the sample modules in [Coding projects](/coding-projects/coding-projects).
+For information about using the Kadena client libraries and packages, see [Kadena client](/reference/kadena-client).

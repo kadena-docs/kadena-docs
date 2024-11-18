@@ -32,7 +32,7 @@ When you open and unlock Chainweaver, the navigation panel on the left is collap
 | ![](/./img/settings-icon.png) | Settings | Configure your network and account settings. |
 | ![](/./img/logout-icon.png) | Log out | Log out of the current session. |
 
-For more information about using Chainweaver as your primary interface for development tasks, see [Develop with Chainweaver](guides/chainweaver).
+For more information about using Chainweaver as your primary interface for development tasks, see [Develop with Chainweaver](/guides/chainweaver).
 
 ## Connect to the development network
 
@@ -95,8 +95,7 @@ In this example, the error is a missing keyset and you can click **Fix** to auto
 
 ![New admin-keyset](/./img/admin-keyset.png)
 
-If you delete the keyset created for you, you can use the Data section to create a keyset by typing a keyset name, then clicking **Create**. By default, keysets require all of the keys associated with an account to sign transactions, so you'll see **keys-all** selected for the new keyset. You'll learn more about keysets, in [Keysets](/build/pact/keysets).
-
+If you delete the keyset created for you, you can use the Data section to create a keyset by typing a keyset name, then clicking **Create**. By default, keysets require all of the keys associated with an account to sign transactions, so you'll see **keys-all** selected for the new keyset.
 You can also create keysets manually using the JSON format by clicking **Raw**, then defining the keyset **name**, **keys**, and **pred** values. You can see the JSON format for keysets you have created by clicking **Result**.
 
 ![Keyset in JSON format](/./img/result.png)
@@ -164,7 +163,7 @@ pact> { "foo": (+ 1 2), "bar": "baz" }
 { "foo": 3, "bar": "baz" }
 ```
 
-You can view more commands to try in [Syntax and keywords](/reference/syntax) and [Pact functions](/reference/functions).
+You can view more commands to try in [Syntax and keywords](/reference/syntax) and [Pact functions](/pact-5/func-quick-ref).
 
 **Run commands in the code editor**
 
@@ -190,4 +189,4 @@ Under **Deployed Contracts**, you san search for any contract that has been depl
 
 After you select a deployed contract, you can click **View** to see details about what's defined in the contract, including implemented interfaces, functions, capabilities, and pact included in the contract. You can click **Open** to see the full contract code in the code editor.
 
-You can also call individual functions from within the Module Explorer. You'll learn more about calling functions in [Hello World](/build/pact/hello-world).
+You can also call individual functions from within the Module Explorer. You'll learn more about navigating modules and calling functions in [coding projects](/coding-projects/coding-projects).

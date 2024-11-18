@@ -37,10 +37,10 @@ There are built-in functions to insert, read, and update values stored in tables
 
 | Function type | Description |
 | :------------ | :---------- |
-| [Insert](/pact-5/database/database#insert) | Insert new rows into a table. |
-| [Read](/pact-5/database/database#read) | Read values from a table. |
-| [Update](/pact-5/database/update) | Update values for a column that contains data in a table. |
-| [Write](/pact-5/database/update) | Write values for a column in a table, regardless of whether the column contains data or not. |
+| [Insert](/pact-5/Database/insert) | Insert new rows into a table. |
+| [Read](/pact-5/Database/read) | Read values from a table. |
+| [Update](/pact-5/Database/update) | Update values for a column that contains data in a table. |
+| [Write](/pact-5/Database/write) | Write values for a column in a table, regardless of whether the column contains data or not. |
 | Delete | Not available in Pact. |
 
 If you've worked with other databases or programming languages, you should be familiar with similar functions that enable you to create, read, update, and delete (CRUD) information.
@@ -63,7 +63,7 @@ For example, if you have a `Customer` table with keys used in a `Sales` table, a
 ### Null values aren't allowed
 
 The Pact database model doesn't support NULL values as a safety feature to ensure _totality_ for transactions and to avoid unsafe control-flow for handling null values. 
-The main function for working with database results is the [with-read](/pact-5/database/with-read) function.
+The main function for working with database results is the [with-read](/pact-5/Database/with-read) function.
 This function will return an error if any column value it attempts to read isn't found. 
 To prevent transactions from failing with these errors, you should ensure that there are values in the columns you attempt to read in a transaction. 
 
@@ -80,7 +80,7 @@ The schema defines the table columns, field values, and field types.
 The module declaration also specifies the table name to associate with each schema you define.
 There's no restriction on the number of tables you can create.
 
-The tables specified in the module declaration are [created](/pact-5/database/create-table) after the module declaration, and the table name is prepended with the module name, so that the module becomes the table owner. 
+The tables specified in the module declaration are [created](/pact-5/Database/create-table) after the module declaration, and the table name is prepended with the module name, so that the module becomes the table owner. 
 
 It’s important to note this distinction between when tables are defined and when tables are created.
 You define table schemas, the table associated with each schema, and the functions that insert, read, and modify database records inside of module code. You create the tables outside of module code. 
@@ -125,7 +125,7 @@ Types that are declared in code are enforced at runtime when expressions are eva
 For tables, any write to a table is type-checked against the table schema to ensure the data matches the expected type.
 Execution fails if type checking fails.
 
-For information about the data types that Pact supports, see [Data types](/smart-contracts/lang-featuresd#data-types).
+For information about the data types that Pact supports, see [Data types](/smart-contracts/lang-features#data-types).
 
 ## Table definition
 
@@ -164,7 +164,7 @@ For example:
 After you have defined all of the tables for your module inside of the module declaration, you can create those tables outside of the module. 
 Creating the table outside of the module ensures that other parts of the module logic can be redefined or updated without recreating the table.
 
-You can created tables after the module declaration by using the [create-table](/pact-5/database/create-table) function followed by the table name as it's defined in the module declaration.
+You can created tables after the module declaration by using the [create-table](/pact-5/Database/create-table) function followed by the table name as it's defined in the module declaration.
 For example:
 
 ```pact
@@ -175,7 +175,7 @@ For example:
 
 ## Insert
 
-You can use the [insert](/pact-5/database/insert) function to add new data to a table. 
+You can use the [insert](/pact-5/Database/insert) function to add new data to a table. 
 You can use `insert` function to add any type of new artifact with a key value.
 For example, you can use a key value to add a row of data about accounts, customers, loans, or assets.
 
@@ -210,7 +210,7 @@ In this example, the row inserted into the `accounts-table` takes the values ent
 
 ## Read
 
-You can use the [read](/pact-5//database/read) function to read a row of data from a specified table for a specified key value.
+You can use the [read](/pact-5/Database/read) function to read a row of data from a specified table for a specified key value.
 
 In the following example, the `accounts-table` has two rows of data storing the account balance and currency for **account-1** and **account-2**:
 
@@ -242,7 +242,7 @@ In each example, the `read` functions returns the following values:
 
 ## Update
 
-You can use the [update](/pact-5/database/update) function to update one or more values in an existing row of a table. 
+You can use the [update](/pact-5/Database/update) function to update one or more values in an existing row of a table. 
 Updates enable you to change the status of a column or amend the initial dataset to record a new value.
 
 With the `update` function, you specify the key for the row you want to update, the field you want to update, and the new value for the field in that that row.
@@ -272,7 +272,7 @@ For this example, the `asset-update` function updates the `status` column, then 
 
 ## Select
 
-You can use the [select](/pact-5/database/select) function to select values from one or more rows in a table.
+You can use the [select](/pact-5/Database/select) function to select values from one or more rows in a table.
 The `select` function is similar to the `read` function except that the `read` function retrieves information for a single key-row value. 
 The `select` function enables you to retrieve multiple rows from a table based on the criteria you provide.
 Because you can specify other criteria and not just a single key-row value, the `select` function provides you with more flexibility in what information you choose to return. 
@@ -324,7 +324,7 @@ This query returns the following values from the sample `assets-table`:
 
 ### Select queries and performance
 
-You should note that when you write queries using the Pact `select` function, the `select` and `where` operations provide a streaming interface that applies filters to the specified table, then operates on the row set as a list data structure using [sort](/pact-5/general/sort) and other functions.
+You should note that when you write queries using the Pact `select` function, the `select` and `where` operations provide a streaming interface that applies filters to the specified table, then operates on the row set as a list data structure using [sort](/pact-5/General/sort) and other functions.
 Because of the computational overhead, you should avoid using `select` statements to work with on-chain data.
 
 Although it can be convenient to use select statements to retrieve data, you can often return the same results more efficiently using other functions.
@@ -366,7 +366,7 @@ For more information about Pact endpoints, see [Pact API](/api/pact-api).
 
 ## Keys
 
-You can use the [keys](/pact-5/database/keys) function from within a module to return all of the **key** values in a table.
+You can use the [keys](/pact-5/Database/keys) function from within a module to return all of the **key** values in a table.
 For example, you can return the `key` values for the sample `assets-table` with the following code:
 
 ```pact

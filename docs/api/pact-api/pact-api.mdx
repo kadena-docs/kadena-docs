@@ -28,7 +28,7 @@ Regardless of the method you use to access the Pact API endpoints, the core func
 Although the Pact API functionality largely the same whether you access it through the Chainweb service API or the Pact HTTP server, the URLs you use to route API requests to each set of endpoints are different.
 This section describes the Pact API endpoints that are exposed through the Chainweb service API.
 You can also find documentation for these Pact endpoints, including sample requests and responses, in the [Pact OpenAPI](https://api.chainweb.com/openapi/pact.html) specification.
-For documentation about the Pact API endpoints that are exposed through the Pact built-in HTTP server, see [Pact command-line interpreter](/reference/pact-repl).
+For documentation about the Pact API endpoints that are exposed through the Pact built-in HTTP server, see [Pact command-line interpreter](/reference/pact-cli).
 
 ## Pact commands
 
@@ -107,7 +107,7 @@ type: exec
 
 ### Cont request format
 
-The execution request format supports the following keys:
+The continuation request format supports the following keys:
 
 ```yaml
 pactTxHash: integer transaction id of pact
