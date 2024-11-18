@@ -2,7 +2,7 @@
 title: Basic concepts
 id: basic-concepts
 sidebar_position: 3
-description: "Get familiar with important Kadena network and Pact language concepts and terminology."
+description: "Get familiar with important Kadena blockchain and Pact language concepts and terminology."
 ---
 
 # Basic concepts
@@ -51,82 +51,44 @@ Because the chains share a common currency, coins can be transferred cross-chain
 
 ## Execution modes
 
-Pact is designed to be used in distinct _execution modes_ to address the performance requirements of rapid linear execution on a blockchain. These are:
+Pact is designed to use distinct _execution modes_ to address the performance requirements of rapid linear execution on a blockchain. 
+These execution modes are:
 
-- Contract definition.
+- Contract deployment.
 - Transaction execution.
 - Queries and local execution.
 
-### Contract definition
+### Contract deployment
 
-In this mode, a large amount of code is sent into the blockchain to establish the smart contract, as comprised of modules (code), tables (data), and keysets (authorization). This can also include "transactional" (database-modifying) code, for instance to initialize data.
+When a contract is deployed, the transaction sent to the blockchain is comprised of modules, tables, and authorization data.
+The transaction can also include database-modifying code, for example, to initialize data that the contract requires.
+For a given smart contract, the transaction used to establish the contract on the blockchain should be sent as a single message, so that any error will rollback the entire smart contract as a unit.
 
-For a given smart contract, these should all be sent as a single message into the blockchain, so that any error will rollback the entire smart contract as a unit.
+When contracts are initialized on the blockchain, they identify a [namespace](#namespace-declaration) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
+Deploying a contract also requires you to define one or more authorization [keysets](#keysets) that have administrative control over the contract modules and tables. 
+Keysets defined in the runtime environment are then stored in the global keyset database.
 
-#### Keyset definition
+After setting the runtime context, Pact executes module and interface declarations and creates required tables.
 
-[Keysets](/reference/functions/keysets) are customarily defined first, as they are used to specify admin authorization schemes for modules and tables. Definition creates the keysets in the runtime environment and stores their definition in the global keyset database.
+### Transaction execution
 
-#### Namespace declaration
+Transactions refer to business events enacted on the blockchain, like a payment, a sale, or a workflow step of a complex contractual agreement. 
+A transaction is generally a single call to a module function. 
+However there is no limit on how many statements can be executed. 
+The difference between transaction execution and contract deployment is simply the _kind_ of code executed.
+There's no difference in how the code is evaluated.
+
+### Queries and local execution
+
+Querying data is generally not a business event, and can involve data payloads that could impact performance, so querying is carried out as a _local execution_ on the node receiving the message. 
+Historical queries use a _transaction ID_ as a point of reference, to avoid any race conditions and allow asynchronous query execution.
+
+Transactional vs local execution is accomplished by targeting different API endpoints; pact code has no ability to distinguish between transactional and local execution.
+
+
+## Namespaces
 
 [Namespace](/build/pact/advanced#namespacesh-2137443688) declarations provide a unique prefix for modules and interfaces defined within the namespace scope. Namespaces are handled differently in public and private blockchain contexts: in private they are freely definable, and the _root namespace_ (ie, not using a namespace at all) is available for user code. In public blockchains, users are not allowed to use the root namespace (which is reserved for built-in contracts like the coin contract) and must define code within a namespace, which may or may not be definable (ie, users might be restricted to "user" namespaces).
 
 Namespaces are defined using [define-namespace](/reference/functions/general#define-namespaceh-1430035511). Namespaces are "entered" by issuing the [namespace](/reference/functions/general#namespaceh1252218203) command.
 
-#### Module declaration
-
-[Modules](/reference/syntax#moduleh-1068784020) contain the API and data definitions for smart contracts. They are comprised of:
-
-- [functions](/reference/syntax#defunh95462750)
-- [schema](/reference/syntax#defschemah-1003560474) definitions
-- [table](/reference/syntax#deftableh661222121) definitions
-- [pact](/reference/syntax#defpacth1545231271) special functions
-- [constant](/reference/syntax#defconsth645951102) values
-- [models](/reference/property-checking)
-- [capabilities](/build/pact/advanced#capabilitiesh-1323277354)
-- [imports](/reference/syntax#useh116103)
-- [implements](/reference/syntax#implementsh-915384400)
-
-When a module is declared, all references to native functions, interfaces, or definitions from other modules are resolved. Resolution failure results in transaction rollback.
-
-Modules can be re-defined as controlled by their governance capabilities. Often, such a function is simply a reference to an administrative keyset. Module versioning is not supported, except by including a version sigil in the module name (e.g., "accounts-v1"). However, _module hashes_ are a powerful feature for ensuring code safety. When a module is imported with [use](/reference/syntax#useh116103), the module hash can be specified, to tie code to a particular release.
-
-As of Pact 2.2, `use` statements can be issued within a module declaration. This combined with module hashes provides a high level of assurance, as updated module code will fail to import if a dependent module has subsequently changed on the chain; this will also propagate changes to the loaded modules' hash, protecting downstream modules from inadvertent changes on update.
-
-Module names must be unique within a namespace.
-
-#### Interface declaration
-
-[Interfaces](/build/pact/advanced#interfacesh394925690#interfaces) contain an API specification and data definitions for smart contracts. They are comprised of:
-
-- [function](/reference/syntax#defunh95462750) specifications (i.e. function signatures)
-- [constant](/reference/syntax#defconsth645951102) values
-- [schema](/reference/syntax#defschemah-1003560474) definitions
-- [pact](/reference/syntax#defpacth1545231271) specifications
-- [models](/reference/property-checking)
-- [capabilities](/build/pact/advanced#capabilitiesh-1323277354) specifications
-- [imports](/reference/syntax#useh116103)
-
-Interfaces represent an abstract api that a [module](/reference/syntax#moduleh-1068784020) may implement by issuing an `implements` statement within the module declaration. Interfaces may import definitions from other modules by issuing a [use](/reference/syntax#useh116103#use) declaration, which may be used to construct new constant definitions, or make use of types defined in the imported module. Unlike Modules, Interface versioning is not supported. However, modules may implement multiple interfaces.
-
-Interface names must be unique within a namespace.
-
-#### Table creation
-
-Tables are [created](/reference/functions/database#create-tableh447366077) at the same time as modules. While tables are _defined_ in modules, they are _created_ "after" modules, so that the module may be redefined later without having to necessarily re-create the table.
-
-The relationship of modules to tables is important, as described in [Table Guards](/build/pact/advanced#module-table-guardsh-1588944812).
-
-There is no restriction on how many tables may be created. Table names are namespaced with the module name.
-
-Tables can be typed with a [schema](/reference/syntax#defschemah-1003560474).
-
-### Transaction execution
-
-"Transactions" refer to business events enacted on the blockchain, like a payment, a sale, or a workflow step of a complex contractual agreement. A transaction is generally a single call to a module function. However there is no limit on how many statements can be executed. Indeed, the difference between "transactions" and "smart contract definition" is simply the _kind_ of code executed, not any actual difference in the code evaluation.
-
-### Queries and local execution
-
-Querying data is generally not a business event, and can involve data payloads that could impact performance, so querying is carried out as a _local execution_ on the node receiving the message. Historical queries use a _transaction ID_ as a point of reference, to avoid any race conditions and allow asynchronous query execution.
-
-Transactional vs local execution is accomplished by targeting different API endpoints; pact code has no ability to distinguish between transactional and local execution.

@@ -20,7 +20,7 @@ The rules for how many keys are required to act on behalf of the account are def
 
 ## Defining a keyset
 
-A keyset is a specific type of **guard** that consists of one or more  public keys and a **predicate function** that specifies how many of the keys are required to perform an operation. 
+A keyset is a specific type of **guard** that consists of one or more public keys and a **predicate function** that specifies how many of the keys are required to perform an operation. 
 In JSON, a keyset object looks similar to the following example:
 
 ```json
@@ -38,7 +38,7 @@ In JSON, a keyset object looks similar to the following example:
 In this keyset, there are three public keys defined as owners associated with this keyset.
 The predicate function of `keys-any` means that any of the three public keys can sign transactions and act on the behalf of the account associated with this keyset.
 To make this keyset usable for practical purposes in a smart contract, it's assigned a name.
-You can then reference the name to check whether an action is valid by verifying at least one (keys-any)  of these three public keys has authorized it.
+You can then reference the name to check whether an action is valid by verifying at least one (keys-any) of these three public keys has authorized it.
 
 ```json
 {
@@ -64,7 +64,9 @@ In the `coin` contract, an account consists of the following parts:
 - Key: An **account name** in the form of a string of 3 to 256 LATIN-1 characters (key).
 - Vale: An **account object** that holds the **decimal balance** of funds in the account and the **keyset** that governs the account.
 
+```text
 key: "Valencia-HOA" -> value: { 0.0, { ["1d5a5e10...",""4fe7981d...",""58705e86..."], "keys-any" }}
+```
 
 As you saw in the previous example, the keyset consists of one or more public keys and the predicate function that specifies the number of keys that must sign a transaction for the account.
 
@@ -80,7 +82,7 @@ For example, the `keys-2` predicate requires that at least two public keys defin
 
 The following diagram illustrates the relationship between keys, keysets, and accounts:
 
-![Keys, keysets, and accounts on the Kadena network](/assets/docs/kadena-account.png)
+![Keys, keysets, and accounts on the Kadena network](/img/kadena-account.png)
 
 If you would like to learn more about keys and accounts in Kadena, see [Beginner's Guide to Kadena: Accounts + Keysets](https://medium.com/kadena-io/beginners-guide-to-kadena-accounts-keysets-fb7f32104291).
 
@@ -95,10 +97,11 @@ When you create and fund an account on any chain, it only exists on that chain.
 You can create accounts on more than one chain, but they are essentially independent accounts, with separate account balances and potentially different keysets and owners. 
 Because the chains operate independently, you should always pay close attention to the network and chain identifier you have selected when you are signing and submitting transactions.
 
-It's also important to remember that the account name doesn't determine ownership of an account. 
-The keyset associated with an account determines ownership. 
-You could own account named Alice on chain 0, and someone else could own an account named Alice on chain 5. 
+It's also important to remember that the account name—on its own—doesn't determine the ownership of an account. 
+The keyset associated with an account determines ownership.
+You could own an account named Alice on chain 0, and someone else could own an account named Alice on chain 5. 
 If you want to own a specific account name across all of the chains in the network, you would need to be the first person to create that account with your keys on each chain.
+To create a one-to-one relationship between a specific account name and a specific keyset, Kadena introduced the concept of **principal accounts**.
 
 ## Account names and principals
 
@@ -106,23 +109,46 @@ As mentioned in [Defining accounts](#defining-accounts), an account name can be 
 Using an arbitrary string as an account name can be convenient. 
 For example, you might want to create an account with a name that identifies it as a personal or primary account, for example, Lola-Pistola, so that it's easy to differentiate it from an account that you own jointly with another party or a group, for example, Las-Pistolas.
 
-However, using arbitrary account names like these examples can make your account vulnerable to certain kinds of attacks. 
-For example, an attacker might try to hijack a transaction that creates an account or transfers funds by changing the keyset associated with the account name. 
-One way to prevent an account from being hijacked by an attacker is to create **principal** account. 
-A principal is a way to enforce a one-to-one relationship between a **guard** and what the guard is there to protect, like the ownership of an account balance. 
-If an attacker tries to hijack the account by changing the keyset—the most common type of guard—the keyset won't match the one defined in the underlying ledger, so the transaction would fail.
+However, using arbitrary or vanity account names like these examples can make your account vulnerable to certain kinds of attacks. 
+For example, an attacker might try to frontrun a transaction that creates an account or transfers funds by changing the keyset associated with the account name. 
+One way to prevent an an attacker from trying to impersonate you with a frontrunning attack is to create **principal** account. 
+A principal is a way to enforce a one-to-one relationship between a **guard** and a resource that the guard is there to protect, like an account name to protect the ownership of an account balance. 
+If an attacker tries to intercept a transaction by changing an account keyset—the most common type of guard—the new keyset won't match the one defined in the underlying ledger, so the transaction would fail.
 
 ### Keysets and principals
 
 Keysets represent the most-commonly used type of guard and are the most similar to how most blockchains protect access to accounts using public and secret keys. 
 As you've already seen, a keyset holds a collection of one or more public keys and a predicate function that defines how many of those keys must sign to authorize an action. 
-In Pact, the guard is a Boolean value that must return true for an associated action to take place.
+In Pact, a guard is an assertion of ownership, for example, the ownership of a particular keyset, capability, or user attribute.
+By calling a function to enforce the guard, Pact produces a Boolean value that must return true for an associated action to take place.
 
-By default, when you define a keyset with a **single** public key and the **keys-all** predicate, the result is an account name that starts with the `k:` prefix, followed by the public key for the account. This naming convention creates a principal account for an individual key.
+By default, when you define a **principal account** with a **single** public key and the **keys-all** predicate, the result is an account name that starts with the `k:` prefix, followed by the public key for the account. This naming convention creates a principal account for an individual key.
+
+You can use the `create-principal` built-in function to create a principal account name for a specified `keyset` guard.
+The `create-principal` function returns a string that represents the principal identified by the specified `keyset` guard.
+In the following example, the `create-principal` function creates a principal from the `keyset` guard with the name `valencia-keyset`:
+
+```pact
+(env-data {"valencia-keyset":{ "keys": ["fe4b6da3...27f608b7"], "pred": "keys-all" } })
+"Setting transaction data"
+
+(create-principal (read-keyset "valencia-keyset"))
+"k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7"
+```
 
 You can also create principal accounts for keysets that have multiple keys and that use either built-in or custom predicate rules. 
 For example, you can define a keyset with two public keys and the built-in predicate `keys-any`. 
 If you create a principal for this account, the keyset information is used to generate a unique hash and the account is created using the `w:` prefix, followed by the hash for the guard.
+
+In the following example, the `create-principal` function creates a principal from the `keyset` guard with the name `valencia-hoa`:
+
+```pact
+(env-data {"valencia-board":{ "keys": ["fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7","5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0"], "pred": "keys-any" } })
+"Setting transaction data"
+
+(create-principal (read-keyset "valencia-board"))
+"w:kar3UPhvtWsLsn5cr5VtNde7CRykgAknLNlDD6BkOPI:keys-any"
+```
 
 ### Other types of guards
 
