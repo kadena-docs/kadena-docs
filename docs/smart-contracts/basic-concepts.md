@@ -14,7 +14,6 @@ Basic concepts
 - capabilities (privileges or permissions that can be granted / acquired or installed, that can be scoped to a specific section of code, a signature or another verification method)åß
 - guards
 - defpact for cross chain and multi-step transactions 
-- Accounts and principals 
 - namespaces
 
 Basic operations
@@ -60,31 +59,37 @@ These execution modes are:
 
 ### Contract deployment
 
-When a contract is deployed, the transaction sent to the blockchain is comprised of modules, tables, and authorization data.
-The transaction can also include database-modifying code, for example, to initialize data that the contract requires.
-For a given smart contract, the transaction used to establish the contract on the blockchain should be sent as a single message, so that any error will rollback the entire smart contract as a unit.
+When a contract is deployed, the deployment transaction that's sent to the blockchain is comprised of modules, tables, and authorization data.
+The transaction can also include database-modifying code, for example, to initialize information that the contract requires.
+As a general rule, the transaction that you use to deploy the contract on the blockchain should be sent as a single message, so that any error will rollback the entire smart contract as a unit.
 
 When contracts are initialized on the blockchain, they identify a [namespace](#namespace-declaration) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
+Modules contain the main business logic for the application or service you want to deploy.
+Interfaces provide access to constant definitions and typed function signatures that are defined outside of a module to be implemented an used in a module.
 Deploying a contract also requires you to define one or more authorization [keysets](#keysets) that have administrative control over the contract modules and tables. 
-Keysets defined in the runtime environment are then stored in the global keyset database.
+Keysets that are defined as data in the runtime environment are then stored in the global keyset database.
 
-After setting the runtime context, Pact executes module and interface declarations and creates required tables.
+After setting the runtime context, Pact executes module and interface declarations and creates required tables to complete the contract deployment.
 
 ### Transaction execution
 
-Transactions refer to business events enacted on the blockchain, like a payment, a sale, or a workflow step of a complex contractual agreement. 
-A transaction is generally a single call to a module function. 
-However there is no limit on how many statements can be executed. 
-The difference between transaction execution and contract deployment is simply the _kind_ of code executed.
-There's no difference in how the code is evaluated.
+Most of the transactions executed on the blockchain are intended to record **business events**. 
+For example, business events often involve the handling of assets, payments, ownership transfers, or the completion of contractual agreements. 
+These types of transactions are typically executed using a single call to a specific module function. 
+However, there is no limit on the number statements you can execute in a transaction and you can define transactions that are executed as a sequence of steps.
+Note that the difference between transaction execution and contract deployment is simply the _kind_ of code executed.
+There's no difference in how the code itself is evaluated.
 
 ### Queries and local execution
 
-Querying data is generally not a business event, and can involve data payloads that could impact performance, so querying is carried out as a _local execution_ on the node receiving the message. 
-Historical queries use a _transaction ID_ as a point of reference, to avoid any race conditions and allow asynchronous query execution.
+In general, querying data that's stored on the blockchain isn't considered a business event where execution and performance are more critical.
+In addition, queries can often involve larger data payloads that could introduce overhead, bandwidth, and latency issues.
+To reduce the impact of queries on network operations, queries are handles as _local execution requests_ on the node receiving the message. 
+Historical queries use a _transaction hash_ as a point of reference to avoid race conditions and to allow asynchronous query execution.
 
-Transactional vs local execution is accomplished by targeting different API endpoints; pact code has no ability to distinguish between transactional and local execution.
-
+Pact code doesn't distinguish between transactional execution and local execution.
+However, the Pact API provides separate endpoints to execute transactions on the blockchain and submit local execution requests.
+FOr more information about using the Pact API endpoints, see [Pact API](/api/pact-api).
 
 ## Namespaces
 
