@@ -254,7 +254,7 @@ For more information about all of the formats supported, see [Time formats](/pac
 
 Pact provides operator functions to perform common arithmetic, comparison, and logical operations.
 The most common of these operator functions are listed in this section.
-For a complete list with more information about each function, including function signatures and examples, see [Operators](/pact-5/Operators/0-operators).
+For a complete list with more information about each function, including function signatures and examples, see [Operators](/pact-5/Operators).
 
 ### Arithmetic operators
 
@@ -301,14 +301,14 @@ Functions are an important part of any programming language, whether you are wor
 In addition to the operator functions, Pact provides many other built-in functions to handle different types of tasks.
 The functions are grouped into the following categories:
 
-- [Capabilities](/pact-5/Capabilities/0-capability)
-- [Database](/pact-5/Database/0-database)
-- [General](/pact-5/General/0-general)
-- [Guards](/pact-5/Guards/0-guards)
-- [Keysets](/pact-5/Keysets/0-keysets)
-- [Operators](/pact-5/Operators/0-operators)
-- [Repl](/pact-5/Repl/0-repl)
-- [Time](/pact-5/Time/0-time)
+- [Capabilities](/pact-5/Capabilities)
+- [Database](/pact-5/Database)
+- [General](/pact-5/General)
+- [Guards](/pact-5/Guards)
+- [Keysets](/pact-5/Keysets)
+- [Operators](/pact-5/Operators)
+- [Repl](/pact-5/Repl)
+- [Time](/pact-5/Time/time-functions)
 
 Click a category to see a complete list of the functions in that category.
 Within each category, you can click individual function names to see more information, including function signatures and examples.
