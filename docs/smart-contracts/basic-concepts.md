@@ -92,5 +92,3 @@ Transactional vs local execution is accomplished by targeting different API endp
 
 Namespaces are defined using [define-namespace](/reference/functions/general#define-namespaceh-1430035511). Namespaces are "entered" by issuing the [namespace](/reference/functions/general#namespaceh1252218203) command.
 
-
-
