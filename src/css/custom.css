@@ -275,13 +275,13 @@ nav.navbar .navbar__link { font-weight: 550; }
 
    .markdown h1 { font-size: 2.5rem; font-weight: 700; margin-top: 0; }
 
-   .markdown h2 { font-size: 2rem; font-weight: 600; }
+   .markdown h2 { font-size: 1.75rem; font-weight: 600; }
 
-   .markdown h3 { font-size: 1.45rem; font-weight: 450; color: var(--k-base); }
+   .markdown h3 { font-size: 1.35rem; font-weight: 450; color: var(--k-base); }
 
-   .markdown h4 { font-size: 1.3rem; font-weight: 425; }
+   .markdown h4 { font-size: 1.15rem; font-weight: 425; }
 
-   .markdown h5 { font-size: 1.2rem; font-weight: 500; }
+   .markdown h5 { font-size: 1rem; font-weight: 500; }
 
    .markdown h2,
    .markdown h3,
