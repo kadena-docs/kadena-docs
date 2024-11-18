@@ -1,9 +1,9 @@
-## expect-failure
+# expect-failure
 
 Use `expect-failure` to evaluate an expression and succeed only if the expressions results in an error.
 This function enables you to verify that use cases that should failbehave as expected.
 
-### Basic syntax
+## Basic syntax
 
 To expect a failure without specifying the error message, use the following syntax:
 

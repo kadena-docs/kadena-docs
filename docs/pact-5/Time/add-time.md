@@ -1,8 +1,8 @@
-## add-time
+# add-time
 
 Use `add-time` to add a specified number of `seconds` to a given `time`.
 
-### Basic syntax
+## Basic syntax
 
 To add `seconds` to a `time`, use the following syntax:
 
@@ -10,7 +10,7 @@ To add `seconds` to a `time`, use the following syntax:
 (add-time time seconds)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the *`time`* to which you want to add *`seconds`* using the `add-time` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the *`time`* to which you want to add *`s
 | `time` | time | Specifies the time to which you want to add `seconds`. |
 | `seconds` | decimal or integer | Specifies the number of seconds to add to the `time`. |
 
-### Return values
+## Return values
 
 The `add-time` function returns the resulting time after adding the specified number of `seconds` to the specified `time`.
 
-### Examples
+## Examples
 
 The following example adds 120 seconds to the specified time "2024-06-22T12:00:00Z" in the Pact REPL:
 

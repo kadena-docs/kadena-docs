@@ -1,9 +1,9 @@
-## with-default-read
+# with-default-read
 
 Use `with-default-read` to read a row from a specified table for a given key and bind columns according to provided bindings. 
 If the row is not found, the function reads columns from a default object with matching key names.
 
-### Basic syntax
+## Basic syntax
 
 To read a row from a `table` with `default` values and bind columns according to the provided `binding`, use the following syntax:
 
@@ -11,7 +11,7 @@ To read a row from a `table` with `default` values and bind columns according to
 (with-default-read table key default bindings)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the table, key, defaults, bindings, and body for execution using the `with-default-read` Pact special form.
 
@@ -23,11 +23,11 @@ Use the following arguments to specify the table, key, defaults, bindings, and b
 | `bindings` | `binding:<{row}> `| Specifies the bindings for columns to be bound. |
 | `body` | any | Specifies the subsequent body statements to be executed. |
 
-### Return value
+## Return value
 
 The `with-default-read` is a special form that returns the result of executing the provided body statements.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `with-default-read` function to read a row from the `accounts` table for the specified key, using default values if the row is not found, and binds the `balance` and `currency` columns for further processing:
 

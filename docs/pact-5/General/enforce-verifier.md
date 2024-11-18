@@ -1,8 +1,8 @@
-## enforce-verifier
+# enforce-verifier
 
 Use `enforce-verifier` to enforce that a verifier plugin with the specified `verifier-name` is in scope.
 
-### Basic syntax
+## Basic syntax
 
 To enforce that a verifier is in scope, use the following syntax:
 
@@ -10,7 +10,7 @@ To enforce that a verifier is in scope, use the following syntax:
 (enforce-verifier verifier-name)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `verifier-name` for the `enforce-verifier` Pact function:
 
@@ -18,11 +18,11 @@ Use the following argument to specify the `verifier-name` for the `enforce-verif
 |-------------|--------|-------------------------------------------------|
 | `verifier-name` | string | Specifies the name of the verifier to enforce.  |
 
-### Return values
+## Return values
 
 The `enforce-verifier` function returns a boolean value indicating whether the specified verifier is in scope.
 
-### Examples
+## Examples
 
 The following example demonstrates the `enforce-verifier` function:
 

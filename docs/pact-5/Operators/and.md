@@ -1,8 +1,8 @@
-## and
+# and
 
 Use `and` to perform a boolean logic AND operation with short-circuiting.
 
-### Basic syntax
+## Basic syntax
 
 To perform a boolean logic AND operation between two boolean values `oper1` and `oper2`, use the following syntax:
 
@@ -10,7 +10,7 @@ To perform a boolean logic AND operation between two boolean values `oper1` and 
 (and oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the boolean values for the `and` operation.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the boolean values for the `and` operatio
 | `oper1` | bool | Specifies the first boolean value for the AND operation. |
 | `oper2` | bool | Specifies the second boolean value for the AND operation. |
 
-### Return values
+## Return values
 
 The `and` function returns a boolean value based on the result of the AND operation between the input boolean values.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `and` function to perform a boolean AND operation between the values `true` and `false` in the Pact REPL:
 

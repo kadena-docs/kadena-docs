@@ -1,8 +1,8 @@
-## bitwise-and (&)
+# bitwise-and (&)
 
 Use `&` to compute the bitwise AND operation between the first integer `oper1` value and the second integer `oper2` value.
 
-### Basic syntax
+## Basic syntax
 
 To compute the bitwise AND operation between `oper1` and `oper2`, use the following syntax:
 
@@ -10,7 +10,7 @@ To compute the bitwise AND operation between `oper1` and `oper2`, use the follow
 (& oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the values for bitwise AND operation using the `&` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the values for bitwise AND operation usin
 | `oper1` | integer | Specifies the first operand. |
 | `oper2` | integer | Specifies the second operand. |
 
-### Return value
+## Return value
 
 The `&` function returns the result of the bitwise AND operation between `oper1` and `oper2`.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `&` function to perform bitwise AND manipulation of integer values in a Pact REPL:
 

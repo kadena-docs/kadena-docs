@@ -1,8 +1,8 @@
-## hyperlane-encode-token-message
+# hyperlane-encode-token-message
 
 Use `hyperlane-encode-token-message` to encode an object into a Hyperlane Token message as an unpadded base64url string.
 
-### Basic syntax
+## Basic syntax
 
 To encode an object into a Hyperlane Token message using `hyperlane-encode-token-message`, use the following syntax:
 
@@ -10,7 +10,7 @@ To encode an object into a Hyperlane Token message using `hyperlane-encode-token
 (hyperlane-encode-token-message x)
 ```
 
-### Arguments
+## Arguments
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -21,11 +21,11 @@ The object should have the following structure:
 - `amount`: decimal
 - `chainId`: string
 
-### Return value
+## Return value
 
 The `hyperlane-encode-token-message` function returns a string representing the encoded Hyperlane Token message in unpadded base64url format.
 
-### Examples
+## Examples
 
 Here's an example of using `hyperlane-encode-token-message` to encode an object into a Hyperlane Token message:
 

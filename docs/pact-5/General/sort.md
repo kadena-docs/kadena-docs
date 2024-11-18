@@ -1,9 +1,9 @@
-## sort
+# sort
 
 Use `sort` to sort a list of primitive values based on the values themselves or a list of objects based on specific fields within the objects.
 If you're sorting primitive values, they are sorted in ascending numerical or alphabetical order.
 
-### Basic syntax
+## Basic syntax
 
 Because `sort` is an overloaded function, there are two ways to use it.
 To sort a list of primitive values, use the following syntax:
@@ -18,7 +18,7 @@ To sort a list of objects based on specific fields, use the following syntax:
 (sort [fields] [{object1} {object2} ...])
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the values or fields for sorting using the `sort` Pact function.
 
@@ -28,11 +28,11 @@ Use the following arguments to specify the values or fields for sorting using th
 | `fields` | [list] | Specifies the list of fields within objects to be used for sorting. |
 | `object1` | object | Specifies more or more objects to be sorted using the `fields` parameter.
 
-### Return value
+## Return value
 
 The `sort` function returns a sorted list of values or objects based on the specified sorting criteria.
 
-### Examples
+## Examples
 
 The following examples illustrate how to use the `sort` function to sort lists of values or objects in Pact.
 

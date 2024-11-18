@@ -1,9 +1,9 @@
-## days
+# days
 
 Use `days` to specify a number of days. 
 You can use this function in conjunctions with the `add-time` function to add days to a specified time.
 
-### Basic syntax
+## Basic syntax
 
 To specify a number of days, use the following syntax:
 
@@ -11,7 +11,7 @@ To specify a number of days, use the following syntax:
 (days n)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `n` number of days for the `days` Pact function.
 
@@ -19,11 +19,11 @@ Use the following argument to specify the `n` number of days for the `days` Pact
 | --- | --- | --- |
 | `n` | decimal or integer | Specifies the number of days to add. |
 
-### Return values
+## Return values
 
 The `days` function returns the number of seconds in the given number of days as a decimal value.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `days` function to return the number of seconds in one day as a decimal value:
 

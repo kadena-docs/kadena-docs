@@ -1,8 +1,8 @@
-## read
+# read
 
 Use `read` to retrieve a row from a specified table by its key. You can optionally specify a subset of columns to return.
 
-### Basic syntax
+## Basic syntax
 
 To read an entire row from a table, use the following syntax:
 
@@ -16,7 +16,7 @@ To read specific columns from a row in a table, use the following syntax:
 (read table key columns)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the table, key, and optional columns when using the `read` Pact function.
 
@@ -26,14 +26,14 @@ Use the following arguments to specify the table, key, and optional columns when
 | `key` | string | Specifies the key of the row to read from the table. |
 | `columns` | [string] | Specifies one or more column names to return from the row. If not provided, the entire row is returned (optional). |
 
-### Return values
+## Return values
 
 The `read` function returns an object representing the requested row or columns from the specified table.
 
 - If you don't specify one or more `columns` as parameters, the function returns an object with the structure of the entire row.
 - If you specify one or more `columns` as parameters, the function returns an object containing only the specified columns from the row.
 
-### Examples
+## Examples
 
 he following example demonstrates defining a table schema for an `accounts` table that stores information about bank accounts, including the balance, currency, and owner of each account:
 

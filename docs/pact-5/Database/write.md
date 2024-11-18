@@ -1,4 +1,4 @@
-## write
+# write
 
 Use `write` to write the specified `{column:value}` object in the specified `table` for a given `key` row.
 The `write` function is similar to the `insert` and `update` functions, except that:
@@ -8,7 +8,7 @@ The `write` function is similar to the `insert` and `update` functions, except t
 
 In both of these cases, the `write` function can succeed and update the table without failing.
 
-### Basic syntax
+## Basic syntax
 
 To write an entry in a specified `table` for a specific `key` with the provided `object`, use the following syntax:
 
@@ -16,7 +16,7 @@ To write an entry in a specified `table` for a specific `key` with the provided 
 (write table key object)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the table, key, and object data for writing using the `write` Pact function.
 
@@ -26,11 +26,11 @@ Use the following arguments to specify the table, key, and object data for writi
 | `key` | string | Specifies the key for the entry to be written. |
 | `object` | object | Specifies the object column data to be written for the key. |
 
-### Return value
+## Return value
 
 The `write` function returns a `string` indicating the success of the write operation.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `write` function to write an entry in the `accounts` table for the specified key with the provided object column data:
 

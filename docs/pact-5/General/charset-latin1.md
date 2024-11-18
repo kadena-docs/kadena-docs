@@ -1,12 +1,12 @@
-## CHARSET_LATIN1
+# CHARSET_LATIN1
 
 `CHARSET_LATIN1` is a constant used to indicate the standard Latin-1 (ISO-8859-1) character set.
 
-### Constant value
+## Constant value
 
 `(CHARSET_LATIN1:integer = 1)`
 
-### Description
+## Description
 
 The `CHARSET_LATIN1` constant represents the Latin-1 (ISO-8859-1) character set, which is a widely used single-byte character encoding. It includes characters from various Western European languages.
 

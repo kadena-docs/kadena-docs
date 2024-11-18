@@ -1,10 +1,10 @@
-## create-capability-guard
+# create-capability-guard
 
 Use `create-capability-guard` to create a predicate function that ensures that specific conditions are true and can be enforced to grant the specified `CAPABILITY`.
 
 By convention, capabilities are defined using all uppercase letters.
 
-### Basic syntax
+## Basic syntax
 
 To create a predicate function that guards the specified `CAPABILITY`, use the following syntax:
 
@@ -12,7 +12,7 @@ To create a predicate function that guards the specified `CAPABILITY`, use the f
 (create-capability-guard CAPABILITY)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `CAPABILITY` for the `create-capability-guard` Pact function.
 
@@ -20,11 +20,11 @@ Use the following argument to specify the `CAPABILITY` for the `create-capabilit
 | --- | --- | --- |
 | `CAPABILITY` | capability | Specifies the capability that the predicate function guards. |
 
-### Return values
+## Return values
 
 The `create-capability-guard` function returns a guard that enforces the acquisition of the specified `CAPABILITY`.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `create-capability-guard` function to create a guard for the GOVERNANCE capability:
 

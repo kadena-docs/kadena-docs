@@ -1,8 +1,8 @@
-## or
+# or
 
 Use `or` to apply a logical OR operation with short-circuit evaluation.
 
-### Basic syntax
+## Basic syntax
 
 To perform a logical OR operation with short-circuit evaluation, use the following syntax:
 
@@ -10,7 +10,7 @@ To perform a logical OR operation with short-circuit evaluation, use the followi
 (or oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the boolean values for which you want to perform the logical OR operation using the `or` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the boolean values for which you want to 
 | `oper1` | bool | Specifies the first expression to evaluate that returns the boolean value to perform the logical OR operation on.|
 | `oper2` | bool | Specifies the second expression to evaluate that returns the boolean value to perform the logical OR operation on. |
 
-### Return value
+## Return value
 
 The `or` function returns a boolean value based on the logical OR operation of the input values.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `or` function in the Pact REPL:
 

@@ -1,18 +1,18 @@
-## pact-version
+# pact-version
 
 Use `pact-version` to obtain the current Pact build version.
 
-### Basic syntax
+## Basic syntax
 
 To obtain the current Pact build version, use the following syntax:
 
 `(pact-version)`
 
-### Return value
+## Return value
 
 The `pact-version` function returns a string representing the current Pact build version.
 
-### Examples
+## Examples
 
 The `pact-version` function is called without any arguments to obtain the current Pact build version.
 

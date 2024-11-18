@@ -1,11 +1,11 @@
-## shift
+# shift
 
 Use `shift` to perform a bitwise shift operation on the integer `oper1` by `oper2` bits. 
 If `oper2` is positive, this function shifts `oper1` to the left.
 If `oper2` is negative, the function shifts `oper1` to the right. 
 Right shifts perform sign extension on signed number types, filling the top bits with 1 if `oper1` is negative and with 0 otherwise.
 
-### Basic syntax
+## Basic syntax
 
 To shift the integer `oper1` by `oper2` bits, use the following syntax:
 
@@ -13,7 +13,7 @@ To shift the integer `oper1` by `oper2` bits, use the following syntax:
 (shift oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the integer values to be shifted using the `shift` Pact function.
 
@@ -22,11 +22,11 @@ Use the following arguments to specify the integer values to be shifted using th
 | `oper1` | integer | Specifies the integer value to be shifted. |
 | `oper2` | integer | Specifies the number of bits to shift `oper1` by. |
 
-### Return value
+## Return value
 
 The `shift` function returns the result of shifting `oper1` by `oper2` bits.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `shift` function to shift the integer 255 to the left by 8 bits:
 

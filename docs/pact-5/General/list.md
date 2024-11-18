@@ -1,13 +1,13 @@
-## list
+# list
 Use `list` to create a list from the specified elements. Note that this function is deprecated in Pact 2.1.1 with support for literal lists.
 
-### Basic syntax
+## Basic syntax
 
 To create a list from elements, use the following syntax:
 
 `(list elems)`
 
-### Argument
+## Argument
 
 Use the following argument to specify the elements from which you want to create a list using the `list` Pact function.
 
@@ -15,11 +15,11 @@ Use the following argument to specify the elements from which you want to create
 | --- | --- | --- |
 | `elems` | `any` | Specifies the elements to be included in the list. |
 
-### Return value
+## Return value
 
 The `list` function returns a list containing the specified elements.
 
-### Examples
+## Examples
 
 The following example demonstrates the use of `list` in the Pact REPL:
 

@@ -1,4 +1,4 @@
-## env-enable-repl-natives
+# env-enable-repl-natives
 
 Use `env-enable-repl-natives` to control whether REPL native functions are allowed in module code.
 
@@ -6,7 +6,7 @@ If you set this function to `true` to enable REPL native functions in module cod
 
 If you set this function to `false` to disable REPL native functions in module code, other environment configuration functions are not allowed in module code, and attempting to use them will result in an error.
 
-### Basic syntax
+## Basic syntax
 
 To allow REPL native functions to be used in module code, use the following syntax:
 
@@ -14,7 +14,7 @@ To allow REPL native functions to be used in module code, use the following synt
 (env-enable-repl-natives enable)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify whether to enable or disable REPL native functions in module code.
 
@@ -22,11 +22,11 @@ Use the following argument to specify whether to enable or disable REPL native f
 | --- | --- | --- |
 | `enable` | bool | Specifies whether to enable or disable REPL native functions in module code. Note that this argument is required. Set it to `true` to enable REPL native function calls. Set it to `false` to prevent REPL native functions from being called. |
 
-### Return value
+## Return value
 
 The `env-enable-repl-natives` function returns a string indicating the status of REPL natives.
 
-### Examples
+## Examples
 
 The following example demonstrates how to enable REPL native functions:
 

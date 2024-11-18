@@ -1,11 +1,11 @@
-## str-to-int
+# str-to-int
 
 Use `str-to-int` to compute the integer value of the string `str` interpreted in base 10, or in a specified `base` ,if provided. 
 The `str` argument can be up to 512 characters. 
 If you specify the `base` argument, it must be between 2 and 16, or 64 to perform unpadded base64url conversion. 
 Each digit in the `str` argument must be in the correct range for the base.
 
-### Basic syntax
+## Basic syntax
 
 To compute the integer value of a string in base 10, use the following syntax:
 
@@ -19,7 +19,7 @@ To compute the integer value of a string in a specified base, use the following 
 (str-to-int base str)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the string value and, optionally, the base for conversion using the `str-to-int` Pact function.
 
@@ -28,11 +28,11 @@ Use the following arguments to specify the string value and, optionally, the bas
 | `str` | string | Specifies the string value to be converted to an integer. |
 | `base` | integer | Specifies the base in which to interpret the string value (optional). Must be between 2 and 16, or 64 for base64url encoding without padding. |
 
-### Return value
+## Return value
 
 The `str-to-int` function returns the `integer` value computed from the input string `str`.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `str-to-int` function to compute the integer value of a string in the Pact REPL.
 

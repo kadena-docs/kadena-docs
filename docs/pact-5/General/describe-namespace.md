@@ -1,20 +1,20 @@
-## describe-namespace
+# describe-namespace
 
 Use `describe-namespace` to describe the specified `namespace`, returning a row object containing the user and admin guards of the namespace, as well as its name.
 
-### Basic syntax
+## Basic syntax
 
 To describe the namespace `namespace`, use the following syntax:
 
 ```pact
 (describe-namespace namespace)
 ```
-### Prerequisites
+## Prerequisites
 
 You must define a namespace with the define-namespace function before you can use the `describe-namespace` function.
-For information about defining a namespace, see [define-namespace](/pact-5/General/define-namespace).
+For information about defining a namespace, see [define-namespace](/reference/functions/general#define-namespace).
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `namespace` for the `describe-namespace` Pact function.
 
@@ -22,11 +22,11 @@ Use the following argument to specify the `namespace` for the `describe-namespac
 |----------|--------|---------------------------------------------|
 | `namespace` | string | Specifies the name of the namespace to describe.|
 
-### Return values
+## Return values
 
 The `describe-namespace` function returns an object with detailed information about the specified `namespace`.
 
-### Examples
+## Examples
 
 The following example demonstrates the `describe-namespace` function:
 

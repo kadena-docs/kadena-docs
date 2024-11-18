@@ -1,8 +1,8 @@
-## env-gas
+# env-gas
 
 Use `env-gas` to query the current gas state or set it to a specific value.
 
-### Basic syntax
+## Basic syntax
 
 To query the current gas state, use the following syntax:
 
@@ -16,7 +16,7 @@ To set the gas state to a specific value, use the following syntax:
 (env-gas gas)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to set the gas state when using the `env-gas` Pact function.
 
@@ -24,13 +24,13 @@ Use the following argument to set the gas state when using the `env-gas` Pact fu
 |----------|---------|-------------|
 | `gas` | integer | Specifies the value to set the gas state to (optional). |
 
-### Return value
+## Return value
 
 When called without arguments, the `env-gas` function returns an integer representing the current gas state.
 
 When called with the `gas` argument, the `env-gas` function returns a string indicating that the gas state has been set to the specified value.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `env-gas` function to query the current gas state:
 

@@ -1,4 +1,4 @@
-## namespace
+# namespace
 
 Use `namespace` to set the current working environment to the specified namespace value. 
 After you declare the namespace you want to work with, all of the modules and functions you define are contained within that namespace. 
@@ -11,11 +11,11 @@ For example, if you declare a principal namespace such as `n_14912521e87a6d38715
 
 If you call the `namespace` function after the initial declaration, Pact creates a new namespace for all subsequent declarations until either the next `namespace` call or the end of the transaction.
 
-### Prerequisites
+## Prerequisites
 
-You must define a namespace before you can set your working context to use the `namespace` function. For information about defining a namespace, see [define-namespace](/pact-5/General/define-namespace).
+You must define a namespace before you can set your working context to use the `namespace` function. For information about defining a namespace, see [define-namespace](/reference/functions/general#define-namespace).
 
-### Basic syntax
+## Basic syntax
 
 To set the current `namespace` to a specified value, use the following syntax:
 
@@ -23,7 +23,7 @@ To set the current `namespace` to a specified value, use the following syntax:
 (namespace namespace)
 ```
 
-### Argument
+## Argument
 
 Use the following argument to specify the namespace to be set using the `namespace` Pact function.
 
@@ -31,11 +31,11 @@ Use the following argument to specify the namespace to be set using the `namespa
 | --- | --- | --- |
 | `namespace` | string | Specifies the name of the namespace you want to use as your working context. |
 
-### Return value
+## Return value
 
 The `namespace` function returns the string representing the namespace that has been set.
 
-### Examples
+## Examples
 
 The following example demonstrates the use of `namespace` in a Pact script:
 

@@ -1,4 +1,4 @@
-## filter
+# filter
 
 Use `filter` to filter a list of `elements` by applying the specified `apply` function to each element in the list.
 For each element in the list, the `apply` function should return true or flase to identify the elements that should be included in the filtered list.
@@ -6,7 +6,7 @@ For each element in the list, the `apply` function should return true or flase t
 Each element that returns a result of `true` from the `apply` function is included in the resulting list with its original value. 
 With the `filter` function, you can include elements in a list based on a specific condition.
 
-### Basic syntax
+## Basic syntax
 
 To filter a list by applying a function to each element, use the following syntax:
 
@@ -14,7 +14,7 @@ To filter a list by applying a function to each element, use the following synta
 (filter apply [elements])
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the function and list for the `filter` Pact function:
 
@@ -23,11 +23,11 @@ Use the following arguments to specify the function and list for the `filter` Pa
 | `apply`    | function | Specifies the function to apply to each element of the list. The return value for the function must be a Boolean (`true` or `false`) to identify elements to be included in the resulting list. |
 | `elements` | [any] | Specifies the list of elements to filter. The elements in the list can be any data type. |
 
-### Return values
+## Return values
 
 The `filter` function returns a new list containing elements from the original list for which the `apply` function returns `true`.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use `filter` with a function that evaluates the length of strings to only include the strings with more than two characters:
 

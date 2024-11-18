@@ -1,8 +1,8 @@
-## bitwise-reverse (~)
+# bitwise-reverse (~)
 
 Use `~` to reverse all bits in the provided integer.
 
-### Basic syntax
+## Basic syntax
 
 To reverse all bits in an integer `x`, use the following syntax:
 
@@ -10,7 +10,7 @@ To reverse all bits in an integer `x`, use the following syntax:
 (~ x)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the integer for bit reversal using the `~` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the integer for bit reversal using the `~`
 | --- | --- | --- |
 | `x` | integer | Specifies the integer for which to reverse all bits. |
 
-### Return value
+## Return value
 
 The `~` function returns the result of reversing all bits in the provided integer.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `~` function to reverse all bits in the integer `15`:
 

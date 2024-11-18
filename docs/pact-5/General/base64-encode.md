@@ -1,8 +1,8 @@
-## base64-encode
+# base64-encode
 
 Use `base64-encode` to convert the specified `string` to an unpadded base64-encoded string.
 
-### Basic syntax
+## Basic syntax
 
 To encode a `string` as unpadded base64, use the following syntax:
 
@@ -10,7 +10,7 @@ To encode a `string` as unpadded base64, use the following syntax:
 (base64-encode string)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `string` to encode using the `base64-encode` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the `string` to encode using the `base64-e
 | --- | --- | --- |
 | `string` | string | Specifies the `string` to encode as unpadded base64. |
 
-### Return values
+## Return values
 
 The `base64-encode` function returns the unpadded base64 encoded `string`.
 
-### Examples
+## Examples
 
 The following example converts the "hello world!" into the unpadded base64-encoded string "aGVsbG8gd29ybGQh" in the Pact REPL:
 

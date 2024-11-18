@@ -1,4 +1,4 @@
-## try
+# try
 
 Use the `try` function to attempt a **pure** action, returning a default value in the case of failure. 
 Pure functions and pure expressions perform operations that produce a resulting value with no side effects. 
@@ -11,7 +11,7 @@ Unlike impure expressions that support reading and writing to tables and working
 - Don't write to memory or perform input or output operations.
 - Don't work with non-deterministic state. 
 
-### Basic syntax
+## Basic syntax
 
 To attempt a pure action and return a default value if the action fails, use the following syntax:
 
@@ -19,7 +19,7 @@ To attempt a pure action and return a default value if the action fails, use the
 (try default ACactionTION)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the default value and the action to be attempted using the `try` Pact function.
 
@@ -28,12 +28,12 @@ Use the following arguments to specify the default value and the action to be at
 | `default` | any | Specifies the default value to be returned if the action fails. |
 | `action` | any | Specifies the action to be attempted. |
 
-### Return value
+## Return value
 
 The `try` function returns the result of the attempted action. 
 If the action fails, it returns the specified default value.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `try` function in the Pact REPL. 
 This example attempts to use the `enforce` function to specify a condition.

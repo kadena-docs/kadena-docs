@@ -1,10 +1,10 @@
-## divide (/)
+# divide (/)
 
 Use `/` to divide the first argument `oper1` by the second argument `oper2`.
 Note that you can use this function to divide integer values or decimal values.
 However, you should use the same type for both `oper1` and `oper2` values.
 
-### Basic syntax
+## Basic syntax
 
 To divide `oper1` by `oper2`, use the following syntax:
 
@@ -12,7 +12,7 @@ To divide `oper1` by `oper2`, use the following syntax:
 (/ oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the values for division using the `/` Pact function.
 
@@ -21,11 +21,11 @@ Use the following arguments to specify the values for division using the `/` Pac
 | `oper1` | integer or decimal | Specifies the value of the dividend. |
 | `oper2` | integer or decimal | Specifies the divisor. |
 
-### Return value
+## Return value
 
 The `/` function returns the result of dividing `oper1` by `oper2`.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `/` function to divide two values in a Pact REPL:
 

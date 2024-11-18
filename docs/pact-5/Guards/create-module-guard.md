@@ -1,10 +1,10 @@
-## create-module-guard
+# create-module-guard
 
 Use `create-module-guard` to create a predicate function with the specified `name` that ensures that specific conditions are true for the current module.
 
 Module guards are typically used to enable a module to perform administrative operations independently outside of the module itself, for example, to own coins in an external ledger, or to perform administrative operations internally on its database, for example, to own and manage certain assets.
 
-### Basic syntax
+## Basic syntax
 
 To define a predicate function `name` that guards administrative activity for the current module, use the following syntax:
 
@@ -12,7 +12,7 @@ To define a predicate function `name` that guards administrative activity for th
 (create-module-guard name)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `name` for the `create-module-guard` Pact function.
 
@@ -20,11 +20,11 @@ Use the following argument to specify the `name` for the `create-module-guard` P
 | --- | --- | --- |
 | `name` | string | Specifies the name of the predicate function that guards administrative activity for the current module. |
 
-### Return values
+## Return values
 
 The `create-module-guard` function returns a guard with the specified `name`that enables the current module to perform administrative operations.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `create-module-guard` function to define a guard named `"module-admin-guard"` for the current module:
 

@@ -1,8 +1,8 @@
-## env-sigs
+# env-sigs
 
 Use `env-sigs` to set signature keys for signing transactions and granting capabilities.
 
-### Basic syntax
+## Basic syntax
 
 To set the signature keys to use for signing transactionL and granting capabilities, use the following syntax:
 
@@ -10,7 +10,7 @@ To set the signature keys to use for signing transactionL and granting capabilit
 (env-sigs sigs)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument when using the `env-sigs` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument when using the `env-sigs` Pact function.
 |----------|--------------|---------------|
 | `sigs`  | [object] | Specifies the list of signature objects. Each object represents a signer `key` and its associated `caps` capabilities. |
 
-### Return value
+## Return value
 
 The `env-sigs` function returns a string indicating that the transaction signature keys and capabilities have been set.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `env-sigs` function to set two transaction signature keys—"my-key" and "admin-key"—and capabilities:
 

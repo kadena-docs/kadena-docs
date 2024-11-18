@@ -1,8 +1,8 @@
-## length
+# length
 
 Use `length` to return the number of elements in a list, a string, or an object.
 
-### Basic syntax
+## Basic syntax
 
 To compute the length of a list, string, or object, use the following syntax:
 
@@ -10,7 +10,7 @@ To compute the length of a list, string, or object, use the following syntax:
 (length arg)
 ```
 
-### Argument
+## Argument
 
 Use the following argument to specify the value for which you want to compute the length using the `length` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the value for which you want to compute th
 | --- | --- | --- |
 | `arg` | list, string, or object | Specifies the list, string, or object that you want to compute the length of. |
 
-### Return value
+## Return value
 
 The `length` function returns an integer representing the length of the specified list, string, or object.
 
-### Examples
+## Examples
 
 The following example demonstrates calculating the length of the list `[1, 2, 3]` in the Pact REPL:
 

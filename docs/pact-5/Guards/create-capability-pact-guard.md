@@ -1,10 +1,10 @@
-## create-capability-pact-guard
+# create-capability-pact-guard
 
 Use `create-capability-pact-guard` to create a predicate function that ensures that specific conditions are true and can be enforced to grant the specified `CAPABILITY` for steps defined in a `defpact` multi-step transaction.
 
 By convention, capabilities are defined using all uppercase letters.
 
-### Basic syntax
+## Basic syntax
 
 To create a predicate function that guards the specified `CAPABILITY` in a `defpact` multi-step transaction, use the following syntax:
 
@@ -12,7 +12,7 @@ To create a predicate function that guards the specified `CAPABILITY` in a `defp
 (create-capability-pact-guard CAPABILITY)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `CAPABILITY` for the `create-capability-pact-guard` Pact function.
 
@@ -20,11 +20,11 @@ Use the following argument to specify the `CAPABILITY` for the `create-capabilit
 | --- | --- | --- |
 | `CAPABILITY` | capability | Specifies the capability that the predicate function guards. |
 
-### Return values
+## Return values
 
 The `create-capability-pact-guard` function returns a guard that enables the code associated with the specified `CAPABILITY` to be executed in the context of a `defpact` multi-step transaction.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `create-capability-pact-guard` function to create a guard for the `ESCROW owner` capability in a`defpact` step:
 

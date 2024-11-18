@@ -1,8 +1,8 @@
-## env-hash
+# env-hash
 
 Use `env-hash` to set the current transaction hash.
 
-### Basic syntax
+## Basic syntax
 
 To set the current transaction hash, use the following syntax:
 
@@ -10,7 +10,7 @@ To set the current transaction hash, use the following syntax:
 (env-hash hash)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument when using the `env-hash` Pact function.
 

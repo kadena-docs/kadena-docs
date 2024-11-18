@@ -1,8 +1,8 @@
-## create-table
+# create-table
 
 Use `create-table` to create a table identified by the specified `table` name.
 
-### Basic syntax
+## Basic syntax
 
 To create a table identified by the specified `table` name, use the following syntax:
 
@@ -10,12 +10,12 @@ To create a table identified by the specified `table` name, use the following sy
 (create-table table)
 ```
 
-### Prerequisites
+## Prerequisites
 
 Before using this function in a Pact module, you must define the table fields using the `defschema` declaration and the table identifier using the `deftable` declaration. 
 Creating the table is a separate step that is outside of the Pact module where the schema and identifier are defined.
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `table` name you want to create using the `create-table` Pact function.
 
@@ -23,11 +23,11 @@ Use the following argument to specify the `table` name you want to create using 
 | --- | --- | --- |
 | `table` | `table: <{row}>` | Specifies the table to create. |
 
-### Return values
+## Return values
 
 The `create-table` function returns a string representing the identifier of the created `table`.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `create-table` function to create a table identified by `accounts` that can be used for storing account information:
 

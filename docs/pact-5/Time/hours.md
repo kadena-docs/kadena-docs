@@ -1,23 +1,23 @@
-## hours
+# hours
 The `hours` function calculates a time duration in hours, which can be used with the `add-time` function to add a specific number of hours to a given time.
 
-### Syntax
+## Syntax
 
 The syntax for the `hours` function is as follows:
 
 `(hours n)`
 
-### Arguments
+## Arguments
 
 | Argument | Type | Description |
 | --- | --- | --- |
 | `n` | `integer` or `decimal` | Specifies the number of hours as either a decimal or an integer. |
 
-### Return Value
+## Return Value
 
 The `hours` function returns a decimal value representing the specified number of hours.
 
-### Examples
+## Examples
 
 Adding hours to a time:
 

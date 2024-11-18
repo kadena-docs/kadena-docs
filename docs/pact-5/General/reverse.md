@@ -1,8 +1,8 @@
-## reverse
+# reverse
 
 Use `reverse` to reverse the order of specified `elements` in a list.
 
-### Basic syntax
+## Basic syntax
 
 To reverse a specified list of `elements`, use the following syntax:
 
@@ -10,7 +10,7 @@ To reverse a specified list of `elements`, use the following syntax:
 (reverse [elements])
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `elements` to be reversed using the `reverse` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the `elements` to be reversed using the `r
 | --- | --- | --- |
 | `elements` | [any] | Specifies the elements in the list you want to be reversed. |
 
-### Return value
+## Return value
 
 The `reverse` function returns a new list with the elements in reverse order.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `reverse` function in the Pact REPL. 
 This example reverses the order of numbers in the list:

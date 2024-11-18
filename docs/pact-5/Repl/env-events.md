@@ -1,8 +1,8 @@
-## env-events
+# env-events
 
 Use `env-events` to retrieve any accumulated events and optionally clear the event state.
 
-### Basic syntax
+## Basic syntax
 
 To retrieve events and clear the event state, use the following syntax:
 
@@ -27,7 +27,7 @@ Each object in the array has the following fields:
 - `params`: The parameters associated with the event.
 - `module-hash`: The hash of the module that emitted the event.
 
-### Examples
+## Examples
 
 The following example demonstrates how to retrieve events, then clear the event state:
 

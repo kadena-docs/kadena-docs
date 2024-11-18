@@ -1,10 +1,10 @@
-## if
+# if
 
 Use `if` to test a condition. If the condition `cond` is true, evaluate the `then` expression; otherwise, evaluate the `else` expression.
 
 By convention, the data type `<a>` is used to represent type-bound parameters that serve as input for functions and expressions or for generic arguments.
 
-### Basic syntax
+## Basic syntax
 
 To test a condition and execute different expressions based on the result, use the following syntax:
 
@@ -12,7 +12,7 @@ To test a condition and execute different expressions based on the result, use t
 (if cond then else)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to define the condition and expressions to be evaluated based on the outcome of the condition using the `if` Pact function.
 
@@ -22,11 +22,11 @@ Use the following arguments to define the condition and expressions to be evalua
 | `then` | `<a>` | Specifies the expression to be evaluated if the condition is true. |
 | `else` | `<a>` | Specifies the expression to be evaluated if the condition is false. |
 
-### Return value
+## Return value
 
 The `if` function returns the result of evaluating either the `then` expression or the `else` expression, depending on the outcome of the condition.
 
-### Examples
+## Examples
 
 The following example demonstrates the use of `if` to test a condition in the Pact REPL:
 

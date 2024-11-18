@@ -1,8 +1,8 @@
-## base64-decode
+# base64-decode
 
 Use `base64-decode` to convert a previously-encoded `string` from unpadded base64 encoding to a string.
 
-### Basic syntax
+## Basic syntax
 
 To decode a `string` from unpadded base64 encoding, use the following syntax:
 
@@ -10,7 +10,7 @@ To decode a `string` from unpadded base64 encoding, use the following syntax:
 (base64-decode string)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `string` to decode using the `base64-decode` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the `string` to decode using the `base64-d
 | --- | --- | --- |
 | `string` | string | Specifies the base64-encoded `string` to decode. |
 
-### Return values
+## Return values
 
 The `base64-decode` function returns the decoded `string`.
 
-### Examples
+## Examples
 
 The following example decodes a base64-encoded "aGVsbG8gd29ybGQh" string to the decoded "hello world!" string in the Pact REPL:
 

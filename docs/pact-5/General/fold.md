@@ -1,11 +1,11 @@
-## fold
+# fold
 
 Use `fold` to iteratively reduce a list by applying the `app` function to the last result for each element in the list, starting with the specified `init` initial value.
 
 You can use any data type for the `value` argument as long as the first `oper1` functions can take that same data type.
 By convention, data type notation like `<a>` and `<b>` are used to represent  type-bound parameters like the `init` and `list` arguments in this function.
 
-### Basic syntax
+## Basic syntax
 
 To iteratively reduce a list by applying a function to each element, starting with an initial value, use the following syntax:
 
@@ -13,7 +13,7 @@ To iteratively reduce a list by applying a function to each element, starting wi
 (fold app init [list])
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the function, initial value, and list for the `fold` Pact function:
 
@@ -23,11 +23,11 @@ Use the following arguments to specify the function, initial value, and list for
 | `init` | `<a>` | Specifies the initial value for the reduction. |
 | `list` | [`<b>`] | Specifies the list to iterate over.               |
 
-### Return values
+## Return values
 
 The `fold` function returns the final result of the iterative reduction of the list.
 
-### Examples
+## Examples
 
 The following example demonstrates the `fold` function:
 

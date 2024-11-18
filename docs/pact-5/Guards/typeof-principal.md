@@ -1,9 +1,9 @@
-## typeof-principal
+# typeof-principal
 
 Use `typeof-principal` to return the protocol type of the specified `principal` value. 
 If the specified value is not a principal type, then an empty string is returned.
 
-### Basic syntax
+## Basic syntax
 
 To determine the protocol type of a specified `principal` value, use the following syntax:
 
@@ -11,7 +11,7 @@ To determine the protocol type of a specified `principal` value, use the followi
 (typeof-principal principal)
 ```
 
-### Argument
+## Argument
 
 Use the following argument to specify the `principal` value that you want to determine the protocol type for using the `typeof-principal` Pact function.
 
@@ -19,12 +19,12 @@ Use the following argument to specify the `principal` value that you want to det
 | --- | --- | --- |
 | `principal` | string | Specifies the principal value to determine the protocol type for. |
 
-### Return value
+## Return value
 
 The `typeof-principal` function returns the protocol type of the specified `principal` value as a string. 
 If the input value is not a principal type, an empty string is returned.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `typeof-principal` function to determine the protocol type of a principal value:
 

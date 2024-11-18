@@ -1,10 +1,10 @@
-## list-modules
+# list-modules
 
 Use `list-modules` to get all of the modules deployed on a particular chain.
 
 Note: This function is only allowed in `/local` in chainweb.
 
-### Basic syntax
+## Basic syntax
 
 To list all modules in `/local`, use
 
@@ -12,15 +12,15 @@ To list all modules in `/local`, use
 (list-modules)
 ```
 
-### Arguments
+## Arguments
 
 None
 
-### Return values
+## Return values
 
 The `list-modules` function returns a list of all module names (including their namespace) stored on-chain
 
-### Examples
+## Examples
 
 The following example deploys a simple module in the repl, then calls `list-modules`.
 

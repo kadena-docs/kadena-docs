@@ -1,4 +1,4 @@
-## commit-tx
+# commit-tx
 
 Use `commit-tx` to commit the current transaction.
 In most cases, you include this function in `.repl` files that test specific application features and failure scenarios.
@@ -6,7 +6,7 @@ In most cases, you include this function in `.repl` files that test specific app
 Within the context of a transaction started using the `begin-tx` function, you can set environment data, load modules, and execute functions.
 You use the `commit-tx` function to signal the end of a transaction block and can be followed by additional `begin-tx` and `commit-tx` blocks.
 
-### Basic syntax
+## Basic syntax
 
 To commit a transaction, use the following syntax:
 
@@ -14,15 +14,15 @@ To commit a transaction, use the following syntax:
 (commit-tx)
 ```
 
-### Arguments
+## Arguments
 
 The `commit-tx` function does not take any arguments.
 
-### Return value
+## Return value
 
 The `commit-tx` function returns a string indicating the transaction identifier that has been committed.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `commit-tx` function within a Pact REPL:
 

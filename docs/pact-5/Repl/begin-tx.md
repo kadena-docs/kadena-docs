@@ -1,4 +1,4 @@
-## begin-tx
+# begin-tx
 
 Use `begin-tx` to begin a new transaction with an optional name.
 This function is used to create tests that you want to execute using the Pact REPL.
@@ -7,7 +7,7 @@ In most cases, you include this function in `.repl` files that test specific app
 Within the context of a transaction, you can set environment data, load modules, and execute functions.
 To complete the transaction, use the `commit-tx` function. The `commit-tx` function signals the end of a transaction block and can be followed by additional `begin-tx` and `commit-tx` blocks.
 
-### Basic syntax
+## Basic syntax
 
 To begin a transaction without a name, use the following syntax:
 

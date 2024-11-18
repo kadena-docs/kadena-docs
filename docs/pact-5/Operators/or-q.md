@@ -1,4 +1,4 @@
-## or?
+# or?
 
 Use `or?` to apply a logical OR operation to the results of applying a specified `value` to application functions `func1` and `func2`, with short-circuit evaluation.
 
@@ -6,7 +6,7 @@ You can use any data type for the `value` argument as long as the two functions 
 
 By convention, the data type `<a>` is used if an argument represents a type-bound parameter like the `value` argument in this function. 
 
-### Basic syntax
+## Basic syntax
 
 To apply a logical OR operation to the results of applying a value to two application functions, use the following syntax:
 
@@ -14,7 +14,7 @@ To apply a logical OR operation to the results of applying a value to two applic
 (or? func1 func2 value)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the functions and the `value` to be applied using the `or?` Pact function.
 
@@ -24,11 +24,11 @@ Use the following arguments to specify the functions and the `value` to be appli
 | `func2` | function x: `<a> -> bool` | Specifies the second function to apply the specified `value` to. The result of applying the specified value returns a boolean value.|
 | `value` | `<a>` | Specifies the value to apply to both `func1` and `func2` functions. |
 
-### Return value
+## Return value
 
 The `or?` function returns a boolean value representing the logical OR operation after evaluating the results from applying the specified value to the two application functions.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `or?` function in the Pact REPL:
 

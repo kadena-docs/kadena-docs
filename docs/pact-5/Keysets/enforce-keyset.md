@@ -1,8 +1,8 @@
-## enforce-keyset
+# enforce-keyset
 
 Use `enforce-keyset` to execute a specified `guard` or a defined keyset named `keysetname` to enforce the desired predicate logic.
 
-### Basic syntax
+## Basic syntax
 
 To execute a `guard` to enforce desired predicate logic, use the following syntax:
 
@@ -16,7 +16,7 @@ To require a specified keyset to enforce desired predicate logic, use the follow
 (enforce-keyset keysetname)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the `guard` or `keysetname` for the `enforce-keyset` Pact function:
 
@@ -25,11 +25,11 @@ Use the following arguments to specify the `guard` or `keysetname` for the `enfo
 | `guard` | guard | Specifies the guard to execute. |
 | `keysetname` | string | Specifies the name of the defined keyset to enforce. |
 
-### Return values
+## Return values
 
 The `enforce-keyset` function returns a boolean value indicating whether the specified guard or keyset predicate logic was enforced.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `enforce-keyset` function to enforce logic defined in the "admin-keyset" predicate function:
 

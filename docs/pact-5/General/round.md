@@ -1,10 +1,10 @@
-## round
+# round
 
 Use the `round` function to round numbers to integers or decimals using banker's rounding.
 The function returns an integer value if you don't specify `precision` as an argument.
 If you specify the `precision` argument, the function returns a decimal value with the specified precision.
 
-### Basic syntax
+## Basic syntax
 
 To round a decimal value to the nearest integer, use the following syntax:
 
@@ -18,7 +18,7 @@ To round a decimal value to a specified precision, use the following syntax:
 (round number precision)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the value to be rounded and, optionally, the precision to round to using the `round` Pact function.
 
@@ -27,12 +27,12 @@ Use the following arguments to specify the value to be rounded and, optionally, 
 | `number` | decimal | Specifies the decimal value to be rounded. |
 | `precision` | integer | Specifies the precision to round to, if applicable (optional). |
 
-### Return value
+## Return value
 
 If no precision is specified, the `round` function returns the rounded value as an `integer`. 
 If precision is specified, it returns the rounded value as a `decimal` value.
 
-### Examples
+## Examples
 
 The following examples demonstrate the usage of the `round` function within the Pact REPL.
 

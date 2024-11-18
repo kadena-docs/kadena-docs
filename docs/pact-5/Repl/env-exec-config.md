@@ -1,4 +1,4 @@
-## env-exec-config (DEPRECATED)
+# env-exec-config (DEPRECATED)
 
 Use `env-exec-config` to query or set execution configuration information for executing transactions in your testing environment.
 You can use this function to set one or more of the following configuration flags:
@@ -28,7 +28,7 @@ You can use this function to set one or more of the following configuration flag
 - "PreserveNsModuleInstallBug"
 - "PreserveShowDefs"
   
-### Basic syntax
+## Basic syntax
 
 To look up the current configuration settings, use the following syntax:
 
@@ -42,7 +42,7 @@ To set one or more configuration flags, use the following syntax:
 (env-exec-config [flags])
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the configuration data you want to set using the `env-exec-config` Pact function.
 
@@ -50,11 +50,11 @@ Use the following argument to specify the configuration data you want to set usi
 | --- | --- | --- |
 | `flags` | [string] | Specifies the configuration flags you want to be set for the execution environment. |
 
-### Return value
+## Return value
 
 The `env-exec-config` function returns the list of configuration flags that have been set for the execution environment.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `env-exec-config` function to enforce key formats and disable Pact events:
 

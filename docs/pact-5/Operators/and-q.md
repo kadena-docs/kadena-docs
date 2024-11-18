@@ -1,4 +1,4 @@
-## and?
+# and?
 
 Use `and?` to apply a logical AND operation to the results of applying a specified `value` to application functions `func1` and `func2`, with short-circuit evaluation.
 
@@ -10,7 +10,7 @@ By convention, the data type `<a>` is used if an argument represents a type-boun
 (defun and?:bool (func1:(<a> -> bool) func2:(<a> -> bool) value:<a>))
 ```
 
-### Basic syntax
+## Basic syntax
 
 To apply a logical AND operation to the results of applying a specified `value` to the functions `func1` and `func2`, use the following syntax:
 
@@ -18,7 +18,7 @@ To apply a logical AND operation to the results of applying a specified `value` 
 (and? func1 func2 value)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the functions and `value` for the `and?` operation.
 
@@ -28,11 +28,11 @@ Use the following arguments to specify the functions and `value` for the `and?` 
 | `func2` | function x: `<a> -> bool` | Specifies the second function to apply the specified `value` to. The result of applying the specified value of type `<a>` returns a boolean value.|
 | `value` | `<a>` | Specifies the value to apply to both `func1` and `func2` functions. |
 
-### Return values
+## Return values
 
 The `and?` function returns a boolean value based on the result of applying `value` to `func1` and `func2` with the logical AND operation.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `and?` function in the Pact REPL:
 

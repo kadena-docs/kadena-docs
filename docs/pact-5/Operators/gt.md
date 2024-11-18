@@ -1,8 +1,8 @@
-## greater-than (>)
+# greater-than (>)
 
 Use `>` to return true if the first argument `oper1` is greater than the second argument `oper2`.
 
-### Basic syntax
+## Basic syntax
 
 To check if `oper1` is greater than `oper2`, use the following syntax:
 
@@ -10,7 +10,7 @@ To check if `oper1` is greater than `oper2`, use the following syntax:
 (> oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the values for comparison using the `>` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the values for comparison using the `>` P
 | `oper1` | integer, decimal, string, or time | Specifies the first value for comparison. |
 | `oper2` | integer, decimal, string, time | Specifies the second value for comparison. |
 
-### Return value
+## Return value
 
 The `>` function returns a boolean value indicating whether `oper1` is greater than `oper2`.
 
-### Examples
+## Examples
 
 The following example demonstrate how to use the `>` function to compare two integer values to check if the first value (`1`) is greater than the second value (`3`):
 

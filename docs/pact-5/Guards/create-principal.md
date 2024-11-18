@@ -1,10 +1,10 @@
-## create-principal
+# create-principal
 
 Use `create-principal` to create a principal account that unambiguously identifies a specified `guard` predicate function.
 
-For an introduction to principal accounts, see [Accounts, keys, and principals](/smart-contracts/accounts).
+For an introduction to principal accounts, see [Accounts, keys, and principals](/learn/accounts).
 
-### Basic syntax
+## Basic syntax
 
 To create a principal that identifies a `guard` predicate function, use the following syntax:
 
@@ -12,7 +12,7 @@ To create a principal that identifies a `guard` predicate function, use the foll
 create-principal guard
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `guard` for the `create-principal` Pact function.
 
@@ -20,11 +20,11 @@ Use the following argument to specify the `guard` for the `create-principal` Pac
 | --- | --- | --- |
 | `guard` | guard | Specifies the guard for which to create a principal. |
 
-### Return values
+## Return values
 
 The `create-principal` function returns a string representing a principal that unambiguously identifies the specified `guard` predicate function.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `create-principal` function to create a principal that unambiguously identifies the `keyset` guard:
 

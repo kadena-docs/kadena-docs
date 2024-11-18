@@ -1,8 +1,8 @@
-## env-data
+# env-data
 
 Use `env-data` to set transaction data for your testing environment either as an encoded string or as Pact types coerced to JSON format.
 
-### Basic syntax
+## Basic syntax
 
 To set transaction data, use the following syntax:
 
@@ -10,7 +10,7 @@ To set transaction data, use the following syntax:
 (env-data json)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the JSON data when using the `env-data` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the JSON data when using the `env-data` Pa
 | --- | --- | --- |
 | `json` | object | Specifies the JSON data to be set for the transaction. The data can be provided as an encoded string or as Pact types that will be coerced to JSON. |
 
-### Return value
+## Return value
 
 The `env-data` function returns a string indicating that the transaction data is being set.
 
-### Examples
+## Examples
 
 The following example demonstrates the usage of the `env-data` function within a Pact REPL:
 

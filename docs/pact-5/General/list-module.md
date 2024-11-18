@@ -1,4 +1,4 @@
-## list-module
+# list-module
 Use `list-modules` to list modules available for loading.
 
 **Basic syntax:**

@@ -1,9 +1,9 @@
-## format-time
+# format-time
 
 Use `format-time` to format a `time` value using a specified `format`.
 The `format-time` function is useful for converting time values to human-readable formats in Pact contracts.
 
-### Basic syntax
+## Basic syntax
 
 To format a time value using a specified format, use the following syntax:
 
@@ -11,7 +11,7 @@ To format a time value using a specified format, use the following syntax:
 (format-time format time)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the format and time for the `format-time` Pact function:
 
@@ -119,18 +119,18 @@ trailing zeros. For a whole number of seconds, `%Q` produces the empty string.
 
 Note: `%q` (picoseconds, zero-padded) does not work properly so not documented here.
 
-### Default format and JSON serialization
+## Default format and JSON serialization
 
 The default format is a UTC ISO 8601 date time format: "%Y-%m-%dT%H:%M:%SZ", as accepted by the `time` function.
 While the time object internally supports up to microsecond resolution, values returned from the Pact interpreter as JSON will be serialized with the default format. 
 When higher resolution is desired, explicitly format times with `%v` and
 related codes.
 
-### Return values
+## Return values
 
 The `format-time` function returns a new string with the formatted time value.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `format-time` function to format the time value `(time "2016-07-22T12:00:00Z")` using the specified format:
 

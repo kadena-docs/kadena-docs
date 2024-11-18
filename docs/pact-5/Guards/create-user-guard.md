@@ -1,8 +1,8 @@
-## create-user-guard
+# create-user-guard
 
 Use `create-user-guard` to define a custom guard `closure` whose arguments are strictly evaluated at definition time and supplied to the indicated function at enforcement time.
 
-### Basic syntax
+## Basic syntax
 
 To define a custom guard `closure` for use in Pact, use the following syntax:
 
@@ -10,7 +10,7 @@ To define a custom guard `closure` for use in Pact, use the following syntax:
 (create-user-guard closure)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `closure` for the `create-user-guard` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the `closure` for the `create-user-guard` 
 | --- | --- | --- |
 | `closure` | closure | Specifies the custom guard closure to define. The closure is a function that takes no arguments and returns a boolean value. |
 
-### Return values
+## Return values
 
 The `create-user-guard` function returns a guard that uses the specified custom `closure` function that returns a boolean value.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `create-user-guard` function to obtain a keyset, then use the keyset as a custom guard closure function:
 

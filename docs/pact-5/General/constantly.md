@@ -1,8 +1,8 @@
-## constantly
+# constantly
 
 Use `constantly` to lazily ignore the specified `ignore` arguments and return the specified `vale`.
 
-### Basic syntax
+## Basic syntax
 
 To lazily ignore arguments and return a value, use the following syntax:
 
@@ -10,7 +10,7 @@ To lazily ignore arguments and return a value, use the following syntax:
 (constantly value ignore1 ignore2 ...)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the `value` to return and the `ignore` arguments for the `constantly` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the `value` to return and the `ignore` ar
 | `value` | any | Specifies the value to return. |
 | `ignore1, ignore2, ...` | any | Specifies the arguments to ignore. You can have multiple ignore arguments (optional). |
 
-### Return values
+## Return values
 
 The `constantly` function returns the specified `value`, ignoring any additional arguments.
 
-### Examples
+## Examples
 
 The following example demonstrates the `constantly` function in the Pact REPL:
 

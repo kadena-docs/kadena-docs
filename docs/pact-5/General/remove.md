@@ -1,8 +1,8 @@
-## remove
+# remove
 
 Use `remove` to remove an entry associated with a specified `key` from a specified `object`.
 
-### Basic syntax
+## Basic syntax
 
 To remove an entry for a `key` from an `object`, use the following syntax:
 
@@ -10,7 +10,7 @@ To remove an entry for a `key` from an `object`, use the following syntax:
 (remove key {object})
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the `key` and `object` for removing an entry using the `remove` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the `key` and `object` for removing an en
 | `key` | string | Specifies the key for the entry to be removed from the object. |
 | `object` | object | Specifies the object from which to remove the entry. |
 
-### Return value
+## Return value
 
 The `remove` function returns the modified object with the entry associated with the specified `key` removed.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `remove` function in the Pact REPL. 
 This example removes the entry for the `bar` key from the given object:

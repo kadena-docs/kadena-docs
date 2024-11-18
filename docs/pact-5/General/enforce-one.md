@@ -1,9 +1,9 @@
-## enforce-one
+# enforce-one
 
 Use `enforce-one` to run a series of tests in order (in a pure context, plus keyset enforces). 
 If all tests fail, the transaction fails. This function short-circuits on the first successful test.
 
-### Basic syntax
+## Basic syntax
 
 To run a series of tests in order and short-circuit on the first successful test, use the following syntax:
 
@@ -11,7 +11,7 @@ To run a series of tests in order and short-circuit on the first successful test
 (enforce-one msg tests)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the error message and tests for the `enforce-one` Pact function:
 
@@ -20,12 +20,12 @@ Use the following arguments to specify the error message and tests for the `enfo
 | `msg`  | string | Specifies the error message if all tests fail. |
 | `tests` | bool | Specifies the list of tests to run in order. |
 
-### Return values
+## Return values
 
 The `enforce-one` function returns `true` if at least one test succeeds. 
 If all tests fail, the function fails the transaction with the specified error message.
 
-### Examples
+## Examples
 
 The following example demonstrates the `enforce-one` function:
 

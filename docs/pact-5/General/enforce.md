@@ -1,10 +1,10 @@
-## enforce
+# enforce
 
 Use `enforce` to test whether a pure `expression` evaluates to true or false.
 If the specified `expression` evaluates to true, the function returns true.
 If the specified `expression` evaluates to false, the function fails the transaction and displays the specified error `message`.
 
-### Basic syntax
+## Basic syntax
 
 To fail a transaction with a specified error message if an expression evaluates to false, use the following syntax:
 
@@ -12,7 +12,7 @@ To fail a transaction with a specified error message if an expression evaluates 
 (enforce expression message)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the test expression and error message for the `enforce` Pact function:
 
@@ -21,11 +21,11 @@ Use the following arguments to specify the test expression and error message for
 | expression | bool | Specifies the expression to evaluate.     |
 | `message` | string | Specifies the error message to display if the `expression` evaluates as false. |
 
-### Return values
+## Return values
 
 The `enforce` function returns `true` if the specified `expression` is true. If the `expression` is false, the function fails the transaction with the specified error message.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `enforce` function to evaluate the expression `(+ 2 2) = 4`:
 

@@ -1,9 +1,9 @@
-## floor
+# floor
 
 Use `floor` to round down the value of a decimal `value` to an integer, or to a specified `precision` number of decimal places.
 The `floor` function is useful for situations where you need to round down decimal values in Pact contracts.
 
-### Basic syntax
+## Basic syntax
 
 To round down a decimal value to an integer, use the following syntax:
 
@@ -17,7 +17,7 @@ To round down a decimal value to a specified precision, use the following syntax
 (floor value precision)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the decimal value and precision for the `floor` Pact function:
 
@@ -26,14 +26,14 @@ Use the following arguments to specify the decimal value and precision for the `
 | `value` | decimal | Specifies the decimal value to round down. |
 | `precision` | integer | Specifies the precision to round down to for the resulting decimal value (optional). |
 
-### Return values
+## Return values
 
 The `floor` function returns the rounded-down value of the specified decimal:
 
 - If only `value` is provided, it returns an integer.
 - If `precision` is provided, it returns a decimal with the specified precision.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `floor` function to round down the `3.5` decimal value to the nearest integer:
 

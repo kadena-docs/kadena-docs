@@ -1,10 +1,10 @@
-## static-redeploy
+# static-redeploy
 
 Use `static-redeploy` to redeploy any module, without _any_ code changes. Roundtripping a legacy module will store the new module in our new, more compact storage format, which will result in less gas on loads.
 
 Note: this leaves governance unchanged.
 
-### Basic syntax
+## Basic syntax
 
 Assume you have some module
 ```pact
@@ -23,17 +23,17 @@ To redeploy using the new pact-5, call
 (static-redeploy "m")
 ```
 
-### Arguments
+## Arguments
 
 
 | Argument | Type | Description
 | -------- | ---- | -----------
 | `module` | string | Specifies the module to redeploy
 
-### Return values
+## Return values
 
 The unit value `()` will be returned if successful.
 
-### Examples
+## Examples
 
 See: Basic Syntax.

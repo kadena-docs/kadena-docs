@@ -1,15 +1,15 @@
-## hash-keccak256
+# hash-keccak256
 
 Use `hash-keccak256` to compute the hash of a list of unpadded base64url-encoded inputs `VALUES`. 
 The hash is computed incrementally over all of the decoded inputs.
 
-### Basic syntax
+## Basic syntax
 
 To compute the hash of a list of inputs, use the following syntax:
 
 `(hash-keccak256 VALUES)`
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the list of inputs for the `hash-keccak256` Pact function:
 
@@ -17,11 +17,11 @@ Use the following argument to specify the list of inputs for the `hash-keccak256
 |-----------|------------|---------------------------------------------------|
 | `VALUES`  | `[string]`   | Specifies the list of unpadded base64url-encoded inputs. |
 
-### Return values
+## Return values
 
 The `hash-keccak256` function returns a string representing the computed hash value.
 
-### Examples
+## Examples
 
 The following examples demonstrate the `hash-keccak256` function:
 

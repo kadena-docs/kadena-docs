@@ -1,4 +1,4 @@
-## not?
+# not?
 
 Use `not?` to apply a logical NOT operation to the results of applying a specified `value` to an application function.
 
@@ -6,7 +6,7 @@ You can use any data type for the `value` argument as long as the `app` function
 
 By convention, the data type `<a>` is used if an argument represents a type-bound parameter like the `value` argument in this function: 
 
-### Basic syntax
+## Basic syntax
 
 To apply a logical NOT operation to the results of applying a specified `value` to an application function `app`, use the following syntax:
 
@@ -14,7 +14,7 @@ To apply a logical NOT operation to the results of applying a specified `value` 
 (not? app value)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the application function and the value to be applied using the `not?` Pact function.
 
@@ -23,11 +23,11 @@ Use the following arguments to specify the application function and the value to
 | `app` | function x: `<a> -> bool` | Specifies the application function to apply the specified `value` to. The result of applying the specified value returns a boolean value. |
 | `value` | `<a>` | Specifies the value to be applied to the application function. |
 
-### Return value
+## Return value
 
 The `not?` function returns a boolean value representing the logical negation of the result of applying the value to the application function.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `not?` function in the Pact REPL:
 

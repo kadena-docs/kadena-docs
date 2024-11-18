@@ -1,10 +1,10 @@
-## continue-pact
+# continue-pact
 
 Use `continue-pact` to continue a previously-initiated multi-step transaction defined using a `defpact` declaration.
 You must specify the `step` at which to continue.
 You can also specify optional parameters for rollback, pact ID, and yielded value.
 
-### Basic syntax
+## Basic syntax
 
 To continue a pact with the specified step, use the following syntax:
 

@@ -1,8 +1,8 @@
-## contains
+# contains
 
 Use `contains` to test whether a `list` contains a `value`, an `object` has a `key` entry, or a `string` contains a substring `value`.
 
-### Basic syntax
+## Basic syntax
 
 Because `contains` is an overloaded function, there are a few different ways to use it.
 To test whether a `list` contains a `value`, use the following syntax:
@@ -23,7 +23,7 @@ To test whether a `string` contains a substring `value`, use the following synta
 (contains value string)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the `value`, `list`, `key`, `object`, `string` for the `contains` Pact function.
 
@@ -35,11 +35,11 @@ Use the following arguments to specify the `value`, `list`, `key`, `object`, `st
 | `object` | object | Specifies the object to check for the specified `key`. |
 | `string` | string | Specifies the string to search for the specified `value`. |
 
-### Return values
+## Return values
 
 The `contains` function returns a boolean value indicating whether the specified `value` or the specified `key` was found.
 
-### Examples
+## Examples
 
 The following examples demonstrate the `contains` function in the Pact REPL.
 

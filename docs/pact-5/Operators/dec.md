@@ -1,9 +1,9 @@
-## dec
+# dec
 
 Use `dec` to convert a specified integer `value` to a decimal value.
 This function can be useful if you need to work with decimal values in Pact but have integer inputs.
 
-### Basic syntax
+## Basic syntax
 
 To convert a specified integer `value` to a decimal value, use the following syntax:
 
@@ -11,7 +11,7 @@ To convert a specified integer `value` to a decimal value, use the following syn
 (dec value)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the integer for the `dec` Pact function.
 
@@ -19,11 +19,11 @@ Use the following argument to specify the integer for the `dec` Pact function.
 | --- | --- | --- |
 | `value` | integer | Specifies the integer to cast to a decimal value. |
 
-### Return values
+## Return values
 
 The `dec` function returns the specified integer as a decimal value.
 
-### Example
+## Example
 
 The following example demonstrates how to use the `dec` function:
 

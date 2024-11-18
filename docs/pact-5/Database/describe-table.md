@@ -1,9 +1,9 @@
-## describe-table
+# describe-table
 
 Use `describe-table` to get metadata for a specified `table`. 
 This function returns an object with fields including `module`, `name`, and `type`.
 
-### Basic syntax
+## Basic syntax
 
 To get metadata for a specified `table`, use the following syntax:
 
@@ -11,7 +11,7 @@ To get metadata for a specified `table`, use the following syntax:
 (describe-table table)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `table` for the `describe-table` Pact function.
 
@@ -19,11 +19,11 @@ Use the following argument to specify the `table` for the `describe-table` Pact 
 |----------|---------------|----------------------------------------------|
 | `table` | `table: <{row}>` | Specifies the table to describe.             |
 
-### Return values
+## Return values
 
 The `describe-table` function returns an object with metadata for the specified `table`.
 
-### Examples
+## Examples
 
 The following example demonstrates use to use the `describe-table` function in the Pact REPL by loading a module that has a table definition:
 

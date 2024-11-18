@@ -1,8 +1,8 @@
-## env-gasmodel
+# env-gasmodel
 
 Use `env-gasmodel` to query or update the current gas model.
 
-### Basic syntax
+## Basic syntax
 
 To query the current gas model, use the following syntax:
 
@@ -23,7 +23,7 @@ To update the gas model to a fixed-rate model with a specific rate, use the foll
 ```
 
 
-### Arguments
+## Arguments
 
 Use the following arguments when using the `env-gasmodel` Pact function.
 
@@ -32,13 +32,13 @@ Use the following arguments when using the `env-gasmodel` Pact function.
 | `model` | string | Specifies the gas model to set. The supported gas models are `table` to use a table-based gas model and `fixed` to use a fixed rate gas model.|
 | `rate` | integer | Specifies the fixed rate or every operation. This argument is required if you set the `model` argument to use the `fixed` gas model.
 
-### Return value
+## Return value
 
 When called with the `model` argument, `env-gasmodel` returns a string indicating the updated gas model.
 
 When called without arguments, `env-gasmodel` returns a string describing the current gas model.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `env-gasmodel` function to query the current gas model:
 

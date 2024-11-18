@@ -1,8 +1,8 @@
-## hyperlane-decode-token-message
+# hyperlane-decode-token-message
 
 Use `hyperlane-decode-token-message` to decode a base-64-unpadded encoded Hyperlane Token Message into an object containing recipient, amount, and chainId information.
 
-### Basic syntax
+## Basic syntax
 
 To decode a Hyperlane Token Message using `hyperlane-decode-token-message`, use the following syntax:
 
@@ -10,13 +10,13 @@ To decode a Hyperlane Token Message using `hyperlane-decode-token-message`, use 
 (hyperlane-decode-token-message x)
 ```
 
-### Arguments
+## Arguments
 
 | Name | Type | Description |
 |------|------|-------------|
 | `x`  | string | A base-64-unpadded encoded Hyperlane Token Message |
 
-### Return value
+## Return value
 
 The `hyperlane-decode-token-message` function returns an object with the following fields:
 
@@ -26,7 +26,7 @@ The `hyperlane-decode-token-message` function returns an object with the followi
 | `amount` | DECIMAL | The amount of tokens |
 | `chainId` | STRING | The chain identifier |
 
-### Examples
+## Examples
 
 Here's an example of using `hyperlane-decode-token-message` to decode a Hyperlane Token Message:
 

@@ -1,8 +1,8 @@
-## keys
+# keys
 
 Use `keys` to return all keys present in a specified table.
 
-### Basic syntax
+## Basic syntax
 
 To retrieve all keys present in a `table`, use the following syntax:
 
@@ -10,7 +10,7 @@ To retrieve all keys present in a `table`, use the following syntax:
 (keys table)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the table from which you want to retrieve keys using the `keys` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the table from which you want to retrieve 
 | --- | --- | --- |
 | `table` | `table: <{row}>`| Specifies the table from which keys will be retrieved. |
 
-### Return value
+## Return value
 
 The `keys` function returns a list of strings containing all keys present in the specified table.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `keys` function to retrieve all of the keys present in the "accounts" table:
 

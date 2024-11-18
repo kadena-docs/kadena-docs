@@ -1,8 +1,8 @@
-## env-gaslimit
+# env-gaslimit
 
 Use `env-gaslimit` to set the environment gas limit to a specific value.
 
-### Basic syntax
+## Basic syntax
 
 To set the environment gas limit to a specific value, use the following syntax:
 
@@ -10,7 +10,7 @@ To set the environment gas limit to a specific value, use the following syntax:
 (env-gaslimit limit)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to set the gas limit when using the `env-gaslimit` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to set the gas limit when using the `env-gaslimit` Pa
 | -------- | ---- |------------ |
 | `limit` | integer | Specifies the gas limit to set for the environment. |
 
-### Return value
+## Return value
 
 The `env-gaslimit` function returns a string indicating that the gas limit has been set to the specified value.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `env-gaslimit` function to set a gas limit for the environment:
 

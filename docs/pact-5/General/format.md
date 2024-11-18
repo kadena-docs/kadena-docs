@@ -1,8 +1,8 @@
-## format
+# format
 
 Use `format` to input specified `variables` into a `template` string in the location specified using curly braces (`{}`) as template placeholders.
 
-### Basic syntax
+## Basic syntax
 
 To input variables into a template string where specified by the `{}` placeholders, use the following syntax:
 
@@ -10,7 +10,7 @@ To input variables into a template string where specified by the `{}` placeholde
 (format template variables)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the template string and variables for the `format` Pact function:
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the template string and variables for the
 | `template` | string | Specifies the template string with `{}` placeholders. |
 | `variables` | [any] | Specifies the variables to insert into the template placeholders. |
 
-### Return values
+## Return values
 
 The `format` function returns a new string with the values from the specified variables replacing the placeholder curly braces `{}` from the template string.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `format` function with  `"My {} has {}"` as the template string with two `{}` placeholders:
 

@@ -1,8 +1,8 @@
-## add (+)
+# add (+)
 
 Use `+` to add numbers, concatenate strings and lists, or merge objects.
 
-### Basic syntax
+## Basic syntax
 
 To add numbers, concatenate strings and lists, or merge objects, use the following syntax:
 
@@ -10,7 +10,7 @@ To add numbers, concatenate strings and lists, or merge objects, use the followi
 (+ oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the values for addition, concatenation, or merging using the `+` Pact function.
 
@@ -19,11 +19,11 @@ Use the following arguments to specify the values for addition, concatenation, o
 | `oper1` | integer, decimal, string, [list], or object | Specifies the first operand for addition, concatenation, or merging. |
 | `oper2` | integer, decimal, string, [list], or object | Specifies the second operand for addition, concatenation, or merging. |
 
-### Return value
+## Return value
 
 The `+` function returns the result of addition for numbers, the concatenated string or list for strings and lists, or the resulting of merging for objects.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `+` function to add two numbers in the Pact REPL:
 

@@ -1,11 +1,11 @@
-## describe-module
+# describe-module
 
 Use `describe-module` to get metadata for a specified `module`.
 This function returns an object with fields including `name`, `hash`, `blessed`, `code`, and `keyset`.
 
 Note: This function is only allowed in `/local` in chainweb.
 
-### Basic syntax
+## Basic syntax
 
 To get metadata for a `module`, use the following syntax:
 
@@ -13,7 +13,7 @@ To get metadata for a `module`, use the following syntax:
 (describe-module module)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `module` for the `describe-module` Pact function.
 
@@ -21,11 +21,11 @@ Use the following argument to specify the `module` for the `describe-module` Pac
 |----------|--------|----------------------------------------------|
 | `module` | string | Specifies the name of the module to describe.|
 
-### Return values
+## Return values
 
 The `describe-module` function returns an object with metadata for the specified `module`.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use `describe-module` function to describe a loaded module:
 

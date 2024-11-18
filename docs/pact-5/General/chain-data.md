@@ -1,4 +1,4 @@
-## chain-data
+# chain-data
 
 Use `chain-data` to retrieve the blockchain-specific public metadata for a transaction. 
 This function returns an object with the following fields:
@@ -12,7 +12,7 @@ This function returns an object with the following fields:
 - `gas-price`: The gas price for the transaction.
 - `gas-fee`: The gas fee for the transaction.
 
-### Basic syntax
+## Basic syntax
 
 To retrieve the public metadata for a transaction using `chain-data`, use the following syntax:
 
@@ -20,11 +20,11 @@ To retrieve the public metadata for a transaction using `chain-data`, use the fo
 (chain-data)
 ```
 
-### Arguments
+## Arguments
 
 You can use the `chain-data` function without arguments in code that identifies the transaction that you want to return metadata for.
 
-### Return values
+## Return values
 
 The `chain-data` function returns the public metadata for a transaction as an object with the following fields
 
@@ -39,7 +39,7 @@ The `chain-data` function returns the public metadata for a transaction as an ob
 | `gas-price` | decimal | The gas price for the transaction.
 | `gas-fee` | decimal | The gas fee for the transaction.
 
-### Examples
+## Examples
 
 If you call the `chain-data` function in the Pact REPL without providing a transaction context in the surrounding code, the function returns the object with placeholder fields.
 For example:

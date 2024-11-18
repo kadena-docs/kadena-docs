@@ -1,9 +1,9 @@
-## str-to-list
+# str-to-list
 
 Use `str-to-list` to convert a specified `string` into a list where each element is a single-character string.
 Converting a string into a list can be useful for performing other more complex string manipulation tasks.
 
-### Basic syntax
+## Basic syntax
 
 To convert a string into a list of single-character strings, use the following syntax:
 
@@ -11,7 +11,7 @@ To convert a string into a list of single-character strings, use the following s
 (str-to-list string)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the `string` to be converted into a list of single-character strings using the `str-to-list` Pact function.
 
@@ -19,11 +19,11 @@ Use the following argument to specify the `string` to be converted into a list o
 | --- | --- | --- |
 | `string` | string | Specifies the string to be converted into a list. |
 
-### Return value
+## Return value
 
 The `str-to-list` function returns a list where each element represents a single character from the input `string`.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `str-to-list` function within the Pact REPL.
 

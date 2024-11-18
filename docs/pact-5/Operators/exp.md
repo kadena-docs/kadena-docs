@@ -1,14 +1,14 @@
-## exp
+# exp
 
 Use `exp` to calculate the exponential function of the specified `value`.
 
-### Basic syntax
+## Basic syntax
 
 To calculate the exponential function of a value, use the following syntax:
 
 `(exp value)`
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the value for the `exp` Pact function:
 
@@ -16,11 +16,11 @@ Use the following argument to specify the value for the `exp` Pact function:
 |----------|------------------|---------------------------------------------|
 | `value` | integer or decimal | Specifies the value for which to calculate the exponential function. |
 
-### Return values
+## Return values
 
 The `exp` function returns the exponential function of the specified value.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `exp` function to calculate the exponential value for three and round the result of this calculation to precision of six decimal places:
 

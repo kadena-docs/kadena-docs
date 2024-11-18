@@ -1,14 +1,14 @@
-## validate-principal
+# validate-principal
 
 Use `validate-principal` to validate that a principal unambiguously identifies a specified guard.
 
-### Basic syntax
+## Basic syntax
 
 To validate a `principal` against `guard`, use the following syntax:
 
 `(validate-principal guard principal)`
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the guard and the principal that you want to validate using the `validate-principal` Pact function.
 
@@ -17,11 +17,11 @@ Use the following arguments to specify the guard and the principal that you want
 | `guard` | guard | Specifies the guard to validate against. |
 | `principal` | string | Specifies the principal to be validated. |
 
-### Return value
+## Return value
 
 The `validate-principal` function returns a boolean value indicating whether the provided principal unambiguously identifies the specified guard.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `validate-principal` function to ensure that the principal obtained from reading a keyset matches the specified principal account:
 

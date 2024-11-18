@@ -1,8 +1,8 @@
-## expect
+# expect
 
 Use `expect` to evaluate an expression and verify that the result equals an expected value.
 
-### Basic syntax
+## Basic syntax
 
 To evaluate an expression that returns an expected result, use the following syntax:
 
@@ -10,7 +10,7 @@ To evaluate an expression that returns an expected result, use the following syn
 (expect doc expected actual)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments when using the `expect` Pact function.
 
@@ -20,11 +20,11 @@ Use the following arguments when using the `expect` Pact function.
 | `expected` | any | Specifies the expected value to compare against the result of `actual`.|
 | `actual` | any  | Specifies the expression to evaluate. The expression can be of any Pact type. |
 
-### Return value
+## Return value
 
 The `expect` function returns a string indicating the success or failure of the expectation.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the function `expect` to evaluate an expression that returns an expected result in a Pact REPL:
 

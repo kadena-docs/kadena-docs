@@ -1,9 +1,9 @@
-## env-gaslog
+# env-gaslog
 
 Use `env-gaslog` to enable gas logging for a block of code.
 You can use this function to check the gas required to execute a specific block of code.
   
-### Basic syntax
+## Basic syntax
 
 To enable gas logging for a specific block of `code`, use the following syntax:
 
@@ -11,15 +11,15 @@ To enable gas logging for a specific block of `code`, use the following syntax:
 (env-gaslog) code (env-gaslog)
 ```
 
-### Arguments
+## Arguments
 
 The `env-gaslog` function does not take any arguments.
 
-### Return value
+## Return value
 
 The `env-gaslog` function returns the log messages in strings that describe the gas consumed by each operation in the code block.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `env-gaslog` function to report the gas consumed for the specified `map` function:
 

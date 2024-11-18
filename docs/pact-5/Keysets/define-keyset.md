@@ -1,10 +1,10 @@
-## define-keyset
+# define-keyset
 
 Use `define-keyset` to define a keyset with the specified `name` and `keyset` guard.
 I you don't specify a keyset guard, the functions reads the specified keyset `name` from the message payload to define its keyset guard, which  is similar to using the `read-keyset` function. 
 If the keyset `name` already exists, the existing keyset is enforced before updating to the new value.
 
-### Basic syntax
+## Basic syntax
 
 To define a keyset as `name` with `keyset`, use the following syntax:
 
@@ -18,7 +18,7 @@ To read keyset information from the transaction message payload, use the followi
 (define-keyset name)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the inputs for the `define-keyset` Pact function:
 
@@ -27,11 +27,11 @@ Use the following arguments to specify the inputs for the `define-keyset` Pact f
 | `name` | string | Specifies the name of the keyset to define or read. |
 | `keyset` | string | Specifies the keyset to associate with the `name`. |
 
-### Return values
+## Return values
 
 The `define-keyset` function returns a string representing the result of defining the keyset.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `define-keyset` function to define a keyset named "admin-keyset" to use the keys and predicate function from the specified "my-keyset" object:
 

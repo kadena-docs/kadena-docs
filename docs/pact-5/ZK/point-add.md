@@ -1,10 +1,10 @@
-## point-add
+# point-add
 
 Use `point-add` to add two points together that lie on the in the Barreto-Naehrig (BN254) elliptic curve. 
 The BN254 curve is a pairing-friendly curve tht can be used for verifying on-chain zero knowledge proof schemes such as Groth16 and PlonK.
 You can use this function to add point either in Fq or in Fq2.
 
-### Basic syntax
+## Basic syntax
 
 To add two points together that lie on the Barreto-Naehrig (BN254) elliptic curve, use the following syntax:
 
@@ -12,7 +12,7 @@ To add two points together that lie on the Barreto-Naehrig (BN254) elliptic curv
 (point-add type point1 point2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the type of addition and the points to be added using the `point-add` Pact function.
 
@@ -22,11 +22,11 @@ Use the following arguments to specify the type of addition and the points to be
 | `point1` | any | Specifies the first point to be added. |
 | `point2` | any | Specifies the second point to be added. |
 
-### Return value
+## Return value
 
 The `point-add` function returns the result of adding the specified points together.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `point-add` function to add the two specified points together on the BN256 curve in the Pact REPL:
 

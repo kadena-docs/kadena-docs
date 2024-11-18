@@ -1,9 +1,9 @@
-## zip
+# zip
 
 Use the `zip` function to combine two lists using a specified function `func` into a new list. 
 The length of the resulting list is determined by the length of the shortest input list.
 
-### Basic syntax
+## Basic syntax
 
 To combine two lists with a specified function `f` into a new list, use the following syntax:
 
@@ -11,7 +11,7 @@ To combine two lists with a specified function `f` into a new list, use the foll
 (zip func list1 list2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the function and the lists that you want to combine using the `zip` Pact function.
 
@@ -21,11 +21,11 @@ Use the following arguments to specify the function and the lists that you want 
 | `list1` | [any] | Specifies the first list to be combined. |
 | `list2` | [any] | Specifies the second list to be combined. |
 
-### Return value
+## Return value
 
 The `zip` function returns a new list containing elements combined from the input lists according to the specified function `func`.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `zip` function in the Pact REPL. 
 This example combines two lists of numbers using the specified addition (+) function a new list:

@@ -1,8 +1,8 @@
-## drop
+# drop
 
 Use `drop` to remove a specified number of values from a list, string, or object.
 
-### Basic syntax
+## Basic syntax
 
 Because `drop` is an overloaded function, there are two ways to use it.
 To remove the specified `count` number of values from a `list` or string, use the following syntax:
@@ -17,7 +17,7 @@ To remove the specified `keys` and corresponding values from an `object` or stri
 (drop keys {object})
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the `count` and  `list` or `keys` and `object` for the `drop` Pact function:
 
@@ -28,11 +28,11 @@ Use the following arguments to specify the `count` and  `list` or `keys` and `ob
 | `keys`  | [string] | Specifies the keys to drop from the object. |
 | `object` | object | Specifies the object from which to drop entries with specified keys.|
 
-### Return values
+## Return values
 
 The `drop` function returns the modified list, string, or object after removing the specified number of values or specified keys.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `drop` function to drop the first two characters from the specified string:
 

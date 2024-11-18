@@ -1,10 +1,10 @@
-## multiply (*)
+# multiply (*)
 
 Use `*` to multiply the first `oper1` argument by the second `oper12` argument.
 Note that you can use this function to multiply integer values or decimal values.
 However, you should use the same type for both `oper1` and `oper2` values.
 
-### Basic syntax
+## Basic syntax
 
 To multiply `oper1` by `oper2`, use the following syntax:
 
@@ -12,7 +12,7 @@ To multiply `oper1` by `oper2`, use the following syntax:
 (* oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the values for multiplication using the `*` Pact function.
 
@@ -21,11 +21,11 @@ Use the following arguments to specify the values for multiplication using the `
 | `oper1` | integer or decimal | Specifies the first multiplier. |
 | `oper2` | integer or decimal | Specifies the second multiplier. |
 
-### Return value
+## Return value
 
 The `*` function returns the result of multiplying `oper1` by `oper2`.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `*` function to multiply two decimal values:
 

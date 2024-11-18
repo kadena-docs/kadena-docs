@@ -1,10 +1,10 @@
-## define-namespace
+# define-namespace
 
 Use `define-namespace` to create a new namespace or update the guards of an existing namespace. The ownership and use of the namespace are controlled by the specified guards.
 
 **Note:** This function can only be used at the top level of your code. It will fail if used within module code.
 
-### Basic syntax
+## Basic syntax
 
 To define the namespace `namespace`, use the following syntax:
 
@@ -12,7 +12,7 @@ To define the namespace `namespace`, use the following syntax:
 (define-namespace namespace user-guard admin-guard)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the namespace and guards when using the `define-namespace` Pact function.
 
@@ -22,11 +22,11 @@ Use the following arguments to specify the namespace and guards when using the `
 | `user-guard`  | guard | Specifies the guard that controls who can use the namespace. |
 | `admin-guard` | guard | Specifies the guard that controls the ownership and administrative tasks in the namespace. |
 
-### Return value
+## Return value
 
 The `define-namespace` function returns the name of the created or updated namespace as a string.
 
-### Example
+## Example
 
 The following example creates a new namespace called `'my-namespace'` with user and admin guards defined by the `'user-ks'` and `'admin-ks'` keysets, respectively:
 

@@ -1,8 +1,8 @@
-## hyperlane-message-id
+# hyperlane-message-id
 
 Use `hyperlane-message-id` to get the Message Id of a Hyperlane Message object.
 
-### Basic syntax
+## Basic syntax
 
 To get the Message Id of a Hyperlane Message object using `hyperlane-message-id`, use the following syntax:
 
@@ -10,7 +10,7 @@ To get the Message Id of a Hyperlane Message object using `hyperlane-message-id`
 (hyperlane-message-id x)
 ```
 
-### Arguments
+## Arguments
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -25,11 +25,11 @@ The Hyperlane Message object should have the following structure:
 - `messageBody`: string
 - `version`: integer
 
-### Return value
+## Return value
 
 The `hyperlane-message-id` function returns a string representing the Message Id of the given Hyperlane Message object.
 
-### Examples
+## Examples
 
 Here's an example of using `hyperlane-message-id` to get the Message Id of a Hyperlane Message object:
 

@@ -1,11 +1,11 @@
-## power-of (^)
+# power-of (^)
 
 Use the exponentiation operator `^` to raise the `oper1` argument to the power of the `oper2` argument.
 You can use this operator with both integer or decimal values.
 When the operands are integers, the result is an integer if the exponent is not negative.
 When the operands are decimals or you use a negative exponent, the result is always a decimal.
 
-### Basic syntax
+## Basic syntax
 
 To raise `oper1` to the power of `oper2`, use the following syntax:
 
@@ -13,7 +13,7 @@ To raise `oper1` to the power of `oper2`, use the following syntax:
 (^ oper1 oper2)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the base and exponent for raising to a power using the `^` Pact function.
 
@@ -22,11 +22,11 @@ Use the following arguments to specify the base and exponent for raising to a po
 | `oper1` | integer or decimal | Specifies the base value. |
 | `oper2` | integer or decimal | Specifies the exponent value. |
 
-### Return value
+## Return value
 
 The `^` function returns the result of raising `oper1` to the power of `oper2`.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `^` function with integer values to raise `2` to the power of `3` in a Pact REPL: 
 

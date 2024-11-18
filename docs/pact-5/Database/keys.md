@@ -1,8 +1,8 @@
-## keys
+# keys
 
 Use `keys` to retrieve all the keys in a specified table.
 
-### Basic syntax
+## Basic syntax
 
 To retrieve all of the keys for a specified `table`, use the following syntax:
 
@@ -10,7 +10,7 @@ To retrieve all of the keys for a specified `table`, use the following syntax:
 (keys table)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the table from which to retrieve keys using the `keys` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the table from which to retrieve keys usin
 | --- | --- | --- |
 | `table` | `table: <{row}>` | Specifies the table from which to retrieve keys. In the table schema, a `row` represents the structure of each row in the table. |
 
-### Return values
+## Return values
 
 The `keys` function returns an array of strings, where each string represents a key in the specified table.
 
-### Examples
+## Examples
 
 The following example demonstrates defining a table schema for an `accounts` table that stores information about bank accounts, including the balance and owner of each account:
 
