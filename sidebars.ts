@@ -33,10 +33,10 @@ const sidebars: SidebarsConfig = {
                 'smart-contracts/accounts',
                 'smart-contracts/lang-features',
                 'smart-contracts/functions-variables',
-                //'smart-contracts/modules',
+                'smart-contracts/modules',
                 'smart-contracts/capabilities',
                 'smart-contracts/guards',
-                //'smart-contracts/database-model'
+                'smart-contracts/databases'
                //'smart-contracts/transactions',
                 ],
       },
@@ -206,9 +206,9 @@ const sidebars: SidebarsConfig = {
          items: [
               'coding-projects/hello-world',
               'coding-projects/transfers',
+              'coding-projects/rotate-auth',
               //'coding-projects/pact-testing',
-              //'coding-projects/interaction',
-              //'coding-projects/wallets',
+              //'coding-projects/import-functions',
               //'coding-projects/loans',
               ],
     },
