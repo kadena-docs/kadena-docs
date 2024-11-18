@@ -1,5 +1,7 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React from 'react';
 import Layout from '@theme/Layout';
+import { DocSearch } from '@docsearch/react';
 
 import KadenaBlockTemp from '/static/img/kadena-docs-block-temp.jpg';
 
@@ -21,7 +23,11 @@ export default function Home(): JSX.Element {
 
                <p className='home-header-excerpt'>Kadena developer-focused documentation provides everything you need to start building for the Kadena blockchain, accelerate your development process, and deploy your applications on the Kadena network.</p>
 
-               <div className='home-header-search'>Search the documentation</div>
+               <div className='home-header-algolia'>
+
+                  <DocSearch appId="YOUR_ALGOLIA_APP_ID" apiKey="YOUR_ALGOLIA_API_KEY" indexName="YOUR_INDEX_NAME" />
+
+               </div>
 
             </div>
 
