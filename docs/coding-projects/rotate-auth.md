@@ -7,7 +7,7 @@ sidebar_position: 5
 
 # Rotate authorized keys
 
-The Rotate authorized keys coding project demonstrates how to create a smart contract with rotatable authorization keys and how to enforce row level permissions.
+The _Rotate authorized keys_ coding project demonstrates how to create a smart contract with rotatable authorization keys and how to enforce row level permissions.
 This project continues to build on concepts and challenges presented in other coding projects and covered in [Smart contracts](/smart-contracts/smart-contract-dev) topics.
 Specifically, this project demonstrates the following:
 
@@ -17,7 +17,7 @@ Specifically, this project demonstrates the following:
 
 To implement these features, you'll create an `auth` module with four functions, one table, and two keysets:
 
-![Rotate authorized keys overview](/img/rotate-auth-overview.png)
+![Rotate authorized keys overview](/img/auth-overview.png)
 
 ## Before you begin
 
