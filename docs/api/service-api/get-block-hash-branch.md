@@ -1,5 +1,5 @@
 ---
-title: POST block hash branch
+title: Get branch block hashes
 description:
   Provides reference information for the chainweb-node block hash endpoints.
 id: get-block-hash-branch
@@ -7,13 +7,15 @@ sidebar_position: 2
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference', 'block hash']
 ---
 
-# Get block hash branches
+# Get branch block hashes
 
-Block hash endpoints return block hashes from the chain database.
+Block hash endpoints return block hashes from the specified chain database.
 Generally, block hashes are returned in **ascending** order and include hashes from orphaned blocks.
 
-If you only want to query for blocks that are included in the canonical version of the chain, you can use the `/branch` endpoint.
-The `/branch` endpoint returns blocks in descending order starting from the leafs of branches of the block chain.
+If you only want to query for blocks that are included in the canonical version of the chain, you can use this `/hash/branch` endpoint.
+The `/hash/branch` endpoint returns blocks in descending order starting from the leafs of branches of the block chain.
+
+Note that this endpoint uses the `POST` method so you can specify lower and upper bounds for retrieving blocks in the request body.
 
 ## Request format
 

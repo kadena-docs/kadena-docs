@@ -2,7 +2,7 @@
 title: Guards
 description: "Guards are an important concept in Kadena that provide a flexible way for you to enforce authorization rules that grant or restrict access based on specific conditions."
 id: guards
-sidebar_position: 5
+sidebar_position: 9
 ---
 
 # Guards
@@ -180,7 +180,7 @@ Because user guards are required to be pure functions, they can't take database 
 If you need to access database state, you can define a guard that requires a capability to be brought into scope. 
 With this type of guard, you can retrieve database state when you bring the capability into scope. 
 
-## Principal account prefix
+### Principal account prefix
 
 Each type of principal and guard uses a unique prefix, so they are easy to recognize. 
 If you use the `create-capability-guard` function to create a principal account for a capability guard, the principal account uses the following prefix:
