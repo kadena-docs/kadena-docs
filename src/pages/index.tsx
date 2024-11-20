@@ -146,7 +146,7 @@ export default function Home(): JSX.Element {
 
             <div className='home-main-solutions'>
 
-               <a className='home-main-solutions-item' href="./solutions/block-explorer">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -162,7 +162,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/chainweaver">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -178,7 +178,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/graphql">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -194,7 +194,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/hd-wallet">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -210,7 +210,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/kadena-cli">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -226,7 +226,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/kadena-js">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -242,7 +242,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/marmalade">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -258,7 +258,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/spirekey">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -266,9 +266,9 @@ export default function Home(): JSX.Element {
 
                   </span>
 
-                  <span className="home-main-solutions-item-label">Spirekey Wallet</span>
+                  <span className="home-main-solutions-item-label">Spirekey SDK</span>
 
-                  <span className="home-main-solutions-item-summary">A user-friendly mobile wallet for everyday KDA transactions.</span>
+                  <span className="home-main-solutions-item-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</span>
 
                   <span className="home-main-solutions-item-link">Learn more &#8594;</span>
 

@@ -61,12 +61,6 @@ const config: Config = {
                position: 'left',
             },
             {
-               type: 'docSidebar',
-               label: 'Solutions',
-               sidebarId: 'solutions',
-               position: 'left',
-            },
-            {
                label: 'Academy',
                href: 'https://academy.kadena.io',
                position: 'left',
