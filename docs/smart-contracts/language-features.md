@@ -1,7 +1,7 @@
 ---
 title: Pact features and conventions
 id: lang-features
-sidebar_position: 3
+sidebar_position: 5
 description: "Learn the basics of Pact programming language features and coding conventions with an introduction to built-in functions and writing your own simple functions."
 ---
 
@@ -121,7 +121,7 @@ built-in function.
 To try it yourself:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact
@@ -154,7 +154,7 @@ For more information about using a single quotation mark for function or table n
 To work with strings:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact
@@ -167,14 +167,14 @@ To work with strings:
    "Where the wild things are"
    ```
 
-3. Use a single quotation mark to identify a string.
+4. Use a single quotation mark to identify a string.
 
    ```pact
    pact> 'hello
    "hello"
    ```
 
-1. Concatenate two strings using the built-in `add` function.
+5. Concatenate two strings using the built-in `add` function.
    
    ```pact
    pact> (+ 'Hello " darkness my old friend")
@@ -189,7 +189,7 @@ Pact objects are similar to JavaScript objects defined using key-value pairs.
 To create lists and objects:
 
 1. Open a terminal shell on your local computer.
-2. Start the Pact REPL interpreter you installed in [Install Pact](/build/pact/dev-network#install-pacth1989060372) by running the following command:
+2. Start the Pact REPL interpreter you installed in [Install Pact](/smart-contracts/install) by running the following command:
    
    ```bash
    pact
@@ -228,17 +228,17 @@ pact> (format-time "%Y-%m-%d %H:%M:%S%N" (time "2024-07-23T13:30:45Z"))
 ```
 
 The `time` function constructs a time object from a UTC value using the ISO8601 format (%Y-%m-%dT%H:%M:%SZ).
-The format-time built-in functions takes a format argument and a time argument to produce the specified time in the specified format.
+The `format-time` built-in functions takes a `format` argument and a `time` argument to produce the specified time in the specified format.
 The following table provides a summary of time formats used in the previous example:
 
-| format | purpose |
+| Format | Purpose |
 | --- | --- |
 | %Y | Year, no padding. |
-| %m | Month of the year, 0-padded to two chars, "01"–"12" |
-| %d | Day of the month, 0-padded to two chars, "01"–"31" |
-| %H | Hour of the day (24-hour), 0-padded to two chars, "00"–"23" |
-| %M | Minute of of the hour, 0-padded to two chars, "00"–"59" |
-| %S | Second of the minute (without decimal part), 0-padded to two chars, "00"–"60" |
+| %m | Month of the year, zero-padded to two characters, "01"–"12" |
+| %d | Day of the month, zero-padded to two characters, "01"–"31" |
+| %H | Hour of the day using a 24-hour clock, zero-padded to two characters, "00"–"23" |
+| %M | Minute of of the hour, zero0-padded to two characters, "00"–"59" |
+| %S | Second of the minute, zero-padded to two characters, "00"–"60" |
 | %N | ISO 8601 style numeric time zone (for example, "-06:00" or "+01:00")|
 
 There are many other formatting options than included in the previous example.
@@ -248,52 +248,52 @@ For example, you can replace the numeric representing the month of the year with
 pact> (format-time "%Y-%b-%d" (time "2024-07-24T13:30:45Z"))
 "2024-Jul-24"
 ```
-For more information about all of the formats supported, see [Time formats](/reference/functions/time).
+For more information about all of the formats supported, see [Time formats](/pact-5/Time/time-functions).
 
 ## Operators
 
 Pact provides operator functions to perform common arithmetic, comparison, and logical operations.
 The most common of these operator functions are listed in this section.
-For a complete list with more information about each function, including function signatures and examples, see [Operators](/reference/functions/operators).
+For a complete list with more information about each function, including function signatures and examples, see [Operators](/pact-5/Operators).
 
 ### Arithmetic operators
 
-- [+](operators/addition.md): Addition
-- [-](operators/subtraction.md): Subtraction
-- [*](operators/multiplication.md): Multiplication
-- [/](operators/division.md): Division
-- [^](operators/exponentiation.md): Exponentiation
+- [+](/pact-5/Operators/add): Addition
+- [-](/pact-5/Operators/sub): Subtraction
+- [*](/pact-5/Operators/mult): Multiplication
+- [/](/pact-5/Operators/div): Division
+- [^](/pact-5/Operators/exp): Exponentiation
 
 ### Comparison operators
 
-- [=](operators/equality.md): Equality
-- [!=](operators/inequality.md): Inequality
-- [`<`](operators/less-than.md): Less than
-- [`<=`](operators/less-than-or-equal.md): Less than or equal to
-- [`>`](operators/greater-than.md): Greater than
-- [`>=`](operators/greater-than-or-equal.md): Greater than or equal to
+- [=](/pact-5/Operators/eq): Equality
+- [!=](/pact-5/Operators/neq): Inequality
+- [`<`](/pact-5/Operators/lt): Less than
+- [`<=`](/pact-5/Operators/leq): Less than or equal to
+- [`>`](/pact-5/Operators/gt): Greater than
+- [`>=`](/pact-5/Operators/geq): Greater than or equal to
 
 ### Logical operators
 
-- [and](operators/and.md): Logical AND
-- [or](operators/or.md): Logical OR
-- [not](operators/not.md): Logical NOT
+- [and](/pact-5/Operators/and): Logical AND
+- [or](/pact-5/Operators/or): Logical OR
+- [not](/pact-5/Operators/not): Logical NOT
 
 ### Bitwise operators
 
-- [&](operators/bitwise-and.md): Bitwise AND
-- [|](operators/bitwise-or.md): Bitwise OR
-- [~](operators/bitwise-not.md): Bitwise NOT
-- [xor](operators/bitwise-xor.md): Bitwise XOR
-- [shift](operators/shift.md): Bitwise shift
+- [&](/pact-5/Operators/bitwise-and): Bitwise AND
+- [|](/pact-5/Operators/bitwise-or): Bitwise OR
+- [~](/pact-5/Operators/bitwise-reverse): Bitwise NOT
+- [xor](/pact-5/Operators/xor): Bitwise XOR
+- [shift](/pact-5/Operators/shift): Bitwise shift
 
 ### Math-related operators
 
-- [mod](operators/modulus.md): Modulus
-- [abs](operators/absolute-value.md): Absolute value
-- [round](operators/round.md): Rounding
-- [ceiling](operators/ceiling.md): Ceiling
-- [floor](operators/floor.md): Floor
+- [mod](/pact-5/Operators/mod): Modulus
+- [abs](/pact-5/Operators/abs): Absolute value
+- [round](/pact-5/General/round): Rounding
+- [ceiling](/pact-5/Operators/ceiling): Ceiling
+- [floor](/pact-5/Operators/floor): Floor
 
 ## Functions
 
@@ -301,17 +301,14 @@ Functions are an important part of any programming language, whether you are wor
 In addition to the operator functions, Pact provides many other built-in functions to handle different types of tasks.
 The functions are grouped into the following categories:
 
-- Capabilities
-- Commitments
-- Database
-- General
-- Guards
-- Keysets
-- Operators
-- Repl
-- SPV
-- Time
-- ZK
+- [Capabilities](/pact-5/Capabilities)
+- [Database](/pact-5/Database)
+- [General](/pact-5/General)
+- [Guards](/pact-5/Guards)
+- [Keysets](/pact-5/Keysets)
+- [Operators](/pact-5/Operators)
+- [Repl](/pact-5/Repl)
+- [Time](/pact-5/Time/time-functions)
 
 Click a category to see a complete list of the functions in that category.
 Within each category, you can click individual function names to see more information, including function signatures and examples.
@@ -326,7 +323,7 @@ For example, defpacts are used for cross-chain transfers where a burn operation 
 Because defpacts enable you to orchestrate a series of transactions in a strict sequence, they have two primary use cases:
 
 - For public two-party transactions—similar to an escrow process—with rules for the operations that are required to be performed by each participant to complete the transaction.
-- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state. Note that private multi-step transaction aren't supported in Pact-5 or later.
+- For private, confidential transactions that can be serialized and executed in a sequence and recorded in a private log and, predominately, involving the exchange of encrypted messages outside of the blockchain state. Note that **private multi-step transactions** aren't supported in Pact-5 or later.
 
 With defpacts, you can enable each participant to run only a subset of functions—for example, as a buyer who can make an offer or a seller who can start a sale—while preserving the integrity of the transaction as a whole. 
 For more information about defining and using defpacts, see the syntax description for the [`defpact`](/reference/syntax#defpact) reserved keyword.

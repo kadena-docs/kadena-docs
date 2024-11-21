@@ -1,5 +1,7 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React from 'react';
 import Layout from '@theme/Layout';
+import { DocSearch } from '@docsearch/react';
 
 import KadenaBlockTemp from '/static/img/kadena-docs-block-temp.jpg';
 
@@ -21,7 +23,11 @@ export default function Home(): JSX.Element {
 
                <p className='home-header-excerpt'>Kadena developer-focused documentation provides everything you need to start building for the Kadena blockchain, accelerate your development process, and deploy your applications on the Kadena network.</p>
 
-               <div className='home-header-search'>Search the documentation</div>
+               <div className='home-header-algolia'>
+
+                  <DocSearch appId="YOUR_ALGOLIA_APP_ID" apiKey="YOUR_ALGOLIA_API_KEY" indexName="YOUR_INDEX_NAME" />
+
+               </div>
 
             </div>
 
@@ -65,7 +71,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-sections-item' href="./reference/functions">
+               <a className='home-main-sections-item' href="./reference">
 
                   <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
 
@@ -140,7 +146,7 @@ export default function Home(): JSX.Element {
 
             <div className='home-main-solutions'>
 
-               <a className='home-main-solutions-item' href="./solutions/block-explorer">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -156,7 +162,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/chainweaver">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -172,7 +178,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/graphql">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -188,7 +194,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/hd-wallet">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -204,7 +210,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/kadena-cli">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -220,7 +226,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/kadena-js">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -236,7 +242,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/marmalade">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -252,7 +258,7 @@ export default function Home(): JSX.Element {
 
                </a>
 
-               <a className='home-main-solutions-item' href="./solutions/spirekey">
+               <a className='home-main-solutions-item' href="#">
 
                   <span className="home-main-solutions-item-icon">
 
@@ -260,9 +266,9 @@ export default function Home(): JSX.Element {
 
                   </span>
 
-                  <span className="home-main-solutions-item-label">Spirekey Wallet</span>
+                  <span className="home-main-solutions-item-label">Spirekey SDK</span>
 
-                  <span className="home-main-solutions-item-summary">A user-friendly mobile wallet for everyday KDA transactions.</span>
+                  <span className="home-main-solutions-item-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</span>
 
                   <span className="home-main-solutions-item-link">Learn more &#8594;</span>
 

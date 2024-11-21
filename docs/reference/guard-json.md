@@ -181,7 +181,7 @@ If you use the `create-capability-guard` function to create a principal account 
 
 Modules always guard access to the tables and functions that are defined within the module.
 For example, when you create a table, you must specify a module name. 
-This requirement ensures that tables are fully encapsulated or _guarded_ by the module and that direct access to the table through [data-access functions](/reference/functions/database) can only be authorized by the administrative owner of the module. 
+This requirement ensures that tables are fully encapsulated or _guarded_ by the module and that direct access to the table through [data-access functions](/pact-5/Database) can only be authorized by the administrative owner of the module. 
 However, within module functions, table access is unconstrained. 
 This behavior gives you flexibility in designing data access, and ensures that the module is the main point of entry for all data-related interactions.
 
@@ -198,7 +198,7 @@ If a module guard is enforced:
 - Module governance must be granted to the current transaction.
 
 
-For more information about module management, see [Governance](/smart-contracts/modules/governance).
+For more information about module management, see [Governance](/smart-contracts/modules#module-governance).
 
 ### Type definition
 

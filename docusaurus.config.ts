@@ -61,12 +61,6 @@ const config: Config = {
                position: 'left',
             },
             {
-               type: 'docSidebar',
-               label: 'Solutions',
-               sidebarId: 'solutions',
-               position: 'left',
-            },
-            {
                label: 'Academy',
                href: 'https://academy.kadena.io',
                position: 'left',
@@ -99,9 +93,9 @@ const config: Config = {
          maxHeadingLevel: 2
       },
       algolia: {
-         appId: 'NESUIAE93R',
-         apiKey: '71741e300f450f509b80b98d9a15d02b',
-         indexName: 'marketingvercel',
+         appId: '6UVWQF4IS8',
+         apiKey: 'b89b66367ee8fd13c34fb502b67609be',
+         indexName: 'enterprise-kadena',
 
          contextualSearch: true,
          externalUrlRegex: 'external\\.com|domain\\.com',

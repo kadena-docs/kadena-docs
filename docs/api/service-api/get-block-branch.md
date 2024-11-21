@@ -1,5 +1,5 @@
 ---
-title: POST block branch
+title: Retrieve full branch blocks
 description:
   Provides reference information for the chainweb-node service API block endpoints.
 id: get-block-branch
@@ -7,11 +7,12 @@ sidebar_position: 9
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Get block header and payload
+# Retrieve full branch blocks
 
-You can use the `/block/branch` API endpoint to return whole blocks—headers and payloads—from the chain database in **descending** order starting from the leafs of branches of the blockchain.
-
+You can use the `/block/branch` API endpoint to return full blocks—that is, headers and payloads—from the specified chain database in **descending** order starting from the leafs of branches of the blockchain.
 Blocks are returned in only one format, with block headers and payloads in JSON encoding.
+
+Note that this endpoint uses the `POST` method so you can specify lower and upper bounds for retrieving blocks in the request body.
 
 ## Request format
 

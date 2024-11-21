@@ -1,0 +1,139 @@
+---
+title: Monitoring
+id: monitoring
+---
+
+# Monitoring Chainweb Nodes
+
+This guide explains how to set up monitoring for your Chainweb node using a bash script, including how to add notifications and run the script regularly.
+
+## Monitoring Script
+
+Here's a bash script that checks the status of your Chainweb node and restarts it if necessary:
+
+```bash
+#!/usr/bin/env bash
+
+# Define environment variables with default values if not already set
+export CHAINWEB_NETWORK=${CHAINWEB_NETWORK:-mainnet01}
+export CHAINWEB_PORT=${CHAINWEB_P2P_PORT:-2022}
+SERVICE_NAME="kadena-node.service" # Replace with your service
+LOG_FILE="/var/log/chainweb/service.log"
+
+# Function to log messages with timestamps
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+# Function to check the service status
+check_service_status() {
+    curl -fsLk --connect-timeout 10 "https://localhost:$CHAINWEB_PORT/chainweb/0.0/$CHAINWEB_NETWORK/cut"
+}
+
+# Function to restart the service and log the outcome
+restart_service() {
+    if systemctl restart "$SERVICE_NAME"; then
+        log_message "Successfully restarted the Chainweb service."
+    else
+        log_message "Failed to restart the Chainweb service."
+        exit 1  # Exit with an error status if the restart fails
+    fi
+}
+
+# Main logic to check service status and potentially restart the service
+if check_service_status; then
+    log_message "Chainweb service is running."
+else
+    log_message "Chainweb service might be down. Attempting to restart..."
+    restart_service
+fi
+```
+
+This script does the following:
+1. Sets up environment variables for the Chainweb network and port.
+2. Defines functions for logging, checking service status, and restarting the service.
+3. Checks if the Chainweb service is running by querying its API.
+4. If the service is down, it attempts to restart it.
+
+## Adding Notifications
+
+To add notifications, you can modify the `log_message` function to send emails or messages to services like Telegram.
+Here's an example of how you might modify the function to send a Telegram message:
+
+```bash
+TELEGRAM_BOT_TOKEN="your_bot_token"
+TELEGRAM_CHAT_ID="your_chat_id"
+
+log_message() {
+    message="$(date '+%Y-%m-%d %H:%M:%S') - $1"
+    echo "$message" >> "$LOG_FILE"
+    curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
+         -d chat_id="$TELEGRAM_CHAT_ID" \
+         -d text="$message"
+}
+```
+
+Replace `your_bot_token` and `your_chat_id` with your actual Telegram bot token and chat ID.
+
+## Additional Checks
+
+You can add more robust checks to ensure your node is functioning correctly. For example, you could add a function to perform a local call to validate functionality.
+
+
+## Running the Script Regularly
+
+To run this script every 30 seconds, you can set up a cron job or a systemd timer.
+
+### Using Cron
+
+Open your crontab file:
+
+```
+crontab -e
+```
+
+Add the following line:
+
+```
+* * * * * /path/to/your/script.sh; sleep 30; /path/to/your/script.sh
+```
+
+This runs the script every minute and then again 30 seconds later.
+
+### Using Systemd Timer
+
+Create a service file `/etc/systemd/system/chainweb-monitor.service`:
+
+```
+[Unit]
+Description=Chainweb Node Monitor
+
+[Service]
+ExecStart=/path/to/your/script.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Create a timer file `/etc/systemd/system/chainweb-monitor.timer`:
+
+```
+[Unit]
+Description=Run Chainweb Node Monitor every 30 seconds
+
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=30s
+
+[Install]
+WantedBy=timers.target
+```
+
+Enable and start the timer:
+
+```
+sudo systemctl enable chainweb-monitor.timer
+sudo systemctl start chainweb-monitor.timer
+```
+
+This setup will run your monitoring script every 30 seconds, providing real-time information about your Chainweb node's status and automatically attempting to restart it if issues are detected.

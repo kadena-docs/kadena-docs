@@ -1,5 +1,5 @@
 ---
-title: POST block header branch
+title: Get branch block headers
 description:
   Provides reference information for the chainweb-node block header endpoints.
 id: get-block-header-branch
@@ -7,7 +7,7 @@ sidebar_position: 3
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference', 'block header']
 ---
 
-# Get block header by hash
+# Get branch block headers
 
 You can request only blocks that are included in the canonical branch of the chain by using the `/header/branch` endpoint.
 The `/header/branch` endpoint returns blocks in descending order starting from the leafs of branches of the blockchain.
@@ -17,6 +17,8 @@ Block headers are returned in three different formats depending on the content t
 - `application/json` returns block headers in as a base64Url-encoded strings without padding.
 - `application/json;blockheader-encoding=object` returns block headers as JSON-encoded objects.
 - `application/octet-stream` returns block headers as binary data if supported by the endpoint.
+
+Note that this endpoint uses the `POST` method so you can specify lower and upper bounds for retrieving blocks in the request body.
 
 ## Request format
 

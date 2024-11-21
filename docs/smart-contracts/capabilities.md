@@ -320,4 +320,4 @@ However, the `@event` metadata tag can't be used alongside `@managed` metadata t
 From an eventing point of view, managed capabilities are those capabilities that can only happen once. 
 Whereas, a non-managed, eventing capability can fire events an arbitrary amount of times.
 
-You can use the [env-events](/reference/functions/repl-only-functions#env-events) function in the Pact REPL to test for emitted events in `.repl` scripts.
+You can use the [env-events](/pact-5/Repl/env-events) function in the Pact REPL to test for emitted events in `.repl` scripts.

@@ -1,5 +1,5 @@
 ---
-title: GET block header by hash
+title: Get a block header by hash
 description:
   Provides reference information for the chainweb-node block header endpoints.
 id: get-block-header-by-hash
@@ -7,7 +7,7 @@ sidebar_position: 3
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference', 'block header']
 ---
 
-# Get block header by hash
+# Get a block header by hash
 
 You can request a specific block header by using the block header hash.
 

@@ -132,8 +132,8 @@ To install the `kadena-cli` package:
 
    If you already have keys and an account or an existing wallet that you want to use, you can select **No** to end the interactive session.
    However, wallets are an important part of interacting with any blockchain, so you can follow the prompts displayed to create a new local wallet and account as part of your initial configuration.
-   For more information about using the Kadena CLI as your primary interface for development tasks, see [Develop with kadena-cli](guides/dev-kadena-cli).
-   For command-line reference information, see [Kadena CLI](reference/ref-kadena-cli).
+   For more information about using the Kadena CLI as your primary interface for development tasks, see [Develop with kadena-cli](/guides/dev-kadena-cli).
+   For command-line reference information, see [Kadena CLI](/reference/kadena-cli-ref).
 
 ## Chainweaver wallet and IDE
 
@@ -150,4 +150,4 @@ As an integrated development environment (IDE), you can also use Chainweaver to:
 
 If you don't already have a Chainweaver account, you should create one using either the  After you download and install the desktop application or open Chainweaver in a browser, you can create a wallet and accounts to interact with Kadena networks.
 
-For more information about using Chainweaver as your primary interface for development tasks, see [Develop with Chainweaver](guides/chainweaver).
+For more information about using Chainweaver as your primary interface for development tasks, see [Develop with Chainweaver](/guides/chainweaver).

@@ -202,7 +202,7 @@ To create an API request and submit a transaction:
    Therefore, the transaction uses the API request template for `exec` transactions. 
    The key fields not defined in the original `my-api-request.yaml` file are populated as part of the formatting of the request.
    More complex transactions that require execution of more than one step use the API request template for `cont` transactions. 
-   For information about the required and optional fields for in the `exec` and `cont` API request templates, see [Formatting API requests in YAML](/reference/pact-api).
+   For information about the required and optional fields for in the `exec` and `cont` API request templates, see [Formatting API requests in YAML](/api/pact-api).
 
 4. Send the API request to the Pact built-in HTTP server running on port 8081—as configured in the `pact-config.yaml` file for this example—by running the following command:
    

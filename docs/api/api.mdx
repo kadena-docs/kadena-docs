@@ -6,7 +6,7 @@ id: api
 
 # Kadena REST API
 
-As discussed in [Chainweb overview](/consensus/chainweb), Chainweb is a scalable proof-of-work (PoW) consensus algorithm. 
+As discussed in [Basic concepts](/smart-contracts/basic-concepts), Chainweb is a scalable proof-of-work (PoW) consensus algorithm. 
 Chainweb extends the Bitcoin Nakamoto consensus algorithm, a protocol designed for a single chain, to handle consensus with transactions coming from multiple parallel chains. 
 Because Chainweb scales horizontally by using multiple chains, the Kadena network provides better transaction throughput with lower transaction fees than other proof-of-work blockchains.
 
@@ -54,11 +54,11 @@ For most use cases, you should send API requests to Pact API endpoints or servic
 
 The Chainweb peer-to-peer API includes the following endpoints:
 
-- [State cut height endpoints](/reference/chainweb-api/cut)
-- [Payload endpoints](/reference/chainweb-api/payload)
-- [Mempool endpoints](/reference/chainweb-api/mempool)
-- [Peer endpoints](/reference/chainweb-api/peer)
-- [Configuration endpoint](/reference/chainweb-api/config)
+- State cut height endpoints
+- Payload endpoints
+- Mempool endpoints
+- Peer endpoints
+- Configuration endpoint
 
 ### Base URL
 
@@ -109,7 +109,7 @@ If you're running a local development environment, you can typically replace `<h
 
 Note that if you send requests to Pact endpoints through the service API to query information from a specific chain, you should include the chain identifier in the route prefix.
 For example, the URL should include `/chain/{chainId}/pact/` in addition to the base URL.
-For more information about Pact endpoints, see the [Pact API](/reference/rest-api).
+For more information about Pact endpoints, see the [Pact API](/api/pact-api).
 
 ### Resource consumption and vulnerability
 
@@ -119,18 +119,18 @@ Generally, endpoints of the service API are more vulnerable to DOS attacks.
 ## Data models
 
 Data models summarize the parameters that define important Chainweb node elements.
-You can view the [data models](./data-models) for the following Chainweb node features.
+You can view the [data models](/api/data-models) for the following Chainweb node features.
 
-- [Cut data](./data-models#cut-model)
-- [Block header](./data-models#block-header-model)
-- [Payload](./data-models#payload-model)
-- [Payload with outputs](./data-models#payload-with-outputs-model)
-- [Peer information](./data-models#peer-information-model)
-- [Chainweb node information](./data-models#chainweb-node-information-model)
-- [Collection page](./data-models#collection-page-model)
-- [Miner information](./data-models#miner-information-model)
-- [Mining update event stream](./data-models#mining-update-event-stream-model)
+- [Cut data](/api/data-models#cut-model)
+- [Block header](/api/data-models#block-header-model)
+- [Payload](/api/data-models#payload-model)
+- [Payload with outputs](/api/data-models#payload-with-outputs-model)
+- [Peer information](/api/data-models#peer-information-model)
+- [Chainweb node information](/api/data-models#chainweb-node-information-model)
+- [Collection page](/api/data-models#collection-page-model)
+- [Miner information](/api/data-models#miner-information-model)
+- [Mining update event stream](/api/data-models#mining-update-event-stream-model)
 
 ## Binary encoding
 
-For technical details about binary encoding and calculated values, see [Binary encoding](./binary-encoding).
+For technical details about binary encoding and calculated values, see [Binary encoding](/api/binary-encoding).

@@ -1,0 +1,218 @@
+---
+title: Call contract functions
+id: howto-call-functions
+---
+
+<head>
+  <title>Call a contract function</title>
+  <meta name="description" content="A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js" />
+</head>
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Call contract functions
+
+This guide provides instructions and examples for calling smart contract functions using different methods:
+
+- Using curl
+- Using Kadena CLI
+- Using Kadena client libraries
+
+## Using curl
+
+  **4. Execute a Smart Contract Function**
+    ```bash
+    curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "exec": {
+         "data": {
+           "vote": {
+             "keys": ["f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa"],
+             "pred": "keys-all"
+           }
+         },
+         "code": "(free.vote-testing.vote \"vote1\" \"optionb\")"
+       },
+       "meta": {
+         "chainId": "1",
+         "sender": "k:f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa",
+         "gasLimit": 100000,
+         "gasPrice": 0.0000001,
+         "ttl": 7200
+       },
+       "networkId": "testnet04"
+     }'
+    ```
+
+
+```bash
+    curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "exec": {
+         "data": {
+           "vote": {
+             "keys": ["f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa"],
+             "pred": "keys-all"
+           }
+         },
+         "code": "(free.vote-testing.vote \"vote1\" \"optionb\")"
+       },
+       "meta": {
+         "chainId": "1",
+         "sender": "k:f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa",
+         "gasLimit": 100000,
+         "gasPrice": 0.0000001,
+         "ttl": 7200
+       },
+       "networkId": "testnet04"
+     }'
+```
+  
+  ## Using Kadena CLI
+
+    ```yaml
+    # execute-function.yaml
+    # YAML configuration for executing a smart contract function
+    code: |-
+    (free.simplemodule.greet)
+  data:
+    ks: {
+     keys: ["your public key"],
+     pred: "keys-all"
+    }
+  meta:
+    chainId: "1"
+    sender: "your k: address"
+    gasLimit: 80300
+    gasPrice: 0.000001
+    ttl: 600
+  networkId: "mainnet01"
+  type: exec
+    ```
+    To execute:
+    ```bash
+    kadena exec execute-function.yaml
+    kadena tx add
+    ```
+    select the YAML file path then
+    ```bash
+    kadena tx test
+```
+And select the transaction you just added. now you shall see the data with "Hello World"
+  
+## Using JavaScript
+
+```javascript
+import { Pact, createClient } from '@kadena/client';
+
+const client = createClient(
+  'https://api.chainweb.com/chainweb/0.0/mainnet01/chain/1/pact');
+
+const command = async (functionName) => {
+  const unsignedTransaction = Pact.builder
+    .execution(functionName)
+    .setMeta({
+      chainId: '1',
+      gasLimit: 2500,
+    })
+    .setNetworkId('mainnet01')
+    .createTransaction();
+
+  try {
+    const res = await client.dirtyRead(unsignedTransaction);
+    if (res.result?.data) {
+      console.log(res.result.data);
+      return res.result.data;
+    } else {
+      console.log('No data returned:', res);
+    }
+  } catch (error) {
+    console.error('Error with dirtyRead or data processing:', error);
+  }
+};
+
+command('(free.simplemodule.greet)').catch(console.error);
+
+```
+
+## Tips for calling contract functions
+
+- **Use the correct chain ID**: Kadena is a multi-chain system. Ensure you're using the correct chain ID for your transaction.
+- **Gas management**: Always set appropriate gas limit and price to ensure your transaction is processed.
+- **Nonce handling**: For API calls, include a unique nonce to prevent duplicate transactions.
+- **Error handling**: Always check the response for any errors or unexpected results.
+- **Security**: Never share your private keys. When using API calls, ensure you're using a secure connection (https).
+
+Remember, these are simplified examples. In a production environment, you'd need to handle signing, error checking, and other details more robustly.
+
+For more detailed information on specific endpoints and their parameters, refer to our [API documentation](/api/pact-api).
+
+
+    **4. Execute a Smart Contract Function**
+    ```yaml
+    # execute-function.yaml
+    # YAML configuration for executing a smart contract function
+    code: |-
+    (free.simplemodule.greet)
+  data:
+    ks: {
+     keys: ["your public key"],
+     pred: "keys-all"
+    }
+  meta:
+    chainId: "1"
+    sender: "your k: address"
+    gasLimit: 80300
+    gasPrice: 0.000001
+    ttl: 600
+  networkId: "mainnet01"
+  type: exec
+    ```
+    To execute:
+    ```bash
+    kadena exec execute-function.yaml
+    kadena tx add
+    ```
+    select the YAML file path then
+    ```bash
+    kadena tx test
+    ```
+    And select the transaction you just added. now you shall see the data with "Hello World"
+
+
+**4. Execute a Smart Contract Function**
+```javascript
+import { Pact, createClient } from '@kadena/client';
+
+const client = createClient(
+  'https://api.chainweb.com/chainweb/0.0/mainnet01/chain/1/pact');
+
+const command = async (functionName) => {
+  const unsignedTransaction = Pact.builder
+    .execution(functionName)
+    .setMeta({
+      chainId: '1',
+      gasLimit: 2500,
+    })
+    .setNetworkId('mainnet01')
+    .createTransaction();
+
+  try {
+    const res = await client.dirtyRead(unsignedTransaction);
+    if (res.result?.data) {
+      console.log(res.result.data);
+      return res.result.data;
+    } else {
+      console.log('No data returned:', res);
+    }
+  } catch (error) {
+    console.error('Error with dirtyRead or data processing:', error);
+  }
+};
+
+command('(free.simplemodule.greet)').catch(console.error);
+
+    ```
