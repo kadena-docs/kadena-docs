@@ -24,7 +24,7 @@ However, multi-step transactions can include a rollback step so that if a specif
 For example, if an asset is moved from a seller's account to an escrow account awaiting a buyer to complete the transaction, the transfer can be reversed if the buyer doesn't complete necessary steps within a previously agreed upon time.
 
 Single-step transactions are defined in smart contracts as function calls using the `defun` reserved keyword, as previously introduced in [Define a function](/smart-contracts/functions-variables#define-a-function).
-Transactions with multiple steps are defined in smart contracts as using the [`defpact`](/reference/syntax#defpact), [`step`](/reference/syntax#step), and [`step-with-rollback`](/reference/syntax#step-with-rollback) reserved keywords.
+Transactions with multiple steps are defined in smart contracts using the [`defpact`](/reference/syntax#defpact), [`step`](/reference/syntax#step), and [`step-with-rollback`](/reference/syntax#step-with-rollback) reserved keywords.
 
 ## Transaction formats
 
@@ -33,7 +33,66 @@ The format for transaction execution requests—`exec` requests—is the same fo
 These transactions always contain the Pact code to execute, either as raw embedded code or as a reference to a `.pact` file.
 By contrast, continuation requests—`cont` requests—don't contain Pact code.
 Instead, they reference the `defpact` identifier that links the steps together and the continuation step they are attempting to execute.
-The difference between the two types of request formats is reflected in the differences between the YAML API fields they require.
+The difference between execution transaction requests and continuation transaction requests is reflected in the different fields required to construct the transactions.
+For example, if you're constructing a transaction request using the YAML API format, you use the [exec](//model-payload) payload format for transactions that are completed in a single step and the [cont](https://api.chainweb.com/openapi/pact.html#tag/model-payload) payload format for transactions that are executed in more than one step.
+
+### Execution request format
+
+The following template describes the YAML format for execution transaction requests:
+
+```yaml
+code: Transaction code
+codeFile: Transaction code file
+data: JSON transaction data
+dataFile: JSON transaction data file
+keyPairs: list of key pairs for signing (use pact -g to generate): [
+  public: base 16 public key
+  secret: base 16 secret key
+  caps: [
+      optional capabilities
+  ]
+]
+nonce: optional request nonce, will use current time if not provided
+networkId: string identifier for a blockchain network
+publicMeta:
+  chainId: string chain id of the chain of execution
+  sender: string denoting the sender of the transaction
+  gasLimit: integer gas limit
+  gasPrice: decimal gas price
+  ttl: integer time-to-live value
+  creationTime: optional integer tx execution time after offset
+type: exec
+```
+
+### Continuation request format
+
+The following template describes the YAML format for continuation transaction requests:
+
+```yaml
+pactTxHash: integer transaction identifier for a defpact
+step: integer next step of a defpact
+rollback: boolean for rolling back a defpact step
+proof: string spv proof of continuation (optional, cross-chain only)
+data: JSON transaction data
+dataFile: JSON transaction data file
+keyPairs: list of key pairs for signing (use pact -g to generate): [
+  public: string base 16 public key
+  secret: string base 16 secret key
+  caps: [
+      optional capabilities
+  ]
+]
+networkId: string identifier for a blockchain network
+publicMeta:
+  chainId: string chain id of the chain of execution
+  sender: string denoting the sender of the transaction
+  gasLimit: integer gas limit
+  gasPrice: decimal gas price
+  ttl: integer time-to-live value
+  creationTime: optional integer tx execution time after offset
+nonce: optional request nonce, will use current time if not provided
+type: cont
+```
 
 ## Basic transaction flow
 
@@ -68,8 +127,9 @@ However, transactions with more than one step require a both an initial transact
 Depending on the logic in the smart contract, each part of the transaction might be initiated by the same entity or required to be initiated by different entities.
 The logic in the smart contract also determines whether each step can be rolled back to a previous state under specific conditions or discontinued as an incomplete operation.
 
-Much like single-step transactions, the node receiving the first step in a defpact transaction message assigns the message a unique identifier (pact-id).
-This identifier is what ties the steps together as parts of the same transaction..
+Much like single-step transactions, the node receiving the first step in a `defpact` transaction message assigns the message a unique identifier (pact-id).
+This identifier is what ties the steps together as parts of the same transaction.
+The remainder of the workflow for the first step in a `defpact` transaction is the same as any other execution request. 
 
 ### Two-step transactions without rollback
 
@@ -79,3 +139,6 @@ If there's a delay in sending the continuation request, the transfer operation r
 
 ### Two-step transactions with rollback
 
+Multi-step `defpact` transactions can also include logic to rollback a step under specified conditions.
+For example, you can use a  `defpact` transaction to orchestrate operations similar to an escrow service, moving assets into a holding account until contractual obligations are met and the releasing assets only after all parties have completed require actions. 
+A step with rollback logic could specify a time limit for completing required actions and return assets to the original account if all required steps aren't completed within the time allowed.
