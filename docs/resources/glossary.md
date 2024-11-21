@@ -138,6 +138,11 @@ Gas is a unit of measurement that represents the computational effort required
 to complete a transaction. How much a user spends to complete a transaction is
 determined by the total amount of gas multiplied by the gas price.&#x20;
 
+### gas station
+
+A gas station is an autonomous `coin` contract account that pays transaction fees on behalf of users to simplify onboarding for applications and reduce friction for users who are unfamiliar with blockchain technology, digital wallets, managing keys, and signing transactions.
+On the Kadena network, gas stations enable developers to abstract transaction costs using a secure capability-guarded principal account. 
+
 ## F
 
 ### formal verification
@@ -225,6 +230,8 @@ computing power to continue mining and the detrimental environmental impact.
 ## N
 
 ### namespace
+
+A namespace is a static prefix that establishes a private ownership boundary for the contracts, modules, and keyset definitions that you control.
 
 ### non-fungible token (NFT)
 

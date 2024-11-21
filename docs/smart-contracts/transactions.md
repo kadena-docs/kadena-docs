@@ -57,14 +57,9 @@ The following diagram provides a simplified view of the transaction flow for a s
 
 Throughout its lifecycle, there are several ways you can check the status of the transaction using the transaction identifier or request key.
 For example, you can use the Pact `/listen` endpoint to wait for the results from a single transaction or the Pact `/poll` endpoint to poll the node for one or more transaction results without blocking new requests. 
-You can also check whether transactions are pending in the mempool by calling the [peer-to-peer API](/api/peer-to-peer) endpoints, such as the `/mempool/member` abd `/mempool/lookup` endpoints.
+You can also check whether transactions are pending in the mempool by calling the [peer-to-peer API](/api/peer-to-peer) endpoints, such as the `/mempool/member` and `/mempool/lookup` endpoints.
 
 If you don't want to use the [Pact API](/api/pact-api) or the [peer-to-peer API](/api/peer-to-peer) to see results, you can enter the transaction request key in a block explorer, such as [explorer.kadena.io/mainnet](https://explorer.kadena.io/mainnet) or [explorer.kadena.io/testnet](https://explorer.kadena.io/testnet).
-
->>> What if something goes wrong?
->>> What could go wrong? Node goes offline? Miner doesn't pick it up? The contract has a bug that wasn't caught until execution?
->>> How long will a transaction remain in the mempool before it expires?
->>> Unique transaction identifier or request key: Are they the same thing or different things?
 
 ## Multi-step transaction flow
 
@@ -78,7 +73,9 @@ This identifier is what ties the steps together as parts of the same transaction
 
 ### Two-step transactions without rollback
 
-In cross-chain transfers, a receiving account is typically responsible for sending the continuation message and paying the transaction fee associated with that message.
+In cross-chain transfers, a receiving account is typically responsible for sending the continuation transaction request and paying the transaction fee associated with that request.
+However, any account—including a dedicated autonomous [gas station](/resources/glossary#gas-station) account—can sign and send the continuation request. 
+If there's a delay in sending the continuation request, the transfer operation remains incomplete.
 
 ### Two-step transactions with rollback
 
