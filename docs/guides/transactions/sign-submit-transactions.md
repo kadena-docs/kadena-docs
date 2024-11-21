@@ -113,9 +113,6 @@ To use the built-in Pact server:
 
 ## Use a curl command directly
 
-<CodeBlock>
-test
-</CodeBlock>
 
 ## Use kadena tx commands
 
@@ -124,8 +121,8 @@ test
 
 As discussed in Transaction models, there are two type of transactions:
 
-- Transactions that are completed in a single execution step are executed (exec) transactions.
-- Transaction that are completed using more than one step are continued (cont) transactions.
+- Transactions that are completed in a single execution step are execution (exec) transaction requests.
+- Transaction that are completed using more than one step are continuation (cont) transaction requests.
 
 To handle these two transaction types, there are two API request formats that you can define in YAML files: 
 
@@ -235,11 +232,12 @@ specified in a file called `tx.yaml`.
    pact --unsigned tx.yaml > tx-unsigned.yaml
    ```
    
-# Sign the prepared transaction with one or more keys
+## Sign the prepared transaction with one or more keys
+
 cat tx-unsigned.yaml | pact add-sig alice-key.yaml > tx-signed-alice.yaml
 cat tx-unsigned.yaml | pact add-sig bob-key.yaml > tx-signed-bob.yaml
 
-# Combine the signatures into a fully signed transaction ready to send to the blockchain
+## Combine the signatures into a fully signed transaction ready to send to the blockchain
 pact combine-sigs tx-signed-alice.yaml tx-signed-bob.yaml > tx-final.json
 
 The `add-sig` command takes the output of `pact -u` on standard input and one or
@@ -266,7 +264,7 @@ cat tx-unsigned.yaml | pact add-sig alice-key.yaml | pact add-sig bob-key.yaml
 cat tx-unsigned.yaml | pact add-sig alice-key.yaml add-sig bob-key.yaml
 ```
 
-### Offline Signing with a Cold Wallet
+### Offline signing with a cold wallet
 
 Some cold wallet signing procedures use QR codes to get transaction data on and
 off the cold wallet machine. Since QR codes can transmit a fairly limited amount
@@ -299,7 +297,7 @@ submit the output directly to the blockchain. You'll have to use `combine-sigs`
 to combine those signatures with the original `tx-unsigned.yaml` file which has
 the full command.
 
-### Detached Signature Transaction Format
+### Detached signature transaction format
 
 The YAML input expected by `pact -u` is similar to the YAML request
 format described above with one major difference.

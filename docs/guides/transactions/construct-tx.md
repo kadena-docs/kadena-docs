@@ -21,8 +21,8 @@ You can provide template values interactively, specify them as command-line opti
 
 ## Default templates
 
-The Kadena CLI provides two default templates. 
-The default templates—defined in the `transfer.ktpl` and `safe-transfer.ktpl` files—are stored in the `.kadena/transaction-templates` directory after you configure your local development environment using the `kadena config init` command. 
+The Kadena CLI provides three default templates. 
+The default templates—defined in the `transfer-create.ktpl`, `transfer.ktpl`, and `safe-transfer.ktpl` files—are stored in the `.kadena/transaction-templates` directory after you configure your local development environment using the `kadena config init` command. 
 These templates cover the most common transaction types, allowing for straightforward transfers of tokens between accounts.
 
 ## Command options
