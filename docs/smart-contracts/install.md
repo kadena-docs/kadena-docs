@@ -51,7 +51,7 @@ The installation instructions in this section describe how to install Pact local
 
 To build Pact binaries directly from source, see the instructions in the appropriate repository:
 
-- [Pact 5 (Pact Core)](https://github.com/kadena-io/pact-5/releases/tag/development-latest)
+- [Pact 5](https://github.com/kadena-io/pact-5/releases/tag/development-latest)
 - [Pact 4.x](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source)
 
 <!--

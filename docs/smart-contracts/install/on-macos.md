@@ -28,8 +28,21 @@ Homebrew 4.3.23
 If you don't have Homebrew installed, see [Homebrew](https://brew.sh/) for installation instructions and additional information about using the package manager.
 
 In addition to Homebrew, if you are installing Pact 4.x, you should note that this version of Pact requires the `z3` theorem prover from Microsoft Research to support formal verification.
-Pact Core doesn't support formal verification in this release.
-You can install and verify the installation of the `z3` package on Linux by running the following commands:
+Starting with Pact 5, Pact no longer supports formal verification using the `z3` theorem prover.
+
+If you are installing Pact 5, or later, you can continue to the [Installation instructions](#installation-instructions).
+If you are installing Pact 4.x, you can install and verify the installation of the `z3` package on Linux by running the following commands:
+
+```bash
+brew install z3
+z3 --version
+```
+
+If `z3` is installed properly, you should see output similar to the following:
+
+```bash
+Z3 version 4.13.3 - 64 bit
+```
 
 ## Installation instructions
 
@@ -69,7 +82,7 @@ To install Pact on macOS from a compressed archive:
 1. Navigate to the appropriate Pact Releases page:
    
    - [Pact Releases](https://github.com/kadena-io/pact/releases) to download the latest stable version of Pact 4.x. 
-   - [Releases/development-latest](https://github.com/kadena-io/pact-5/releases/tag/development-latest) to download the latest development version of Pact Core.
+   - [Releases/development-latest](https://github.com/kadena-io/pact-5/releases/tag/development-latest) to download the latest development version of Pact 5.
 
 2. Download the latest `pact-<version>-macos-<arch>.tar.gz` file for the macOS operating system and architecture you use.
 
