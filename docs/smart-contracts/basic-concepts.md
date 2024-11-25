@@ -7,6 +7,46 @@ description: "Get familiar with important Kadena blockchain and Pact language co
 
 # Basic concepts
 
+The main purpose of a blockchain is to record **transactions**.
+Typically, transactions are business events that transfer some form of digital asset from one owner or entity to another.
+Through the use of modern **cryptography**, a blockchain can provides guarantees about the authenticity and integrity of the transactions recorded without relying on any central authority or under the control of any government, corporation, or other institution.
+
+The **decentralized** nature of the blockchain depends on having its computational resources are distributed across many individual computers.
+The individual computers in the network—called **nodes**—run the blockchain software and communicate with each other as a peer-to-peer (P2P) network using the internet and publicly-accessible IP addresses. 
+Nodes provide the bandwidth, processors, memory, and storage capacity to handle incoming transaction requests. 
+Nodes validate the transactions requests by solving complex mathematical problems. 
+The first node to find the solution for a given transaction adds the transaction to a block and the other nodes on the network see the new block and synchronize to catch up. 
+
+## Consensus models
+
+The method that a blockchain uses to validate transactions, insert transactions into blocks, and submit blocks to continue the chain is called its **consensus model** or **consensus algorithm**. 
+For the Kadena blockchain, the method of adding new blocks to the blockchain is a variation of a **proof of work** consensus model.
+With the proof-of-work consensus model, the node that completes a computational problem first has the right to submit a block to the chain.
+The Kadena proof-of-work consensus model is unique in its use of multiple chains to improve the scalability of its consensus model.
+
+The computers or specialized hardware used to solve the mathematical problems, validate transactions, and add new blocks are often referred to as **miners** because they earn rewards for the work they do to keep the chain going and these rewards are passed on to the node operators.
+
+## Blockchain economics
+
+All blockchains require resources—processors, memory, storage, and network bandwidth—to perform operations. 
+The computers that participate in the network—the nodes that produce blocks—provide these resources to blockchain users. 
+The nodes create a distributed, decentralized network that serves the needs of a community of participants.
+
+To support a community and make a blockchain sustainable, most blockchains require users to pay for the network resources they use in the form of transaction fees. 
+The payment of transaction fees requires user identities to be associated with accounts that hold assets of some type. 
+Blockchains typically use tokens to represent the value of assets in an account and network participants purchase tokens outside of the chain through an exchange. 
+Network participants can then deposit the tokens in online wallets to enable them to pay for transactions.
+
+## Applications running on a blockchain
+
+Applications that run on a blockchain—often referred to as decentralized applications or dApps—are typically web applications that are written using frontend frameworks but with backend smart contracts for changing the blockchain state.
+
+A smart contract is a program that runs on a blockchain and executes transactions on behalf of users under specific conditions. 
+Developers can write smart contracts to ensure that the outcome of programmatically-executed transactions is recorded and can't be tampered with. 
+Typically, smart contracts don't allow you to access to any underlying blockchain functionality—such as the consensus, storage, or transaction layers.
+Instead, smart contracts enable you write programs that take advantage of blockchain features without requiring you to know about the network infrastructure or node operations.
+
+Overall, blockchains offer a way to securely and transparently track transactions without the need for intermediaries, like banks or governments, which can help reduce costs and increase trust in online transactions. Blockchain technology also has the potential to revolutionize a wide range of industries, including finance, healthcare, supply chain management, and more. By providing a secure and transparent way to record and verify transactions, blockchain has the potential to reduce costs, increase efficiency, and improve trust between parties.
 
 Basic concepts
 - modules
@@ -60,16 +100,16 @@ These execution modes are:
 ### Contract deployment
 
 When a contract is deployed, the deployment transaction that's sent to the blockchain is comprised of modules, tables, and authorization data.
-The transaction can also include database-modifying code, for example, to initialize information that the contract requires.
-As a general rule, the transaction that you use to deploy the contract on the blockchain should be sent as a single message, so that any error will rollback the entire smart contract as a unit.
+The transaction can also include code that modifies the database, for example, to initialize information that the contract requires.
+As a general rule, the transaction that you use to deploy a contract on the blockchain should be sent as a single message, so that any error will rollback the entire smart contract as a unit.
 
-When contracts are initialized on the blockchain, they identify a [namespace](#namespace-declaration) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
+When contracts are initialized on the blockchain, they identify a [namespace](#namespaces) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
 Modules contain the main business logic for the application or service you want to deploy.
 Interfaces provide access to constant definitions and typed function signatures that are defined outside of a module to be implemented an used in a module.
 Deploying a contract also requires you to define one or more authorization [keysets](#keysets) that have administrative control over the contract modules and tables. 
 Keysets that are defined as data in the runtime environment are then stored in the global keyset database.
 
-After setting the runtime context, Pact executes module and interface declarations and creates required tables to complete the contract deployment.
+After setting the runtime context, Pact executes the module and interface declarations and creates required tables to complete the contract deployment.
 
 ### Transaction execution
 
