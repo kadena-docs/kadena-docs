@@ -60,3 +60,24 @@ To define a principal namespace:
    networkId: "development"
    ```
 
+1. Create a transaction that uses the template to define a namespace with a command similar to the following:
+   
+   ```bash
+   kadena tx add --template="namespace.ktpl" --out-file="namespace-sidebet"
+   ```
+
+1. Sign the transaction with a command similar to the following:
+   
+   ```bash
+   kadena tx sign --tx-sign-with="wallet" --tx-unsigned-transaction-files="namespace-sidebet.json" --wallet-name="pistolas-wallet" 
+   ```
+
+1. Send the transaction to the blockchain with a command similar to the following:
+   
+   ```bash
+   kadena tx send --tx-signed-transaction-files="transaction-39LtH3PjVf-signed.json" --tx-transaction-network="devnet" 
+   ```
+
+1. Verify the transaction results in the block explorer:
+   
+   ![Namespace definitiopn](/img/tx-namespace.jpg)

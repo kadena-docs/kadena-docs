@@ -1,6 +1,6 @@
 ---
 title: Verify a signature
-description: "A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js" />
+description: "A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js"
 id: howto-verify-signatures
 ---
 

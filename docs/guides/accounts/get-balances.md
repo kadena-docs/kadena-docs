@@ -288,7 +288,7 @@ To get an account balance using `kadena-cli` and a transaction template:
 6. Select the `get-balance.ktpl` template, then follow the prompts to enter the appropriate values for template variable.
    
    For this example, the prompts and values look like this:
-
+   
    ```bash
    ? File path of data to use for template .json or .yaml (optional):
    ? Template value account: k:fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
@@ -297,9 +297,9 @@ To get an account balance using `kadena-cli` and a transaction template:
    ? Select network id for template value networkId: devnet
    ? Template value signer-key: fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7
    ? Where do you want to save the output: pistolas-balance
-  ```
-
-  The values you enter for the command are saved in a JSON file.
+   ```
+   
+   The values you enter for the command are saved in a JSON file.
     
 1. Sign the transaction by running the following command and following the prompts displayed to select the transaction:
    
