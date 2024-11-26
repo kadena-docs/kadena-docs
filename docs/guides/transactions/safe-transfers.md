@@ -1,6 +1,6 @@
 ---
 title: Transfer funds safely
-description: ""
+description: "Guarantee safe transfer operations."
 id: howto-safe-transfers
 ---
 
