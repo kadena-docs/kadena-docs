@@ -64,6 +64,46 @@ For example:
 A capability guard is an essential part of the code that makes creating a gas station principal account possible.
 In the next step, you'll implement the `gas-payer-v1` interface to add a `GAS_PAYER` capability and guard to your module.
 
+# Before you begin
+
+Before starting this project, verify your environment meets the following basic requirements:
+
+- You have a GitHub account and can run `git` commands.
+- You have installed the Pact programming language and command-line interpreter.
+- You have installed the `kadena-cli` package and have a working directory with initial configuration settings.
+- You have a local development node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
+- You should be familiar with defining modules and using keysets.
+
+## Get the starter code
+
+To get started:
+
+1. Open a terminal shell on your computer.
+
+2. Clone the `pact-coding-projects` repository by running the following command:
+
+   ```bash
+   git clone https://github.com/kadena-docs/pact-coding-projects.git
+   ```
+
+3. Change to the `04-gas-station` directory by running the following command:
+
+   ```bash
+   cd pact-coding-projects/04-gas-station
+   ```
+
+   If you list the contents of this directory, you'll see the following files:
+
+   - `starter-gas-account.pact` provides a framework for the project code in comments.
+   - `gas-account.pact` contains the final module code for the sample gas account.
+   - `gas-account.repl` provides the complete test file for testing the final `gas-account.pact` file.
+
+4. Open and review the `starter-gas-account.pact` file.
+
+   This file describes all of the tasks that you need to complete for the _Gas station accounts_ coding project.
+   You can follow the instructions embedded in the file to try to tackle this coding project on your own
+   without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
+
 ## Implement the gas payer interface
 
 Because paying gas fees is a common operation, the `gas-payer-v1` interface is defined in a module that's deployed by default on the Kadena development, test, and main networks.
