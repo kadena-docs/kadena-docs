@@ -1,13 +1,13 @@
 ---
-title: 'Add a gas station account'
+title: 'Gas station accounts'
 description: "Create and configure a gas station account to pay for transactions submitted by application users."
 id: gas-station
 sidebar_position: 9
 ---
 
-# Add a gas station account
+# Gas station accounts
 
-In this coding project, you'll learn how to create a smart contract that allows application users to complete a transaction on the blockchain without having an account or any tokens to pay the transaction fee. 
+In the _Gas station account_ coding project, you'll learn how to create a smart contract that allows application users to complete a transaction on the blockchain without having an account or any tokens to pay the transaction fee. 
 With this smart contract, an autonomous account is used to pay transaction fees on behalf of users. 
 The autonomous account—often referred to as a **gas station**—simplifies the user experience and eliminates the friction associated with onboarding users who are new to blockchain technology, digital wallets, transaction signing, and managing public and secret keys.
 Gas station accounts make it easier for new users to interact with applications, but require some extra work by the application developer.
@@ -64,7 +64,7 @@ For example:
 A capability guard is an essential part of the code that makes creating a gas station principal account possible.
 In the next step, you'll implement the `gas-payer-v1` interface to add a `GAS_PAYER` capability and guard to your module.
 
-# Implement the gas payer interface
+## Implement the gas payer interface
 
 Because paying gas fees is a common operation, the `gas-payer-v1` interface is defined in a module that's deployed by default on the Kadena development, test, and main networks.
 For this coding project, you'll implement this interface in a new Pact module—the `test-gas` module—in a `gas-account.pact` file.
@@ -125,7 +125,7 @@ To create the gas station module:
        @doc
        " Provide a guard suitable for controlling a coin account that can \
        \ pay gas via GAS_PAYER mechanics. Generally this is accomplished \
-       \ by having GAS_PAYER compose an unparameterized, unmanaged capability \
+       \ by having GAS_PAYER compose a capability without parameters,  \
        \ that is required in this guard. Thus, if coin contract is able to \
        \ successfully acquire GAS_PAYER, the composed 'anonymous' cap required \
        \ here will be in scope, and gas buy will succeed."
