@@ -1,23 +1,30 @@
 ---
-title: Contract Interactions
+title: Contract interactions
 description: "Learn how to build smart contracts that allow users to authorize and make payments using multiple Pact modules."
 id: contract-interactions
 sidebar_position: 4
 ---
 
-# Contract Interactions
+# Contract interactions
 
-The Contract Interactions project is designed to help you build a smart contract that handles both user authorization and payments. 
-This guide focuses on creating a Pact module that enables secure interactions between multiple modules. 
-Contract interactions are fundamental for setting up more complex smart contracts.
+The _Contract interactions_ project is designed to demonstrate how you can import and use functions defined in one module in another module.
+For this project, you'll build a smart contract with separate modules to handle user authorization and payments with secure interactions between the modules. 
+Secure contract interaction is a fundamental requirement for setting up more complex smart contracts.
 
-For this project, you'll create two Pact modules: 
+For this project, you'll create two Pact modules:
+
 - An `auth` module for handling user authentication
 - A `payments` module for managing account balances and transactions
 
 The `auth` module manages user authorization, while the `payments` module handles transferring value between two accounts—`Sarah` and `James`.
 
 <img src="/img/contract-interactions-overview.webp" alt="Contract interactions project overview" height="550" width="900"/>
+
+In this tutorial, you'll learn the following:
+
+- Understanding contract interactions in Pact
+- Setting up multiple modules for authorization and payments
+- Testing interactions in the REPL environment
 
 ## Before you begin
 
@@ -58,15 +65,7 @@ To get started:
    These files outline the tasks you need to complete for the _Contract Interactions_ project.
    Follow the embedded instructions to work through the coding challenges or use the detailed instructions provided in the next sections.
 
-## Overview of Contract Interactions
-
-In this tutorial, you'll learn the following:
-
-- Understanding contract interactions in Pact
-- Setting up multiple modules for authorization and payments
-- Testing interactions in the REPL environment
-
-## Key Concepts
+## Key concepts for contract interaction
 
 In Pact, modules can call functions from other modules, enabling more complex contract setups. You’ll be using the following key Pact features:
 
@@ -74,229 +73,191 @@ In Pact, modules can call functions from other modules, enabling more complex co
 - **use:** Import an existing module into a namespace.
 - **function calls:** Invoke functions defined within other modules.
 
-
-## Getting Started
-
-### Project Files Overview
+## Getting started
 
 You’ll work with three main files:
 
-1. **auth.pact** - Responsible for authorizing users.
-2. **payments.pact** - Manages payments between users.
-3. **payments.repl** - Coordinates interactions between the modules.
+- **auth.pact** - Responsible for authorizing users.
+- **payments.pact** - Manages payments between users.
+- **payments.repl** - Coordinates interactions between the modules.
 
-## Step 1: Define the Auth Module
+## Define the auth module
 
-### 1.1 Define Keysets
+1. Define keysets in the `auth.pact` file is to define the keysets that control the module's access and operation.
 
-The first step in the `auth.pact` file is to define the keysets that control the module's access and operation.
+   ```pact
+   ;; define-keysets
+   (define-keyset "free.module-admin" (read-keyset "module-admin-keyset"))
+   (define-keyset "free.operate-admin" (read-keyset "module-operate-keyset"))
+   ```
 
-```lisp
-;; define-keysets
-(define-keyset "free.module-admin" (read-keyset "module-admin-keyset"))
-(define-keyset "free.operate-admin" (read-keyset "module-operate-keyset"))
-```
+   These keysets will help manage access control throughout the contract.
 
-These keysets will help manage access control throughout the contract.
+1. Create the `auth` module to handle user authentication and management.
+   
+   ```pact
+   (module auth "free.module-admin"
+   ```
 
-### 1.2 Define the Auth Module
+1. Define the schema and table for managing user data.
 
-Now, create the `auth` module, which will handle user authentication and management.
+   ```pact
+     (defschema user
+       nickname:string
+       keyset:keyset)
+     
+     (deftable users:{user})
+   ```
 
-```lisp
-(module auth "free.module-admin"
-```
+2. Define the create-user function to add a new user to the system, restricted to the operate-admin.
 
-### 1.3 Define User Schema and Table
+   ```pact
+     (defun create-user (id nickname keyset)
+       (enforce-keyset "free.operate-admin")
+       (insert users id {
+         "keyset": (read-keyset keyset),
+         "nickname": nickname
+       })
+     )
+   ```
 
-Define the schema and table for managing user data.
+3. Define a function to ensure that a user is authorized for a specific operation.
 
-```lisp
-  (defschema user
-    nickname:string
-    keyset:keyset)
-  
-  (deftable users:{user})
-```
+   ```pact
+     (defun enforce-user-auth (id)
+       (with-read users id { "keyset":= k }
+         (enforce-keyset k)
+       )
+     )
+   ```
 
-### 1.4 Create User Function
+4. Complete the `auth` module by closing the module declaration and create the table.
 
-The `create-user` function adds a new user to the system, restricted to the operate-admin.
+   ```pact
+   )
+   (create-table users)
+   ```
 
-```lisp
-  (defun create-user (id nickname keyset)
-    (enforce-keyset "free.operate-admin")
-    (insert users id {
-      "keyset": (read-keyset keyset),
-      "nickname": nickname
-    })
-  )
-```
+## Define the payments module
 
-### 1.5 Enforce User Authentication
+1. Define a keyset in the `payments.pact` file that will manage this module.
 
-Define a function to ensure that a user is authorized for a specific operation.
+   ```pact
+   (define-keyset "free.admin-keyset" (read-keyset "admin-keyset"))
+   ```
 
-```lisp
-  (defun enforce-user-auth (id)
-    (with-read users id { "keyset":= k }
-      (enforce-keyset k)
-    )
-  )
-```
+1. Start the `payments` module declaration and use the `auth` module.
 
-### 1.6 Complete the Auth Module
+   ```pact
+   (module payments "free.admin-keyset"
+   
+     (use auth)
+   ```
 
-Close the module and create the table.
+1. Define the schema and table for account management.
 
-```lisp
-(create-table users)
-```
+   ```pact
+     (defschema accounts balance:decimal)
+     (deftable accounts-table:{accounts})
+   ```
 
-## Step 2: Define the Payments Module
+1. Define the `create-account` function to set up a new account, ensuring the user is authorized.
 
-### 2.1 Define Keyset
+   ```pact
+     (defun create-account (userId initial-balance)
+       (enforce-user-auth userId)
+       (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+       (insert accounts-table userId
+         { "balance": initial-balance })
+     )
+   ```
 
-In the `payments.pact` file, define the keyset that will manage this module.
+1.  Define the `get-balance` function to retrieve the balance for an account, ensuring authorization.
 
-```lisp
-(define-keyset "free.admin-keyset" (read-keyset "admin-keyset"))
-```
+   ```pact
+     (defun get-balance (userId)
+       (enforce-user-auth 'admin)
+       (with-read accounts-table userId
+         { "balance":= balance }
+         balance)
+     )
+   ```
+2. Define the `pay` function to allow for transferring funds between accounts.
 
-### 2.2 Start the Payments Module
+   ```pact
+     (defun pay (from to amount)
+       (with-read accounts-table from { "balance":= from-bal }
+         (enforce-user-auth from)
+         (with-read accounts-table to { "balance":= to-bal }
+           (enforce (> amount 0.0) "Negative Transaction Amount")
+           (enforce (>= from-bal amount) "Insufficient Funds")
+           (update accounts-table from { "balance": (- from-bal amount) })
+           (update accounts-table to { "balance": (+ to-bal amount) })
+           (format "{} paid {} {}" [from to amount])
+         )
+       )
+     )
+   ```
 
-Now, create the `payments` module and use the `auth` module.
+1. Complete the `payments` module by closing the module declation and create the table.
 
-```lisp
-(module payments "free.admin-keyset"
+   ```pact
+   )
+   (create-table accounts-table)
+   ```
 
-  (use auth)
-```
+## Test interactions with the REPL File
 
-### 2.3 Define Account Schema and Table
+1. Create a transaction in the `payments.repl` file that loads the `auth.pact` module.
 
-Define the schema and table for account management.
+   ```pact
+   (begin-tx)
+     (load "auth.pact")
+   (commit-tx)
+   ```
 
-```lisp
-  (defschema accounts balance:decimal)
-  (deftable accounts-table:{accounts})
-```
+2. Create a transaction that loads the `payments.pact` module.
 
-### 2.4 Create Account Function
+   ```pact
+   (begin-tx)
+     (load "payments.pact")
+   (commit-tx)
+   ```
 
-The `create-account` function sets up a new account, ensuring the user is authorized.
+3. Create a transaction that uses the `auth` module to create user accounts.
 
-```lisp
-  (defun create-account (userId initial-balance)
-    (enforce-user-auth userId)
-    (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
-    (insert accounts-table userId
-      { "balance": initial-balance })
-  )
-```
+   ```pact
+   (begin-tx)
+     (use auth)
+     (env-data {
+       "admin-keyset": ["admin"],
+       "sarah-keyset": ["sarah"],
+       "james-keyset": ["james"]
+     })
+     (create-user "admin" "Administrator" 'admin-keyset)
+     (create-user "Sarah" "Sarah" 'sarah-keyset)
+     (create-user "James" "James" 'james-keyset)
+   (commit-tx)
+   ```
 
-### 2.5 Get Balance Function
+2. Create a transaction that uses the `payments` module to test transactions.
 
-The `get-balance` function retrieves the balance for an account, ensuring authorization.
+   ```pact
+   (begin-tx)
+     (use payments)
+     (env-keys ["sarah"])
+     (create-account "Sarah" 100.25)
+     (env-keys ["james"])
+     (create-account "James" 250.0)
+     (pay "Sarah" "James" 25.0)
+   (commit-tx)
+   ```
 
-```lisp
-  (defun get-balance (userId)
-    (enforce-user-auth 'admin)
-    (with-read accounts-table userId
-      { "balance":= balance }
-      balance)
-  )
-```
+1. Execute the `payments.repl` file with the following command:
 
-### 2.6 Pay Function
-
-The `pay` function allows for transferring funds between accounts.
-
-```lisp
-  (defun pay (from to amount)
-    (with-read accounts-table from { "balance":= from-bal }
-      (enforce-user-auth from)
-      (with-read accounts-table to { "balance":= to-bal }
-        (enforce (> amount 0.0) "Negative Transaction Amount")
-        (enforce (>= from-bal amount) "Insufficient Funds")
-        (update accounts-table from { "balance": (- from-bal amount) })
-        (update accounts-table to { "balance": (+ to-bal amount) })
-        (format "{} paid {} {}" [from to amount])
-      )
-    )
-  )
-```
-
-### 2.7 Complete the Payments Module
-
-Close the module and create the table.
-
-```lisp
-(create-table accounts-table)
-```
-
-## Step 3: Testing with the REPL File
-
-### 3.1 Load Auth Module
-
-In the `payments.repl` file, start by loading the `auth.pact` module.
-
-```lisp
-(begin-tx)
-(load "auth.pact")
-(commit-tx)
-```
-
-### 3.2 Load Payments Module
-
-Next, load the `payments.pact` module.
-
-```lisp
-(begin-tx)
-(load "payments.pact")
-(commit-tx)
-```
-
-### 3.3 Use Auth Module
-
-Now, use the `auth` module and create user accounts.
-
-```lisp
-(begin-tx)
-(use auth)
-(env-data {
-  "admin-keyset": ["admin"],
-  "sarah-keyset": ["sarah"],
-  "james-keyset": ["james"]
-})
-(create-user "admin" "Administrator" 'admin-keyset)
-(create-user "Sarah" "Sarah" 'sarah-keyset)
-(create-user "James" "James" 'james-keyset)
-(commit-tx)
-```
-
-### 3.4 Use Payments Module
-
-Finally, use the `payments` module and test transactions.
-
-```lisp
-(begin-tx)
-(use payments)
-(env-keys ["sarah"])
-(create-account "Sarah" 100.25)
-(env-keys ["james"])
-(create-account "James" 250.0)
-(pay "Sarah" "James" 25.0)
-(commit-tx)
-```
-
-## Run REPL File
-
-To test the setup, run the following command:
-
-```bash
-pact payments.repl --trace
-```
+   ```bash
+   pact payments.repl --trace
+   ```
 
 Ensure that the REPL output aligns with expected results.
 
@@ -304,4 +265,3 @@ Ensure that the REPL output aligns with expected results.
 
 You have now built and tested a contract interaction setup using two modules, following a step-by-step approach. This tutorial covered user authentication and payment transactions across modules.
 
----
