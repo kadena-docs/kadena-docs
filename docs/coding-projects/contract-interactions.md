@@ -264,5 +264,6 @@ Ensure that the REPL output aligns with expected results.
 
 ## Review
 
-You have now built and tested a contract interaction setup using two modules, following a step-by-step approach. This tutorial covered user authentication and payment transactions across modules.
+You have now built and tested a contract interaction setup using two modules, following a step-by-step approach. 
+This tutorial covered user authentication and payment transactions across modules.
 
