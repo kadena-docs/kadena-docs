@@ -56,7 +56,7 @@ To get started:
 
    If you list the contents of this directory, you'll see the following files:
 
-   - `starter-auth.pact` provides a starting point with the framework for building the `auth` module.
+   - `starter-auth.pact` provides the framework for building the `auth` module.
    - `starter-payments.pact` provides the framework for building the `payments` module.
    - `contract-interactions.repl` includes test cases for verifying module interactions.
 
@@ -83,7 +83,7 @@ You’ll work with three main files:
 
 ## Define the auth module
 
-1. Define keysets in the `auth.pact` file is to define the keysets that control the module's access and operation.
+1. Define two keysets in the `auth.pact` file to identify the keysets that have access to module operations.
 
    ```pact
    ;; define-keysets
@@ -93,13 +93,13 @@ You’ll work with three main files:
 
    These keysets will help manage access control throughout the contract.
 
-1. Create the `auth` module to handle user authentication and management.
+2. Create the `auth` module to handle user authentication and management.
    
    ```pact
    (module auth "free.module-admin"
    ```
 
-1. Define the schema and table for managing user data.
+3. Define the schema and table for managing user data.
 
    ```pact
      (defschema user
@@ -109,7 +109,7 @@ You’ll work with three main files:
      (deftable users:{user})
    ```
 
-2. Define the `create-user` function that `operate-admin` keyset owners can execute to add new users to the `auth` module.
+4. Define the `create-user` function that `operate-admin` keyset owners can execute to add new users to the `auth` module.
 
    ```pact
      (defun create-user (id nickname keyset)
@@ -121,7 +121,7 @@ You’ll work with three main files:
      )
    ```
 
-3. Define the `enforce-user-auth` function that ensures a user is authorized for a specific operation.
+5. Define the `enforce-user-auth` function that ensures a user is authorized for a specific operation.
 
    ```pact
      (defun enforce-user-auth (id)
@@ -131,7 +131,7 @@ You’ll work with three main files:
      )
    ```
 
-4. Complete the `auth` module by closing the module declaration and create the table.
+6. Complete the `auth` module by closing the module declaration and create the table.
 
    ```pact
    )
@@ -172,8 +172,8 @@ You’ll work with three main files:
      )
    ```
 
-1.  Define the `get-balance` function to retrieve the balance for an account, ensuring authorization.
-
+1. Define the `get-balance` function to retrieve the balance for an account from the database for an authorized user.
+   
    ```pact
      (defun get-balance (userId)
        (enforce-user-auth 'admin)
@@ -182,6 +182,7 @@ You’ll work with three main files:
          balance)
      )
    ```
+
 2. Define the `pay` function to allow for transferring funds between accounts.
 
    ```pact
@@ -189,8 +190,8 @@ You’ll work with three main files:
        (with-read accounts-table from { "balance":= from-bal }
          (enforce-user-auth from)
          (with-read accounts-table to { "balance":= to-bal }
-           (enforce (> amount 0.0) "Negative Transaction Amount")
-           (enforce (>= from-bal amount) "Insufficient Funds")
+           (enforce (> amount 0.0) "Can't transfer a negative transaction amount.")
+           (enforce (>= from-bal amount) "Insufficient funds")
            (update accounts-table from { "balance": (- from-bal amount) })
            (update accounts-table to { "balance": (+ to-bal amount) })
            (format "{} paid {} {}" [from to amount])
@@ -199,7 +200,7 @@ You’ll work with three main files:
      )
    ```
 
-1. Complete the `payments` module by closing the module declation and create the table.
+1. Complete the `payments` module by closing the module declaration and create the table.
 
    ```pact
    )
