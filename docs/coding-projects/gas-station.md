@@ -141,7 +141,7 @@ To create the gas station module:
    To deploy the gas station module, you must use an existing namespace such as the `"free"` namespace.
    For local testing, you can create the `test-gas` module in a custom namespace that you define for the local development network.
 
-   After the `implements` keyword, the `test-gas` module must implement the capabilities, types, and functions as defined in the `gas-payer-v1.pact` file.
+   After you issue the `implements gas-payer-v1` statement, you must implement the capabilities, types, and functions that are defined in the `gas-payer-v1.pact` file in the `test-gas` module.
    The interface definition looks like this:
      
    ```pact
@@ -644,7 +644,7 @@ To fund the gas station account:
 
    You can click the link matching the transaction request key to see the details about the funding transaction:
 
-   ![Fund gas transaction details](/img/fund-gas.jpg)
+   ![Fund gas account transaction details](/img/fund-gas.jpg)
 
 ## Review
 

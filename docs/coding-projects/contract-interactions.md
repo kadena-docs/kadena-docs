@@ -109,7 +109,7 @@ You’ll work with three main files:
      (deftable users:{user})
    ```
 
-2. Define the create-user function to add a new user to the system, restricted to the operate-admin.
+2. Define the `create-user` function that `operate-admin` keyset owners can execute to add new users to the `auth` module.
 
    ```pact
      (defun create-user (id nickname keyset)
@@ -121,7 +121,7 @@ You’ll work with three main files:
      )
    ```
 
-3. Define a function to ensure that a user is authorized for a specific operation.
+3. Define the `enforce-user-auth` function that ensures a user is authorized for a specific operation.
 
    ```pact
      (defun enforce-user-auth (id)
