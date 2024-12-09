@@ -14,14 +14,18 @@ This guide provides a quick reference for the most common API calls:
 
 - Check account balances
 - Transfer coins
-- Deploy a smart contract
-- Call a smart contract function
+- Deploy smart contracts
+
+Regardless of the method you choose, each task requires you to connect to an appropriate network endpoint with a payload in the expected format.
+The payload contains all of the information required to complete the task.
+The difference between using the API directly or the abstraction provided by the Kadena CLI or Kadena.js libraries is simply in how you deliver the request.
 
 ## Check account balances
 
 <Tabs>
   <TabItem value="api" label="API" default>
-Call the `coin.get-balance` function with the account name string as an argument.
+
+Call the `coin.get-balance` function with the account name string as an argument using `curl` and a JSON object.
 For principal accounts, the account name starts with a prefix.
 For example, the `k:` prefix for single key accounts or the `w:` prefix for accounts with multiple keys.
 
@@ -44,10 +48,10 @@ For example, the `k:` prefix for single key accounts or the `w:` prefix for acco
     ```
   </TabItem>
 
-  <TabItem value="cli" label="Kadena CLI">
+<TabItem value="cli" label="Kadena CLI">
     
-    The `kadena-cli` package provides commands to perform many common operations like viewing balances.
-    You can also use `kadena-cli` to construct transactions using YAML request files.
+The `kadena-cli` package provides commands to perform many common operations like viewing balances.
+You can also use `kadena-cli` to construct transactions using YAML request files.
 
     ```yaml
    kadena account details --account="k-bbccc9" --network="devnet" --chain-ids="all" 
@@ -56,7 +60,7 @@ For example, the `k:` prefix for single key accounts or the `w:` prefix for acco
 
 <TabItem value="js" label="Kadena.js">
   
-  Use the @kadena/client package to create Pact transactions and client connections.
+Use the `@kadena/client` package to create Pact transactions and client connections.
 
   ```javascript
   import {Pact, createClient} from '@kadena/client'
@@ -87,19 +91,22 @@ getBalance(account).catch(console.error);
 ## Transfer coins
 
 <Tabs>
-  <TabItem value="api" label="API" default>
+<TabItem value="api" label="API" default>
+
+Call the `coin.transfer` function with the sender, receiver, and amount as arguments using `curl` and a JSON object.
+
   ```bash
     curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/send" \
      -H "Content-Type: application/json" \
      -d '{
        "cmds": [{
-         "hash": "TRANSACTION_HASH",
-         "sigs": ["YOUR_SIGNATURE"],
-         "cmd": "{\"networkId\":\"testnet04\",\"payload\":{\"exec\":{\"data\":{\"amount\":10.0,\"receiver\":\"k:RECEIVER_PUBLIC_KEY\"},\
-         "code\":\"(coin.transfer \\\"k:SENDER_PUBLIC_KEY\",\"clist\":
-          [{\"args\":[\"k:SENDER_PUBLIC_KEY\",\"k:RECEIVER_PUBLIC_KEY\",10.0],\"name\":
+         "hash": "<transaction-hash>",
+         "sigs": ["<your-signature>"],
+         "cmd": "{\"networkId\":\"testnet04\",\"payload\":{\"exec\":{\"data\":{\"amount\":10.0,\"receiver\":\"k:<receiver-public-key>\"},\
+         "code\":\"(coin.transfer \\\"k:<sender-public-key>\",\"clist\":
+          [{\"args\":[\"k:<sender-public-key>\",\"k:<receiver-public-key>\",10.0],\"name\":
           \"coin.TRANSFER\"}]}],\"meta\":{\"creationTime\":1724384042,\"ttl\":7200,\"gasLimit\":100000,\"chainId\":\"1\",\"gasPrice\":
-          1.0e-7,\"sender\":\"k:SENDER_PUBLIC_KEY\"},\"nonce\":\"2024-08-23 03:34:02.198258 UTC\"}"
+          1.0e-7,\"sender\":\"k:<sender-public-key>\"},\"nonce\":\"2024-08-23 03:34:02.198258 UTC\"}"
        }]
      }'
     ```
@@ -107,7 +114,9 @@ getBalance(account).catch(console.error);
 
 <TabItem value="cli" label="Kadena CLI">
 
-1. Create a `transfer-coins.yaml` file with the transfer information similar to the following:
+The `kadena-cli` package provides a `transfer.ktpl` template that you can use with `kadena tx` commands to transfer coins.
+
+1. Create a `transfer-coins.yaml` template data file with the transfer information similar to the following:
 
    ```yaml
    account:from: 'k:99d30af3fa91d78cc06cf53a0d4eb2d7fa2a5a72944cc5451311b455a67a3c1c'
@@ -130,22 +139,19 @@ getBalance(account).catch(console.error);
    kadena tx sign
    ```
 
-4. Test the execution:
-   
-   ```bash
-   kadena tx test
-   ```
-    
-5. Send the signed transaction file to the blockchain:
+4. Send the signed transaction file to the blockchain:
    
    ```bash
    kadena tx send
    ```
   </TabItem>
 
-  <TabItem value="js" label="Kadena.js">
-  
+<TabItem value="js" label="Kadena.js">
+
+You can use the `@kadena/client` package to create Pact transactions and client connections.
+
   ```javascript
+
   import { Pact, createClient } from '@kadena/client';
 
   const transferKDA = async (from, to, amount, pubKey) => {
@@ -183,7 +189,7 @@ getBalance(account).catch(console.error);
       console.error('Error transferring KDA:', error);
     }
   };
-transferKDA('your-from-account', 'your-to-account', 0.1).catch(console.error);
+ transferKDA('your-from-account', 'your-to-account', 0.1).catch(console.error);
 ```
 
   </TabItem>
@@ -193,13 +199,16 @@ transferKDA('your-from-account', 'your-to-account', 0.1).catch(console.error);
 
 <Tabs>
   <TabItem value="api" label="API" default>
+
+Connect to the Pact API `send` endpoint to submit a transaction that deploys a smart contract.
+
   ```bash
   curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/send" \
      -H "Content-Type: application/json" \
      -d '{
        "cmds": [{
-         "hash": "YOUR_TRANSACTION_HASH",
-         "sigs": ["YOUR_SIGNATURE"],
+         "hash": "<transaction-hash>",
+         "sigs": ["<your-signature>"],
          "cmd": "{\"networkId\":\"testnet04\",\"payload\":{\"exec\":{\"data\":{},\"code\":\"(namespace \'free)\n(define-keyset \'free.vote-testing-keyset 
          (read-keyset \'vote))\n(module vote-testing \'free.vote-testing-keyset\n  (defschema vote\n    voter:string\n    option:string)\n  (deftable votes:{vote})\n 
          (defun vote (poll-id:string option:string)\n    (insert votes (format \"{}-{}\" [poll-id (at \'sender (chain-data))])\n      { \"voter\": (at \'sender (chain-data))\n
@@ -211,76 +220,107 @@ transferKDA('your-from-account', 'your-to-account', 0.1).catch(console.error);
   ```
   </TabItem>
 
-  <TabItem value="cli" label="Kadena CLI">
-```yaml
-    # deploy-contract.yaml
-    # YAML configuration for deploying a smart contract
+<TabItem value="cli" label="Kadena CLI">
 
-    code: |-
-    (namespace 'free)
-    (module simplemodule GOV
-    (defcap GOV () true)
-      (defconst TEXT:string "Hello World")
-      (defun greet:string () TEXT)
-    )
-  data:
-    ks: {
-     keys`:` ["deployer-public-Key"],
-     pred`:` `"keys-all"`
+You can use `kadena-cli` and YAML configuration files or templates to deploy contracts with `kadena tx` commands.
+
+1. Create a YAML configuration for deploying a smart contract.
+   
+   ```yaml
+   # deploy-hello.yaml
+   code: |-
+     (namespace 'free)
+       (module simplemodule GOV
+        (defcap GOV () true)
+        (defconst TEXT:string "Hello World")
+        (defun greet:string () TEXT)
+    )   
+    data:
+     ks: {
+       keys: [DEPLOYER_PUBLIC_KEY],
+       pred: "keys-all"
+     }
+   meta:
+     chainId: "{{chain-id}}"
+     sender: "DEPLOYER_ACCOUNT_NAME"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 600
+   signers:
+     - public: "DEPLOYER_PUBLIC_KEY"
+       caps:
+         - name: "coin.GAS"
+           args: []
+   networkId: "{{network-id}}"
+   type: exec
+   ```
+
+2. Create a new unsigned transaction:
+   
+   ```bash
+   kadena tx add
+   ```
+
+3. Sign the unsigned transaction:
+
+   ```bash
+   kadena tx sign
+   ```
+
+4. Send the signed transaction to the network:
+   
+   ```bash
+   kadena tx send
+   ```
+  </TabItem>
+
+<TabItem value="js" label="Kadena.js">
+
+You can use the `@kadena/client` package to create Pact transactions and client connections to deploy a contract.
+
+```javascript
+import { Pact, createClient, signWithChainweaver } from '@kadena/client';
+
+async function deployContract(deployer, pubKey) {
+     const pactClient = createClient('https://api.chainweb.com/chainweb/0.0/mainnet01/chain/0/pact');
+
+     const tx = Pact.builder
+        .execution(`
+                  (namespace 'free)
+                  (module simplemodule GOV
+                    (defcap GOV () true)
+                    (defconst TEXT:string "Hello World")
+                    (defun greet:string () TEXT)
+                  )`)
+        .addSigner(pubKey, (signFor) => [signFor('coin.GAS')])
+        .setMeta({
+          chainId: '1',
+          gasLimit: 80300,
+          gasPrice: 0.000001,
+          sender: deployer,
+        })
+        .setNetworkId('mainnet01')
+        .createTransaction();
+
+    try {
+      const signedTx = await signWithChainweaver(transaction); // Pick your preferred signing method
+      const preflightResult = await client.preflight(signedTx);
+      console.log('Preflight result:', preflightResult);
+
+      if (preflightResult.result.status === 'failure') {
+        console.error('Preflight failed:', preflightResult.result.error.message);
+        return preflightResult;
+      }
+
+      const res = await client.submit(signedTx);
+      console.log('Contract deployed:', res);
+      return res;
+    } catch (error) {
+      console.error('Error deploying contract:', error);
     }
-  meta:
-    chainId: "1"
-    sender: "senders k: account"
-    gasLimit: 80300
-    gasPrice: 0.000001
-    ttl: 600
-  signers:
-    - public: "deployer-public-Key"
-      caps:
-        - name: "coin.GAS"
-          args: []
-  networkId: "mainnet01"
-  type: exec
-      ```
-  </TabItem>
-
-  <TabItem value="js" label="Kadena.js">
-  </TabItem>
+};
+deployContract('your-deployer-account', contractCode).catch(console.error);
+```
+</TabItem>
 </Tabs>
 
-## Execute contract functions
-
-<Tabs>
-  <TabItem value="api" label="API" default>
-  ```bash
-  curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "exec": {
-         "data": {
-           "vote": {
-             "keys": ["f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa"],
-             "pred": "keys-all"
-           }
-         },
-         "code": "(free.vote-testing.vote \"vote1\" \"optionb\")"
-       },
-       "meta": {
-         "chainId": "1",
-         "sender": "k:f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa",
-         "gasLimit": 100000,
-         "gasPrice": 0.0000001,
-         "ttl": 7200
-       },
-       "networkId": "testnet04"
-     }'
-    ```
-  </TabItem>
-
-  <TabItem value="cli" label="Kadena CLI">
-
-  </TabItem>
-
-  <TabItem value="js" label="Kadena.js">
-  </TabItem>
-</Tabs>

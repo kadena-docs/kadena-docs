@@ -387,7 +387,12 @@ To get an account balance using `kadena-cli` and a transaction template:
 
 ## Using the Kadena client library
 
-If you're familiar with JavaScript or TypeScript, you can use the `@kadena/client` library. The `@kadena/client` library implements a TypeScript-based API for interacting with smart contracts and Chainweb nodes. The library provides functions that simplify building transactions with Pact commands and connecting to blockchain nodes.
+If you're familiar with JavaScript or TypeScript, you can use the `@kadena/client` library to write scripts for common tasks. 
+The `@kadena/client` library implements a TypeScript-based API for interacting with smart contracts and Chainweb nodes. 
+The library provides functions that simplify building transactions with Pact commands and connecting to blockchain nodes.
+
+You should note that creating the client connection is separate from using the `Pact.builder` function to construct transactions.
+
 
 To get an account balance using `@kadena/client` functions:
 
