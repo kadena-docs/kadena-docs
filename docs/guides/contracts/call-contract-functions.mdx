@@ -1,51 +1,25 @@
 ---
 title: Call contract functions
+description: "A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js"
 id: howto-call-functions
 ---
 
-<head>
-  <title>Call a contract function</title>
-  <meta name="description" content="A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js" />
-</head>
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-
 # Call contract functions
 
-This guide provides instructions and examples for calling smart contract functions using different methods:
+Every interaction with the blockchain involves the same basic steps:
 
-- Using curl
-- Using Kadena CLI
-- Using Kadena client libraries
+- Connecting to an appropriate network endpoint for the development, test, or main network that you want to interact with.
+- Providing a payload with your request that's properly formatted and contains all of the information required to complete any particular task.
+- Signing the transaction with a valid key that has whatever permissions a specific task might require.
+
+There's little difference between interacting with the blockchain directly through the API or through an abstraction layer such as the Kadena CLI or Kadena.js libraries.
+The difference is primarily a matter of preference about how you want to deliver the request.
+However, when you are calling functions, you might want to consider whether you want to make a local request or send the request to the blockchain.
+
+In many cases, sending the request to the `/local` endpoint has advantages over sending the request to the network using the `/send` endpoint.
+This guide provides examples for calling functions using both endpoints and using curl, the Kadena CLI, and the Kadena.js client libraries.
 
 ## Using curl
-
-  **4. Execute a Smart Contract Function**
-    ```bash
-    curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "exec": {
-         "data": {
-           "vote": {
-             "keys": ["f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa"],
-             "pred": "keys-all"
-           }
-         },
-         "code": "(free.vote-testing.vote \"vote1\" \"optionb\")"
-       },
-       "meta": {
-         "chainId": "1",
-         "sender": "k:f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa",
-         "gasLimit": 100000,
-         "gasPrice": 0.0000001,
-         "ttl": 7200
-       },
-       "networkId": "testnet04"
-     }'
-    ```
-
 
 ```bash
     curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local" \
@@ -73,7 +47,7 @@ This guide provides instructions and examples for calling smart contract functio
   
   ## Using Kadena CLI
 
-    ```yaml
+```yaml
     # execute-function.yaml
     # YAML configuration for executing a smart contract function
     code: |-
@@ -91,19 +65,25 @@ This guide provides instructions and examples for calling smart contract functio
     ttl: 600
   networkId: "mainnet01"
   type: exec
-    ```
+```
     To execute:
     ```bash
     kadena exec execute-function.yaml
     kadena tx add
     ```
     select the YAML file path then
-    ```bash
+```bash
     kadena tx test
 ```
 And select the transaction you just added. now you shall see the data with "Hello World"
   
-## Using JavaScript
+## Using the Kadena client library
+
+If you're familiar with JavaScript or TypeScript, you can use the `@kadena/client` library to write scripts for common tasks. 
+The `@kadena/client` library implements a TypeScript-based API for interacting with smart contracts and Chainweb nodes. 
+The library provides functions that simplify building transactions with Pact commands and connecting to blockchain nodes.
+
+You should note that creating the client connection is separate from using the `Pact.builder` function to construct transactions.
 
 ```javascript
 import { Pact, createClient } from '@kadena/client';

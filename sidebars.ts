@@ -48,6 +48,7 @@ const sidebars: SidebarsConfig = {
               id: 'guides/guides',
          },
          items: [
+            'guides/howto-quick-ref',
             {
                type: 'category',
                label: 'Accounts',
@@ -55,15 +56,14 @@ const sidebars: SidebarsConfig = {
                 'guides/accounts/howto-create-accounts',
                 'guides/accounts/howto-fund-accounts',
                 'guides/accounts/howto-get-balances',
-                'guides/accounts/howto-rotate-owners',
-                'guides/accounts/howto-safe-transfers',
+                //'guides/accounts/howto-rotate-owners',
                ],
             },
             {
                type: 'category',
                label: 'Contracts',
                items: [
-                'guides/contracts/howto-read-state',
+                //'guides/contracts/howto-read-state',
                 'guides/contracts/howto-deploy-contracts',
                 'guides/contracts/howto-call-functions',
                ],
@@ -75,7 +75,9 @@ const sidebars: SidebarsConfig = {
                 'guides/transactions/howto-construct-tx',
                 'guides/transactions/howto-sign-submit-tx',
                 'guides/transactions/howto-check-tx-status',
-                'guides/transactions/howto-verify-signatures',
+                'guides/transactions/howto-namespace-tx',
+                'guides/transactions/howto-safe-transfers',
+                //'guides/transactions/howto-verify-signatures',
                ],
             },
             {
