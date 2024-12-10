@@ -69,7 +69,7 @@ npm install --global @kadena/kadena-cli
 kadena config init`
 ```
 
-This command creates the `.kadena` configuration folder location is your current working directory and adds default network settings to a `networks` subfolder, then prompts you to create a wallet.
+The `kadena config init` command creates the `.kadena` configuration folder location in your current working directory and adds default network settings to a `networks` subfolder, then prompts you to create a wallet.
 Wallets are an important part of interacting with any blockchain, so you can create one now as part of your initial configuration steps.
 Follow the prompts displayed to continue setting up your local development environment with a development wallet and an account.
 
@@ -116,7 +116,7 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
    "Hello, Pistolas! ~ from Kadena"
    ```
 
-   If you want to deploy this contract on the local development network, copy the module code to a file with the `.pact` file extension—for example, create a `greeting.pact` file—then create a transaction to deploy the module as described in Deploy smart contracts.
+   If you want to deploy this contract on the local development network, copy the module code to a file with the `.pact` file extension—for example, create a `greeting.pact` file—then create a transaction to deploy the module as described in [Deploy smart contracts](/guides/contracts/howto-deploy-contracts).
    
    You can exit the Pact interpreter by pressing control-d on the keyboard.
 
