@@ -1,15 +1,15 @@
 ---
-title: Monitoring
+title: Monitor node status
 id: monitoring
 ---
 
-# Monitoring Chainweb Nodes
+# Monitor node status
 
-This guide explains how to set up monitoring for your Chainweb node using a bash script, including how to add notifications and run the script regularly.
+This guide explains how to set up basic monitoring to check the status of a Chainweb node using a bash script, how to add notifications to the script, and how to run the script regularly.
 
-## Monitoring Script
+## Basic health check
 
-Here's a bash script that checks the status of your Chainweb node and restarts it if necessary:
+The following sample script illustrates how you can create a `bash` script that checks the status of a Chainweb node and restarts it, if necessary:
 
 ```bash
 #!/usr/bin/env bash
@@ -50,12 +50,12 @@ fi
 ```
 
 This script does the following:
-1. Sets up environment variables for the Chainweb network and port.
-2. Defines functions for logging, checking service status, and restarting the service.
-3. Checks if the Chainweb service is running by querying its API.
-4. If the service is down, it attempts to restart it.
+- Sets up environment variables for the Chainweb network and port.
+- Defines functions for logging, checking service status, and restarting the service.
+- Checks if the Chainweb service is running by querying its API.
+- If the service is down, it attempts to restart it.
 
-## Adding Notifications
+## Adding notifications
 
 To add notifications, you can modify the `log_message` function to send emails or messages to services like Telegram.
 Here's an example of how you might modify the function to send a Telegram message:
@@ -75,65 +75,76 @@ log_message() {
 
 Replace `your_bot_token` and `your_chat_id` with your actual Telegram bot token and chat ID.
 
-## Additional Checks
+## Additional checks
 
-You can add more robust checks to ensure your node is functioning correctly. For example, you could add a function to perform a local call to validate functionality.
+You can add more robust checks to ensure your node is functioning correctly. 
+For example, you could add a function to perform a local call to validate functionality.
 
+## Running the script regularly
 
-## Running the Script Regularly
+In most case, you should establish a schedule for monitoring nodes are a regular interval.
+For example, to run the sample script every 30 seconds, you can set up a `cron` job or a `systemd` timer.
 
-To run this script every 30 seconds, you can set up a cron job or a systemd timer.
+### Using cron
 
-### Using Cron
+To set up a `cron` job for monitoring a node:
 
-Open your crontab file:
+1. Open your crontab file for editing by running the following command:
+   
+   ```bash
+   crontab -e
+   ```
 
-```
-crontab -e
-```
+1. Add an instruction for running the monitoring script similar to the following line:
 
-Add the following line:
+   ```bash
+   * * * * * /path/to/your/monitor-node-script.sh; sleep 30; /path/to/your/monitor-node-script.sh
+   ```
 
-```
-* * * * * /path/to/your/script.sh; sleep 30; /path/to/your/script.sh
-```
+   This instructiopn runs the `monitor-node-script.sh` script every minute and then again 30 seconds later.
 
-This runs the script every minute and then again 30 seconds later.
+### Using systemd
 
-### Using Systemd Timer
+To set up a `systemd` timer for monitoring a node:
 
-Create a service file `/etc/systemd/system/chainweb-monitor.service`:
+1. Create a `/etc/systemd/system/chainweb-monitor.service` service file similar to the following:
+   
+   ```bash
+   [Unit]
+   Description=Chainweb Node Monitor
+   
+   [Service]
+   ExecStart=/path/to/your/script.sh
+   
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
-```
-[Unit]
-Description=Chainweb Node Monitor
+1. Create a `/etc/systemd/system/chainweb-monitor.timer` timer file similar to the following:
+   
+   ```bash
+   [Unit]
+   Description=Run Chainweb Node Monitor every 30 seconds
+   
+   [Timer]
+   OnBootSec=30
+   OnUnitActiveSec=30s
+   
+   [Install]
+   WantedBy=timers.target
+   ```
 
-[Service]
-ExecStart=/path/to/your/script.sh
+1. Enable the timer by running the following command:
 
-[Install]
-WantedBy=multi-user.target
-```
+   ```bash
+   sudo systemctl enable chainweb-monitor.timer
+   ```
 
-Create a timer file `/etc/systemd/system/chainweb-monitor.timer`:
+1. Start the timer by running the following command:
 
-```
-[Unit]
-Description=Run Chainweb Node Monitor every 30 seconds
-
-[Timer]
-OnBootSec=30
-OnUnitActiveSec=30s
-
-[Install]
-WantedBy=timers.target
-```
-
-Enable and start the timer:
-
-```
-sudo systemctl enable chainweb-monitor.timer
-sudo systemctl start chainweb-monitor.timer
-```
-
-This setup will run your monitoring script every 30 seconds, providing real-time information about your Chainweb node's status and automatically attempting to restart it if issues are detected.
+   ```bash
+   sudo systemctl start chainweb-monitor.timer
+   ```
+   
+   This timer runs the monitoring script every 30 seconds, providing real-time information about the status of the Chainweb node.
+   The script also automatically attempts to restart the node, if issues are detected.
