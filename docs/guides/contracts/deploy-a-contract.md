@@ -10,14 +10,14 @@ This guide provides instructions and examples for deploying a smart contract by 
 
 ## Using a YAML request and curl
 
-One way you can deploy a new smart contract is by constructing a YAML execution request, formatting the request as a JSON object, and sending the request to ann API endpoint using the `curl` command.
+One way you can deploy a new smart contract is by constructing a YAML execution request, formatting the request as a JSON object, and sending the request to an API endpoint using the `curl` command.
 You could also submit the request using Postman or other tools that enable you to call API endpoints directly.
 However, formatting an API request manually is typically an error-prone process and inserting full contract code—even for a simple contract—into a YAML configuration file can often lead to unexpected results or errors.
 
 In most cases, constructing a transaction to deploy a smart contract is less error-prone if you use the Kadena CLI.
-The Kadena CLI uses the Kadena client TypeScript libraries as a foundation for abstracting and simplifying interaction with the blockchain.
+The Kadena CLI uses the Kadena client library as a foundation for abstracting and simplifying interaction with the blockchain.
 
-The following example illustrates what the `curl` command to deploy a smart contract would look like:
+If you want to deploy a contract by using the `curl` command directly, the following example illustrates what the `curl` command to deploy a smart contract would look like:
 
 ```bash
 curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/send" \
