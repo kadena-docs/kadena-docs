@@ -19,63 +19,151 @@ However, when you are calling functions, you might want to consider whether you 
 In many cases, sending the request to the `/local` endpoint has advantages over sending the request to the network using the `/send` endpoint.
 This guide provides examples for calling functions using both endpoints and using curl, the Kadena CLI, and the Kadena.js client libraries.
 
-## Using curl
+## Using a YAML request and curl
 
-```bash
-    curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "exec": {
-         "data": {
-           "vote": {
-             "keys": ["f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa"],
-             "pred": "keys-all"
-           }
-         },
-         "code": "(free.vote-testing.vote \"vote1\" \"optionb\")"
-       },
-       "meta": {
-         "chainId": "1",
-         "sender": "k:f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa",
-         "gasLimit": 100000,
-         "gasPrice": 0.0000001,
-         "ttl": 7200
-       },
-       "networkId": "testnet04"
-     }'
-```
-  
-  ## Using Kadena CLI
+If you want to call a function that modifies informatipon stored in the blockchain, you should make the transaction request using the `/send` endpoint.
+If you want to call a function that reads information from the blockchain, you should make the transaction request using the `/local` endpoint.
+For example, the free.vote-topics contract has three functions: `init`, `vote`, and `getVotes`.
+The `init` and `vote` functions modify the `votes` table, so they should be called using the `/send` endpoint.
+The `getVotes` function reads information from the table, so it can be called using the `/local` endpoint.
 
-```yaml
-    # execute-function.yaml
-    # YAML configuration for executing a smart contract function
-    code: |-
-    (free.simplemodule.greet)
-  data:
-    ks: {
-     keys: ["your public key"],
-     pred: "keys-all"
-    }
-  meta:
-    chainId: "1"
-    sender: "your k: address"
-    gasLimit: 80300
-    gasPrice: 0.000001
-    ttl: 600
-  networkId: "mainnet01"
-  type: exec
-```
-    To execute:
+To call the `init` function using a `curl` command and `/send` endpoint:
+
+1. Generate a random public and secret key pair and save them to a file.
+   
+   ```bash
+   pact --genkey > pistolas.yaml
+   ```
+
+2. Construct the transaction using the YAML transaction request format for an unsigned transaction.
+
+   ```yaml
+   code: |-
+     (free.simple-vote.init)
+   data:
+     ks: {
+      keys: ["3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698"],
+      pred: "keys-all"
+     }
+   publicMeta:
+     chainId: "3"
+     sender: "pact-generated-key"
+     gasLimit: 63000
+     gasPrice: 0.00000001
+     ttl: 900
+   signers:
+     - public: 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698
+       caps: []
+   networkId: "development"
+   type: exec
+   ```
+
+3. Prepare the YAML transaction request to be signed.
+   
+   ```bash
+   pact --unsigned call-init-signers.yaml > tx-init.yaml
+   ```
+
+1. Add a signature from your randomly-generated key pair and convert the request to a valid JSON object.
+
+   ```bash
+   cat tx-init.yaml | pact add-sig pistolas.yaml > tx-signed-init.json
+   ```
+
+1. Use `curl` to connect to the `/send` endpoint on the `development`, `testnet04` or `mainnet01` network.
+
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d "@tx-signed-init.json" http://localhost:8080/chainweb/0.0/development/chain/3/pact/api/v1/send
+   ```
+
+To call the `getVotes` function using a `curl` command and `/local` endpoint:
+
+1. Construct the transaction using the YAML transaction request format for an unsigned transaction.
+
+   ```yaml
+   code: |-
+     (free.simple-vote.getVotes "A")
+   data:
+   publicMeta:
+     chainId: "3"
+     sender: "pact-generated-key"
+     gasLimit: 63000
+     gasPrice: 0.00000001
+     ttl: 900
+   networkId: "development"
+   type: exec
+   ```
+
+1. Format the request and use `curl` to connect to the `/local` endpoint on the `development`, `testnet04` or `mainnet01` network.
+
+   ```bash
+   pact --apireq simple-call.yaml --local | curl -X POST -H "Content-Type: application/json" \
+        --json @- http://localhost:8080/chainweb/0.0/development/chain/3/pact/api/v1/local
+   ```
+
+   The command returns the result from the `/local` endpoint.
+   In this example, five votes have been recorded for topic "A".
+   
+   ```bash
+   {"gas":18,"result":{"status":"success","data":5},"reqKey":"tg201pWYbHUdh3umkbKEeKyvRjWycBQlZSDcrCwasts",...}
+   ```
+
+## Using kadena-cli commands
+
+With the `kadena-cli`, you can construct a transaction template to call functions in smart contracts.
+You can then customize the transactions to call the same function on different chains or different networks.
+Depending on how you create your template, you can also use it to call different types of functions with interactive prompting for values or by setting command-line options.
+
+To call a smart contract function using `kadena-cli`:
+
+1. Create a `call-function.ktpl` template file with the template variables for calling a function.
+
+   ```yaml
+   call-function.yaml - YAML configuration for executing a smart contract function
+   code: |-
+       {{namespace.module.function args}}
+   data:
+   publicMeta:
+     chainId: "{{chain-id}}"
+     sender: "{{{account-name}}}"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 600
+   networkId: "{{network-id}}"
+   signers:
+    - public: "{{public-key}}"
+      caps: []
+   type: exec
+   ```
+
+   For convenience, you can move the `deploy-contract.ktpl` template to the `.kadena/transaction-templates` directory, so that the template is listed when you add transactions with interactive prompting.
+
+2. Create a new unsigned transaction using the `kadena tx add` command and the `call-function.ktpl` template and follow the prompts displayed to set the appropriate information.
+
+   For example, the prompts and output for calling the `vote` function look similar to the following:
+
     ```bash
-    kadena exec execute-function.yaml
-    kadena tx add
-    ```
-    select the YAML file path then
+   ? Which template do you want to use: call-function.ktpl
+   ? File path of data to use for template .json or .yaml (optional):
+   ? Template value namespace.module.function args:  (free.vote-topics.vote "B")
+   ? Template value chain-id: 3
+   ? Template value account-name: k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c
+   ? Template value network-id: development
+   ? Template value public-key: 58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c
+   ? Where do you want to save the output: test-vote-2
+   ```
+
+3. Sign the unsigned transaction using the `kadena tx sign` command and the transaction file name generated by the `kadena tx add` command.
+
+4. Send the signed transaction using the `kadena tx send` command and the signed transaction file name generated by the `kadena tx sign` command.
+
+You can use the same template to call the `getVotes` function and use `kadena tx test` to test the function call results.
+
 ```bash
-    kadena tx test
+kadena tx add
+kadena tx sign
+kadena tx test
 ```
-And select the transaction you just added. now you shall see the data with "Hello World"
   
 ## Using the Kadena client library
 
@@ -128,4 +216,4 @@ command('(free.simplemodule.greet)').catch(console.error);
 
 Remember, these are simplified examples. In a production environment, you'd need to handle signing, error checking, and other details more robustly.
 
-For more detailed information on specific endpoints and their parameters, refer to our [API documentation](/api/pact-api).
+For more detailed information on specific endpoints and their parameters, see the [API documentation](/api/pact-api).

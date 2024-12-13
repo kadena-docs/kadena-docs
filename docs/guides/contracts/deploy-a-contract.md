@@ -17,23 +17,68 @@ However, formatting an API request manually is typically an error-prone process 
 In most cases, constructing a transaction to deploy a smart contract is less error-prone if you use the Kadena CLI.
 The Kadena CLI uses the Kadena client library as a foundation for abstracting and simplifying interaction with the blockchain.
 
-If you want to deploy a contract by using the `curl` command directly, the following example illustrates what the `curl` command to deploy a smart contract would look like:
+If you want to deploy a contract by using the `curl` command directly, the following example illustrates the steps involved.
 
-```bash
-curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/send" \
-     -H "Content-Type: application/json" \
-     -d '{"cmds": [{
-         "hash": "3Ax8wtCfA531HqL8ZUq05spI3mNEOHYvvvSNyyOUN5w",
-         "sigs": ["pubKey": "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c","sig": "2a382b5107cabf1311c6926550ace377524031f767d84fbe5a654dc163550f01a66955620ff3d6a676b8886a6ab09edd910f2d3c6d021966eab4f675f17ed30e"}],
-         "cmd": "{\"networkId\":\"testnet04\",\"payload\":{\"exec\":{\"data\":{},\"code\":\"(namespace \'free)\n(define-keyset \'free.vote-testing-keyset 
-         (read-keyset \'vote))\n(module vote-testing \'free.vote-testing-keyset\n  (defschema vote\n    voter:string\n    option:string)\n  (deftable votes:{vote})\n 
-         (defun vote (poll-id:string option:string)\n    (insert votes (format \"{}-{}\" [poll-id (at \'sender (chain-data))])\n      { \"voter\": (at \'sender (chain-data))\n
-                 \"option\": option\n      }\n    )\n  )\n)\"}},\"signers\":[{\"pubKey\":\"f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa\",\
-                 "clist\":[{\"args\":[],\"name\":\"coin.GAS\"}]}],\"meta\":{\"creationTime\":1724384042,\"ttl\":7200,\"gasLimit\":100000,\"chainId\":\"1\",\
-                 "gasPrice\":1.0e-7,\"sender\":\"k:f1e12312e4ee8c156b041c3bcc7e422e7d15cb2ddce58c6ff16742770916cfaa\"},\"nonce\":\"2024-08-23 03:34:02.198258 UTC\""}]}'
-```
+To deploy a smart contract with a `curl` command:
 
-## Using kadena-cli
+1. Generate a public and secret key pair and save them to a file.
+   
+   ```bash
+   pact --genkey > pistolas.yaml
+   ```
+
+   For this example, the following keys are used:
+
+   ```yaml
+   public: 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698
+   secret: 682ce35a77eece5060537632423de96b965136bd7739c5064903612c0b300608
+   ```
+
+   Use the public key to create and fund an account on at least one chain in the development, test, or main network,
+   For example: 
+   
+   - Use `kadena account add` to add an account for the public key manually in the development network and one or more chains.
+   - Use `kadena account fund` to fund the account on one or more chains.
+  
+2. Construct the transaction using the YAML transaction request format.
+   For example, using the account values associated with the 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698 public key account, the YAML file looks like this:
+   
+   ```yaml
+   # deploy-vote.yaml - YAML configuration for deploying a smart contract
+   codeFile: "simple-vote.pact"
+   data:
+   publicMeta:
+     chainId: "3"
+     sender: "pact-generated-key"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 6000
+   keyPairs:
+     - public: 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698
+       secret: 682ce35a77eece5060537632423de96b965136bd7739c5064903612c0b300608
+       caps:
+         - name: "coin.GAS"
+           args: []
+   networkId: "development"
+   type: exec
+   ```
+
+3. Convert the YAML transaction request to a valid transaction JSON object.
+   
+   ```bash
+   pact --apireq deploy-vote.yaml > deploy-vote.json
+   ```
+
+1. Use `curl` to connect to the `/send` endpoint to deploy the contract.
+   For example, you can run a command similar to the following to deploy a contract on the `development` network:
+
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d "@deploy-vote.json" http://localhost:8080/chainweb/0.0/development/chain/3/pact/api/v1/send
+   ```
+   
+   The command returns a request key that you can use to view the transaction results in the block explorer.
+
+## Using kadena-cli commands
 
 With the `kadena-cli`, you can construct a transaction template to deploy smart contracts.
 You can then customize the transactions to deploy the same contract on different chains or different networks.
@@ -41,15 +86,14 @@ Depending on how you create your template, you can also use it to deploy differe
 
 To deploy a smart contract using `kadena-cli`:
 
-1. Create a `deploy-hello.ktpl` template file with the template variables for deploying a contract.
+1. Create a `deploy-contract.ktpl` template file with the template variables for deploying a contract.
    
    Note that you can embed Pact code directly in a template or data file using the `code` key.
    Alternatively, you can use the `codeFile` key to specify the path to a Pact file. 
    For example, you might create a template file similar to the following:
 
    ```yaml
-   # deploy-hello.yaml
-   # YAML configuration for deploying a smart contract
+   # deploy-contract.yaml - YAML configuration for deploying a smart contract
    codeFile: |-
      "{{contract-filename}}"
    data:
@@ -57,7 +101,7 @@ To deploy a smart contract using `kadena-cli`:
        keys: [58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c],
        pred: "keys-all"
      }
-   meta:
+   publicMeta:
      chainId: "{{chain-id}}"
      sender: "{{{deployer-account}}}"
      gasLimit: 80300
@@ -72,7 +116,9 @@ To deploy a smart contract using `kadena-cli`:
    type: exec
    ```
 
-2. Create a new unsigned transaction using the `kadena tx add` command and the `deploy-hello.ktpl` template and follow the prompts displayed to set the appropriate information.
+   For convenience, you can move the `deploy-contract.ktpl` template to the `.kadena/transaction-templates` directory, so that the template is listed when you add transactions with interactive prompting.
+
+2. Create a new unsigned transaction using the `kadena tx add` command and the `deploy-contract.ktpl` template and follow the prompts displayed to set the appropriate information.
 
    - For the `contract-filename` template value, specify the path to the Pact file you want to deploy. 
      The path should be relative to the `.kadena/transaction-templates` directory.

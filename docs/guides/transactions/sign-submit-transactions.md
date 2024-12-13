@@ -11,7 +11,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 There are several ways you can sign and submit transactions.
 This guide provides instructions and examples for signing and submitting transactions using different tools and in different scenarios.
-For example, this guide describes how to use the Pact command-line interpreter built-in HTTP server and SQLite backend to sign and submit transactions locally using Pact commands and how to format transactions requests so that they can be executed using `curl` commands or Postman API calls.
+For example, this guide describes how to use the Pact command-line interpreter HTTP server and REST API to sign and submit transactions locally using Pact commands and how to format transactions requests so that they can be executed using `curl` commands or Postman API calls.
 
 ## Use the Pact built-in server
 
@@ -36,15 +36,20 @@ To use the built-in Pact server:
 
    ```yaml
    # Configuration file for the Pact HTTP server. 
+   
    # HTTP server port
    port: 8081
-   # directory for HTTP logs
+   
+   # Directory for HTTP log files
    logDir: log
-   # persistence directory
-   persistDir: log   
+   
+   # Directory for persistence log files
+   persistDir: log
+   
    # SQLite pragmas for pact back-end
    pragmas: []
-   # verbose: provide log output
+   
+   # Provide verbose log output
    verbose: True
    ```
 
@@ -68,33 +73,34 @@ To use the built-in Pact server:
        secret: 8693e641ae2bbe9ea802c736f42027b03f86afe63cae315e7169c9c496c17332
    ```
 
-2. Format the YAML version of the API request using the Pact `--apireq` command-line option to generate a valid JSON API request.
+2. Format the YAML version of the API request using the Pact `--apireq` command-line option to generate a valid JSON API request that you can send to any Chainweb node.
    
-   For example, run the following command to display the output before submitting the request to the built-in server:
+   For example, you can run the following command to display formatted output that's suitable for the CHainweb node `/send` endpoint:
 
    ```bash
    pact --apireq  my-api-request.yaml
    ```
 
-   This command displays the formatted API request as standard output:
+   This command displays the formatted JSON API request as standard output:
    
    ```bash
    {"cmds":[{"hash":"T3vt3Cuh2sdDcTS8Exck96Yht55OD0B9qp_2O8hn1Z0","sigs":[{"sig":"6f8a7fd50d2807127feefe7c9df382c6538b20aa8d62c9c10051f80201af7352f172a18be5f6a43ec2ece7fc74f951e1dd36ef18975fcb76d72bcb453396dc02"}],"cmd":"{\"networkId\":null,\"payload\":{\"exec\":{\"data\":{\"name\":\"Stuart\",\"language\":\"Pact\"},\"code\":\"(+ 1 2)\"}},\"signers\":[{\"pubKey\":\"ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d\"}],\"meta\":{\"creationTime\":0,\"ttl\":0,\"gasLimit\":0,\"chainId\":\"\",\"gasPrice\":0,\"sender\":\"\"},\"nonce\":\"2024-09-06 20:04:12.679143 UTC\"}"}]}
    ```
 
-1. Submit the transaction using the built-in server and `/local` endpoint by running the following command:
+   To format a request for the built-in server and `/local` endpoint, you can add the `--local` command-line option.
+   For example:
    
    ```bash
    pact --apireq  my-api-request.yaml --local
    ```
    
-   The command displays the transaction submitted:
+   To write the formatted JSON API request to a file instead of displaying it as standard output, redirect the output with a command similar to the following:
 
    ```bash
-   {"hash":"RRkPaHkAlAYMOgCxVtIiR20B8aEl4U4FGLNuFMbmSXg","sigs":[{"sig":"47e66eeec37991ad49b162401ab777a8dc9e872090f0a1552ee080931450891d321ab6fd3907d0aa1395d3816a74a8c08dd1be5d2871dc2398dd5d2851cbc60d"}],"cmd":"{\"networkId\":null,\"payload\":{\"exec\":{\"data\":{\"name\":\"Stuart\",\"language\":\"Pact\"},\"code\":\"(+ 1 2)\"}},\"signers\":[{\"pubKey\":\"ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d\"}],\"meta\":{\"creationTime\":0,\"ttl\":0,\"gasLimit\":0,\"chainId\":\"\",\"gasPrice\":0,\"sender\":\"\"},\"nonce\":\"2024-09-06 20:24:45.82271 UTC\"}"}
+   pact --apireq my-api-request.yaml --local > local-request.json
    ```
 
-1. Send the API request to the Pact built-in HTTP server running on port 8081—as configured in the `pact-config.yaml` file for this example—by running the following command:
+3. Send the formatted API request to the Pact built-in HTTP server running on port 8081—as configured in the `pact-config.yaml` file for this example—by running the following command:
    
    ```bash
    pact --apireq my-api-request.yaml --local | curl --json @- http://localhost:8081/api/v1/local
@@ -110,18 +116,92 @@ To use the built-in Pact server:
 
 ## Use a curl command directly
 
-You can also use `curl` commands to submit transactions to Kadena `testnet` and `mainnet` nodes.
+You can also use `curl` commands to submit transactions to Kadena development, testnet, and mainnet nodes.
 
-1. Construct the transaction using the YAML API request format.
-2. Convert the YAML API request to a valid transaction JSON object.
-3. Use `curl` to connect to the /send endpoint on the `testnet04` or `mainnet01` network.
+To sign and submit a transaction:
+
+1. Generate a random public and secret key pair and save them to a file.
    
+   ```bash
+   pact --genkey > pistolas.yaml
+   ```
+
+   For this example, the following keys are used:
+
+   ```yaml
+   public: 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698
+   secret: 682ce35a77eece5060537632423de96b965136bd7739c5064903612c0b300608
+   ```
+
+2. Construct the transaction using the YAML transaction request format.
+   For example:
+   
+   ```yaml
+   code: |-
+     (free.vote-topics.vote "A")
+   data:
+     ks: {
+      keys: ["3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698"],
+      pred: "keys-all"
+     }
+   publicMeta:
+     chainId: "3"
+     sender: "pact-generated-key"
+     gasLimit: 63000
+     gasPrice: 0.00000001
+     ttl: 900
+   keyPairs:
+     - public: 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698
+       secret: 682ce35a77eece5060537632423de96b965136bd7739c5064903612c0b300608
+       caps:
+         - name: "coin.GAS"
+           args: []
+   networkId: "development"
+   type: exec
+   ```
+
+   You can also construct YAML transaction requests that only include the public key by replacing the `keyPairs` attribute with a `signers` attribute:
+
+   ```yaml
+   signers:
+     - public: 3bdb1d3c48a1bb5f072b067e265ce5d9a5eabf5e290128be4d2623dd559ca698
+       caps:
+         - name: "coin.GAS"
+           args: []
+   ```
+
+3. Convert the YAML transaction request to a valid transaction JSON object.
+   
+   ```bash
+   pact --apireq vote-function.yaml > tx-vote-function.json
+   ```
+
+   To format an unsigned YAML transaction request that only includes the `signers` attribute and public keys, you can use the `--unsigned` command-line option.
+   For example, you can run a command similar to the following:
+   
+   ```bash
+   pact --unsigned alt-vote-function.yaml > unsigned-vote-function.yaml
+   ```
+
+   To add a signature to the unsigned transaction, you can run a command similar to the following:
+
+   ```bash
+   cat unsigned-vote-function.yaml | pact add-sig pistolas.yaml > tx-signed-pistolas.json
+   ```  
+
+1. Use `curl` to connect to the `/send` endpoint on the `development`, `testnet04` or `mainnet01` network.
+   
+   For example, the following command connects to the `/send` endpoint on the local `development` network:
+
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d "@tx-vote-function.json" http://localhost:8080/chainweb/0.0/development/chain/3/pact/api/v1/send
+   ```
+
+   If the request is properly formatted and you can connect to the endpoint, the command returns the request key for the transaction.
    For example:
 
    ```bash
-   curl -X POST "https://api.chainweb.com/chainweb/0.0/testnet04/chain/3/pact/api/v1/send" \
-   -H "Content-Type: application/json" \
-   -d '{"hash":"eQNdHrgTXy-MMlk0PS_bs9ebNEyLCAUEEllhhsOyv4Y","sigs":[],"cmd":"{\"networkId\":\"testnet04\",\"payload\":{\"exec\":{\"data\":{\"ks\":{\"pred\":\"keys-all\",\"keys\":[\"58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c\"]}},\"code\":\"(coin.transfer-create \\\"k:9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99\\\" \\\"bob-testnet\\\" (read-keyset \\\"ks\\\") 3.01)\\n(coin.transfer \\\"bob-testnet\\\" \\\"k:9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99\\\" 0.01)\"}},\"signers\":[],\"meta\":{\"creationTime\":1732739839,\"ttl\":7200,\"gasLimit\":1200,\"chainId\":\"3\",\"gasPrice\":1.0e-10,\"sender\":\"k:9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99\"},\"nonce\":\"2024-11-27 20:37:19.302895 UTC\"}"}'
+   {"requestKeys":["nnRG5jRdEprpr_er9p1bSEWuLxOfDKekaqLfs7vGLiU"]}
    ```
 
 ## Use kadena tx commands
@@ -132,7 +212,6 @@ The `kadena-cli` package enables you to construct, sign, and submit transactions
 2. Convert the YAML request template to a valid transaction JSON object by using `kadena tx add`.
 3. Sign the transaction created by using `kadena tx sign`.
 4. Send the request to the blockchain by using `kadena tx send`.
-
 
 ## Offline signing with a cold wallet
 

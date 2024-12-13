@@ -117,8 +117,8 @@ not exceed the value you set for the _max_ argument.|
 
 | Use this option | To do this |
 | --------------- | ---------- |
-| --fast-forward-block-height-limit _height_| Set the limit for fast-forwarding block height (null means no limit). If you set the `--only-sync-pact` option, chain synchronization uses this block height. If you haven't the `--only-sync-pact` option, this option is ignored.|
-| --cut-fetch-timeout _microseconds_ | Set a timeout for fetching cuts (in microseconds).|
+| --fast-forward-block-height-limit _height_| Set the limit for fast-forwarding block height (null means no limit). If you set the `--only-sync-pact` option, chain synchronization uses this block height. If you haven't set the `--only-sync-pact` option, this option is ignored.|
+| --cut-fetch-timeout _microseconds_ | Set a timeout for fetching cuts in microseconds.|
 | --initial-block-height-limit _height_| Reset the initial cut to this block height (null means no limit).|
 | --prune-chain-database none|headers|headers-checked|full | Specify a database pruning strategy to run when the node starts. You can specify the _strategy_ are `none`, `headers`, `headers-checked`, or `full`. Note that database pruning can take several hours. |
 
