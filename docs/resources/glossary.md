@@ -222,6 +222,12 @@ puzzle scales with the total hash power of the entire network, the hash rate.
 The costs of mining are well documented, both in the exponential increase in
 computing power to continue mining and the detrimental environmental impact.
 
+### module
+
+A module is the fundamental logical unit for all Pact smart contracts.
+All of the functions and data definitions that are required to complete a set of related business operations are defined within the context of a module.
+For simple contracts, a single module often contains all of the code necessary to create an application or a service. 
+
 ## N
 
 ### namespace
