@@ -332,7 +332,7 @@ To create a capability-guarded account:
    ```pact
    (if (read-msg 'init)
      [(init)]
-     ["not creating the gas station account"]
+     ["Not creating the gas station account"]
    )
    ```
 
