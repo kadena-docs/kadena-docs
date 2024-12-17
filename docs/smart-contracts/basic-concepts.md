@@ -63,14 +63,17 @@ Pact has several key features that make it well-suited to writing business appli
 ## Namespaces and modules
 
 Two important concepts in Pact are [namespaces](/resources/glossary#namespace) and [modules](/resources/glossary#namespace).
-A namespace is a logical ownership boundary for smart contracts controlled by a specific entity.
-Smart contracts include a namespace declaration to provide a unique prefix for for everything defined within the namespace scope. 
-The _root namespace_ is reserved for built-in contracts like the `coin` contract. 
-Kadena provides the `free` namespace and the `user` namespace as publicly-accessible namespaces for testing and training purposes.
-For public blockchains, custom namespaces must be defined and registered.
+A namespace is a logical ownership boundary for smart contracts that are controlled by a specific entity.
+Smart contracts include a namespace declaration to provide a unique prefix for everything—including modules, functions, keysets, and interfaces—that are defined within the namespace scope. 
+The _root namespace_ in the Kadena test and main networks is reserved for built-in contracts like the `coin` contract. 
+You can't deploy contracts directly in the unpartitioned root namespace.
+However, Kadena provides the `free` namespace and the `user` namespace as publicly-accessible namespaces for testing and training purposes.
+For local development, you can deploy contracts directly in the local root namespace or define custom namespaces. 
+For public blockchains like the Kadena test and main networks, you must define and register custom namespaces for your projects.
 
-Modules are the fundamental building blocks for all Pact smart contracts. 
-Individual modules are often self-contained logical units that implement related functions. 
+Within a namespace, modules are the fundamental building blocks that provide the logic used in all Pact smart contracts. 
+All of the functions and data definitions that are required to complete a set of related business operations are defined within the context of a module.
+Individual modules are often self-contained logical units that implement a related set of functions. 
 
 ## Keysets, capabilities, and guards
 
