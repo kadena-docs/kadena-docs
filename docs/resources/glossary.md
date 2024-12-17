@@ -224,13 +224,16 @@ computing power to continue mining and the detrimental environmental impact.
 
 ### module
 
-A module is the fundamental logical unit for all Pact smart contracts.
+A module is the fundamental logical unit for programs used in Pact smart contracts.
 All of the functions and data definitions that are required to complete a set of related business operations are defined within the context of a module.
 For simple contracts, a single module often contains all of the code necessary to create an application or a service. 
 
 ## N
 
 ### namespace
+
+A namespace is a logical ownership boundary for smart contracts that are controlled by a specific entity.
+Smart contracts include a namespace declaration to provide a unique prefix for everything—including functions, keysets, and interfaces—defined within the namespace scope. 
 
 ### non-fungible token (NFT)
 
