@@ -88,6 +88,7 @@ const sidebars: SidebarsConfig = {
                    id: 'guides/nodes/nodes',
               },
                  items: [
+                     'guides/nodes/howto-node-operator',
                      'guides/nodes/compact-databases',
                      'guides/nodes/configure',
                      'guides/nodes/monitoring',
@@ -95,6 +96,7 @@ const sidebars: SidebarsConfig = {
            },
            'guides/dev-kadena-cli',
            'guides/chainweaver',
+           'guides/troubleshooting',
          ],
       },
       {

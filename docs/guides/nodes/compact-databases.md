@@ -1,9 +1,9 @@
 ---
-title: Compact databases
+title: Compact node databases
 id: compact-databases
 ---
 
-# Compact Chainweb node databases
+# Compact node databases
 
 Because a healthy blockchain continuously adds new transactions in new blocks that change the state of the database, managing the storage requirements on individual nodes can be challenging.
 

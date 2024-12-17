@@ -1,20 +1,47 @@
 ---
-title: Configure
+title: Configure node settings
 id: configure
 ---
 
-# Detailed Chainweb Node Configuration
+# Configure node settings
 
-This is meant to provide an overview of the configuration options available in chainweb-node out of the box.  The full
-config can be pulled by running ./chainweb-node --print-config.
+You can customize many features and operations for any Chainweb node that you're responsible for managing, including local development nodes.
+You can review the current configuration for a node by displaying or generating a configuration file using the `--print-config` command-line option.
+For example, to display the current configuration settings as standard output, run the following command:
 
-## Chainweb Section
+```bash
+./chainweb-node --print-config
+```
+
+There are two ways you can modify chainweb-node configuration settings:
+
+- By specifying command-line operations.
+- By passing one or more configuraiton files when starting the node.
+
+To generate a configuration file that you can then edit, run a command similar to the following:
+
+```bash
+./chainweb-node --print-config > chainweb-config.yaml
+```
+
+This section provides an overview of settings you can modify in a configuration file.
+Configuration settings are loaded in order first from one or more configuration file locations that you specify using `--config-file` options, then from the command-line options in the order you specify them.
+Configuration settings that are loaded later overwrite settings that were previously loaded.
+You can specify configuration file locations by providing local file system paths or remote HTTP or HTTPS URLs. 
+Remote URLs must start with either "http://" or "https://".
+
+For information about modifying configuration settings by specifying command-line options, see [chainweb-node command-line](/reference/chainweb-cli).
+
+## Chainweb settings
+
+The following settings are defined as properties under the `chainweb` key.
 
 ```yaml
 chainweb:
   allowReadsInLocal: false
 ```
-Determines if read operations are allowed in local execution mode.
+
+Set to true if you want to allow read operations in local execution mode.
 
 ```yaml
   backup:
@@ -23,12 +50,17 @@ Determines if read operations are allowed in local execution mode.
       enabled: false
     directory: null
 ```
-Configures backup settings. The API is disabled by default, and no backup directory is set.
+
+Set enabled to true to configure backup settings. 
+By default, the backup API is disabled and there's no backup directory specified.
 
 ```yaml
   chainwebVersion: mainnet01
 ```
-Specifies the Chainweb network version. Default is mainnet
+
+Specifies the Chainweb network identifier. 
+The valid values are development, testnet04, testnet05, and mainnet01.
+The default is mainnet01.
 
 ```yaml
   cuts:
@@ -37,21 +69,25 @@ Specifies the Chainweb network version. Default is mainnet
     initialBlockHeightLimit: null
     pruneChainDatabase: none
 ```
-Controls various aspects of chain cuts:
-- `fastForwardBlockHeightLimit`: Limit for fast-forwarding block height (null means no limit).
-- `fetchTimeout`: Timeout for fetching cuts (in microseconds).
-- `initialBlockHeightLimit`: Initial block height limit (null means no limit).
-- `pruneChainDatabase`: Database pruning strategy (set to 'none' here).
+
+In the Kadena network, a cut height represents the distributed state from a Chainweb node. 
+You can use the settings under the `cut` key to control the following cut properties:
+
+- fastForwardBlockHeightLimit to set a limit for fast-forwarding the block height (null means no limit).
+- fetchTimeout to set a tmeout for fetching cuts in microseconds.
+- initialBlockHeightLimit to set an initial block height limit (null means no limit).
+- pruneChainDatabase to set a database pruning strategy. You can specify the pruning strategy as none, headers, headers-checked, or full.
 
 ```yaml
   enableLocalTimeout: false
 ```
-Enables or disables local timeout.
+
+Set to true to enable local timeout.
 
 ```yaml
   fullHistoricPactState: true
 ```
-Determines whether to maintain full historical Pact state.
+Set to true to maintain full historical Pact state.
 
 ```yaml
   gasLimitOfBlock: 150000
@@ -61,12 +97,12 @@ Sets the gas limit for each block.
 ```yaml
   headerStream: false
 ```
-Enables or disables header streaming. Needed for indexing or streaming data.
+Set to true to enable header streaming for indexing or streaming data.
 
 ```yaml
   logGas: false
 ```
-Determines whether to log gas usage.
+Set to true to log gas usage.
 
 ```yaml
   mempoolP2p:
@@ -76,16 +112,17 @@ Determines whether to log gas usage.
       sessionTimeout: 300
     enabled: true
 ```
-Configures mempool P2P settings:
-- `maxSessionCount`: Maximum number of concurrent sessions.
-- `pollInterval`: Interval for polling (in seconds).
-- `sessionTimeout`: Session timeout (in seconds).
-- `enabled`: Enables or disables mempool P2P.
+You can use the settings under the `mempoolP2p` key to control the following peer-to-peer mempool properties:
+
+- maxSessionCount to set the maximum number of concurrent sessions.
+- pollInterval to set the interval for polling the mempool for pending transactions in seconds.
+- sessionTimeout to set the session timeout in seconds.
+- enabled to enable or disable the peer-to-peer mempool.
 
 ```yaml
   minGasPrice: 1.0e-8
 ```
-Sets the minimum gas price.
+Set the minimum gas price.
 
 ```yaml
   mining:
@@ -103,19 +140,18 @@ Sets the minimum gas price.
         predicate: keys-all
         public-keys: []
 ```
-Configures mining settings:
-- `coordination`: Settings for coordinated mining.
-- `nodeMining`: Settings for node mining (disabled here).
+You can use the settings under the `mining` key to control the coordinated mining and node mining properties.
+In this example, mining is disabled for the node.
 
 ```yaml
   moduleCacheLimit: 62914560
 ```
-Sets the module cache limit (in bytes).
+Set the module cache limit in bytes.
 
 ```yaml
   onlySyncPact: false
 ```
-Determines whether to only synchronize Pact data.
+Set to true to only synchronize Pact data.
 
 ```yaml
   p2p:
@@ -136,43 +172,44 @@ Determines whether to only synchronize Pact data.
     private: false
     sessionTimeout: 240
 ```
-Configures P2P network settings:
-- `bootstrapReachability`: Threshold for bootstrap node reachability.
-- `maxPeerCount`: Maximum number of peers.
-- `peer`: Specific peer settings including host address and port.
-- `peers`: List of known peers (empty here).
-- `private`: Whether the node is private.
+You can use the settings under the `p2p` key to control the following peer-to-peer properties:
+
+- bootstrapReachability to set a threshold for bootstrap node reachability.
+- maxPeerCount to set the maximum number of peers for the node to communicate with.
+- peer to define specific peer settings including host address and port.
+- peers to sepcify a list of known peers (empty here).
+- private to specify whether the node is private.
 
 ```yaml
   pactQueueSize: 2000
 ```
-Sets the size of the Pact queue.
+Set the size of the Pact queue.
 
 ```yaml
   preInsertCheckTimeout: 1000000
 ```
-Timeout for pre-insert checks (in microseconds).
+Set a timeout for pre-insert checks in microseconds.
 
 ```yaml
   readOnlyReplay: false
 ```
-Enables or disables read-only replay mode.
+Set to true to enable read-only replay mode.
 
 ```yaml
   reintroTxs: true
 ```
-Determines whether to reintroduce transactions.
+Set to true to allow transactions to be reintroduced.
 
 ```yaml
   reorgLimit: 480
 ```
-Sets the limit for chain reorganizations.
+Set the limit for chain reorganizations.
 
 ```yaml
   rosetta: false
   rosettaConstructionApi: false
 ```
-Enables or disables Rosetta API and Rosetta Construction API.
+Set to true to enable the Rosetta API and Rosetta Construction API.
 
 ```yaml
   serviceApi:
@@ -181,16 +218,17 @@ Enables or disables Rosetta API and Rosetta Construction API.
     port: 1848
     validateSpec: false
 ```
-Configures the service API:
-- `interface`: Network interface to bind to ('*' means all interfaces).
-- `payloadBatchLimit`: Maximum number of payloads in a batch.
-- `port`: Port for the service API.
-- `validateSpec`: Whether to validate API specifications.
+You can use the settings under the `serviceApi` key to control the following service API properties:
+
+- interface to specify the network interface to bind to ('*' means all interfaces).
+- payloadBatchLimit to set the maximum number of payloads in a batch.
+- port to specify the port number to use for the service API.
+- validateSpec to specify whether to validate API specifications.
 
 ```yaml
   syncPactChains: null
 ```
-Specifies which Pact chains to synchronize (null means all).
+Specify the Pact chains to synchronize (null means all).
 
 ```yaml
   throttling:
@@ -198,14 +236,25 @@ Specifies which Pact chains to synchronize (null means all).
     mempool: 20.0
     putPeer: 11
 ```
-Sets throttling limits for various operations.
+Set throttling limits for various operations.
 
-## Database and Logging Sections
+## Database settings
+
+The following database settings are defined as top-level properties.
 
 ```yaml
 databaseDirectory: null
 ```
-Specifies the database directory (null means use default).
+Specify the database directory to use (null means use default).
+
+```yaml
+resetChainDatabases: false
+```
+Set to true to reset chain databases on startup.
+
+## Logging settings
+
+The following settings are defined as properties under the `logging` key.
 
 ```yaml
 logging:
@@ -233,13 +282,9 @@ logging:
       handle: stdout
     enabled: false
 ```
-Configures logging settings:
-- `backend`: Log output settings (color, format, output handle).
-- `filter`: Log filtering rules.
-- `logger`: General logger settings including log level and queue size.
-- `telemetryBackend`: Settings for telemetry logging (disabled here).
+You can use the settings under the `logging` key to control the following logging properties:
 
-```yaml
-resetChainDatabases: false
-```
-Determines whether to reset chain databases on startup.
+- backend to control log output color, format, and location.
+- filter to set log filtering rules.
+- logger to set logging rules including log level and queue size.
+- telemetryBackend to enable and control telemetry logging.
