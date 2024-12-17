@@ -205,15 +205,3 @@ const command = async (functionName) => {
 command('(free.simplemodule.greet)').catch(console.error);
 
 ```
-
-## Tips for calling contract functions
-
-- **Use the correct chain ID**: Kadena is a multi-chain system. Ensure you're using the correct chain ID for your transaction.
-- **Gas management**: Always set appropriate gas limit and price to ensure your transaction is processed.
-- **Nonce handling**: For API calls, include a unique nonce to prevent duplicate transactions.
-- **Error handling**: Always check the response for any errors or unexpected results.
-- **Security**: Never share your private keys. When using API calls, ensure you're using a secure connection (https).
-
-Remember, these are simplified examples. In a production environment, you'd need to handle signing, error checking, and other details more robustly.
-
-For more detailed information on specific endpoints and their parameters, see the [API documentation](/api/pact-api).
