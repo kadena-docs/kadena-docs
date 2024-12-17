@@ -185,7 +185,7 @@ To download tagged source code:
 
 2. Download the compressed archive for your working environment:
 
-   ![Download source code](/assets/docs/chainweb-node-assets.png)
+   ![Download source code](/img/chainweb-node-assets.png)
 
 3. Unzip and extract the compressed archive by double-clicking or by running a command similar to the following:
 
@@ -415,7 +415,7 @@ To review the default node configuration:
    - Use corresponding command-line options to control node operations.
    
    For more information about editing configuration settings in the configuration file, see [Edit the configuration settings](#edit-the-configuration-settings).
-   For information about using command-line options to control node operations, see the [chainweb-node]() command-line reference.
+   For information about using command-line options to control node operations, see the [chainweb-node](/reference/chainweb-cli) command-line reference.
 
 ## Edit the configuration settings
 
@@ -425,7 +425,7 @@ For example, you can edit the configuration file to make the following types of 
 - Enable the backup API and specify the directory for backup files.
 - Connect the node to the Kadena test network instead of the Kadena main network.
 - Specify a directory for blockchain database files.
-- Ignore or connect to a subset of [bootstrap nodes]().
+- Ignore or connect to a subset of [bootstrap nodes](/).
 
 To edit the node configuration:
 
@@ -471,7 +471,7 @@ To start the node from the release binary or after building from the source, you
 
 The node immediately begins trying to synchronize state with other nodes in the network.
 If the network is correctly configured to allow communication, you should start seeing the block height for your node catching up with its peers.
-If you see errors or warning messages, you should review the [Troubleshooting]() section for potential causes and solutions.
+If you see errors or warning messages, you should review the [Troubleshooting](/guides/troubleshooting) section for potential causes and solutions.
 
 ### Start the node in a container
 
@@ -496,9 +496,9 @@ For example:
 docker run --publish 1789:1789 --publish 1848:1848 --entrypoint=/chainweb/chainweb-node ghcr.io/kadena-io/chainweb-node/ubuntu:latest --enable-backup-api --backup-directory /tmp/my-backups
 ```
 
-For more information about using command-line options to control node operations, see the [chainweb-node]() command-line reference.
+For more information about using command-line options to control node operations, see the [chainweb-node](/reference/chainweb-cli) command-line reference.
 
 After you start the node in the container, it immediately begins trying to synchronize state with other nodes in the network.
 If the network is correctly configured to allow communication, you should start seeing the block height for your node catching up with its peers.
-If you see errors or warning messages, you should review the [Troubleshooting]() section for potential causes and solutions.
+If you see errors or warning messages, you should review the [Troubleshooting](/guides/troubleshooting) section for potential causes and solutions or post a question on the Kadena Discord server [#infrastructure](https://discord.com/channels/502858632178958377/1051827506279370802) channel.
 
