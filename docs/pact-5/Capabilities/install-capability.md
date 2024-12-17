@@ -1,3 +1,4 @@
+# install-capability
 
 Use `install-capability` to specify and provision a managed capability. 
 Managed capabilities are defined in `defcap` declarations that include the `@managed` keyword. The `@managed` keyword designates a single parameter to be managed by a specified management function.
@@ -18,6 +19,7 @@ The management function for this capability would be:
 ```pact
 (defun FOO-mgr:integer (managed:integer requested:integer) ...)
 ``` 
+
 
 Any capability that has static unmanaged parameters will invoke the management function with the current managed value and that of the requested capability. 
 The function should perform whatever logic, presumably linear, to validate the request, and return the new managed value representing the `balance` of the request.
