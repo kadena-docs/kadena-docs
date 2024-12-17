@@ -104,7 +104,7 @@ You’ll work with three main files:
    ```pact
      (defschema user
        nickname:string
-       keyset:keyset)
+       keyset:guard)
      
      (deftable users:{user})
    ```
@@ -112,7 +112,7 @@ You’ll work with three main files:
 4. Define the `create-user` function that `operate-admin` keyset owners can execute to add new users to the `auth` module.
 
    ```pact
-     (defun create-user (id nickname keyset)
+     (defun create-user (id:string nickname:string keyset:guard)
        (enforce-keyset "free.operate-admin")
        (insert users id {
          "keyset": (read-keyset keyset),
@@ -164,7 +164,7 @@ You’ll work with three main files:
 1. Define the `create-account` function to set up a new account, ensuring the user is authorized.
 
    ```pact
-     (defun create-account (userId initial-balance)
+     (defun create-account (userId:string initial-balance:decimal)
        (enforce-user-auth userId)
        (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
        (insert accounts-table userId
@@ -175,7 +175,7 @@ You’ll work with three main files:
 1. Define the `get-balance` function to retrieve the balance for an account from the database for an authorized user.
    
    ```pact
-     (defun get-balance (userId)
+     (defun get-balance (userId:string)
        (enforce-user-auth 'admin)
        (with-read accounts-table userId
          { "balance":= balance }
@@ -186,7 +186,7 @@ You’ll work with three main files:
 2. Define the `pay` function to allow for transferring funds between accounts.
 
    ```pact
-     (defun pay (from to amount)
+     (defun pay (from:string to:string amount:decimal)
        (with-read accounts-table from { "balance":= from-bal }
          (enforce-user-auth from)
          (with-read accounts-table to { "balance":= to-bal }
