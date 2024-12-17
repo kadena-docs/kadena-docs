@@ -17,7 +17,7 @@ This glossary defines and explains concepts and terminology that are specific to
 
 An **account** is an entry in the Kadena `coin` contract ledger—a key-value store—that consists of:
 
-- An account name in the form of a string of 3 to 256 LATIN-1 characters (key).
+- An account name in the form of a string of 3 to 256 LATIN-1 characters (the key row in the `coin-table` database table).
 - An account value that holds the decimal balance and a keyset that governs the account.
 
 ```pact
@@ -28,7 +28,7 @@ The keyset specifies the signing requirements for the account and consists of on
 
 ### address
 
-In the Ethereum network, an address serves as both an identity and an account. 
+On the Ethereum network, an address serves as both an identity and an account. 
 
 The address is derived from the last 20 bytes of the ECDSA public key that controls the account prepended with 0x before the hashed key. 
 For example, you might have an address similar to 0x71C7656EC7ab88b098defB751B7401B5f6d8976F on Ethereum. 
@@ -37,6 +37,10 @@ You must have an address—sometimes referred to as your wallet address—to sen
 Contracts deployed on the Ethereum network also send and receive transactions using an address.
 The functions in the contract are executed when the contract receives a transaction request.
 Contract addresses use the same format as wallet addresses.
+
+On the Kadena network, a **principal account name** is roughly equivalent to an Ethereum address because it establishes a unique identity.
+For Ethereum, the address establishes a one-to-one relationship with a public and private key pair.
+For Kadena, principal account names consist of a letter followed by a colon (:) and a public key or hash that uniquely identifies the account owner.
 
 ### application-specific integrated circuit (ASIC)
 
