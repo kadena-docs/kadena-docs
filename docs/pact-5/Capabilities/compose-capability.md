@@ -1,3 +1,4 @@
+# compose-capability
 
 Use `compose-capability` to compose and grant capabilities in a nested structure to control the scope of how the capabilities are applied.
 By convention, capabilities are defined using all uppercase letters.

@@ -1,3 +1,4 @@
+# with-capability
 
 Use `with-capability` to apply the access to a specific capability to execute a body of code.
 This function ensures that an elevated privilege—defined as a capability using a `defcap` code block—is present during the execution of the provided body of code. 
