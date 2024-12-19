@@ -48,139 +48,423 @@ To get started:
 
    If you list the contents of this directory, you'll see the following files:
 
-   - `starter-loan.pact` provides a starting point with the framework for building the `loans` module.
-   - `loans.pact` provides the final code for the `loans` module.
-   - `loans.repl` includes test cases for verifying module functions.
+   - `starter-loans.pact` provides a starting point with the framework for building the `loans` module.
+   - `project-steps` provides solutions and test cases for completing each part of the coding project.
+   - `finished-contracts` provides the final code for the `loans.pact` module and the final `loans.repl` test cases for verifying module functions.
 
-4. Open and review the `starter-loan.pact` file.
+4. Open and review the `starter-loans.pact` file.
 
    This file outlines the tasks you need to complete for the _Loans_ project.
-   Follow the embedded instructions to work through the coding challenges on your own or use the detailed instructions provided in the next sections.
+   Follow the embedded instructions to work through the coding challenges on your own or use the detailed instructions and code provided in the next sections.
 
-## Define the module administrator
+## Define the module and keyset
 
-1. Define keysets in the `auth.pact` file is to define the keysets that control the module's access and operation.
+As you might have seen in other coding projects, the first step in creating a new module requires defining or identifying a namespace and an administrative owner for the module.
+
+To start the module declaration:
+
+1. Open the `starter-loans.pact` file in your code editor and save it as `loans.pact`.
+
+1. Specify the namespace and a define a keyset for the module to use.
 
    ```pact
-   ;; define-keysets
-   (define-keyset "free.module-admin" (read-keyset "module-admin-keyset"))
-   (define-keyset "free.operate-admin" (read-keyset "module-operate-keyset"))
+   (namespace "free")
+     (define-keyset "free.loans-admin" (read-keyset "loan-admin-keyset"))
    ```
 
-   These keysets will help manage access control throughout the contract.
-
-1. Create the `auth` module to handle user authentication and management.
-   
-   ```pact
-   (module auth "free.module-admin"
-   ```
-
-1. Define the schema and table for managing user data.
+1. Define the `loans` module governed by the `LOAN_ADMIN` capability and enforced to use the free.loans-admin keyset:
 
    ```pact
-     (defschema user
-       nickname:string
-       keyset:keyset)
-     
-     (deftable users:{user})
-   ```
+   (module loans LOAN_ADMIN
+      (defcap LOAN_ADMIN ()
+        (enforce-guard "free.loans.loans-admin"))
 
-2. Define the `create-user` function that `operate-admin` keyset owners can execute to add new users to the `auth` module.
-
-   ```pact
-     (defun create-user (id nickname keyset)
-       (enforce-keyset "free.operate-admin")
-       (insert users id {
-         "keyset": (read-keyset keyset),
-         "nickname": nickname
-       })
-     )
-   ```
-
-3. Define the `enforce-user-auth` function that ensures a user is authorized for a specific operation.
-
-   ```pact
-     (defun enforce-user-auth (id)
-       (with-read users id { "keyset":= k }
-         (enforce-keyset k)
-       )
-     )
-   ```
-
-4. Complete the `auth` module by closing the module declaration and create the table.
-
-   ```pact
    )
-   (create-table users)
    ```
-
-## Define the payments module
-
-1. Define a keyset in the `payments.pact` file that will manage this module.
-
-   ```pact
-   (define-keyset "free.admin-keyset" (read-keyset "admin-keyset"))
-   ```
-
-1. Start the `payments` module declaration and use the `auth` module.
-
-   ```pact
-   (module payments "free.admin-keyset"
    
-     (use auth)
-   ```
+2. Create a `loans.repl` file in you code editor to prepare the environment for testing the `loans` module.
 
-1. Define the schema and table for account management.
-
-   ```pact
-     (defschema accounts balance:decimal)
-     (deftable accounts-table:{accounts})
-   ```
-
-1. Define the `create-account` function to set up a new account, ensuring the user is authorized.
+   For example, add test keys and data to define the namespace in your working environment and to load the module:
 
    ```pact
-     (defun create-account (userId initial-balance)
-       (enforce-user-auth userId)
-       (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
-       (insert accounts-table userId
-         { "balance": initial-balance })
+   (env-keys ["loan-admin-keyset"])
+   (env-data { "loans-admin":
+     { "keys": ["loan-admin-keyset"], "pred": "keys-all" } })
+   
+   (begin-tx "Define namespace")
+     (define-namespace "free" (read-keyset "loans-admin" ) (read-keyset "loans-admin" ))
+   (commit-tx)
+   
+   (begin-tx)
+     (load "loans.pact")
+   (commit-tx)
+   ```
+
+## Define the schemas and tables
+
+To define the schemas and tables:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Define the `loan` schema and the table that uses the `loan` schema.
+
+   ```pact
+     (defschema loan
+        loanName:string
+        entityName:string
+        loanAmount:integer
+        status:string
+     )
+
+     (deftable loans:{loan})
+   ```
+
+2. Define the `loan-history` schema and the table that uses the `loan-history` schema.
+
+   ```pact
+     (defschema loan-history
+        loanId:string
+        buyer:string
+        seller:string
+        amount:integer
+     )
+     
+     (deftable loan-history-table:{loan-history})
+   ```
+
+2. Define the `loan-inventory` schema and the table that uses the `loan-inventory` schema.
+
+   ```pact
+     (defschema loan-inventory
+       balance:integer
+     )
+
+     (deftable loan-inventory-table:{loan-inventory})
+   ```
+
+## Define constants
+
+To define the constants for loan status:
+
+1. Define an `INITIATED` constant that contains the status description for loans that have been initiated using the "initiated" comment.
+   
+   ```pact
+   (defconst INITIATED "initiated")
+   ```
+
+2. Define an `ASSIGNED` constant that contains the status description for loans that have been assigned using the "assigned" comment.
+   
+   ```pact
+   (defconst ASSIGNED "assigned")
+   ```
+
+## Define functions
+
+For this coding project, the `loans` module provides ten functions to provide comprehensive features for loan management.
+You can define them in any order.
+
+- `inventory-key` takes `loanId:string` and `owner:string`to create a composite key of `loanId:owner`.
+- `create-a-loan` takes `loanId`, `loanName`, `entityName`, and `loanAmount` to create a loan entry.
+- `assign-a-loan` takes `txid`, `loanId`, `buyer`, and `amount` to assign a loan.
+- `sell-a-loan` takes `txid`, `loanId`, `buyer`, `seller`, and `amount` to sell a loan.
+- `read-a-loan` takes `loanId` to read values from the `loans-table` for a given `loanId`.
+- `read-loan-tx` maps the values from the `loans` table to  the txids in the "loans" table at value 0.
+- `read-all-loans` select all values from the `loans-table` with `constantly` set to true.
+- `read-inventory-pair` takes `key` to set `inventory-key` and `balance` the provided `key`.
+- `read-loan-inventory` maps the value of `read-inventory-pair` to the keys of the `loan-inventory-table`.
+- `read-loans-with-status` takes `status` to select all values from the `loans-table` where `status` equals the provided `status`.
+
+### Define the inventory-key function
+
+To define the `inventory-key` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `inventory-key` function definition with the keyword `defun` and add the parameters `loanId:string` `owner:string`.
+   
+   ```pact
+   (defun inventory-key (loanId:string owner:string)
+   
+   )
+   ```
+
+3. Create a composite key from the `owner` and `loanId` in the format `loanId:owner`.
+   
+   ```pact
+   (defun inventory-key (loanId:string owner:string)
+      (format "{}:{}" [loanId owner])
+   )
+   ```
+
+### Define the create-a-loan function
+
+To define the `create-a-loan` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `create-a-loan` function with the parameters `loanId`, `loanName`, `entityName`, and `loanAmount`.
+   
+3. Insert the values for the new loan `loanId` into the `loans` table.
+   
+   ```pact
+   (defun create-a-loan (loanId:string loanName:string entityName:string loanAmount:integer)
+     (insert loans loanId {
+       "loanName":loanName,
+       "entityName":entityName,
+       "loanAmount":loanAmount,
+       "status":INITIATED
+      })
+   )
+   ```
+
+4. Insert the values for a new loan into the `loan-inventory` table.
+   
+   ```pact
+   (defun create-a-loan (loanId:string loanName:string entityName:string loanAmount:integer)
+     (insert loans loanId {
+        "loanName":loanName,
+        "entityName":entityName,
+        "loanAmount":loanAmount,
+        "status":INITIATED
+     })
+
+     (insert loan-inventory-table (inventory-key:string loanId:string entityName:string){
+        "balance": loanAmount
+     })
+   )
+   ```
+
+### Define the assign-a-loan function
+
+To define the `assign-a-loan` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `assign-a-loan` function with the parameters `txid`, `loanId`, `buyer`, and `amount`.
+
+3. Read from the `loans` table using `loanId` and bind variables to the column values.
+
+   ```pact
+   (defun assign-a-loan (txid loanId buyer amount)
+     (with-read loans loanId {
+       "entityName":= entityName,
+       "loanAmount":= issuerBalance
+      }
+    
      )
    ```
 
-1.  Define the `get-balance` function to retrieve the balance for an account, ensuring authorization.
-
+1. Insert values into `loan-history-table` using the value of the `txid` parameter.
+   
    ```pact
-     (defun get-balance (userId)
-       (enforce-user-auth 'admin)
-       (with-read accounts-table userId
-         { "balance":= balance }
-         balance)
+     (insert loan-history-table txid {
+       "loanId":loanId,
+       "buyer":buyer,
+       "seller":entityName,
+       "amount": amount}
      )
    ```
-2. Define the `pay` function to allow for transferring funds between accounts.
-
+ 
+1. Insert values into the `loan-inventory-table` with the parameters `inventory-key`, `loanId`, and `buyer`.
+    
    ```pact
-     (defun pay (from to amount)
-       (with-read accounts-table from { "balance":= from-bal }
-         (enforce-user-auth from)
-         (with-read accounts-table to { "balance":= to-bal }
-           (enforce (> amount 0.0) "Negative Transaction Amount")
-           (enforce (>= from-bal amount) "Insufficient Funds")
-           (update accounts-table from { "balance": (- from-bal amount) })
-           (update accounts-table to { "balance": (+ to-bal amount) })
-           (format "{} paid {} {}" [from to amount])
-         )
-       )
-     )
+     (insert loan-inventory-table (inventory-key loanId buyer) {
+       "balance":amount
+      })
+
+1. Update the `loan-inventory-table` for the row matching the parameters `inventory-key`, `loanId`, and `entityName` with the new balance of the issuer.
+   
+   ```pact
+     (update loan-inventory-table (inventory-key loanId entityName){
+       "balance": (- issuerBalance amount)
+      }))
+   ```
+   
+2. Update the `status` in the `loans` table for the specified `loanId`.
+   
+   ```pact
+     (update loans-table loanId {
+      "status": ASSIGNED
+      })
+    )
    ```
 
-1. Complete the `payments` module by closing the module declation and create the table.
+To test the functions you've defined so far:
+
+1. Add the following lines to the end of the loans.pact file, after the module declaration:
+   
+   ```pact
+   (create-table loans)
+   (create-table loan-inventory-table)
+   (create-table loan-history-table)
+   ```
+
+2. Open the `loans.repl` file and add transaction for testing the functions you've defined in `loans` module:
+   
+   ```pact
+   (begin-tx "Test inventory-key function")
+     (inventory-key "loanId-1" "Pistolas")
+   (commit-tx)
+   
+   (begin-tx "Test create-a-loan function")
+     (create-a-loan "loanId-1" "Pistolas" "GunnComm" 11)
+   (commit-tx)
+   
+   (begin-tx "Test assign-a-loan function")
+     (assign-a-loan "txid-1" "loanId-1" "buyer1" 10000) ;; loanId, buyer, amount
+   (commit-tx)   
+   ```
+
+7. Open a terminal shell on your computer and test execution by running the following command:
+   
+   ```bash
+   pact --trace loans.repl 
+   ```
+   
+   You should see that the transactions are successful with output similar to the following:
+   
+   ```pact
+   ...
+   loans.pact:4:3:Trace: Loaded module free.loans, hash pVikIOUKDBdHSEe0quXkDWFMTLAB7VB6wuOZ388blxs
+   loans.pact:92:0:Trace: TableCreated
+   loans.pact:93:0:Trace: TableCreated
+   loans.pact:94:0:Trace: TableCreated
+   loans.repl:11:2:Trace: loanId-1:Pistolas
+   loans.repl:12:2:Trace: Write succeeded
+   loans.repl:13:2:Trace: Write succeeded
+   loans.repl:14:0:Trace: Commit Tx 1
+   Load successful
+   ```
+
+### Define the sell-a-loan function
+
+To define the `sell-a-loan` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `sell-a-loan` function with the parameters `txid`, `loanId`, `buyer`, `seller`, and `amount`.
+
+3. Read from the `loan-inventory-table` table using the parameters `inventory-key`, `loanId`, and `seller` and bind `balance` to value of `prev-seller-balance`.
+
+   ```pact
+     (defun sell-a-loan (txid loanId buyer seller amount)
+       (with-read loan-inventory-table (inventory-key loanId seller)
+         {"balance":= prev-seller-balance}
+1. Read from the `loan-inventory-table` using the  parameters `inventory-key`, `loanId`, and `buyer`, assign balance to 0, and bind `balance` to value of `prev-buyer-balance`.
+   
+   ```pact
+     (with-default-read loan-inventory-table (inventory-key loanId buyer)
+         {"balance" : 0}
+         {"balance":= prev-buyer-balance}
+   ```
+
+1. Insert values into the `loan-history-table` at the given `txid`.
+   
+   ```pact
+     (insert loan-history-table txid {
+        "loanId":loanId,
+        "buyer":buyer,
+        "seller":seller,
+        "amount": amount
+      })
+   ```
+    
+1. Update the `loan-inventory-table` with the parameters `inventory-key`, `loanId`, and `seller`, and set the `balance` to the `previous-seller-balance` minus the `amount`.
+   
+   ```pact
+     (update loan-inventory-table (inventory-key loanId seller)
+       {"balance": (- prev-seller-balance amount)})
+   ```
+
+1. Write to the `loan-inventory-table` with the parameters `inventory-key`, `loanId`, and `buyer`, set the `balance` to the `previous-buyer-balance` plus the `amount`.
+
+   
+   ```pact
+     (write loan-inventory-table (inventory-key loanId buyer)
+       {"balance": (+ prev-buyer-balance amount)})))
+      )
+   ```
+
+### Define the read-a-loan function
+
+To define the `read-a-loan` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `read-a-loan` function with the parameter `loanId`.
+
+3. Read all of the values from the `loans` table at the given `loanId`.
+   
+   ```pact
+     (defun read-a-loan (loanId:string)
+       (read loans loanId))
+   ```
+
+### Define the read-loan-tx function
+
+To define the `read-loan-tx` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `read-loan-tx` function with no parameters.
+
+3. Map the values of the transaction log in the `loans` table to the `txids` in the `loans` table at value 0.
+
+   ```pact
+     (defun read-loan-tx ()
+       (map (txlog loans) (txids loans 0)))
+   ```
+
+### Define the read-all-loans function
+
+To define the `read-all-loans` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `read-all-loans` function with no parameters.
+
+1. Select all values from the `loans` table that have constantly set to true.
+   
+   ```pact
+     (defun read-all-loans ()
+       (select loans (constantly true)))
+   ```
+
+### Define the read-inventory-pair function
+
+To define the `read-inventory-pair` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `read-inventory-pair` function with no parameters.
+
+### Define the read-loan-inventory function
+
+To define the `read-loan-inventory` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `read-loan-inventory` function with no parameters.
+
+
+### Define the read-loans-with-status function
+
+To define the `read-loans-with-status` function:
+
+1. Open the `loans.pact` file in your code editor.
+
+2. Start the `read-loans-with-status` function with no parameters.
+
+## Close the module declaration
+
+1. Complete the `payments` module by closing the module declaration and create the table.
 
    ```pact
    )
    (create-table accounts-table)
    ```
+
+
 
 ## Test interactions with the REPL File
 
