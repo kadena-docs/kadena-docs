@@ -10,7 +10,7 @@ description: "There are two types of transaction in Pact smart contracts: transa
 There are two types of transaction in Pact smart contracts: 
 
 - Transactions that execute in a single step, identified in Pact code as `exec` transactions.
-- Transactions that consist of more than one step, identified in Pact code as `cont` transactions.
+- Transactions that continue a sequence with more than one step, identified in Pact code as `cont` transactions.
 
 Most transactions execute as a single step with a single message that is sent to a blockchain node to be evaluated by Pact.
 The execution of the code in the message is _atomic_ and the transaction succeeds as a complete unit, or doesn't succeed at all.
