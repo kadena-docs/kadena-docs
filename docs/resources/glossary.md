@@ -140,7 +140,8 @@ determined by the total amount of gas multiplied by the gas price.&#x20;
 
 ### gas station
 
-A gas station is an autonomous `coin` contract account that pays transaction fees on behalf of users to simplify onboarding for applications and reduce friction for users who are unfamiliar with blockchain technology, digital wallets, managing keys, and signing transactions.
+A gas station is a type of smart contract that manages an autonomous `coin` contract account that can be used to pay transaction fees on behalf of users.
+Implementing a gas station contract simplifies onboarding for applications and reduces friction for users who are unfamiliar with blockchain technology, digital wallets, managing keys, and signing transactions.
 On the Kadena network, gas stations enable developers to abstract transaction costs using a secure capability-guarded principal account. 
 
 ## F
