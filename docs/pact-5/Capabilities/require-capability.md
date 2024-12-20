@@ -1,3 +1,4 @@
+# require-capability
 
 Use `require-capability` to require a specific `CAPABILITY` to be granted before allowing the current body of code to be executed.
 If the required capability isn't found in the environment, the code fails to execute.

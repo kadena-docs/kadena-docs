@@ -19,7 +19,7 @@ Note that regardless of the method you use to create new accounts, accounts must
 
 ## Using a YAML request and curl
 
-One way you can create a new account without transferring any assets is by calling the `create-account` function that's defined in the `coin` contract deployed on the Kadena public main or test network.
+One way you can create a new account without transferring any assets is by calling the `create-account` function that's defined in the `coin` contract deployed on the Kadena development, test, or main network.
 To make this call, you need to know the following information:
 
 -  The **account name** for the account you want to create.
@@ -27,8 +27,7 @@ To make this call, you need to know the following information:
 -  The account **guard** for the account you want to create.
 
 For this example, you can create the request using the YAML execution file format, convert the request to JSON, then submit the API request using a `curl` command.
-
-You could also submit the request using Postman or other tools than enable you to call API endpoints.
+You could also submit the request using Postman or other tools that enable you to call API endpoints.
 
 To create a new account:
 
@@ -139,7 +138,13 @@ To add an account balance using `kadena-cli`:
    The account configuration "sf-devnet" has been saved in /Users/pistolas/.kadena/accounts/sf-devnet.yaml
    ```
 
-## Using Kadena client TypeScript libraries
+## Using the Kadena client library
+
+If you're familiar with JavaScript or TypeScript, you can use the `@kadena/client` library to write scripts for common tasks. 
+The `@kadena/client` library implements a TypeScript-based API for interacting with smart contracts and Chainweb nodes. 
+The library provides functions that simplify building transactions with Pact commands and connecting to blockchain nodes.
+
+You should note that creating the client connection is separate from using the `Pact.builder` function to construct transactions.
 
 For an example of creating a new account using the Kadena client (@kadena) library functions in a TypeScript program, see
 the [create-account](https://github.com/kadena-community/voting-dapp/blob/main/snippets/create-account.ts) sample code.

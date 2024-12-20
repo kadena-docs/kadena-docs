@@ -2,6 +2,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import React from 'react';
 import Layout from '@theme/Layout';
 import { DocSearch } from '@docsearch/react';
+import { Analytics } from "@vercel/analytics/react"
 
 import KadenaBlockTemp from '/static/img/kadena-docs-block-temp.jpg';
 
@@ -12,7 +13,7 @@ export default function Home(): JSX.Element {
    return (
 
       <Layout description="">
-
+               <Analytics />
          <header className='home-header'>
 
             <div className='home-header-gap left'></div>

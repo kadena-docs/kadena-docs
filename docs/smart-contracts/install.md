@@ -30,14 +30,16 @@ To prepare for installation, you should verify your development environment meet
 
 ## Pact versions
 
-You can choose to download and install either the latest, stable version of Pact, version 4.x, or the development version of Pact Core, version 5 (beta) for Linux or macOS computers.
+You can choose to download and install either the latest, stable version of Pact, version 4.x, or the Pact core revision, version 5 (beta) for Linux or macOS computers.
 
 - Pact 4.13 is the latest stable release of the Pact smart contract language and interactive interpreter for macOS.
-- Pact Core is a reinvention of the Pact language that focuses on enhanced scalability, maintainability, and performance.
-  Pact Core enables sustainable growth of Pact features within the Kadena ecosystem by offering more modular and maintainable internal structures to better support community development and enhancements to the language and components that rely on it.
-  For more information about Pact Core, see the following resources:
+- Starting with Pact 5, the Pact core—including the command-line interpreter, built-in functions, and related components—have undergone a major transformation. 
+  This reinvention of the Pact language retains functional parity with previous Pact releases, but with significant changes that enhance the scalability, maintainability, and performance of the language.
+  With the release of Pact 5, the Pact core is also positioned for more sustainable growth of Pact features within the Kadena ecosystem. 
+  By offering more modular and maintainable internal structures, Pact 5 can now better support community participation and enhancements to the language and components that rely on it.
+  For more information about Pact 5, see the following resources:
 
-  - [Pact Core repository](https://github.com/kadena-io/pact-5)
+  - [Pact 5 repository](https://github.com/kadena-io/pact-5)
   - [Pact 5 Beta: Improving Developer, Miner, and User Experience](https://www.kadena.io/perspectives/pact-5-beta)
 
 ## Installation options
@@ -49,7 +51,7 @@ The installation instructions in this section describe how to install Pact local
 
 To build Pact binaries directly from source, see the instructions in the appropriate repository:
 
-- [Pact Core](https://github.com/kadena-io/pact-5/releases/tag/development-latest)
+- [Pact 5](https://github.com/kadena-io/pact-5/releases/tag/development-latest)
 - [Pact 4.x](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source)
 
 <!--

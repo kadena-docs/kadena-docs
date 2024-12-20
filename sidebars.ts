@@ -48,6 +48,7 @@ const sidebars: SidebarsConfig = {
               id: 'guides/guides',
          },
          items: [
+            'guides/howto-quick-ref',
             {
                type: 'category',
                label: 'Accounts',
@@ -55,15 +56,14 @@ const sidebars: SidebarsConfig = {
                 'guides/accounts/howto-create-accounts',
                 'guides/accounts/howto-fund-accounts',
                 'guides/accounts/howto-get-balances',
-                'guides/accounts/howto-rotate-owners',
-                'guides/accounts/howto-safe-transfers',
+                //'guides/accounts/howto-rotate-owners',
                ],
             },
             {
                type: 'category',
                label: 'Contracts',
                items: [
-                'guides/contracts/howto-read-state',
+                //'guides/contracts/howto-read-state',
                 'guides/contracts/howto-deploy-contracts',
                 'guides/contracts/howto-call-functions',
                ],
@@ -75,7 +75,9 @@ const sidebars: SidebarsConfig = {
                 'guides/transactions/howto-construct-tx',
                 'guides/transactions/howto-sign-submit-tx',
                 'guides/transactions/howto-check-tx-status',
-                'guides/transactions/howto-verify-signatures',
+                'guides/transactions/howto-namespace-tx',
+                'guides/transactions/howto-safe-transfers',
+                //'guides/transactions/howto-verify-signatures',
                ],
             },
             {
@@ -86,6 +88,7 @@ const sidebars: SidebarsConfig = {
                    id: 'guides/nodes/nodes',
               },
                  items: [
+                     'guides/nodes/howto-node-operator',
                      'guides/nodes/compact-databases',
                      'guides/nodes/configure',
                      'guides/nodes/monitoring',
@@ -93,6 +96,7 @@ const sidebars: SidebarsConfig = {
            },
            'guides/dev-kadena-cli',
            'guides/chainweaver',
+           'guides/troubleshooting',
          ],
       },
       {
@@ -466,7 +470,8 @@ const sidebars: SidebarsConfig = {
               'coding-projects/transfers',
               'coding-projects/rotate-auth',
               //'coding-projects/pact-testing',
-              //'coding-projects/import-functions',
+              'coding-projects/contract-interactions',
+              'coding-projects/gas-station',
               //'coding-projects/loans',
               ],
     },

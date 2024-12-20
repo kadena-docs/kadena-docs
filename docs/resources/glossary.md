@@ -17,7 +17,7 @@ This glossary defines and explains concepts and terminology that are specific to
 
 An **account** is an entry in the Kadena `coin` contract ledger—a key-value store—that consists of:
 
-- An account name in the form of a string of 3 to 256 LATIN-1 characters (key).
+- An account name in the form of a string of 3 to 256 LATIN-1 characters (the key row in the `coin-table` database table).
 - An account value that holds the decimal balance and a keyset that governs the account.
 
 ```pact
@@ -28,7 +28,7 @@ The keyset specifies the signing requirements for the account and consists of on
 
 ### address
 
-In the Ethereum network, an address serves as both an identity and an account. 
+On the Ethereum network, an address serves as both an identity and an account. 
 
 The address is derived from the last 20 bytes of the ECDSA public key that controls the account prepended with 0x before the hashed key. 
 For example, you might have an address similar to 0x71C7656EC7ab88b098defB751B7401B5f6d8976F on Ethereum. 
@@ -37,6 +37,10 @@ You must have an address—sometimes referred to as your wallet address—to sen
 Contracts deployed on the Ethereum network also send and receive transactions using an address.
 The functions in the contract are executed when the contract receives a transaction request.
 Contract addresses use the same format as wallet addresses.
+
+On the Kadena network, a **principal account name** is roughly equivalent to an Ethereum address because it establishes a unique identity.
+For Ethereum, the address establishes a one-to-one relationship with a public and private key pair.
+For Kadena, principal account names consist of a letter followed by a colon (:) and a public key or hash that uniquely identifies the account owner.
 
 ### application-specific integrated circuit (ASIC)
 
@@ -228,11 +232,20 @@ puzzle scales with the total hash power of the entire network, the hash rate.
 The costs of mining are well documented, both in the exponential increase in
 computing power to continue mining and the detrimental environmental impact.
 
+### module
+
+A module is the fundamental logical unit for programs used in Pact smart contracts.
+All of the functions and data definitions that are required to complete a set of related business operations are defined within the context of a module.
+For simple contracts, a single module often contains all of the code necessary to create an application or a service. 
+
 ## N
 
 ### namespace
 
-A namespace is a static prefix that establishes a private ownership boundary for the contracts, modules, and keyset definitions that you control.
+A namespace is a logical ownership boundary for smart contracts that are controlled by a specific entity.
+Smart contracts include a namespace declaration to provide a unique prefix for everything—including modules, functions, keysets, and interfaces—defined within the namespace scope. 
+In a local development network, you can define custom namespaces.
+In public networks, like the Kadena test and main networks, you must use an existing namespace, like "free" or "user", or register a principal namespace as a static prefix and ownership boundary for the contracts, modules, and keyset definitions that you control.
 
 ### non-fungible token (NFT)
 
