@@ -286,55 +286,10 @@ To define the `assign-a-loan` function:
      (update loans-table loanId {
       "status": ASSIGNED
       })
-    )
    ```
 
-To test the functions you've defined so far:
-
-1. Add the following lines to the end of the loans.pact file, after the module declaration:
-   
-   ```pact
-   (create-table loans)
-   (create-table loan-inventory-table)
-   (create-table loan-history-table)
-   ```
-
-2. Open the `loans.repl` file and add transaction for testing the functions you've defined in `loans` module:
-   
-   ```pact
-   (begin-tx "Test inventory-key function")
-     (inventory-key "loanId-1" "Pistolas")
-   (commit-tx)
-   
-   (begin-tx "Test create-a-loan function")
-     (create-a-loan "loanId-1" "Pistolas" "GunnComm" 11)
-   (commit-tx)
-   
-   (begin-tx "Test assign-a-loan function")
-     (assign-a-loan "txid-1" "loanId-1" "buyer1" 10000) ;; loanId, buyer, amount
-   (commit-tx)   
-   ```
-
-7. Open a terminal shell on your computer and test execution by running the following command:
-   
-   ```bash
-   pact --trace loans.repl 
-   ```
-   
-   You should see that the transactions are successful with output similar to the following:
-   
-   ```pact
-   ...
-   loans.pact:4:3:Trace: Loaded module free.loans, hash pVikIOUKDBdHSEe0quXkDWFMTLAB7VB6wuOZ388blxs
-   loans.pact:92:0:Trace: TableCreated
-   loans.pact:93:0:Trace: TableCreated
-   loans.pact:94:0:Trace: TableCreated
-   loans.repl:11:2:Trace: loanId-1:Pistolas
-   loans.repl:12:2:Trace: Write succeeded
-   loans.repl:13:2:Trace: Write succeeded
-   loans.repl:14:0:Trace: Commit Tx 1
-   Load successful
-   ```
+If you want to test the functions that you've defined so far, you can update the `loans.pact` file to create the tables and the `loans.repl` file with transactions that call the functions.
+If you aren't sure how to make these changes, continue defining the functions, then follow the steps in [Test functions in the REPL](#test-functions-in-the-repl).
 
 ### Define the sell-a-loan function
 
@@ -423,7 +378,7 @@ To define the `read-all-loans` function:
 
 2. Start the `read-all-loans` function with no parameters.
 
-1. Select all values from the `loans` table that have constantly set to true.
+1. Select all values from the `loans` table that have `constantly` set to true.
    
    ```pact
      (defun read-all-loans ()
@@ -436,7 +391,18 @@ To define the `read-inventory-pair` function:
 
 1. Open the `loans.pact` file in your code editor.
 
-2. Start the `read-inventory-pair` function with no parameters.
+2. Start the `read-inventory-pair` function with the parameter `key`.
+
+3. Set the `inventory-key` to the provided `key`.
+
+4. Set the `balance` value of the balance in the `loan-inventory-table` to the value of the `key`. 
+
+   ```pact
+     (defun read-inventory-pair (key)
+       {"inventory-key":key,
+        "balance": (at 'balance (read loan-inventory-table key))}
+     )
+   ```
 
 ### Define the read-loan-inventory function
 
@@ -446,6 +412,12 @@ To define the `read-loan-inventory` function:
 
 2. Start the `read-loan-inventory` function with no parameters.
 
+3. Map the value of the `read-inventory-pair` to the `keys` in the `loan-inventory-table`.
+   
+   ```pact
+   (defun read-loan-inventory ()
+     (map (read-inventory-pair) (keys loan-inventory-table)))
+   ```
 
 ### Define the read-loans-with-status function
 
@@ -453,75 +425,134 @@ To define the `read-loans-with-status` function:
 
 1. Open the `loans.pact` file in your code editor.
 
-2. Start the `read-loans-with-status` function with no parameters.
+2. Start the `read-loans-with-status` function that takes the parameter `status`.
 
-## Close the module declaration
+3. Select all values from the `loans` table where the status equals the `status` parameter.
+   
+   ```pact
+   (defun read-loans-with-status (status)
+     (select loans-table (where "status" (= status)))
+   ```
 
-1. Complete the `payments` module by closing the module declaration and create the table.
+## Complete the module declaration
+
+Complete the `loans` module by closing the module declaration and create the tables.
+
+To complete the `loans` module:
+
+1. Finish the module declaration with a closing parenthesis, if you haven't already done so.
 
    ```pact
    )
    (create-table accounts-table)
    ```
 
-
-
-## Test interactions with the REPL File
-
-1. Create a transaction in the `payments.repl` file that loads the `auth.pact` module.
+2. Create the tables defined for the module declaration, if you haven't already done so.
 
    ```pact
-   (begin-tx)
-     (load "auth.pact")
+   (create-table loans)
+   (create-table loan-inventory-table)
+   (create-table loan-history-table)
+   ```
+
+## Test functions in the REPL
+
+To test the loans module, you need to add transactions to the `loans.repl` file.
+
+To test the functions in the `loans.pact` file:
+
+1. Open the `loans.repl` file.
+
+2. Add a transaction that loads the `loans.pact` file and calls the functions that update loan tables similar to the following:
+
+   ```pact
+   (begin-tx "Call functions that update loan tables")
+     (load "loans.pact")
+     (inventory-key "loanId-1" "Las Pistolas") ;; loanId, owner
+     (create-a-loan "loanId-1" "Ponderosa" "Valley Credit" 16000) ;; loanId, loanName, entity, amount
+     (assign-a-loan "txid-1" "loanId-1" "Studio Funding" 10000) ;; loanId, buyer, amount
+     (sell-a-loan "txid-2" "loanId-1" "buyer2" "Studio Funding" 2000) ;; loanId, seller, buyer, amount
+   (commit-tx)
+   ```
+   
+   Because you're loading the module and calling the functions in the same transaction, you don't need to include the namespace and module name to call the functions.
+
+3. Add a transaction that calls the functions that read loan information from table similar to the following:
+
+   ```pact
+   (begin-tx "Call functions that read loan information")
+      (use free.loans)
+      (create-a-loan "loanId-2" "Renovation" "RiverBank" 140000)
+      (read-a-loan "loanId-1")
+      (read-all-loans)
+      (read-loan-inventory)
+      (read-loans-with-status INITIATED)
+      (read-loans-with-status ASSIGNED)
+   (commit-tx)
+   ```   
+   
+   In this example, you specify the module where the functions are defined using the namespace and module name.
+
+4. Add transactions that call the individual functions similar to the following:
+   
+   ```pact
+   (begin-tx "Test inventory-key function")
+     (free.loans.inventory-key "loanId-3" "Pistolas")
+   (commit-tx)
+
+   (begin-tx "Test create-a-loan function")
+     (free.loans.create-a-loan "loanId-3" "Pistolas" "Capital Bank" 11000)
+   (commit-tx)
+   
+   (begin-tx "Test assign-a-loan function")
+     (free.loans.assign-a-loan "txid-3" "loanId-3" "Buyer 1" 10000) ;; loanId, buyer, amount
    (commit-tx)
    ```
 
-2. Create a transaction that loads the `payments.pact` module.
+   In this example, you must specify the module where the functions are defined using the namespace and module name.
 
-   ```pact
-   (begin-tx)
-     (load "payments.pact")
-   (commit-tx)
-   ```
-
-3. Create a transaction that uses the `auth` module to create user accounts.
-
-   ```pact
-   (begin-tx)
-     (use auth)
-     (env-data {
-       "admin-keyset": ["admin"],
-       "sarah-keyset": ["sarah"],
-       "james-keyset": ["james"]
-     })
-     (create-user "admin" "Administrator" 'admin-keyset)
-     (create-user "Sarah" "Sarah" 'sarah-keyset)
-     (create-user "James" "James" 'james-keyset)
-   (commit-tx)
-   ```
-
-2. Create a transaction that uses the `payments` module to test transactions.
-
-   ```pact
-   (begin-tx)
-     (use payments)
-     (env-keys ["sarah"])
-     (create-account "Sarah" 100.25)
-     (env-keys ["james"])
-     (create-account "James" 250.0)
-     (pay "Sarah" "James" 25.0)
-   (commit-tx)
-   ```
-
-1. Execute the `payments.repl` file with the following command:
-
+5. Open a terminal shell on your computer and test execution by running the following command:
+   
    ```bash
-   pact payments.repl --trace
+   pact --trace loans.repl 
+   ```
+   
+   You should see that the transactions are successful with output similar to the following:
+   
+   ```pact
+   ...
+   loans.pact:4:3:Trace: Loaded module free.loans, hash 6SCj9hDm0ANSVOqbmY3gwF4SXg9BaRi-7cV8-FbqJDY
+   loans.pact:162:0:Trace: TableCreated
+   loans.pact:163:0:Trace: TableCreated
+   loans.pact:164:0:Trace: TableCreated
+   loans.repl:11:2:Trace: loanId-1:Las Pistolas
+   loans.repl:12:2:Trace: Write succeeded
+   loans.repl:13:2:Trace: Write succeeded
+   loans.repl:14:2:Trace: Write succeeded
+   loans.repl:15:0:Trace: Commit Tx 1: Call functions that update loan tables
+   loans.repl:17:0:Trace: Begin Tx 2: Call functions that read loan information
+   loans.repl:18:3:Trace: Using free.loans
+   loans.repl:19:3:Trace: Write succeeded
+   loans.repl:20:3:Trace: {"entityName": "Valley Credit","loanAmount": 16000,"loanName": "Ponderosa","status": "assigned"}
+   loans.repl:21:3:Trace: [{"entityName": "Valley Credit","loanAmount": 16000,"loanName": "Ponderosa","status": "assigned"} {"entityName": "RiverBank","loanAmount": 140000,"loanName": "Renovation","status": "initiated"}]
+   loans.repl:22:3:Trace: [{"inventory-key": "loanId-1:Studio Funding","balance": 8000} {"inventory-key": "loanId-1:Valley Credit","balance": 6000} {"inventory-key": "loanId-1:buyer2","balance": 2000} {"inventory-key": "loanId-2:RiverBank","balance": 140000}]
+   loans.repl:23:3:Trace: [{"entityName": "RiverBank","loanAmount": 140000,"loanName": "Renovation","status": "initiated"}]
+   loans.repl:24:3:Trace: [{"entityName": "Valley Credit","loanAmount": 16000,"loanName": "Ponderosa","status": "assigned"}]
+   loans.repl:25:0:Trace: Commit Tx 2: Call functions that read loan information
+   loans.repl:27:0:Trace: Begin Tx 3: Test inventory-key function
+   loans.repl:28:2:Trace: loanId-3:Pistolas
+   loans.repl:29:0:Trace: Commit Tx 3: Test inventory-key function
+   loans.repl:31:0:Trace: Begin Tx 4: Test create-a-loan function
+   loans.repl:32:2:Trace: Write succeeded
+   loans.repl:33:0:Trace: Commit Tx 4: Test create-a-loan function
+   loans.repl:35:0:Trace: Begin Tx 5: Test assign-a-loan function
+   loans.repl:36:2:Trace: Write succeeded
+   loans.repl:37:0:Trace: Commit Tx 5: Test assign-a-loan function
+   Load successful
    ```
 
-Ensure that the REPL output aligns with expected results.
+1. Ensure that the REPL output aligns with expected results.
 
 ## Review
 
-You have now built and tested a contract interaction setup using two modules, following a step-by-step approach. This tutorial covered user authentication and payment transactions across modules.
-
+You have now built and tested a smart contract that manipulates loan information in three tables with a robust set of functions.
