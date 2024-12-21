@@ -142,6 +142,12 @@ Gas is a unit of measurement that represents the computational effort required
 to complete a transaction. How much a user spends to complete a transaction is
 determined by the total amount of gas multiplied by the gas price.&#x20;
 
+### gas station
+
+A gas station is a type of smart contract that manages an autonomous `coin` contract account that can be used to pay transaction fees on behalf of users.
+Implementing a gas station contract simplifies onboarding for applications and reduces friction for users who are unfamiliar with blockchain technology, digital wallets, managing keys, and signing transactions.
+On the Kadena network, gas stations enable developers to abstract transaction costs using a secure capability-guarded principal account. 
+
 ## F
 
 ### formal verification
@@ -237,7 +243,9 @@ For simple contracts, a single module often contains all of the code necessary t
 ### namespace
 
 A namespace is a logical ownership boundary for smart contracts that are controlled by a specific entity.
-Smart contracts include a namespace declaration to provide a unique prefix for everything—including functions, keysets, and interfaces—defined within the namespace scope. 
+Smart contracts include a namespace declaration to provide a unique prefix for everything—including modules, functions, keysets, and interfaces—defined within the namespace scope. 
+In a local development network, you can define custom namespaces.
+In public networks, like the Kadena test and main networks, you must use an existing namespace, like "free" or "user", or register a principal namespace as a static prefix and ownership boundary for the contracts, modules, and keyset definitions that you control.
 
 ### non-fungible token (NFT)
 
