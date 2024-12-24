@@ -1,13 +1,13 @@
 ---
-title: Loans
+title: Loans in multiple tables
 description: "Learn how to build smart contracts that allow users to create, distribute, and manage loan information."
 id: loans
 sidebar_position: 5
 ---
 
-# Loans
+# Loans in multiple tables
 
-The _Loans_ project is designed to demonstrate working with multiple tables and writing more complex functions to build more complete applications.
+The _Loans and database management_ project is designed to demonstrate working with multiple tables and writing more complex functions to build more complete applications.
 For this project, you'll build a smart contract with tables for adding and manipulating loan information with secure interactions for module administrators. 
 
 For this project, you'll create three tables in the `loans` module:
