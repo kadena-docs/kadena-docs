@@ -8,7 +8,7 @@ sidebar_position: 5
 # Rotate authorized keys
 
 The _Rotate authorized keys_ coding project demonstrates how to create a smart contract with rotatable authorization keys and how to enforce row level permissions.
-This project continues to build on concepts and challenges presented in other coding projects and covered in [Smart contracts](/smart-contracts/smart-contract-dev) topics.
+This project continues to build on concepts and challenges presented in other coding projects and covered in [Smart contracts](/smart-contract-dev) topics.
 Specifically, this project demonstrates the following:
 
 - How you can use keysets as row level **guards** for assets.

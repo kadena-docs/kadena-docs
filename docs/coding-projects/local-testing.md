@@ -87,14 +87,14 @@ The following functions are some of the most commonly used REPL-only functions:
 
 | Function | Purpose |
 | --- | --- |
-| [begin-tx](/pact-5/repl/begin-tx) | Begin a transaction. |
-| [commit-tx](/pact-5/repl/commit-tx) | Commit a transaction. |
-| [env-chain-data](/pact-5/repl/env-chain-data) | Define the chain information to use for transactions in your testing environment. |
-| [env-data](/pact-5/repl/env-data) | Set transaction data. |
-| [env-sigs](/pact-5/repl/env-sigs) | Set transaction signature keys. |
-| [expect](/pact-5/repl/expect) | Evaluate expression and verify that it equals what is expected. |
-| [expect-failure](/pact-5/repl/expect-failure) | Evaluate an expression and succeed only if the expression results in an error. |
-| [load](/pact-5/repl-only-functions) | Load and evaluate a file. |
+| [begin-tx](/pact-5/Repl/begin-tx) | Begin a transaction. |
+| [commit-tx](/pact-5/Repl/commit-tx) | Commit a transaction. |
+| [env-chain-data](/pact-5/Repl/env-chain-data) | Define the chain information to use for transactions in your testing environment. |
+| [env-data](/pact-5/Repl/env-data) | Set transaction data. |
+| [env-sigs](/pact-5/Repl/env-sigs) | Set transaction signature keys. |
+| [expect](/pact-5/Repl/expect) | Evaluate expression and verify that it equals what is expected. |
+| [expect-failure](/pact-5/Repl/expect-failure) | Evaluate an expression and succeed only if the expression results in an error. |
+| load | Load and evaluate a file. |
 
 ## Load environment data
 
@@ -253,9 +253,9 @@ Pact also provides built-in functions to test for expected results, including co
 
 | Function | Purpose  |
 | :--- | :--- |
-| [expect](/pact-5/repl/expect) | Evaluates an expression and returns a specified string is the result from the evaluation is what is expected. |
-| [expect-failure](/pact-5/repl/expect-failure) | Evaluates an expression and returns a specified string only if the expression evaluated returns an error. |
-| [expect-that](/pact-5/repl/expect-that) | Evaluates an expression and returns true if the expression evaluated returns the expected result or false if the expression evaluated doesn't return the expected result. |
+| [expect](/pact-5/Repl/expect) | Evaluates an expression and returns a specified string is the result from the evaluation is what is expected. |
+| [expect-failure](/pact-5/Repl/expect-failure) | Evaluates an expression and returns a specified string only if the expression evaluated returns an error. |
+| [expect-that](/pact-5/Repl/expect-that) | Evaluates an expression and returns true if the expression evaluated returns the expected result or false if the expression evaluated doesn't return the expected result. |
 
 The following example demonstrates how to use the `expect` function to evaluate whether an expression returns an expected result:
 

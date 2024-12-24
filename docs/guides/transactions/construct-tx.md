@@ -53,7 +53,7 @@ For information about the command-line options you can use with the `kadena tx a
 kadena tx add --help
 ```
 
-For additional information about using the `kadena tx add` command, see [kadena tx add](/reference/cli-tx#kadena-tx-add).
+For additional information about using the `kadena tx add` command, see [kadena tx add](/reference/cli/cli-tx#kadena-tx-add).
 
 ## Template formats, prefixes, and variables
 
