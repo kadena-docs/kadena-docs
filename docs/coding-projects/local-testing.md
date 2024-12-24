@@ -81,7 +81,7 @@ To use the Pact REPL:
 
 Pact includes many built-in functions for testing module code using `.repl` files and the Pact command-line interpreter.
 
-Most of these functions are [REPL-only functions](/pact-5/repl).
+Most of these functions are [REPL-only functions](/pact-5/Repl).
 They can only be used in `.repl` files and can't be called directly in `.pact` files. 
 The following functions are some of the most commonly used REPL-only functions:
 
