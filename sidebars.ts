@@ -469,10 +469,11 @@ const sidebars: SidebarsConfig = {
               'coding-projects/hello-world',
               'coding-projects/transfers',
               'coding-projects/rotate-auth',
-              //'coding-projects/pact-testing',
               'coding-projects/contract-interactions',
               'coding-projects/gas-station',
-              //'coding-projects/loans',
+              'coding-projects/loans',
+               'coding-projects/local-testing',
+
               ],
     },
     {
