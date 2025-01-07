@@ -26,7 +26,7 @@ export default function Home(): JSX.Element {
 
                <div className='home-header-algolia'>
 
-                  <DocSearch appId="YOUR_ALGOLIA_APP_ID" apiKey="YOUR_ALGOLIA_API_KEY" indexName="YOUR_INDEX_NAME" />
+                  <DocSearch appId="6UVWQF4IS8" apiKey="b89b66367ee8fd13c34fb502b67609be" indexName="enterprise-kadena" />
 
                </div>
 
