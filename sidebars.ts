@@ -484,81 +484,15 @@ const sidebars: SidebarsConfig = {
            id: 'resources/resources',
       },
       items: [
-           // 'resources/changelogs',
-           //'resources/contributors',
            'resources/glossary',
+           'resources/solutions',
            'resources/contribute-doc',
            'resources/contribute-dev',
            'resources/writing-guide',
-           //'resources/tools',
-           /*{
-                type: 'link',
-                label: 'Product Docs',
-                href: 'https://docs.kadena.io',
-           },*/
       ],
  }
 ],
 
-   solutions: [
-      'solutions/solutions',
-      {
-         type: 'category',
-         label: 'Block Explorer',
-         items: [
-            'solutions/block-explorer/block-explorer',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'Chainweaver Wallet',
-         items: [
-            'solutions/chainweaver/chainweaver',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'GraphQL',
-         items: [
-            'solutions/graphql/graphql',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'HD Wallet',
-         items: [
-            'solutions/hd-wallet/hd-wallet',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'KadenaJS',
-         items: [
-            'solutions/kadena-js/kadena-js',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'Kadena CLI',
-         items: [
-            'solutions/kadena-cli/kadena-cli',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'Marmalade',
-         items: [
-            'solutions/marmalade/marmalade',
-         ],
-      },
-      {
-         type: 'category',
-         label: 'Spirekey Wallet',
-         items: [
-            'solutions/spirekey/spirekey',
-         ],
-      },
-   ],
 };
 
 export default sidebars;
