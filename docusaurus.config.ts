@@ -116,17 +116,6 @@ const config: Config = {
                sidebarPath: './sidebars.ts',
                editUrl: 'https://github.com/kadena-docs/kadena-docs/blob/master/',
             },
-            blog: {
-               showReadingTime: false,
-               feedOptions: {
-                  type: ['rss', 'atom'],
-                  xslt: true,
-               },
-               editUrl: 'https://github.com/kadena-docs/kadena-docs/blob/master/',
-               onInlineTags: 'warn',
-               onInlineAuthors: 'warn',
-               onUntruncatedBlogPosts: 'warn',
-            },
             theme: {
                customCss: './src/css/custom.css',
             },
