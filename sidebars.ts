@@ -472,8 +472,8 @@ const sidebars: SidebarsConfig = {
               'coding-projects/contract-interactions',
               'coding-projects/gas-station',
               'coding-projects/loans',
-               'coding-projects/local-testing',
-
+              'coding-projects/local-testing',
+              'coding-projects/pact-server-api',
               ],
     },
     {
