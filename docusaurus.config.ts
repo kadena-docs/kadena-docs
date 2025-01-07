@@ -13,9 +13,11 @@ const config: Config = {
       defaultLocale: 'en',
       locales: ['en'],
    },
-   onBrokenLinks: 'log',
-   onBrokenAnchors: 'warn',
-   onBrokenMarkdownLinks: 'warn',
+
+   onBrokenLinks: 'throw',
+   onBrokenAnchors: 'throw',
+   onBrokenMarkdownLinks: 'throw',
+
    tagline: 'The Blockchain for Business',
    organizationName: 'kadena-docs',
    projectName: 'kadena-docs',
@@ -128,9 +130,10 @@ const config: Config = {
             theme: {
                customCss: './src/css/custom.css',
             },
-            /*gtag: {
-               trackingID: 'GTM-WMSSTV5V',
-            },*/
+            gtag: {
+               trackingID: 'G-J507K728FR',
+               anonymizeIP: true,
+             },
          } satisfies Preset.Options,
       ],
    ],

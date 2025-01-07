@@ -559,10 +559,6 @@ const sidebars: SidebarsConfig = {
          ],
       },
    ],
-
-   workspace: [
-      'workspace/workspace',
-   ],
 };
 
 export default sidebars;
