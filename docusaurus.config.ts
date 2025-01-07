@@ -14,9 +14,9 @@ const config: Config = {
       locales: ['en'],
    },
 
-   onBrokenLinks: 'log',
-   onBrokenAnchors: 'warn',
-   onBrokenMarkdownLinks: 'warn',
+   onBrokenLinks: 'throw',
+   onBrokenAnchors: 'throw',
+   onBrokenMarkdownLinks: 'throw',
 
    tagline: 'The Blockchain for Business',
    organizationName: 'kadena-docs',
