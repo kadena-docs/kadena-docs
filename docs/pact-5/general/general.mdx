@@ -1,0 +1,74 @@
+---
+title: General functions
+description: "Reference information for the Pact built-in general functions."
+id: general
+---
+
+General functions are used to perform many different types of common tasks, such as specifying the character set for a smart contract, concatenating a list of strings, or defining a unique namespace for module code.
+For an introduction to creating and working with modules, see [Modules and references](/smart-contracts/modules).
+
+
+| Function | Description |
+| :-------- | :----------- |
+| [acquire&#8209;module-admin](/pact-5/general/acquire-module-admin) | Grant module administrative privileges for a specified module.  |
+| [at](/pact-5/general/at) | Retrieve the value at the location specified by an `index` number or by a `key` string. |
+| [base64&#8209;decode](/pact-5/general/base64-decode) | Convert a previously-encoded `string` from unpadded base64 encoding to a string. |
+| [base64&#8209;encode](/pact-5/general/base64-encode) | Convert the specified `string` to an unpadded base64-encoded string. |
+| [bind](/pact-5/general/bind) | Bind variables to values over subsequent body statements. |
+| [chain-data](/pact-5/general/chain-data) | Retrieve the blockchain-specific public metadata for a transaction. |
+| [charset-ascii](/pact-5/general/charset-ascii) | Use the standard ASCII character set. |
+| [charset-latin1](/pact-5/general/charset-latin1) | Use the standard Latin-1 character set. |
+| [compose](/pact-5/general/compose) | Compose functions using specified operands and a specified input value. |
+| [concat](/pact-5/general/concat) | Concatenate a list of strings. |
+| [constantly](/pact-5/general/constantly) | Ignore specified arguments. |
+| [contains](/pact-5/general/contains) | Evaluate the contents of a list, object, or string. |
+| [continue](/pact-5/general/continue) | Continue a previously started `defpact` step. |
+| [define-namespace](/pact-5/general/define-namespace) | Create a new namespace or update the guards of an existing namespace. |
+| [describe-namespace](/pact-5/general/describe-namespace) | Describe the specified namespace. |
+| [distinct](/pact-5/general/distinct) | Return a list with duplicates removed. |
+| [drop](/pact-5/general/drop) | Remove values from a list or string. |
+| [enforce-guard](/pact-5/general/enforce-guard) | Execute a specified guard or keyset to enforce predicate logic. |
+| [enforce-one](/pact-5/general/enforce-one) | Evaluate a series of tests in order. |
+| [enforce-pact-version](/pact-5/general/enforce-pact-version) | Enforce the runtime Pact version to be within a specified range. |
+| [enforce-verifier](/pact-5/general/enforce-verifier) | Enforce that a verifier with the specified name is in scope. |
+| [enforce](/pact-5/general/enforce) | Fail a transaction if an expression evaluates to false. |
+| [enumerate](/pact-5/general/enumerate) | Return a sequence of numbers as a list. |
+| [filter](/pact-5/general/filter) | Filter a list by applying a function to each element. |
+| [fold](/pact-5/general/fold)|  Reduce a list iteratively by applying a function to each element. |
+| [format](/pact-5/general/format) | Format a message using placeholders and variables. |
+| [hash-keccak256](/pact-5/general/hash-keccak256) | Compute the hash of a list of inputs. |
+| [hash](/pact-5/general/hash) | Compute the BLAKE2b 256-bit hash of a value. |
+| [identity](/pact-5/general/identity)|  Return the provided value. |
+| [if](/pact-5/general/if) | Test whether a condition is true to determine the operation to perform. |
+| [int-to-str](/pact-5/general/int-to-str) | Represent an integer value as a string in a specified base.|
+| [is-charset](/pact-5/general/is-charset) | Check whether a string conforms to a supported character set.|
+| [length](/pact-5/general/length) | Compute the length of a list, string, or object. |
+| [list-module](/pact-5/general/list-module) | List modules available for loading.|
+| [list](/pact-5/general/list) | Create a list from the specified elements (deprecated). |
+| [make-list](/pact-5/general/make-list) | Create a list by repeating a specified value a certain number of times. |
+| [map](/pact-5/general/map) | Apply a function (APP) to each element in a list. |
+| [namespace](/pact-5/general/namespace) | Set the current namespace to a specified value. |
+| [pact-id](/pact-5/general/pact-id) | Return the identifier associated with `defpact` execution.|
+| [pact-version](/pact-5/general/pact-version) | Get the current Pact build version.|
+| [poseidon-hash-hack-a-chain](/pact-5/general/poseidon-hash-hack-a-chain) | Compute a hash using the Poseidon hash function used by Hack-a-Chain.|
+| [read-decimal](/pact-5/general/read-decimal) | Read a `key` string or number value from the message data as a decimal.|
+| [read-integer](/pact-5/general/read-integer) | Read a `key` string or number value from the message data as an integer.|
+| [read-keyset](/pact-5/general/read-keyset) | Read a `key` from the message data as a keyset with a list of keys and a predicate function.|
+| [read-msg](/pact-5/general/read-msg) | Read a `key` from the message data body.|
+| [read-string](/pact-5/general/read-string) | Read a `key` string or number value from the message data as a string.|
+| [remove](/pact-5/general/remove) | Remove an entry associated with a specified `key` from an object.|
+| [resume](/pact-5/general/resume) | Bind a yielded object value from a `defpact` step to the execution of the next `defpact` step.|
+| [reverse](/pact-5/general/reverse) | Reverse the order of elements in a given list.|
+| [round](/pact-5/general/round)| Perform Banker's rounding to return an integer or decimal value.|
+| [sort](/pact-5/general/sort) | Sort a list of primitive values or objects.|
+| [static-redeploy](/pact-5/general/static-redeploy) | Redeploy a module without any code changes. |
+| [str-to-int](/pact-5/general/str-to-int) | Compute the integer value of the specified string.|
+| [str-to-list](/pact-5/general/str-to-list) | Convert a string into a list where each element is a single-character string.|
+| [take](/pact-5/general/take) | Retrieve a specified number of values from a list, string, or object.|
+| [try](/pact-5/general/try) | Attempt a pure action without input, output, or state-changing operations.|
+| [tx-hash](/pact-5/general/tx-hash) | Get the hash of the current transaction as a string.|
+| [typeof](/pact-5/general/typeof) | Return a description of the data type for a specified value.|
+| [where](/pact-5/general/where) | Define a clause to refine the results from `filter` or `select` operations.|
+| [yield](/pact-5/general/yield) | Yield an object to use with the `resume` function in a `defpact` step. |
+| [zip](/pact-5/general/zip) | Combine two lists using a specified function to create a new list.|
+

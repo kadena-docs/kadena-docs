@@ -33,7 +33,7 @@ Multiline strings aren't support when using the Pact command-line interpreter in
 
 ## Symbols
 
-Symbols are string literals that represent a unique item in the runtime, like a function identifier or a table name. 
+Symbols are string literals that represent a unique item in the runtime, like a function identifier or a table name.
 Internally, symbols are treated as string literals.
 However, if you want to make use of symbols to distinguish identifiers from other strings, precede the string with a single quotation mark.
 For example:
@@ -79,7 +79,7 @@ false
 ## Lists
 
 List literals are created with square brackets (`[]`).
-Optionally, list items can be separated with commas. 
+Optionally, list items can be separated with commas.
 Uniform literal lists are given a type in parsing.
 
 ```bash
@@ -94,7 +94,7 @@ pact> (typeof [1 2 true])
 
 ## Objects
 
-Objects are dictionaries, created with curly braces (`{}`) specifying key-value pairs using a colon (`:`). 
+Objects are dictionaries, created with curly braces (`{}`) specifying key-value pairs using a colon (`:`).
 For certain applications, such as database updates, keys must be strings.
 
 ```bash
@@ -104,13 +104,13 @@ pact> { "foo": (+ 1 2), "bar": "baz" }
 
 ## Bindings
 
-Bindings are dictionary-like forms, also created with curly braces, to bind database results to variables using the `:=` operator. 
+Bindings are dictionary-like forms, also created with curly braces, to bind database results to variables using the `:=` operator.
 Bindings are used in the following functions to assign variables to named columns in a row, or values in an object:
 
-- [with-read](/pact-5/Database/with-read)
-- [with-default-read](/pact-5/Database/with-default-read)
-- [bind](/pact-5/General/bind)
-- [resume](/pact-5/General/resume) 
+- [with-read](/pact-5/database/with-read)
+- [with-default-read](/pact-5/database/with-default-read)
+- [bind](/pact-5/general/bind)
+- [resume](/pact-5/general/resume)
 
 ```pact
 (defun check-balance (id)
@@ -258,8 +258,8 @@ The following example illustrates supporting two previous versions of the `provi
 ## cond
 
 Use the `cond` keyword to produce a series of `if-elseif-else` expressions to evaluate one after another.
-For example, if the first condition evaluated passes, then branch-1 is executed. 
-If the first condition isn't met, the second condition is evaluated and if that condition passes, then branch-2 is executed. 
+For example, if the first condition evaluated passes, then branch-1 is executed.
+If the first condition isn't met, the second condition is evaluated and if that condition passes, then branch-2 is executed.
 The `else-branch` is only evaluated if all other conditions fail.
 
 `cond` is syntactically expanded such that:
@@ -288,10 +288,10 @@ To evaluate a series of conditions, use the following syntax model:
 
 ## defcap
 
-Use the `defcap` keyword to signal the start of a capability definition followed by the capability name, required or optional arguments, optional documentation, and the capability body composed of one or more expressions. 
+Use the `defcap` keyword to signal the start of a capability definition followed by the capability name, required or optional arguments, optional documentation, and the capability body composed of one or more expressions.
 A `defcap` code block defines a capability token you want to store in the environment to grant some type of permission or privilege. The body of the code block can consist of one or more expressions.
 
-The body of the capability definition is only called with the `with-capability` and `compose-capability` functions when the token—parameterized by its arguments—isn't found in the environment. 
+The body of the capability definition is only called with the `with-capability` and `compose-capability` functions when the token—parameterized by its arguments—isn't found in the environment.
 When the code is executed, the arguments are in scope.
 
 ### Basic syntax
@@ -320,7 +320,7 @@ The following example illustrates defining the `DEBIT` capability:
 (defcap DEBIT (id:string sender:string)
     (enforce-guard (account-guard id sender))
 )
-``` 
+```
 
 ## defconst
 
@@ -352,7 +352,7 @@ The following example illustrates defining the constant `PENNY` with an explicit
 
 ## defun
 
-Use the `defun` keyword to signal the start of a function definition followed by the function name, required or optional arguments, optional documentation or metadata, and the function body composed of one or more expressions. 
+Use the `defun` keyword to signal the start of a function definition followed by the function name, required or optional arguments, optional documentation or metadata, and the function body composed of one or more expressions.
 Arguments are in scope for the function body.
 
 ### Basic syntax
@@ -377,8 +377,8 @@ The following examples illustrate defining an `add3` function and a `scale3` fun
 
 ## defpact
 
-Use the `defpact` keyword to define a multi-step transaction with the specified `name` as a pact. 
-The computation for a pact is composed from a sequence of steps that must be executed in a specific order and occur in distinct transactions. 
+Use the `defpact` keyword to define a multi-step transaction with the specified `name` as a pact.
+The computation for a pact is composed from a sequence of steps that must be executed in a specific order and occur in distinct transactions.
 The `defpact` syntax is identical to the [defun](/reference/syntax#defun keyword except that the `defpact` body must be comprised of [steps](/reference/syntax#step) to be executed in strict sequential order.
 
 ### Basic syntax
@@ -405,7 +405,7 @@ You can nest `defpact` calls.
 However, the following restrictions apply:
 
 - The number of steps in the child `defpact` must match the number of steps of the parent `defpact`.
-- If a parent `defpact` step has the rollback field, so must the child. 
+- If a parent `defpact` step has the rollback field, so must the child.
 - If a parent step rolls back, so do child steps.
 - You must call the `continue` function with the same continuation arguments as the `defpact` originally dispatched to support multiple nested `defpact` calls to the same function but with different arguments.
 
@@ -448,7 +448,7 @@ The following example shows a well-formed `defpact` with an equal number of step
 
 ### defschema
 
-Use the `defschema` keyword to define a _schema_ of table `fields` with the specified `name`. 
+Use the `defschema` keyword to define a _schema_ of table `fields` with the specified `name`.
 Each field in the schema takes the form of `fieldname[:fieldtype]`.
 
 ### Basic syntax
@@ -474,9 +474,9 @@ The following example illustrates defining the `accounts` schema and an `account
 
 ### deftable
 
-Use the `deftable` keyword to define a database _table_ with the specified `name`. 
-The name you specify is used in database functions to identify the table you want to work with. 
-Note the table must still be created with [create-table](/pact-5/Database/create-table) function.
+Use the `deftable` keyword to define a database _table_ with the specified `name`.
+The name you specify is used in database functions to identify the table you want to work with.
+Note the table must still be created with [create-table](/pact-5/database/create-table) function.
 
 ### Basic syntax
 
@@ -507,7 +507,7 @@ The following example illustrates defining a schema and an `accounts` table:
 
 ## implements
 
-Use the `implements` keyword to specify that a module _implements_ the specified `interface`. 
+Use the `implements` keyword to specify that a module _implements_ the specified `interface`.
 This keyword requires the module to implement all of the functions, defpacts, and capabilities that are specified in the interface with identical signatures, including the same argument names and declared types.
 
 A module that implements an interface can be used as a [module reference](/smart-contracts/modules#module-references) for the specified interfaces.
@@ -527,7 +527,7 @@ To implement an interface in a module, use the following syntax model:
 
 Use the `interface` keyword to define and install an interface with the specified `name` and optional documentation or metadata.
 
-The `body` of the interface is composed of definitions that will be scoped in the module. 
+The `body` of the interface is composed of definitions that will be scoped in the module.
 Valid expressions in a module include the following:
 
 - [defun](/reference/syntax#defun)
@@ -577,8 +577,8 @@ The following example illustrates defining the `coin-sig` interface with documen
 
 ## let
 
-Use the `let` keyword to bind variables in pairs to over the scope of the code body. 
-Variables within bind-pairs cannot refer to previously-declared variables in the same `let` declaration. 
+Use the `let` keyword to bind variables in pairs to over the scope of the code body.
+Variables within bind-pairs cannot refer to previously-declared variables in the same `let` declaration.
 For this, use [let\*](/reference/syntax#let).
 
 ### Basic syntax
@@ -600,8 +600,8 @@ pact > (let ((x 2) (y 5)) (* x y))
 
 ## let\*
 
-Use the `let*` keyword to bind variables in pairs to over the scope of the code `body`. 
-Variables can reference previously-declared variables in the same `let` declaration. 
+Use the `let*` keyword to bind variables in pairs to over the scope of the code `body`.
+Variables can reference previously-declared variables in the same `let` declaration.
 The `let*` keyword is expanded at compile-time to nested `let` calls for each `bind-pair`.
 Therefore, you should use `let` statements where possible.
 
@@ -633,8 +633,8 @@ As several examples demonstrate in this section, you can often embed optional do
   (/ (+ a b) 2))
 ```
 
-You can also add metadata by using the `@`-prefix. 
-Supported metadata fields include: 
+You can also add metadata by using the `@`-prefix.
+Supported metadata fields include:
 
 - `@doc` to provide a documentation string.
 - `@event` to emit an event.
@@ -653,10 +653,10 @@ Embedded documentation strings like `"Row type for accounts table."` are just a 
 
 Use the `module` keyword to define and install a module with the specified `name` that is governed by the specified `keyset-or-governance`, with optional documentation or metadata.
 
-If the `keyset-or-governance` is a string, the string represents a keyset that has been installed with the `define-keyset` function that will be checked whenever module administrative privileges are required. 
+If the `keyset-or-governance` is a string, the string represents a keyset that has been installed with the `define-keyset` function that will be checked whenever module administrative privileges are required.
 If `keyset-or-governance` is an unqualified [atom](/reference/syntax#atoms), it represents a `defcap` capability that will be acquired if module administrative privileges are requested.
 
-The body of a module is composed of definitions are scoped to the module. 
+The body of a module is composed of definitions are scoped to the module.
 A module can include the following types of declarations:
 
 - [defun](/reference/syntax#defun)
@@ -752,7 +752,7 @@ The following example illustrates a `defpact` for depositing funds with two `ste
 ## step-with-rollback
 
 Use the `step-with-rollback` keyword to define a step within a [defpact](/reference/syntax#defpact) similar to using the step keyword except that you specify a `rollback-expression`.
-If you include an `entity` argument, the `rollback-expression` is only be executed upon failure of a subsequent step, as part of a reverse-sequence "rollback cascade" going back from the step that failed to the first step. 
+If you include an `entity` argument, the `rollback-expression` is only be executed upon failure of a subsequent step, as part of a reverse-sequence "rollback cascade" going back from the step that failed to the first step.
 Without the `entity` argument, the `rollback-expression` acts as a cancel function that is be explicitly executed by a participant.
 
 ### Basic syntax
@@ -810,17 +810,17 @@ The following example illustrates a `defpact` for offering a token for sale with
 
 ## use
 
-Use the `use` keyword to import the specified `module` into a namespace. 
-This keyword is only valid at the top-level of a contract or within a module declaration. 
-The specified `module` can be a string, symbol, or bare atom. 
+Use the `use` keyword to import the specified `module` into a namespace.
+This keyword is only valid at the top-level of a contract or within a module declaration.
+The specified `module` can be a string, symbol, or bare atom.
 
-You specify the `hash` argument to validate that the imported module's hash matches specified `hash` and fail if the hashes are not the same. 
-You can use the [describe-module](/pact-5/Database/describe-module) function to query for the hash of a loaded module on the chain.
+You specify the `hash` argument to validate that the imported module's hash matches specified `hash` and fail if the hashes are not the same.
+You can use the [describe-module](/pact-5/database/describe-module) function to query for the hash of a loaded module on the chain.
 
-You can also specify an optional list of `imports` consisting of function, constant, and schema names to import from the specified `module`. 
-If you explicitly define the function, constant, and schema names to import, only the listed items are available for you to use in the module body. 
-If you don't specify an import list, then every name in the imported module is brought into scope. 
-If two modules are defined in the same transaction, all names are in scope for both modules, and the import behavior defaults to the entire module. 
+You can also specify an optional list of `imports` consisting of function, constant, and schema names to import from the specified `module`.
+If you explicitly define the function, constant, and schema names to import, only the listed items are available for you to use in the module body.
+If you don't specify an import list, then every name in the imported module is brought into scope.
+If two modules are defined in the same transaction, all names are in scope for both modules, and the import behavior defaults to the entire module.
 
 ### Basic syntax
 
@@ -873,8 +873,8 @@ Expressions can be literals, atoms, s-expressions, or references.
 
 ### Atoms
 
-Atoms are non-reserved barewords that start with a letter or allowed symbol, and contain letters, digits, and allowed symbols. 
-Allowed symbols are `%#+-_&$@<>=?*!|/`. 
+Atoms are non-reserved barewords that start with a letter or allowed symbol, and contain letters, digits, and allowed symbols.
+Allowed symbols are `%#+-_&$@<>=?*!|/`.
 Atoms must resolve to a variable bound by one of the following:
 
 - [defun](/reference/syntax#defun) definition.
@@ -888,8 +888,8 @@ Atoms must resolve to a variable bound by one of the following:
 S-expressions are formed with parentheses, with the first atom determining if the expression is a special form with a reserved keyword or a function application.
 If the expression is a function application, the first atom must refer to a definition.
 
-An application with less than the required arguments is in some contexts a valid _partial application_ of the function. 
-However, this is only supported in a limited number of Pact functions, such the `map`, `fold`, and `filter` functions. 
+An application with less than the required arguments is in some contexts a valid _partial application_ of the function.
+However, this is only supported in a limited number of Pact functions, such the `map`, `fold`, and `filter` functions.
 With these functions, the list item can be appended to the application arguments to serially execute the function.
 
 ```pact
@@ -917,5 +917,5 @@ pact> transfer
 SRC to DEST\")"
 ```
 
-References are preferred over `use` for transactions because references resolve faster. 
+References are preferred over `use` for transactions because references resolve faster.
 However, when defining a module, `use` is preferred for legibility.

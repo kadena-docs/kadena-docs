@@ -17,10 +17,10 @@ In the technical specification for the guard types, the following types all corr
 
 ## Keyset guards
 
-The `keyset` guard is the backward-compatible `keyset` as originally defined in Pact. 
+The `keyset` guard is the backward-compatible `keyset` as originally defined in Pact.
 This guard is also referred to as a **concrete keyset** that's defined in the environment.
 Using the `keyset` type is the one instance where you can restrict a guard subtype.
-For all other guards, the `guard` type obscures the implementation type to discourage you from using guard-specific control flow, which would be against best practices. 
+For all other guards, the `guard` type obscures the implementation type to discourage you from using guard-specific control flow, which would be against best practices.
 In general, you should use the `guard` type unless you have a specific need to use a keyset.
 
 ### Type definition
@@ -28,7 +28,7 @@ In general, you should use the `guard` type unless you have a specific need to u
 ```json
 {
     "keys": Array[String],
-    "pred": String 
+    "pred": String
 }
 ```
 
@@ -52,7 +52,7 @@ In general, you should use the `guard` type unless you have a specific need to u
 
 ### Principal account prefix
 
-Each type of principal and guard uses a unique prefix, so they are easy to recognize. 
+Each type of principal and guard uses a unique prefix, so they are easy to recognize.
 If you use the `create-principal` function to a create principal account for a keyset guard, the principal account uses one of the following prefixes:
 
 - k: for single key keysets
@@ -61,17 +61,17 @@ If you use the `create-principal` function to a create principal account for a k
 ## KeysetRef guard
 
 You can install concrete keyset guards in the REPL environment by using the `define-keyset` function.
-However, if you want to store a reference to a defined keyset, you must use a `string` type. 
+However, if you want to store a reference to a defined keyset, you must use a `string` type.
 To make REPL environment keysets interoperate with concrete keysets and other guards, you can use the KeysetRef guard to indicate that a defined keyset is used instead of a concrete keyset.
 
 ### Type definition
 
 ```json
 {
-    "keysetref": { 
-        "ns": String?, 
-        "ksn": String 
-    } 
+    "keysetref": {
+        "ns": String?,
+        "ksn": String
+    }
 }
 ```
 
@@ -92,7 +92,7 @@ For example, you might want to customize the guard to allow one of two different
 
 - One keyset registers the keys for the members of a board of directors.
 - A second keyset registers the keys for union representatives.
- 
+
 You can then design a user guard to require two separate keysets to be enforced:
 
 ```pact
@@ -119,9 +119,9 @@ However, user guards are pure functions that don't allow access to a database du
 ### Type definition
 
 ```json
-{ 
-    "fun": String, 
-    "args": Array[PactValue] 
+{
+    "fun": String,
+    "args": Array[PactValue]
 }
 ```
 
@@ -145,26 +145,26 @@ The following example illustrates how to write a custom hash timelock guard to i
 
 ### Principal account prefix
 
-Each type of principal and guard uses a unique prefix, so they are easy to recognize. 
+Each type of principal and guard uses a unique prefix, so they are easy to recognize.
 If you use the `create-user-guard` function to create a principal account for a user guard, the principal account uses the following prefix:
 
 - u: for user guards
 
 ## Capability guard
 
-Capabilities are in-module rights that can only be enforced within the declaring module, and offer scoping and the other benefits. 
+Capabilities are in-module rights that can only be enforced within the declaring module, and offer scoping and the other benefits.
 
-Because user guards are required to be pure functions, they can't take database state into account. 
-If you need to access database state, you can define a guard that requires a capability to be brought into scope. 
-With this type of guard, you can retrieve database state when you bring the capability into scope. 
+Because user guards are required to be pure functions, they can't take database state into account.
+If you need to access database state, you can define a guard that requires a capability to be brought into scope.
+With this type of guard, you can retrieve database state when you bring the capability into scope.
 
 ### Type definition
 
 ```json
-{ 
-    "cgName": String, 
-    "cgArgs": Array[PactValue], 
-    "cgPactId": String? 
+{
+    "cgName": String,
+    "cgArgs": Array[PactValue],
+    "cgPactId": String?
 }
 ```
 
@@ -172,7 +172,7 @@ For information about PactValue types, see Pact values.
 
 ## Principal account prefix
 
-Each type of principal and guard uses a unique prefix, so they are easy to recognize. 
+Each type of principal and guard uses a unique prefix, so they are easy to recognize.
 If you use the `create-capability-guard` function to create a principal account for a capability guard, the principal account uses the following prefix:
 
 - c: for capability guards
@@ -180,12 +180,12 @@ If you use the `create-capability-guard` function to create a principal account 
 ## Module guard (DEPRECATED)
 
 Modules always guard access to the tables and functions that are defined within the module.
-For example, when you create a table, you must specify a module name. 
-This requirement ensures that tables are fully encapsulated or _guarded_ by the module and that direct access to the table through [data-access functions](/pact-5/Database) can only be authorized by the administrative owner of the module. 
-However, within module functions, table access is unconstrained. 
+For example, when you create a table, you must specify a module name.
+This requirement ensures that tables are fully encapsulated or _guarded_ by the module and that direct access to the table through [data-access functions](/pact-5/database) can only be authorized by the administrative owner of the module.
+However, within module functions, table access is unconstrained.
 This behavior gives you flexibility in designing data access, and ensures that the module is the main point of entry for all data-related interactions.
 
-Within a module, only the module code or a transaction having module administrative privileges can write directly to a module table or upgrade the module. 
+Within a module, only the module code or a transaction having module administrative privileges can write directly to a module table or upgrade the module.
 Module guards aren't required to protect these in-module operations.
 
 Instead, module guards are intended to allow a Pact module or smart contract to autonomously own or manage an asset outside of the module, for example, to own coins in an external ledger or manage assets in an internal ledger alongside other non-module owners.
@@ -203,9 +203,9 @@ For more information about module management, see [Governance](/smart-contracts/
 ### Type definition
 
 ```json
-{ 
-    "moduleName": ModuleName, 
-    "name": String 
+{
+    "moduleName": ModuleName,
+    "name": String
 }
 ```
 
@@ -225,16 +225,16 @@ Pact guards turn `defpact` executions into autonomous processes that can own ass
 ### Type definition
 
 ```json
-{ 
-    "pactId": String, 
-    "name": String 
+{
+    "pactId": String,
+    "name": String
 }
 ```
 
 ### Examples
 
 The following example illustrates the use of a `pact` guard for an escrow transaction modeled as a two-step `defpact` declaration.
-In this example, the funds go into a account named after the `pact-id` identifier, guarded by a `pact` guard. 
+In this example, the funds go into a account named after the `pact-id` identifier, guarded by a `pact` guard.
 This means that only code in a subsequent step of that particular pact execution—that is, having the same `pact-id` as the previous—can satisfy the guard.
 
 ```pact
@@ -269,31 +269,31 @@ Union PvLiteral = PvString | PvInteger | PvDecimal | PvBool
 PvString = String
 
 # You can treat an integer as a JSON number if it's between the range
-# -9007199254740991 <= n && n <= 9007199254740991 
+# -9007199254740991 <= n && n <= 9007199254740991
 # or as a string you need to decode an integer that exceeds the range:
 
 PvInteger = {"int": (Number | String) }
 
 # You can treat an integer as a JSON number if it's between the range
-# -9007199254740991 <= n && n <= 9007199254740991 
+# -9007199254740991 <= n && n <= 9007199254740991
 # or as a string you need to decode an integer that exceeds the range:
 
   The exact logic for how this happens is determined by the function, in pseudo:
     def encodeInteger (i:PactInteger) : {"int": (Number | String) } =
-      let encodeInt(n:PactInteger) : Number | String = 
+      let encodeInt(n:PactInteger) : Number | String =
             if -9007199254740991 <= n && n <= 9007199254740991 then encodeNumber else encodeString
       in return { "int": encodeInt(i) }
 
 PvDecimal = Number | { "decimal":String }
 
 # You can treat a decimal as a JSON number if it's between the range
-# -9007199254740991 <= mantissa(i) && mantissa(i) <= 9007199254740991 
+# -9007199254740991 <= mantissa(i) && mantissa(i) <= 9007199254740991
 # or as a string you need to decode an integer that exceeds the range:
 
   The exact logic for how this happens is determined by the function, in pseudo:
     def encodeDecimal (i:PactDecimal) : (Number | {"decimal": String }) =
-      if -9007199254740991 <= mantissa(i) && mantissa(i) <= 9007199254740991 then 
-        return encodeNumber(i) 
+      if -9007199254740991 <= mantissa(i) && mantissa(i) <= 9007199254740991 then
+        return encodeNumber(i)
        else return { "decimal":encodeString(i) }
 
 PvBool = Bool
@@ -310,10 +310,10 @@ PvList = Array[PactValue]
 
 PvGuard = Guard
 
-PvObject = { f : PactValue | f in {String} } 
+PvObject = { f : PactValue | f in {String} }
 // Fields can be any string, but their value is a pact value:
 
-PvModRef = { "refName":String, "refSpec":Array[ModuleName]) 
+PvModRef = { "refName":String, "refSpec":Array[ModuleName])
 // See # Misc type for module names
 
 PvTime = { "time" : String } | { "timep" : String }
@@ -321,9 +321,9 @@ PvTime = { "time" : String } | { "timep" : String }
 // See https://github.com/kadena-io/pact/blob/e72d86749f5d65ac8d6e07a7652dd2ffb468607b/src/Pact/Types/Codec.hs#L150
 // for further details.
 
-PvCapToken = { "ctName":String, "ctArgs":Array[PactValue] } 
+PvCapToken = { "ctName":String, "ctArgs":Array[PactValue] }
 // Only after pact 5:
 
-ModuleName = { "name":String, "namespace":String? } 
+ModuleName = { "name":String, "namespace":String? }
 // Misc type
 ```
