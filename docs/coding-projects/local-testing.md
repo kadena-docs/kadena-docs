@@ -72,8 +72,8 @@ To use the Pact REPL:
 
 1. Create a REPL (`.repl)`) file that loads the Pact module (.pact) that you want to test.
 2. Open a new terminal shell on your computer.
-3. Start the `pact` command-line interpreter and specify the `.repl` file that loads the `.pact` that you want to test. 
-   
+3. Start the `pact` command-line interpreter and specify the `.repl` file that loads the `.pact` that you want to test.
+
    The `.repl` file loads the `.pact` file.
    The interpreter executes the code in the `.pact` file, returns data to the `.repl` file which, in turn, sends the output to your terminal.
 
@@ -81,19 +81,19 @@ To use the Pact REPL:
 
 Pact includes many built-in functions for testing module code using `.repl` files and the Pact command-line interpreter.
 
-Most of these functions are [REPL-only functions](/pact-5/Repl).
-They can only be used in `.repl` files and can't be called directly in `.pact` files. 
+Most of these functions are [REPL-only functions](/pact-5/repl).
+They can only be used in `.repl` files and can't be called directly in `.pact` files.
 The following functions are some of the most commonly used REPL-only functions:
 
 | Function | Purpose |
 | --- | --- |
-| [begin-tx](/pact-5/Repl/begin-tx) | Begin a transaction. |
-| [commit-tx](/pact-5/Repl/commit-tx) | Commit a transaction. |
-| [env-chain-data](/pact-5/Repl/env-chain-data) | Define the chain information to use for transactions in your testing environment. |
-| [env-data](/pact-5/Repl/env-data) | Set transaction data. |
-| [env-sigs](/pact-5/Repl/env-sigs) | Set transaction signature keys. |
-| [expect](/pact-5/Repl/expect) | Evaluate expression and verify that it equals what is expected. |
-| [expect-failure](/pact-5/Repl/expect-failure) | Evaluate an expression and succeed only if the expression results in an error. |
+| [begin-tx](/pact-5/repl/begin-tx) | Begin a transaction. |
+| [commit-tx](/pact-5/repl/commit-tx) | Commit a transaction. |
+| [env-chain-data](/pact-5/repl/env-chain-data) | Define the chain information to use for transactions in your testing environment. |
+| [env-data](/pact-5/repl/env-data) | Set transaction data. |
+| [env-sigs](/pact-5/repl/env-sigs) | Set transaction signature keys. |
+| [expect](/pact-5/repl/expect) | Evaluate expression and verify that it equals what is expected. |
+| [expect-failure](/pact-5/repl/expect-failure) | Evaluate an expression and succeed only if the expression results in an error. |
 | load | Load and evaluate a file. |
 
 ## Load environment data
@@ -105,15 +105,15 @@ One of the unique features of using these REPL-only functions in a `.repl` file 
 For example, you can use the `env-data` function to simulate the keyset named `loans-admin` like this:
 
 ```pact
-(env-data { 
+(env-data {
     "loans-admin":
-      { "keys": ["loan-admin-keyset"], 
-        "pred": "keys-all" } 
+      { "keys": ["loan-admin-keyset"],
+        "pred": "keys-all" }
       }
 )
 ```
 
-Similarly, you can use the `env-sigs` function simulate a signing key and capabilities. 
+Similarly, you can use the `env-sigs` function simulate a signing key and capabilities.
 
 ```pact
    (env-sigs [
@@ -125,7 +125,7 @@ Similarly, you can use the `env-sigs` function simulate a signing key and capabi
 ## Defining transaction blocks
 
 In `.repl` files, you define tests within transaction blocks that start with the `begin-tx` function and end with the `commit-tx` function.
-Within a transaction block that starts with the `begin-tx` function and ends with the `commit-tx` function, you can make as many calls to the Pact code as you like. 
+Within a transaction block that starts with the `begin-tx` function and ends with the `commit-tx` function, you can make as many calls to the Pact code as you like.
 Any command sent to the blockchain is a transaction, but a _command_ can have multiple _function calls_.
 For example, a single transaction block is treated as one command, but it can include the code used to define a module with `module` and create module tables with with one or more `create-table` calls.
 
@@ -148,13 +148,13 @@ For example, you can make each function call a separate transaction similar to t
 (commit-tx)
 ```
 
-Transactions can be grouped together however is most convenient for your testing. 
+Transactions can be grouped together however is most convenient for your testing.
 However, you should try to maintain a logical order in your transactions for maintenance and readability.
 
 ## Load a module from a Pact file
 
 Pact files are not run by your computer directly.
-Instead, they’re loaded into the `.repl` file and run from there. 
+Instead, they’re loaded into the `.repl` file and run from there.
 After you have defined environment data, such as the namespace and keyset for a module, you must load the `.pact` file into the `.repl` file using a **load** statement.
 
 For example, type `load` then specify the file path as a string:
@@ -188,7 +188,7 @@ For this coding project, edit the `.repl` file to call the following functions d
 | assign-a-loan | Assigns a loan to an entity. |
 | sell-a-loan | Sell a loan and log details in the loan history table. |
 
-After calling the functions used to create, assign, and sell a loan, add tests to read some of the data that you created. 
+After calling the functions used to create, assign, and sell a loan, add tests to read some of the data that you created.
 For example, edit the `.repl` file to call the following functions defined in the `loans` module:
 
 | Function | Purpose |
@@ -198,7 +198,7 @@ For example, edit the `.repl` file to call the following functions defined in th
 
 ## Execute the tests
 
-At this point, you have a completed `.repl` file that tests code defined in the `loans` module. 
+At this point, you have a completed `.repl` file that tests code defined in the `loans` module.
 The final step is to execute the tests by running the file from a terminal shell to view the output.
 
 To execute the .repl file tests:
@@ -206,20 +206,20 @@ To execute the .repl file tests:
 1. Open a terminal shell and navigate to the directory that contains the `loans.repl` and `loans.pact `files.
 
 2. Start the Pact command-line interpreter:
-   
+
    ```bash
    pact
    ```
 
 1. Load the `loans.repl` file
-   
+
    ```bash
    pact> (load "loans.repl")
    ```
 
    You should see output for the tests you defined in the .repl file displayed in the terminal.
    For example, you should see output similar to the following excerpt:
-   
+
    ```bash
    "Loading loans.repl..."
    "Setting transaction keys"
@@ -246,16 +246,16 @@ To execute the .repl file tests:
    "Write succeeded"
    "Commit Tx 5: Test assign-a-loan function"
    ```
-   
+
 ## Testing success and failure use cases
 
 Pact also provides built-in functions to test for expected results, including code that you expect to succeed, code that you expect to fail, and code that returns an expected result from an evaluated expression.
 
 | Function | Purpose  |
 | :--- | :--- |
-| [expect](/pact-5/Repl/expect) | Evaluates an expression and returns a specified string is the result from the evaluation is what is expected. |
-| [expect-failure](/pact-5/Repl/expect-failure) | Evaluates an expression and returns a specified string only if the expression evaluated returns an error. |
-| [expect-that](/pact-5/Repl/expect-that) | Evaluates an expression and returns true if the expression evaluated returns the expected result or false if the expression evaluated doesn't return the expected result. |
+| [expect](/pact-5/repl/expect) | Evaluates an expression and returns a specified string is the result from the evaluation is what is expected. |
+| [expect-failure](/pact-5/repl/expect-failure) | Evaluates an expression and returns a specified string only if the expression evaluated returns an error. |
+| [expect-that](/pact-5/repl/expect-that) | Evaluates an expression and returns true if the expression evaluated returns the expected result or false if the expression evaluated doesn't return the expected result. |
 
 The following example demonstrates how to use the `expect` function to evaluate whether an expression returns an expected result:
 
@@ -294,6 +294,6 @@ For example, the [keysets.repl](https://github.com/kadena-io/pact-examples/blob/
 ```
 ### Review
 
-In this coding project, you learned the basics of testing by creating transaction blocks in `.repl` files. 
-Defining tests in `.repl `files is the most common approach to testing smart contracts locally. 
+In this coding project, you learned the basics of testing by creating transaction blocks in `.repl` files.
+Defining tests in `.repl `files is the most common approach to testing smart contracts locally.
 From these basic building blocks, you can experiment with adding and modifying tests and function calls in `.repl` or `.pact` files to learn more.
