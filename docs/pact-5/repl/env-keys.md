@@ -1,7 +1,7 @@
 # env-keys (DEPRECATED)
 
 Use `env-keys` to set the transaction signer keys in older version of the Pact REPL.
-The `env-keys` function is deprecated in favor of `env-sigs`. 
+The `env-keys` function is deprecated in favor of [`env-sigs`](/reference/functions/repl-only-functions#env-sigsh-2100297054). 
 You should use `env-sigs` for setting transaction signer keys with associated capabilities.
 
 ## Basic syntax
