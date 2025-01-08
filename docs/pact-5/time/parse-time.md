@@ -3,7 +3,7 @@
 Use `parse-time` to construct a UTC formatted time string from an input time that uses the specified format.
 
 The `parse-time` function accepts format codes that are derived from the formatting time `strftime` function time templates.
-The following table provides a summary of common time formatting codes:
+The following table provides a summary of the most common time formatting codes:
 
 | Format | Purpose |
 | --- | --- |

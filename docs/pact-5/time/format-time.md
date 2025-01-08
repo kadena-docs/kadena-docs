@@ -4,7 +4,7 @@ Use `format-time` to format a `time` value using a specified `format`.
 The `format-time` function is useful for converting time values to human-readable formats in Pact contracts.
 
 The `format-time` function accepts format codes that are derived from the formatting time `strftime` function time templates.
-The following table provides a summary of common time formatting codes:
+The following table provides a summary of the most common time formatting codes:
 
 | Format | Purpose |
 | --- | --- |
@@ -16,8 +16,10 @@ The following table provides a summary of common time formatting codes:
 | %S | Second of the minute, zero-padded to two characters, "00"–"60" |
 
 There are many other formatting options.
-For example, you can replace the numeric representing the month of the year with the short or long name for the month.
+For example, you can replace the numeric representing the month of the year with the short name or long name for the month.
 For information about all of the formats supported, see [Time formats](/pact-5/time/time-functions#time-formats).
+
+Note that two percentage characters (`%%`) are interpreted as a literal percentage sign (`%`), not a time formatting template.
 
 ### Basic syntax
 
