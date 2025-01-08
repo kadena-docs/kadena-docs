@@ -2,7 +2,7 @@
 title: Mining endpoints
 description:
   Provides reference information for the chainweb-node block endpoints.
-id: service-api-mining
+id: mining
 sidebar_position: 10
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
