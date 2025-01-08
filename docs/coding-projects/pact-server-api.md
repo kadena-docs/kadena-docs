@@ -376,6 +376,10 @@ To write and execute YAML requests:
    secret: 06fe72b8deaf96ba21734535bfb8c7e062d64b672b1c7d5179d67b7d363a3b13
    ```
 
+   Note that, in this example, you’re submitting requests to the built-in Pact server endpoints. 
+   If you were deploying contracts or calling functions on the Kadena development, test, or production network, your YAML request file would need to include additional information such as the network identifier and chain identifier. 
+   You can find examples of more complete YAML request files in the [How to](/guides) guides. 
+
 2. Write a minimal `deploy-hello-world.yaml` file that deploys the `hello-world.pact` file.
    
    ```yaml
