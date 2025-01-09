@@ -201,48 +201,117 @@ The library provides functions that simplify building transactions with Pact com
 You should note that creating the client connection is separate from using the `Pact.builder` function to construct transactions.
 
 The following example illustrates what a script using `@kadena/client` to deploy a smart contract would look like.
+This example deploys the `simplemodule` in the `free` namespace on the `testnet04` network.
 
-```javascript
-import { Pact, createClient, signWithChainweaver } from '@kadena/client';
 
-  async function deployContract(deployer, pubKey) {
-     const pactClient = createClient('https://api.chainweb.com/chainweb/0.0/mainnet01/chain/0/pact');
+```typescript
+import type { ICommand } from '@kadena/client';
+import { Pact, createClient } from '@kadena/client';
+import { createRequestToSign } from './util/requestToSign';
 
-     const tx = Pact.builder
-        .execution(`
-                  (namespace 'free)
-                  (module simplemodule GOV
-                    (defcap GOV () true)
-                    (defconst TEXT:string "Hello World")
-                    (defun greet:string () TEXT)
-                  )`)
-        .addSigner(pubKey, (signFor) => [signFor('coin.GAS')])
-        .setMeta({
-          chainId: '1',
-          gasLimit: 80300,
-          gasPrice: 0.000001,
-          sender: deployer,
-        })
-        .setNetworkId('mainnet01')
-        .createTransaction();
+const signTransaction = createRequestToSign();
 
-    try {
-      const signedTx = await signWithChainweaver(transaction); // Pick your preferred signing method
-      const preflightResult = await client.preflight(signedTx);
-      console.log('Preflight result:', preflightResult);
+async function deployContract(
+  deployerAccount: string,
+  pubKey: string,
+  contractCode: string,
+) {
+  const pactClient = createClient();
 
-      if (preflightResult.result.status === 'failure') {
-        console.error('Preflight failed:', preflightResult.result.error.message);
-        return preflightResult;
-      }
+  const tx = Pact.builder
+    .execution(contractCode)
+    .addSigner(pubKey, (signFor) => [signFor('coin.GAS')])
+    .setMeta({
+      chainId: '1',
+      gasLimit: 80300,
+      gasPrice: 0.0000001,
+      senderAccount: deployerAccount,
+    })
+    .setNetworkId('testnet04')
+    .createTransaction();
 
-      const res = await client.submit(signedTx);
-      console.log('Contract deployed:', res);
-      return res;
-    } catch (error) {
-      console.error('Error deploying contract:', error);
+  try {
+    const signedTx = (await signTransaction(tx)) as ICommand; // Pick your preferred signing method
+    const preflightResult = await pactClient.preflight(signedTx);
+    console.log('Preflight result:', preflightResult);
+
+    if (preflightResult.result.status === 'failure') {
+      console.error('Preflight failed:', preflightResult.result.error);
+      return preflightResult;
     }
-};
-deployContract('your-deployer-account', contractCode).catch(console.error);
+
+    const res = await pactClient.submit(signedTx);
+    console.log('Deploy request sent', res);
+    const result = await pactClient.pollOne(res);
+    if (result.result.status === 'failure') {
+      console.error('Deploy failed:', result.result.error);
+    }
+    return result;
+  } catch (error) {
+    console.error('Error deploying contract:', error);
+  }
+}
+const deployerKDAAccount =
+  'k:94eede9754031395401332c2032694da9dd2f7972fb039070f698a3173745a8b';
+const deployerPublicKey =
+  '94eede9754031395401332c2032694da9dd2f7972fb039070f698a3173745a8b';
+deployContract(
+  deployerKDAAccount,
+  deployerPublicKey,
+  `
+  (namespace 'free)
+  (module simplemodule GOV
+    (defcap GOV () true)
+    (defconst TEXT:string "Hello World")
+    (defun greet:string () TEXT)
+  )`,
+)
+  .then((result) => {
+    console.log('Contract deployed:', result);
+  })
+  .catch(console.error);
 ```
-   
+
+The following example illustrates using a `requestToSign` helper script.
+
+```typescript
+import type { ICommand, IUnsignedCommand } from '@kadena/types';
+
+const browserPrompt = async (command: string) => {
+  await window.navigator.clipboard.writeText(command);
+  return Promise.resolve(
+    window.prompt(
+      `Command:\n${command}\nCommand copied to the clipboard\nEnter Signature:\n)`,
+    ) ?? '',
+  );
+};
+
+const nodePrompt = async (command: string) => {
+  const message = `Command:\n${command}\nEnter Signature:\n`;
+  const readline = await import('node:readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  return new Promise<string>((resolve) => {
+    rl.question(message, (answer) => {
+      resolve(answer);
+      rl.close();
+    });
+  });
+};
+
+export function createRequestToSign(
+  prompt: (message: string) => Promise<string> = typeof window !== 'undefined'
+    ? browserPrompt
+    : nodePrompt,
+) {
+  return async (command: IUnsignedCommand): Promise<ICommand> => {
+    const sig = await prompt(JSON.stringify(command, null, 2));
+    return {
+      ...command,
+      sigs: [{ sig }],
+    };
+  };
+}
+```
