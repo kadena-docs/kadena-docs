@@ -33,13 +33,6 @@ const config: Config = {
          {name: 'keywords', content: 'kadena, kda, developer, docs, documentation, enterprise, institutional'},
          {name: 'twitter:card', content: 'summary_large_image'},
       ],
-      announcementBar: {
-         id: "announcement-bar_1",
-         content: `<strong>This docs site is a work in progress, please visit our <a target="_blank" href="https://docs.kadena.io">live docs site</a>.</strong>`,
-         backgroundColor: "#469279",
-         textColor: "#FFFFFF",
-         isCloseable: false,
-      },
       docs: {
          sidebar: {
             hideable: true,
