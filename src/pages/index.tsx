@@ -4,7 +4,12 @@ import Layout from '@theme/Layout';
 import { DocSearch } from '@docsearch/react';
 import { Analytics } from "@vercel/analytics/react"
 
-import KadenaBlockTemp from '/static/img/kadena-docs-block-temp.jpg';
+import KadenaImgAPI from '/static/img/kadena-docs-api-reference.jpg';
+import KadenaImgFunction from '/static/img/kadena-docs-function-ref.jpg';
+import KadenaImgHowTo from '/static/img/kadena-docs-howto-guides.jpg';
+import KadenaImgQuick from '/static/img/kadena-docs-quickstart.jpg';
+import KadenaImgResources from '/static/img/kadena-docs-resources.jpg';
+import KadenaImgSC from '/static/img/kadena-docs-smart-contracts.jpg';
 
 export default function Home(): JSX.Element {
 
@@ -46,7 +51,7 @@ export default function Home(): JSX.Element {
 
                <a className='home-main-sections-item' href="./quickstart">
 
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaImgQuick + ")"}}></div>
 
                   <div className='home-main-sections-item-content'>
 
@@ -60,7 +65,7 @@ export default function Home(): JSX.Element {
 
                <a className='home-main-sections-item' href="./api">
 
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaImgAPI + ")"}}></div>
 
                   <div className='home-main-sections-item-content'>
 
@@ -74,7 +79,7 @@ export default function Home(): JSX.Element {
 
                <a className='home-main-sections-item' href="./reference">
 
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaImgFunction + ")"}}></div>
 
                   <div className='home-main-sections-item-content'>
 
@@ -88,7 +93,7 @@ export default function Home(): JSX.Element {
 
                <a className='home-main-sections-item' href="./smart-contract-dev">
 
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaImgSC + ")"}}></div>
 
                   <div className='home-main-sections-item-content'>
 
@@ -102,7 +107,7 @@ export default function Home(): JSX.Element {
 
                <a className='home-main-sections-item' href="./guides">
 
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaImgHowTo + ")"}}></div>
 
                   <div className='home-main-sections-item-content'>
 
@@ -116,7 +121,7 @@ export default function Home(): JSX.Element {
 
                <a className='home-main-sections-item' href="./resources">
 
-                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaBlockTemp + ")"}}></div>
+                  <div className='home-main-sections-item-cover' style={{backgroundImage: "url(" + KadenaImgResources + ")"}}></div>
 
                   <div className='home-main-sections-item-content'>
 
