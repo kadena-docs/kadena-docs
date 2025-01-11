@@ -494,6 +494,7 @@ const sidebars: SidebarsConfig = {
            'resources/contribute-doc',
            'resources/contribute-dev',
            'resources/writing-guide',
+           'resources/legacy',
       ],
  }
 ],
