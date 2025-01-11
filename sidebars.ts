@@ -491,9 +491,9 @@ const sidebars: SidebarsConfig = {
       items: [
            'resources/glossary',
            'resources/solutions',
+           'resources/writing-guide',
            'resources/contribute-doc',
            'resources/contribute-dev',
-           'resources/writing-guide',
            'resources/legacy',
       ],
  }
