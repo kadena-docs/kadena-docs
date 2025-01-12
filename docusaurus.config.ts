@@ -37,6 +37,7 @@ const config: Config = {
          respectPrefersColorScheme: true
       },
       image: 'img/kadena-opengraph.png',
+      customizeTitle: ({ pageTitle, siteTitle }) => `${siteTitle} | ${pageTitle}`,
       metadata: [
          {name: 'keywords', content: 'kadena, kda, developer, docs, documentation, enterprise, institutional'},
          {name: 'twitter:card', content: 'summary_large_image'},
