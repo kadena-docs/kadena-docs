@@ -2,6 +2,14 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const isGaEnabled = (): boolean => {
+     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+       const consent = localStorage.getItem('ga_consent');
+       return consent === 'true';
+     }
+     return false; // Default to disabled during SSR
+   };
+
 const config: Config = {
    title: 'Kadena Docs',
    url: 'https://enterprise-docs.kadena.io',
@@ -33,13 +41,6 @@ const config: Config = {
          {name: 'keywords', content: 'kadena, kda, developer, docs, documentation, enterprise, institutional'},
          {name: 'twitter:card', content: 'summary_large_image'},
       ],
-      announcementBar: {
-         id: "announcement-bar_1",
-         content: `<strong>This docs site is a work in progress, please visit our <a target="_blank" href="https://docs.kadena.io">live docs site</a>.</strong>`,
-         backgroundColor: "#469279",
-         textColor: "#FFFFFF",
-         isCloseable: false,
-      },
       docs: {
          sidebar: {
             hideable: true,
@@ -107,6 +108,16 @@ const config: Config = {
        },
    } satisfies Preset.ThemeConfig,
 
+   plugins: [
+     [
+       '@docusaurus/plugin-google-analytics',
+       {
+         trackingID: 'G-J507K728FR',
+         anonymizeIP: true,
+       },
+     ],
+   ],
+
    presets: [
       [
          'classic',
@@ -119,10 +130,6 @@ const config: Config = {
             theme: {
                customCss: './src/css/custom.css',
             },
-            gtag: {
-               trackingID: 'G-J507K728FR',
-               anonymizeIP: true,
-             },
          } satisfies Preset.Options,
       ],
    ],
