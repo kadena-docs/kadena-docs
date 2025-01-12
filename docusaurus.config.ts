@@ -2,6 +2,14 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const isGaEnabled = (): boolean => {
+     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+       const consent = localStorage.getItem('ga_consent');
+       return consent === 'true';
+     }
+     return false; // Default to disabled during SSR
+   };
+
 const config: Config = {
    title: 'Kadena Docs',
    url: 'https://enterprise-docs.kadena.io',
@@ -100,6 +108,16 @@ const config: Config = {
        },
    } satisfies Preset.ThemeConfig,
 
+   plugins: [
+     [
+       '@docusaurus/plugin-google-analytics',
+       {
+         trackingID: 'G-J507K728FR',
+         anonymizeIP: true,
+       },
+     ],
+   ],
+
    presets: [
       [
          'classic',
@@ -112,10 +130,6 @@ const config: Config = {
             theme: {
                customCss: './src/css/custom.css',
             },
-            gtag: {
-               trackingID: 'G-J507K728FR',
-               anonymizeIP: true,
-             },
          } satisfies Preset.Options,
       ],
    ],
