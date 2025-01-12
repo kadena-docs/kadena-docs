@@ -1,5 +1,5 @@
 {
-  "name": "kadena-docs",
+  "name": "docusaurus",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -15,26 +15,19 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.7.0",
-    "@docusaurus/plugin-google-gtag": "^3.7.0",
-    "@docusaurus/preset-classic": "^3.6.0",
+    "@docusaurus/core": "3.7.0",
+    "@docusaurus/preset-classic": "3.7.0",
     "@mdx-js/react": "^3.0.0",
-    "@vercel/analytics": "^1.4.1",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
-    "prismjs": "^1.29.0",
-    "react": "^18.0.0",
-    "react-cookie-consent": "^9.0.0",
-    "react-dom": "^18.0.0",
-    "react-helmet": "^6.1.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.6.0",
-    "@docusaurus/tsconfig": "^3.6.0",
-    "@docusaurus/types": "^3.6.0",
-    "@types/node": "^22.10.5",
-    "@types/react-helmet": "^6.1.11",
-    "typescript": "~5.5.2"
+    "@docusaurus/module-type-aliases": "3.7.0",
+    "@docusaurus/tsconfig": "3.7.0",
+    "@docusaurus/types": "3.7.0",
+    "typescript": "~5.6.2"
   },
   "browserslist": {
     "production": [

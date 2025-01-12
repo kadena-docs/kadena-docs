@@ -1,19 +1,8 @@
 {
-     "extends": "@docusaurus/tsconfig",
-     "compilerOptions": {
-       "target": "ESNext",
-       "module": "CommonJS",
-       "moduleResolution": "Node",
-       "esModuleInterop": true,
-       "allowSyntheticDefaultImports": true,
-       "strict": true,
-       "jsx": "react-jsx",
-       "skipLibCheck": true,
-       "baseUrl": ".",
-       "paths": {
-         "@docusaurus/*": ["node_modules/@docusaurus/*"]
-       },
-       "typeRoots": ["./node_modules/@types", "./src/types"]
-     },
-     "include": ["src/**/*", "docusaurus.config.js", "docusaurus.config.ts"]
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "exclude": [".docusaurus", "build"]
 }
