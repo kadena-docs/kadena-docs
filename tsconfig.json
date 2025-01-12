@@ -1,8 +1,19 @@
 {
      "extends": "@docusaurus/tsconfig",
      "compilerOptions": {
-          "baseUrl": ".",
-          "jsx": "react-jsx", // Add this for JSX support
-          "skipLibCheck": true // Optional: Prevents type-checking of declaration files
-     }
+       "target": "ESNext",
+       "module": "CommonJS",
+       "moduleResolution": "Node",
+       "esModuleInterop": true,
+       "allowSyntheticDefaultImports": true,
+       "strict": true,
+       "jsx": "react-jsx",
+       "skipLibCheck": true,
+       "baseUrl": ".",
+       "paths": {
+         "@docusaurus/*": ["node_modules/@docusaurus/*"]
+       },
+       "typeRoots": ["./node_modules/@types", "./src/types"]
+     },
+     "include": ["src/**/*", "docusaurus.config.js", "docusaurus.config.ts"]
 }
