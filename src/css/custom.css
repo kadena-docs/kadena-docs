@@ -187,7 +187,14 @@
               height: 250px;
               text-align: center; }
 
-           .home-main-sections-item-content {
+               .home-main-sections-item-cover.quick-start { background-image: url('/static/img/kadena-docs-quickstart.jpg'); }
+               .home-main-sections-item-cover.api-ref { background-image: url('/static/img/kadena-docs-api-reference.jpg'); }
+               .home-main-sections-item-cover.function-ref { background-image: url('/static/img/kadena-docs-function-ref.jpg'); }
+               .home-main-sections-item-cover.smart-contracts { background-image: url('/static/img/kadena-docs-howto-guides.jpg'); }
+               .home-main-sections-item-cover.howto-guides { background-image: url('/static/img/kadena-docs-resources.jpg'); }
+               .home-main-sections-item-cover.resources { background-image: url('/static/img/kadena-docs-smart-contracts.jpg'); }
+
+          .home-main-sections-item-content {
               border-bottom-left-radius: 15px;
               border-bottom-right-radius: 15px;
               padding: 15px 25px; }
