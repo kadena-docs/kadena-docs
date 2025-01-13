@@ -65,7 +65,18 @@
              padding-top: 2.65rem;
              padding-left: 1.75rem; }
 
-  footer.footer--dark { padding: 15px; font-size: 14.5px; }
+  footer.footer--dark { padding: 15px 15px 0 15px; font-size: 14.5px; }
+
+  .footer-consent-link {
+     background-color: var(--k-light-3);
+     text-align: center;
+     padding-bottom: 15px;}
+
+          .footer-consent-link button {
+               background: none;
+               border: none;
+               text-decoration: underline;
+               cursor: pointer; }
 
   nav.navbar .github-link-icon {
      height: 24px; width: 24px;
