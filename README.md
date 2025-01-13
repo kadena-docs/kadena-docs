@@ -1,14 +1,10 @@
-# Kadena Developer Docs
-
-<p>&nbsp;</p>
-
 <div align="center">
      <img src="static/img/kadena-github-view.png">
 </div>
 
 <p>&nbsp;</p>
 
-## Overview
+# Kadena Developer Docs
 
 This repository contains the contents for the Kadena Developer Docs deployed at [https://docs.kadena.io](https://docs.kadena.io).
 
