@@ -68,15 +68,15 @@
   footer.footer--dark { padding: 15px 15px 0 15px; font-size: 14.5px; }
 
   .footer-consent-link {
-     background-color: var(--k-light-3);
      text-align: center;
-     padding-bottom: 15px;}
+     padding-bottom: 15px; }
 
-          .footer-consent-link button {
-               background: none;
-               border: none;
-               text-decoration: underline;
-               cursor: pointer; }
+     .footer-consent-link button {
+          background: none;
+          border: none;
+          text-decoration: underline;
+          cursor: pointer;
+          font-size: 13px; }
 
   nav.navbar .github-link-icon {
      height: 24px; width: 24px;
@@ -337,6 +337,8 @@
      html[data-theme='light'] footer.footer--dark a:active,
      html[data-theme='light'] footer.footer--dark a:hover { color: var(--k-dark-3); }
 
+     html[data-theme='light'] .footer-consent-link { background-color: var(--k-light-3); }
+
   html[data-theme='light'] .navbar__toggle { color: var(--k-primary) !important; }
 
   html[data-theme='light'] nav.navbar { background: var(--k-light-0); }
@@ -411,6 +413,8 @@
      html[data-theme='dark'] footer.footer--dark a:visited,
      html[data-theme='dark'] footer.footer--dark a:active,
      html[data-theme='dark'] footer.footer--dark a:hover { color: var(--k-light-3); }
+
+html[data-theme='dark'] .footer-consent-link { background-color: var(--k-dark-3); }
 
   html[data-theme='dark'] .navbar__toggle { color: var(--k-light-0) !important; }
 
