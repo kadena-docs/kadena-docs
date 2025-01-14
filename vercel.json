@@ -3,7 +3,9 @@
           {
                "source": "/(.*)",
                "destination": "/index.html"
-          },
+          }
+     ],
+     "redirects": [
           {
                "source": "/old-123",
                "destination": "/quickstart",
