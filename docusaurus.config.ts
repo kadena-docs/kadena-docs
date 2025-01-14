@@ -6,7 +6,7 @@ const config: Config = {
      title: 'Kadena Docs',
      tagline: 'The Blockchain for Business',
      favicon: 'img/kadena-favicon.png',
-     url: 'https://enterprise-docs.kadena.io',
+     url: 'https://docs.kadena.io',
      baseUrl: '/',
      trailingSlash: false,
 
