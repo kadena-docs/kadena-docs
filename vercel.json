@@ -7,8 +7,33 @@
      ],
      "redirects": [
           {
-               "source": "/old-123",
-               "destination": "/quickstart",
+               "source": "/changelogs/:slug*",
+               "destination": "/resources/solutions",
+               "permanent": true
+          },
+          {
+               "source": "/learn/:slug*",
+               "destination": "/resources/glossary",
+               "permanent": true
+          },
+          {
+               "source": "/build/:slug*",
+               "destination": "/coding-projects/coding-projects",
+               "permanent": true
+          },
+          {
+               "source": "/deploy/:slug*",
+               "destination": "/guides",
+               "permanent": true
+          },
+          {
+               "source": "/participate/:slug*",
+               "destination": "/guides",
+               "permanent": true
+          },
+          {
+               "source": "/reference/:slug*",
+               "destination": "/reference",
                "permanent": true
           }
      ]
