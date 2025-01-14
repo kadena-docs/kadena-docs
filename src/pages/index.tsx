@@ -2,7 +2,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import React from 'react';
 import Layout from '@theme/Layout';
 import { DocSearch } from '@docsearch/react';
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import Link from '@docusaurus/Link';
 
 
