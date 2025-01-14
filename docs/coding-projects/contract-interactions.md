@@ -8,7 +8,7 @@ sidebar_position: 4
 # Contract interactions
 
 The _Contract interactions_ project is designed to demonstrate how you can import and use functions defined in one module in another module.
-For this project, you'll build a smart contract with separate modules to handle user authorization and payments with secure interactions between the modules. 
+For this project, you'll build a smart contract with separate modules to handle user authorization and payments with secure interactions between the modules.
 Secure contract interaction is a fundamental requirement for setting up more complex smart contracts.
 
 For this project, you'll create two Pact modules:
@@ -18,7 +18,7 @@ For this project, you'll create two Pact modules:
 
 The `auth` module manages user authorization, while the `payments` module handles transferring value between two accounts—`Sarah` and `James`.
 
-<img src="/img/contract-interactions-overview.webp" alt="Contract interactions project overview" height="550" width="900"/>
+<img src="/img/docs-contract-interactions.png" alt="Contract interactions project overview" height="550" width="900"/>
 
 In this tutorial, you'll learn the following:
 
@@ -94,7 +94,7 @@ You’ll work with three main files:
    These keysets will help manage access control throughout the contract.
 
 2. Create the `auth` module to handle user authentication and management.
-   
+
    ```pact
    (module auth "free.module-admin"
    ```
@@ -105,7 +105,7 @@ You’ll work with three main files:
      (defschema user
        nickname:string
        keyset:guard)
-     
+
      (deftable users:{user})
    ```
 
@@ -150,7 +150,7 @@ You’ll work with three main files:
 
    ```pact
    (module payments "free.admin-keyset"
-   
+
      (use auth)
    ```
 
@@ -173,7 +173,7 @@ You’ll work with three main files:
    ```
 
 1. Define the `get-balance` function to retrieve the balance for an account from the database for an authorized user.
-   
+
    ```pact
      (defun get-balance (userId:string)
        (enforce-user-auth 'admin)
@@ -264,6 +264,6 @@ Ensure that the REPL output aligns with expected results.
 
 ## Review
 
-You have now built and tested a contract interaction setup using two modules, following a step-by-step approach. 
+You have now built and tested a contract interaction setup using two modules, following a step-by-step approach.
 This tutorial covered user authentication and payment transactions across modules.
 

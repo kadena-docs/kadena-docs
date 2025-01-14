@@ -7,7 +7,7 @@ description: "There are two types of transaction in Pact smart contracts: transa
 
 # Transaction format and lifecycle
 
-There are two types of transaction in Pact smart contracts: 
+There are two types of transaction in Pact smart contracts:
 
 - Transactions that execute in a single step, identified in Pact code as `exec` transactions.
 - Transactions that continue a sequence with more than one step, identified in Pact code as `cont` transactions.
@@ -17,7 +17,7 @@ The execution of the code in the message is _atomic_ and the transaction succeed
 For these types of transactions, Pact doesn't allow partial execution or provide any concept for rollback handling.
 
 For transactions that consist of more than one step, each step is effectively a single transaction.
-However, each step must be executed in sequence and if any step in the sequence fails, the entire transaction can be rolled back to its initial state or allowed to continue without rollback handling. 
+However, each step must be executed in sequence and if any step in the sequence fails, the entire transaction can be rolled back to its initial state or allowed to continue without rollback handling.
 For example, a cross-chain transfer is essentially a two-step transaction, with a debit transaction initiated on a source chain and a separate credit transaction occurring on a destination chain.
 Without rollback handling, if the second step isn't called to complete the transaction, the first step becomes an orphan and the intended transfer operation remains in an incomplete, interrupted state.
 However, multi-step transactions can include a rollback step so that if a specific condition exists, a previously completed steps can be reversed.
@@ -48,7 +48,7 @@ The following template describes the YAML format for signed execution transactio
 code: Pact code to execute for the transaction
 codeFile: Pact file that contains the transaction code to execute
 data: JSON data to include in the transaction
-dataFile: JSON data file for the transaction 
+dataFile: JSON data file for the transaction
 keyPairs: [ List of public and secret key pairs for signing
   - public: Base 16 public key
     secret: Base 16 secret key
@@ -80,7 +80,7 @@ However, in an unsigned request, a `signers` attribute replaces the `keyPairs` a
 code: Pact code to execute for the transaction
 codeFile: Pact file that contains the transaction code to execute
 data: JSON data to include in the transaction
-dataFile: JSON data file for the transaction 
+dataFile: JSON data file for the transaction
 signers: [ List of public keys for required signers
   - public: Base 16 public key
     caps: [ List of capabilities and arguments (optional)
@@ -134,10 +134,10 @@ type: cont
 
 After you have a transaction message properly formatted as a JSON object, it can be executed locally for testing purposes or sent to the blockchain for execution on-chain.
 You submit transactions to the blockchain for on-chain execution by connecting to a node using the Pact `/send` endpoint.
-In most cases, the node you connect to is a node that you control—in the local development environment, the public test network, or the production main network. 
+In most cases, the node you connect to is a node that you control—in the local development environment, the public test network, or the production main network.
 
-Before moving the transaction into a pending state, Pact performs some initial checks on the message to validate that the transaction doesn't have errors that would prevent it from being executed. 
-These initial checks include verifying the signatures format, metadata, and the availability of funds to pay transaction fees. 
+Before moving the transaction into a pending state, Pact performs some initial checks on the message to validate that the transaction doesn't have errors that would prevent it from being executed.
+These initial checks include verifying the signatures format, metadata, and the availability of funds to pay transaction fees.
 If there are issues—like an invalid signature or a time-to-live (TTL) that has expired—the transaction fails immediately without further processing.
 If the initial checks pass, the node receiving the transaction message assigns the message a unique transaction identifier (txid) and inserts the transaction into its holding area for pending transactions, called the **mempool**.
 The transactions waiting to be included in a block are synchronized across all of the nodes.
@@ -148,10 +148,10 @@ The block that includes the transaction is then sent to all of the nodes in the 
 
 The following diagram provides a simplified view of the transaction flow for a single-step exec transaction.
 
-![Transaction lifecycle](/img/tx-workflow.png)
+![Transaction lifecycle](/img/docs-transactions-flow-smart-contracts.png)
 
 Throughout its lifecycle, there are several ways you can check the status of the transaction using the transaction identifier or request key.
-For example, you can use the Pact `/listen` endpoint to wait for the results from a single transaction or the Pact `/poll` endpoint to poll the node for one or more transaction results without blocking new requests. 
+For example, you can use the Pact `/listen` endpoint to wait for the results from a single transaction or the Pact `/poll` endpoint to poll the node for one or more transaction results without blocking new requests.
 You can also check whether transactions are pending in the mempool by calling the [peer-to-peer API](/api/peer-to-peer) endpoints, such as the `/mempool/member` and `/mempool/lookup` endpoints.
 
 If you don't want to use the [Pact API](/api/pact-api) or the [peer-to-peer API](/api/peer-to-peer) to see results, you can enter the transaction request key in a block explorer, such as [explorer.kadena.io/mainnet](https://explorer.kadena.io/mainnet) or [explorer.kadena.io/testnet](https://explorer.kadena.io/testnet).
@@ -165,16 +165,16 @@ The logic in the smart contract also determines whether each step can be rolled 
 
 Much like single-step transactions, the node receiving the first step in a `defpact` transaction message assigns the message a unique identifier (pact-id).
 This identifier is what ties the steps together as parts of the same transaction.
-The remainder of the workflow for the first step in a `defpact` transaction is the same as any other execution request. 
+The remainder of the workflow for the first step in a `defpact` transaction is the same as any other execution request.
 
 ### Two-step transactions without rollback
 
 In cross-chain transfers, a receiving account is typically responsible for sending the continuation transaction request and paying the transaction fee associated with that request.
-However, any account—including a dedicated autonomous [gas station](/resources/glossary#gas-station) account—can sign and send the continuation request. 
+However, any account—including a dedicated autonomous [gas station](/resources/glossary#gas-station) account—can sign and send the continuation request.
 If there's a delay in sending the continuation request, the transfer operation remains incomplete.
 
 ### Two-step transactions with rollback
 
 Multi-step `defpact` transactions can also include logic to rollback a step under specified conditions.
-For example, you can use a  `defpact` transaction to orchestrate operations similar to an escrow service, moving assets into a holding account until contractual obligations are met and the releasing assets only after all parties have completed require actions. 
+For example, you can use a  `defpact` transaction to orchestrate operations similar to an escrow service, moving assets into a holding account until contractual obligations are met and the releasing assets only after all parties have completed require actions.
 A step with rollback logic could specify a time limit for completing required actions and return assets to the original account if all required steps aren't completed within the time allowed.

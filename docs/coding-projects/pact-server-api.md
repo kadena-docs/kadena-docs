@@ -13,11 +13,11 @@ This coding project focuses on how to:
 - Create a YAML configuration file for the Pact built-in local server.
 - Create YAML execution API requests to submit transactions.
 - Format YAML execution requests as JSON objects.
-- Submit YAML requests using the Pact REST API endpoints. 
+- Submit YAML requests using the Pact REST API endpoints.
 
 By becoming familiar with how to perform these tasks, you'll be better prepared to develop a full stack application that combines a Pact smart contract backend with a Javascript-based front-end.
 
-![Pact REST API and local server](/img/pact-api-server.png)
+![Pact REST API and local server](/img/docs-pact-server-api.png)
 
 ## Before you begin
 
@@ -51,8 +51,8 @@ To create a project folder:
    mkdir deploy-tutorial
    ```
 
-3. Change the directory to make the `local-project` folder your current working directory: 
-   
+3. Change the directory to make the `local-project` folder your current working directory:
+
    ```bash
    cd local-project
    ```
@@ -68,13 +68,13 @@ To create a server configuration file:
    ```
 
 1. Open the `pact-config.yaml` file in your code editor and define the following configuration settings:
-   
+
    ```bash
    # Configuration file for the Pact built-in HTTP server.
-   
+
    # HTTP server port
    port: 8080
-   
+
    # directory for HTTP logs
    logDir: http-log
 
@@ -83,14 +83,14 @@ To create a server configuration file:
 
    # SQLite pragmas for pact back-end
    pragmas: []
-   
+
    # verbose: provide log output
    verbose: True
    ```
 
    You can also find the standard format for the Pact server configuration file in the [Pact repository](https://github.com/kadena-io/pact/blob/master/config.yaml).
    The file provides the following fields to configure settings for the Pact built-in server:
-   
+
    | Use this field | To do this |
    | :------------- | :--------- |
    | `port` | Specify the port number for the local Pact HTTP server to use. In this example, the port number `8080` is specified and is used as the port in all of the examples in this project. You can change this setting if you want to use a different. If this port is available in your local environment, you can leave this setting as it is.|
@@ -122,12 +122,12 @@ To create a sample transaction file:
      - public: ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d
        secret: 8693e641ae2bbe9ea802c736f42027b03f86afe63cae315e7169c9c496c17332
    ```
-   
-   In this example, the transaction includes one line of Pact code `1 + 2`, two data fields for the name `Stuart` and the language `Pact`, and a public and secret key pair that was generate by running the `pact --genkey` command. 
+
+   In this example, the transaction includes one line of Pact code `1 + 2`, two data fields for the name `Stuart` and the language `Pact`, and a public and secret key pair that was generate by running the `pact --genkey` command.
    Transaction requests must always include either the `code` setting to specify the Pact code to execute or the `codeFile` setting to specify the path to a file that contains the Pact code to execute.
    The `data` setting is most commonly uses to specify keyset information.
    For example:
-   
+
    ```bash
    codeFile: "deploy-hello.pact"
    data:
@@ -136,7 +136,7 @@ To create a sample transaction file:
        pred: "keys-all"
       }
    ```
-   
+
    Alternatively, you can use a `dataFile` setting to specify the path to a file that contains the data for the transaction.
 
    The `keyPairs` setting lists key pairs to use for signing transaction.
@@ -227,7 +227,7 @@ You can use the local Pact server to call the following Pact REST API endpoints:
 
 ### Send
 
-Now that the Pact server is running, you can use the terminal to call the `/send` endpoint locally. 
+Now that the Pact server is running, you can use the terminal to call the `/send` endpoint locally.
 To call the `/send` endpoint, you must:
 
 - Convert the YAML request in the transaction.yaml file into a JSON `cmd` object.
@@ -240,7 +240,7 @@ To call the `/send` endpoint:
 2. Navigate to the `local-project` folder.
 
 3. Convert the YAML request in the transaction.yaml file into a JSON cmd object.
-   
+
    ```bash
    pact --apireq transaction.yaml
    ```
@@ -256,12 +256,12 @@ To call the `/send` endpoint:
    ```bash
    pact --apireq transaction.yaml | curl -H "Content-Type: application/json" -d @- http://localhost:8080/api/v1/send
    ```
-   
-   This command formats that YAML transaction, specifies the request header for the `Content-Type` to be `application/json`, then specifies the destination for the API call. 
+
+   This command formats that YAML transaction, specifies the request header for the `Content-Type` to be `application/json`, then specifies the destination for the API call.
    In this case, the API call is sent to the `localhost` on port `8080`.
-   
+
    This command returns the request key for the transaction in the response:
-   
+
    ```bash
    {"requestKeys":["Mvn7OBApUVCck9lPzvNJjwd2gBeq6ZFEJnXTI-R0hQQ"]}
    ```
@@ -301,7 +301,7 @@ This command returns the result of the request with output similar to the follow
 {"5Fu1m0crUk7MKL0Yyjg3gMPGcKuC0U4dx5Z5kBEQUz8":{"gas":0,"result":{"status":"success","data":3},"reqKey":"5Fu1m0crUk7MKL0Yyjg3gMPGcKuC0U4dx5Z5kBEQUz8","logs":"wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8","metaData":null,"continuation":null,"txId":1}}
 ```
 
-The difference between the `/listen` and `/poll` endpoints is subtle, but important. 
+The difference between the `/listen` and `/poll` endpoints is subtle, but important.
 You only use the `/listen` endpoint if you are working with a single hash to return the result.
 You use the `/poll` endpoint if you want to request the results for multiple transactions.
 
@@ -323,7 +323,7 @@ This command returns output that's similar to the output from the /send endpoint
 {"gas":0,"result":{"status":"success","data":3},"reqKey":"ch8h1qrsqpOtt9mIhwi1vGXM8QKc53OIGEpKUF3Yz80","logs":"wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8","metaData":null,"continuation":null,"txId":null}
 ```
 
-The `/local` endpoint is particularly useful if you want to execute a function that doesn’t need to change the state of the blockchain. 
+The `/local` endpoint is particularly useful if you want to execute a function that doesn’t need to change the state of the blockchain.
 In general, you should use the `/local` endpoint if you want to call functions that retrieve information from tha blockchain.
 Yoi should use the `/send` endpoint if you want to update information stored in the blockchain or to deploy smart contracts on the blockchain.
 
@@ -363,11 +363,11 @@ drwxr-xr-x  4 pistolas  staff  128 Jan  6 16:19 http-log
 To write and execute YAML requests:
 
 1. Generate a public and secret key pair to sign transactions using a command similar to the following:
-   
+
    ```bash
    pact --genkey > pistolas.keys
    ```
-   
+
    This command create a `pistolas.keys` file with a public and secret key.
    For example:
 
@@ -376,12 +376,12 @@ To write and execute YAML requests:
    secret: 06fe72b8deaf96ba21734535bfb8c7e062d64b672b1c7d5179d67b7d363a3b13
    ```
 
-   Note that, in this example, you’re submitting requests to the built-in Pact server endpoints. 
-   If you were deploying contracts or calling functions on the Kadena development, test, or production network, your YAML request file would need to include additional information such as the network identifier and chain identifier. 
-   You can find examples of more complete YAML request files in the [How to](/guides) guides. 
+   Note that, in this example, you’re submitting requests to the built-in Pact server endpoints.
+   If you were deploying contracts or calling functions on the Kadena development, test, or production network, your YAML request file would need to include additional information such as the network identifier and chain identifier.
+   You can find examples of more complete YAML request files in the [How to](/guides) guides.
 
 2. Write a minimal `deploy-hello-world.yaml` file that deploys the `hello-world.pact` file.
-   
+
    ```yaml
    # Deploy ‘Hello, world! smart contract’
 
@@ -393,7 +393,7 @@ To write and execute YAML requests:
    ```
 
 1. Deploy the contract by calling the `/send` endpoint.
-   
+
    ```bash
    pact --apireq deploy-hello-world.yaml | curl -H "Content-Type: application/json" -d @- http://localhost:8080/api/v1/send
    ```
@@ -406,11 +406,11 @@ To write and execute YAML requests:
    ```
 
 2. Listen for the transaction result by calling the `/listen` endpoint.
-   
+
    ```bash
    curl -H "Content-Type: application/json" -d '{"listen":"7tq7i9cqTdTOA4GDoBkMDtq8aXFD3xXei_R85NWsQdA"}' -X POST http://localhost:8080/api/v1/listen
    ```
-   
+
    The command returns the transaction result.
    For example:
 
@@ -419,9 +419,9 @@ To write and execute YAML requests:
    ```
 
 3. Write a `call-say-hello.yaml` file that calls the `say-hello` function.
-   
+
    ```yaml
-   # Call the say-hello-function 
+   # Call the say-hello-function
 
    code: (helloWorld.say-hello "San Francisco, CA")
    data:
@@ -431,11 +431,11 @@ To write and execute YAML requests:
    ```
 
 1. Submit a transaction that calls the function by using the `/send` endpoint.
-   
+
    ```bash
    pact --apireq call-say-hello.yaml | curl -H "Content-Type: application/json" -d @- http://localhost:8080/api/v1/send
    ```
-   
+
    The command returns the request key.
    For example:
 
@@ -444,7 +444,7 @@ To write and execute YAML requests:
    ```
 
 2. Listen for the transaction result by calling the `/listen` endpoint with the request key returned.
-   
+
    ```bash
    curl -H "Content-Type: application/json" -d '{"listen":"5HW7PI3eqrKt4zKVTk5HdFVO0_GGmtQJr7AJwZ_xOto"}' -X POST http://localhost:8080/api/v1/listen
    ```
