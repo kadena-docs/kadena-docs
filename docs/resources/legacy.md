@@ -9,4 +9,4 @@ keywords:
 
 Missing something? Here is access to the old Kadena documentation for reference.
 
-[Visit our Legacy Docs](#)
+[Visit our Legacy Docs](https://alpha-docs-fp4romh7i-kadena-js.vercel.app)
