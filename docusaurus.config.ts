@@ -103,7 +103,7 @@ const config: Config = {
           },
           footer: {
                style: 'dark',
-               copyright: `Copyright © ${new Date().getFullYear()} - <a href="https://kadena.io" target="_blank">Kadena LLC</a>`,
+               copyright: `Copyright © ${new Date().getFullYear()} - Kadena LLC (<a href="https://www.kadena.io/privacy-policy" target="_blank">Privacy</a>)`,
           },
           prism: {
                additionalLanguages: ['lisp'],
