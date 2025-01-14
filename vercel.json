@@ -30,11 +30,6 @@
                "source": "/participate/:slug*",
                "destination": "/guides",
                "permanent": true
-          },
-          {
-               "source": "/reference/:slug*",
-               "destination": "/reference",
-               "permanent": true
           }
      ]
 }
