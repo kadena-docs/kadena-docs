@@ -8,7 +8,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 # Quick start for Kadena developers
 
-Welcome to the Kadena development _Quick start_ guide. 
+Welcome to the Kadena development _Quick start_ guide.
 Follow these simplified instructions to set up your development environment with a local blockchain and developer tools, then write your first contract using the Pact smart contract programming language.
 
 ## Before you begin
@@ -17,10 +17,10 @@ Before you begin, verify your computer meets the following basic requirements an
 
 * Access to the internet, an interactive terminal shell, and a web browser.
 
-* [Git](https://git-scm.com/downloads) version control program. 
+* [Git](https://git-scm.com/downloads) version control program.
   You can verify that `git` is installed by running `git --version` on your computer.
 
-* [Node.js](https://nodejs.dev/en/learn/how-to-install-nodejs/), version 18 or higher.
+* [Node.js](https://nodejs.org/en/download), version 18 or higher.
   You can verify that `node.js` is installed by running `node --version` on your computer.
 
 * [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), the command-line interface for the node package manager.
@@ -33,7 +33,7 @@ If you have everything you need, you can set up your development environment and
 
 ## Install Pact
 
-The Pact smart contract programming language is specifically designed for writing [smart contracts](/resources/glossary) to run safely and efficiently on the Kadena blockchain network. 
+The Pact smart contract programming language is specifically designed for writing [smart contracts](/resources/glossary) to run safely and efficiently on the Kadena blockchain network.
 Follow the appropriate instructions for your operating system to Pact.
 
 - [Install Pact on Linux](/smart-contracts/install/linux)
@@ -59,7 +59,7 @@ For more information about starting the Kadena development network in a Docker c
 
 ## Install the Kadena command-line interface
 
-The Kadena command-line interface (`kadena-cli`) provides direct access to the Kadena blockchain and commands to create, test, deploy, and manage applications for the Kadena network. 
+The Kadena command-line interface (`kadena-cli`) provides direct access to the Kadena blockchain and commands to create, test, deploy, and manage applications for the Kadena network.
 You can use the Kadena command-line interface interactively or in scripts and automated workflows.
 
 To install and configure the `kadena-cli` program, open a terminal shell on your computer then run the following commands:
@@ -97,13 +97,13 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
         )
    )
    ```
-   
+
    You should see the module loaded with output similar to the following:
 
    ```pact
    "Loaded module greeting, hash f1yyXqj5HstOni1QdZmuagUJXbu72VmYiwXua7Vp4-0"
    ```
-   
+
 3. Call the `say-hello` function with a string similar to the following:
 
    ```pact
@@ -117,15 +117,15 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
    ```
 
    If you want to deploy this contract on the local development network, copy the module code to a file with the `.pact` file extension—for example, create a `greeting.pact` file—then create a transaction to deploy the module as described in [Deploy smart contracts](/guides/contracts/howto-deploy-contracts).
-   
+
    You can exit the Pact interpreter by pressing control-d on the keyboard.
 
 ## Next steps
 
-Congratulations! 
+Congratulations!
 In this _Quick start_, you learned the basics of how to set up a development environment with the Pact programming language, a local development network, and the Kadena developer command-line interface.
 You also got a first look at how to write and execute a simple Pact contract in the interactive interpreter.
-You can learn more about these topics in [Smart contracts](/smart-contract-dev) documentation. 
+You can learn more about these topics in [Smart contracts](/smart-contract-dev) documentation.
 
 Here are some suggested next steps:
 

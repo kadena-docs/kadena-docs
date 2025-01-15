@@ -30,6 +30,86 @@
                "source": "/participate/:slug*",
                "destination": "/guides",
                "permanent": true
+          },
+          {
+               "source": "/reference/functions/:slug",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/property-checking/:slug",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/pacts",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/pact-repl",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/rest-api",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-cli/:slug",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/client-utils",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/built-in-utils",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/core-utils",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/pactjs-old",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/pactjs-cli",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/pactjs-generator",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/kadena-client/cryptographic-utils",
+               "destination": "/reference/kadena-client",
+               "permanent": true
+          },
+          {
+               "source": "/reference/nft-ref/:slug",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/spirekey",
+               "destination": "/reference",
+               "permanent": true
+          },
+          {
+               "source": "/reference/chainweb-api/:slug",
+               "destination": "/api",
+               "permanent": true
           }
      ]
 }
