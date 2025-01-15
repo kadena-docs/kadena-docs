@@ -1,5 +1,5 @@
 ---
-title: Dev Tools & Solutions
+title: Developer tools and solutions
 description:
   Explore a comprehensive list of tools and solutions built for building on Kadena.
 id: solutions
@@ -11,13 +11,13 @@ keywords:
   - chainweb
 ---
 
-# Developer Tools & Solutions
+# Developer tools and solutions
 
 Explore a comprehensive list of tools and solutions built for developers building on Kadena.
 
 -- *Full list of Tools & Solutions coming soon*
 
-## HD Wallet
+## HD wallet
 
 Key derivation based on Hierarchical Deterministic (HD)/Mnemonic keys and BIP32, for Kadena
 
