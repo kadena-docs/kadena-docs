@@ -459,7 +459,7 @@ const sidebars: SidebarsConfig = {
       },
          'reference/chainweb-cli',
          'reference/kadena-client',
-         //'reference/client-libs',
+         //'reference/client-utils',
          'reference/guard-json',
       ],
    },
@@ -479,6 +479,7 @@ const sidebars: SidebarsConfig = {
               'coding-projects/loans',
               'coding-projects/local-testing',
               'coding-projects/pact-server-api',
+              'coding-projects/conditions-control',
               ],
     },
     {
