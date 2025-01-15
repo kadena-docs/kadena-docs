@@ -32,12 +32,12 @@
                "permanent": true
           },
           {
-               "source": "/reference/functions/:slug",
+               "source": "/reference/functions/:slug*",
                "destination": "/reference",
                "permanent": true
           },
           {
-               "source": "/reference/property-checking/:slug",
+               "source": "/reference/property-checking/:slug*",
                "destination": "/reference",
                "permanent": true
           },
@@ -57,7 +57,7 @@
                "permanent": true
           },
           {
-               "source": "/reference/kadena-cli/:slug",
+               "source": "/reference/kadena-cli/:slug*",
                "destination": "/reference",
                "permanent": true
           },
@@ -97,7 +97,7 @@
                "permanent": true
           },
           {
-               "source": "/reference/nft-ref/:slug",
+               "source": "/reference/nft-ref/:slug*",
                "destination": "/reference",
                "permanent": true
           },
@@ -107,7 +107,7 @@
                "permanent": true
           },
           {
-               "source": "/reference/chainweb-api/:slug",
+               "source": "/reference/chainweb-api/:slug*",
                "destination": "/api",
                "permanent": true
           }
