@@ -114,8 +114,8 @@ This request returns information similar to the following truncated excerpt:
       ],
     "nodeLatestBehaviorHeight": 4819247,
     "nodeNumberOfChains": 20,
-    "nodePackageVersion": "2.24.1",
-    "nodeServiceDate": "2024-08-21T00:00:00Z",
+    "nodePackageVersion": "2.26.1",
+    "nodeServiceDate": "2025-02-05T00:00:00Z",
     "nodeVersion": "mainnet01"
 }
 ```

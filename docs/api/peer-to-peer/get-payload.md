@@ -78,12 +78,12 @@ You can send a payload request to a bootstrap node for the Kadena test network a
 GET https://us1.testnet.chainweb.com/chainweb/0.0/testnet04/chain/18/payload/BKFz8a2AZGtZQPlp2xPRfe7ohlnOuzV2NbIEB3cFwI8
 ```
 
-The response header for this request looks like this:
+The response header for this request looks like this for `chainweb-node` version 2.26.1:
 
 ```text
 X-Server-Timestamp: 1720805685
 X-Peer-Addr: 54.86.50.139:16853
-X-Chainweb-Node-Version: 2.24.1
+X-Chainweb-Node-Version: 2.26.1
 Content-Type: application/json;charset=utf-8
 ```
 

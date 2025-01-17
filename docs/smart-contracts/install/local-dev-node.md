@@ -152,7 +152,7 @@ Most `chainweb-node` software runs on Linux with AMD64 architectures.
 If you want to run a Chainweb node on Linux or macOS with ARM64 architecture, you'll need to build the binaries yourself from the source code.
 You might experience some unexpected behavior when running a node on ARM64 architecture.
 Note that you should not configure **mining** for nodes on ARM64 architecture.
-RUnning a mining node on ARM64 architecture could cause your node to fork from the network.
+Running a mining node on ARM64 architecture could cause your node to fork from the network.
 
 If you want to run a Chainweb node on Microsoft Windows, you should note that this isn't a supported configuration and requires you to install the latest Windows Services for Linux (WSL) software.
 If you choose to proceed after installing WSL, you can install the `chainweb-node` software in the WSL virtual environment rather than using the native Windows operating system. 
@@ -197,7 +197,7 @@ To install from a release archive:
    For example, the `chainweb-node` archive file for Ubuntu 22.04 looks like this:
    
    ```text
-   chainweb-2.24.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
+   chainweb-2.26.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
    ```
 
 5. Change to the directory that contains the downloaded file—typically, the Downloads folder—or move the file to a new location.
@@ -205,7 +205,7 @@ To install from a release archive:
 6. Unzip and extract the compressed archive by running a command similar to the following:
    
    ```bash
-   tar -xvzf chainweb-2.24.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
+   tar -xvzf chainweb-2.26.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
    ```
 
 7. Verify the binary is ready to use and review command-line configuration options by running the following command:
