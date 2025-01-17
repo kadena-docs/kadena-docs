@@ -48,7 +48,7 @@ You can send a request to a Kadena test network bootstrap node like this:
 GET https://us1.testnet.chainweb.com/config
 ```
 
-These sample requests return the schema for `chainweb-node` version 2.24.1. 
+These sample requests return the schema for `chainweb-node` version 2.26.1. 
 
 For the bootstrap node, the response looks similar to the following:
 
