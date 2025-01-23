@@ -433,7 +433,7 @@ For example, you can edit the configuration file to make the following types of 
 - Enable the backup API and specify the directory for backup files.
 - Connect the node to the Kadena test network instead of the Kadena main network.
 - Specify a directory for blockchain database files.
-- Ignore or connect to a subset of [bootstrap nodes](/).
+- Ignore or connect to a subset of [bootstrap nodes](https://github.com/kadena-io/chainweb-node?tab=readme-ov-file#bootstrap-nodes).
 
 To edit the node configuration:
 
