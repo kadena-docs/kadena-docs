@@ -110,6 +110,11 @@
                "source": "/reference/chainweb-api/:slug*",
                "destination": "/api",
                "permanent": true
+          },
+          {
+               "source": "/kadena/wallets",
+               "destination": "https://www.kadena.io/defi?topic=Wallets",
+               "permanent": true
           }
      ]
 }
