@@ -13,17 +13,20 @@ The improvements in Pact 5 ensure lower transaction costs, faster module loading
 To take advantage of these improvements, you need to update your development environment and smart contracts to use Pact 5.
 This article covers the basics of upgrading to Pact 5 and details some of the breaking changes that might require you to update and redeploy existing contracts or fix potential coding errors.
 
+The Kadena main production network (`mainnet01`) will be upgraded to use Pact 5 on 10 February 2025.
+The Kadena test network (`testnet04`) will be upgraded to use Pact 5 on 6 February 2025.
+An interim test network (`testnet05`) is currently available for testing with Pact 5.
+The `testnet05` network will be decommissioned and removed from service on 7 February 2025 after the `testnet04` network is upgraded to use Pact 5.
+
 ## Preparing to migrate
 
 Ideally, you should test any smart contracts you've written by installing Pact 5 locally before Pact 5 is released on the Kadena main production network.
-If you install Pact 5 locally in your development environment, you can run all of your existing contract tests you've defined in REPL files using the Pact 5 binary to verify that they work as expected.
-For information about installing the Pact 5 binary locally, see [/smart-contracts/install].
+If you install Pact 5 locally in your development environment, you can run all of your existing contract tests that you've defined in REPL files using the Pact 5 binary to verify that they work as expected.
+For information about installing the Pact 5 binary locally, see [Installation and setup]([/smart-contracts/install).
 
-You can also test existing smart contracts by deploying them on the Kadena test network.
-You can deploy contracts for testing with Pact 5 on the Kadena `testnet05` network, if you deploy before 7 February 2025.
+You can also test that existing smart contracts work with Pact 5 by deploying them on the Kadena `testnet05` network.
 You can connect to the `testnet05` network by using the API node available at `api.testnet05.chainweb.com`.
-The `testnet05` network is a separate test network where Pact 5 runs on Chainweb nodes before being deployed on the `testnet04` network and the Kadena `mainnet01` network.
-Note that the `testnet05` network will be decommissioned and removed from service when the `testnet04` network is upgraded to use Pact 5.
+For examples of how to deploy contracts, see the [Deploy smart contracts](/guides/contracts/howto-deploy-contracts) guide.
 
 Pact 5 will also be deployed by default on the `development` network that you can run locally beginning with the `chainweb-node` 2.27 release. 
 After `chainweb-node` 2.27 is released, you can start a local development node to build and test contracts using Pact 5 by default.
@@ -35,8 +38,9 @@ However, some of the bug fixes that were found in earlier versions of Pact and c
 
 You can find details about new features and the types of issues you might encounter in the remainder of this document.
 
-At a minimum, you should expect to redeploy existing contracts on the Kadena main production network after Pact 5 is released on the Kadena `mainnet01` network.
-Pact 5 includes a new built-in function for redeploying contracts, so you can take advantage of reduced transaction costs and faster transaction execution with minimal migration steps.
+You don't need to redeploy any existing contracts to use Pact 5. 
+However, redeploying will reduce the gas required to execute contract functions, because the newly-deployed version will use the Pact 5 on-disk format. 
+Pact 5 includes a new built-in function for redeploying contracts, so you can take advantage of reduced transaction costs without modifying any contract code or module hashes.
 
 ## Semantic changes
 
@@ -157,7 +161,7 @@ Pact requires module administrator privileges to be acquired before performing t
 
 Pact 4 automatically attempts to acquire the module administrator privileges when executing these operations. 
 To prevent contracts from accidentally executing privileged actions, Pact 5 no longer automatically acquires the module administrator privileges except in the case of upgrading a module. 
-To acquire module administrator privileges explicitly, you can use the new `acquire-module-admin` built-in function  
+To acquire module administrator privileges explicitly, you can use the new `acquire-module-admin` built-in function,
 This change makes security boundaries between modules much clearer.
 
 For example, in the following contract code, the user Bob acquires module administrator privileges by writing directly to the table `foo` and gives himself a balance of `10000000000000` using Pact 4:
@@ -197,7 +201,7 @@ For example:
 
 By acquiring the administrative rights before sending the `(write m.foo "bob" {"user":"bob", "balance":10000000000000})` transaction, it's clearer that the code is performing an administrative operation. 
 Note that this change doesn't affect module deployment or upgrade transactions.
-Module administrator privileges are granted automatically to deploy or redeploy a module.
+Module administrator privileges are requested automatically to redeploy a module.
 
 ### Module hashing
 
@@ -296,8 +300,9 @@ The following functions are new in Pact 5.
 
 - `acquire-module-admin` is a new function that you can use to explicitly acquire module administrator privileges as described in [Acquiring module administrator privileges for operations](#acquiring-module-administrator-privileges-for-operations).
 
-- `static-redeploy` is a new function that you can use to redeploy existing modules into their Pact 5 format, making them cheaper and faster to load.
-   Note that the use of this function is not a privileged operation. Anyone can do it to any module.
+- `static-redeploy` is a new function that you can use to redeploy existing modules into their Pact 5 format, making them cheaper and faster to load, without changing the contract code or updating the contract dependencies.
+   Note that the use of this function is not a privileged operation. 
+   Anyone can do it to any module, and the module hash remains the same..
 
 ## Request and result interface
 
