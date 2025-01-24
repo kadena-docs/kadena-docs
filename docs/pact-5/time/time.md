@@ -15,7 +15,9 @@ If you need higher resolution, you can explicitly format times with the `%v` tem
 
 To construct a time object from a UTC value, use the following syntax:
 
-`(time UTC)`
+```pact
+(time UTC)
+```
 
 ## Arguments
 
@@ -34,7 +36,7 @@ The `time` function returns a time object constructed from the provided UTC valu
 The following example demonstrates the usage of the `time` function within the Pact REPL. It constructs a time object from the UTC value `"2016-07-22T11:26:35Z"`:
 
 ```pact
-pact>(time "2016-07-22T11:26:35Z")
+pact> (time "2016-07-22T11:26:35Z")
 2016-07-22 11:26:35 UTC
 ```
 

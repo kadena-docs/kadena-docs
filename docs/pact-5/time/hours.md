@@ -34,7 +34,7 @@ In this example, the `add-time` function is used to add one hour to the time rep
 Specifying hours as an integer:
 
 ```pact
-pact>(hours 3)
+pact> (hours 3)
 10800.0
 ```
 
@@ -43,7 +43,7 @@ In this example, the `hours` function specifies 3 hours as an integer value.
 Specifying hours as a decimal:
 
 ```pact
-pact>(hours 2.5)
+pact> (hours 2.5)
 9000.0
 ```
 
