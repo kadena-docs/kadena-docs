@@ -22,7 +22,7 @@ The `testnet05` network will be decommissioned and removed from service on 7 Feb
 
 Ideally, you should test any smart contracts you've written by installing Pact 5 locally before Pact 5 is released on the Kadena main production network.
 If you install Pact 5 locally in your development environment, you can run all of your existing contract tests that you've defined in REPL files using the Pact 5 binary to verify that they work as expected.
-For information about installing the Pact 5 binary locally, see [Installation and setup]([/smart-contracts/install).
+For information about installing the Pact 5 binary locally, see [Installation and setup](/smart-contracts/install).
 
 You can also test that existing smart contracts work with Pact 5 by deploying them on the Kadena `testnet05` network.
 You can connect to the `testnet05` network by using the API node available at `api.testnet05.chainweb.com`.
