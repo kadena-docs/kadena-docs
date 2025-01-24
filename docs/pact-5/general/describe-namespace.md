@@ -41,4 +41,4 @@ pact> (describe-namespace 'my-namespace)
 ,pred: keys-all}}
 ```
 
-In this example, `(describe-namespace 'my-namespace)` is used to describe the namespace named "my-namespace". The function returns a row object containing the user and admin guards of the namespace, as well as its name. This provides a detailed description of the specified namespace.
+In this example, `(describe-namespace 'my-namespace)` is used to describe the namespace named 'my-namespace'. The function returns a row object containing the user and admin guards of the namespace, as well as its name. This provides a detailed description of the specified namespace.

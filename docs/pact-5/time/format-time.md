@@ -1,9 +1,11 @@
-## format-time
+# format-time
 
 Use `format-time` to format a `time` value using a specified `format`.
 The `format-time` function is useful for converting time values to human-readable formats in Pact contracts.
 
 The `format-time` function accepts format codes that are derived from the formatting time `strftime` function time templates.
+For information about all of the time formats and specifiers, see [Time formats](/pact-5/time/time-functions#time-formats).
+
 The following table provides a summary of the most common time formatting codes:
 
 | Format | Purpose |
@@ -15,13 +17,9 @@ The following table provides a summary of the most common time formatting codes:
 | %M | Minute of of the hour, zero-padded to two characters, "00"–"59" |
 | %S | Second of the minute, zero-padded to two characters, "00"–"60" |
 
-There are many other formatting options.
-For example, you can replace the numeric representing the month of the year with the short name or long name for the month.
-For information about all of the formats supported, see [Time formats](/pact-5/time/time-functions#time-formats).
-
 Note that two percentage characters (`%%`) are interpreted as a literal percentage sign (`%`), not a time formatting template.
 
-### Basic syntax
+## Basic syntax
 
 To format a time value using a specified format, use the following syntax:
 
@@ -29,7 +27,7 @@ To format a time value using a specified format, use the following syntax:
 (format-time format time)
 ```
 
-### Arguments
+## Arguments
 
 Use the following arguments to specify the format and time for the `format-time` Pact function:
 
@@ -38,11 +36,11 @@ Use the following arguments to specify the format and time for the `format-time`
 | `format` | string | Specifies the format string for the time. |
 | `time` | time | Specifies the time value to format. |
 
-### Return values
+## Return values
 
 The `format-time` function returns a new string with the formatted time value.
 
-### Examples
+## Examples
 
 The following example demonstrates how to use the `format-time` function to format the time value `(time "2016-07-22T12:00:00Z")` using the specified format:
 

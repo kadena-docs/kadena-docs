@@ -15,9 +15,7 @@ If you need higher resolution, you can explicitly format times with the `%v` tem
 
 To construct a time object from a UTC value, use the following syntax:
 
-```pact
-(time UTC)
-```
+`(time UTC)`
 
 ## Arguments
 
