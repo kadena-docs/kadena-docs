@@ -34,7 +34,7 @@ After `chainweb-node` 2.27 is released, you can start a local development node t
 ## After upgrading to Pact 5
 
 Most smart contracts written in Pact 4, or earlier, should be compatible with Pact 5 and continue to operate as expected without any issues. 
-However, some of the bug fixes that were found in earlier versions of Pact and corrected in the Pact 5 implementation might cause unexpected behavior in your contracts or require some type of modification to the contract code.
+However, some of the bugs that were found in earlier versions of Pact and corrected in the Pact 5 implementation might cause unexpected behavior in your contracts or require some type of modification to the contract code.
 
 You can find details about new features and the types of issues you might encounter in the remainder of this document.
 
@@ -302,7 +302,7 @@ The following functions are new in Pact 5.
 
 - `static-redeploy` is a new function that you can use to redeploy existing modules into their Pact 5 format, making them cheaper and faster to load, without changing the contract code or updating the contract dependencies.
    Note that the use of this function is not a privileged operation. 
-   Anyone can do it to any module, and the module hash remains the same..
+   Anyone can do it to any module, and the module hash remains the same.
 
 ## Request and result interface
 
