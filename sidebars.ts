@@ -25,6 +25,7 @@ const sidebars: SidebarsConfig = {
                               'smart-contracts/install/windows',
                               'smart-contracts/install/tooling',
                               'smart-contracts/install/local-dev-node',
+                              'smart-contracts/install/migrating-to-pact5',
                          ],
                     },
                     'smart-contracts/basic-concepts',

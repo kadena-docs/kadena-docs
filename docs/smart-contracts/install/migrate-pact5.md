@@ -23,7 +23,15 @@ You can also test existing smart contracts by deploying them on the Kadena test 
 You can deploy contracts for testing with Pact 5 on the Kadena `testnet05` network, if you deploy before 7 February 2025.
 You can connect to the `testnet05` network by using the API node available at `api.testnet05.chainweb.com`.
 The `testnet05` network is a separate test network where Pact 5 runs on Chainweb nodes before being deployed on the `testnet04` network and the Kadena `mainnet01` network.
+<<<<<<< HEAD
 Note that the `testnet05` network will be decommissioned when the testnet04 network is upgraded to use Pact 5.
+=======
+<<<<<<< HEAD
+Note that the `testnet05` network will be decommissioned when the testnet04 network is upgraded to use Pact 5.
+=======
+Note that the `testnet05` network will be decommissioned when the `testnet04` network is upgraded to use Pact 5.
+>>>>>>> 6be05ec (Draft migration topic)
+>>>>>>> 9695c9c (Draft migration topic)
 
 Pact 5 will also be deployed by default on the `development` network that you can run locally beginning with the `chainweb-node` 2.27 release. 
 After `chainweb-node` 2.27 is released, you can start a local development node to build and test contracts using Pact 5 by default.
