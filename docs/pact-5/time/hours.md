@@ -3,7 +3,7 @@
 Use the `hours` function to calculate a time duration in hours.
 You can use this function in combination with the `add-time` function to add a specific number of hours to a given time.
 
-## Syntax
+## Basic syntax
 
 The syntax for the `hours` function is as follows:
 
