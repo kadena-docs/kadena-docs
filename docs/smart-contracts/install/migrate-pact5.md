@@ -327,15 +327,20 @@ In general, Pact 4 and Pact 5 command requests and command results can be parsed
 ## Gas changes
 
 Because the Pact interpreter has been structurally changed, Pact 5 has different gas costs than Pact 4.
-Pact 5 is also provides more precise methods for determining the gas cost of certain built-in functions. 
+Pact 5 also uses more precise methods to determine the gas costs for certain built-in functions. 
 
-In practice, most gas costs are lower, but the only way to be sure your transactions still fit into the gas limits is to test them using Pact 5, either on running on `testnet05`, or locally in a local Pact 5 REPL.
+In practice, most functions require less gas when executed with Pact 5.
+However, the only way to be sure your transactions don't exceed gas limits is to test them using Pact 5, either by running smart contracts on `testnet05`, or by executing functions locally in a Pact 5 REPL.
+
+In addition to lower gas costs, Pact 5 is stricter in checking the signature used to buy gas.
+In Pact 4, you could successfully sign for the `coin.GAS` capability even if you included extra arguments, such as (coin.GAS "") or (coin.GAS 1). 
+In Pact 5, you can only sign for the `coin.GAS` capability with (coin.GAS).
 
 ## Formal verification
 
 The Pact 4 formal verification system is tightly coupled to the internal implementation of Pact 4. 
 Because Pact 5 is a complete re-implementation of the Pact language and command-line interpreter, Pact 5 doesn't support the Pact 4 formal verification system.
-A new formal verification system compatible with to Pact 5 isn't available at this time.
+A new formal verification system compatible with Pact 5 isn't available at this time.
 However, plans for improving or simplifying formal verification for Pact 5 contracts have been discussed and remain under consideration.
 
 ## Parser fixes
