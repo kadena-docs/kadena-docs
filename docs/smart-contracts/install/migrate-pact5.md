@@ -333,8 +333,8 @@ In practice, most functions require less gas when executed with Pact 5.
 However, the only way to be sure your transactions don't exceed gas limits is to test them using Pact 5, either by running smart contracts on `testnet05`, or by executing functions locally in a Pact 5 REPL.
 
 In addition to lower gas costs, Pact 5 is stricter in checking the signature used to buy gas.
-In Pact 4, you could successfully sign for the `coin.GAS` capability even if you included extra arguments, such as (coin.GAS "") or (coin.GAS 1). 
-In Pact 5, you can only sign for the `coin.GAS` capability with (coin.GAS).
+In Pact 4, you could successfully sign for the `coin.GAS` capability even if you included extra arguments, such as `(coin.GAS "")` or `(coin.GAS 1)`. 
+In Pact 5, you can only sign for the `coin.GAS` capability with `(coin.GAS)`.
 
 ## Formal verification
 
