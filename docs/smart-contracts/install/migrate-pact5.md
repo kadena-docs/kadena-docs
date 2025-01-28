@@ -281,6 +281,22 @@ Loaded module m, hash D45G9PizSn59QTRyUObLesCM9IEf_xrIM5OlpgQXxQg
 In the Pact 5 output, the hash for the `m` module reflects the change in the dependencies. 
 This change is required for integrity, because otherwise, modules with the same hash can behave differently.
 
+### Function names and variable identifiers
+
+In Pact 4, it was possible to use variable identifiers with the same name as built-in functions. 
+For example, in Pact 4, you can write a function like the following that uses `identity` as a variable identifier:
+
+```pact
+(defun register-identity:bool (user-address:string user-guard:guard identity:string country:integer)
+   ...
+)
+```
+
+However, `identity` is a reserved keyword for a built-in function.
+In Pact 4, you are allowed to override or shadow the function name.
+Pact 5 doesn't allow this behavior, and variables that use the same name as a built-in function resolve as the built-in function.
+If you use any variable identifiers with the same name as a built-in function name, you should modify the variable identifier to use a different name if you want to redeploy the contract as a Pact 5 contract.
+
 ## Changed or removed built-in functions
 
 - `pact-version` was usable in the REPL and with the `/local` endpoint to determine the current Pact version. It was cut from Pact 5 due to time constraints.
