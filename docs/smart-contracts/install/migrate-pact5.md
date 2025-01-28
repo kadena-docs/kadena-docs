@@ -287,7 +287,9 @@ In Pact 4, it was possible to use variable identifiers with the same name as bui
 For example, in Pact 4, you can write a function like the following that uses `identity` as a variable identifier:
 
 ```pact
-(register-identity-internal user-address user-guard identity country)
+(defun register-identity:bool (user-address:string user-guard:guard identity:string country:integer)
+   ...
+)
 ```
 
 However, `identity` is a reserved keyword for a built-in function.
