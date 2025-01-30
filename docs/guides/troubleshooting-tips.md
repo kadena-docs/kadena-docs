@@ -29,8 +29,18 @@ There are slight differences in the fields expected and how they are defined in 
 For more information about transaction formatting, see the following topics:
   
 - [Transaction format and flow](/smart-contracts/transactions)
+<<<<<<< HEAD
 - [Construct transactions](/guides/howto-construct-tx)
 - [Sign and submit transactions](/guides/howto-sign-submit-tx)
+=======
+<<<<<<< HEAD
+- [Construct transactions](/guides/howto-construct-tx)
+- [Sign and submit transactions](/guides/howto-sign-submit-tx)
+=======
+- [Construct transactions](/guides/transactions/howto-construct-tx)
+- [Sign and submit transactions](/guides/transactions/howto-sign-submit-tx)
+>>>>>>> 0ac3a15 (Add missing peer output, change right side menu)
+>>>>>>> ca2b3f5 (Add missing peer output, change right side menu)
 
 ### Gas management
   
