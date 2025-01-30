@@ -399,6 +399,7 @@ const sidebars: SidebarsConfig = {
                               'pact-5/repl/expect-failure',
                               'pact-5/repl/expect-that',
                               'pact-5/repl/expect',
+                              'pact-5/repl/load',
                          ],
                     },
                     {
