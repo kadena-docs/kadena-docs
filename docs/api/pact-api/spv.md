@@ -1,13 +1,12 @@
 ---
 title: Get simple payment verification (spv)
-description:
-  Provides reference information for the Pact /send endpoint.
+description: "Provides reference information for the Pact /spv endpoint."
 id: spv
 sidebar_position: 7
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-## Get simple payment verification (spv)
+# Get simple payment verification (spv)
 
 You can use the `/spv` endpoint to issue a blocking request to fetch a simple payment verification (spv) proof of a cross-chain transaction. 
 The request must be sent to the chain where the transaction initiated.
