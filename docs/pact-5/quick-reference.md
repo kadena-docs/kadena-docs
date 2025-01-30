@@ -111,6 +111,7 @@ id: func-quick-ref
 - [list-modules](/pact-5/database/list-modules) List all of the modules deployed on a particular chain using the `/local` endpoint.
 - [list](/pact-5/general/list) Create a list from the specified elements (deprecated).
 - [ln](/pact-5/operators/ln) Compute the natural logarithm of a specified value.
+- [load](/pact-5/repl/load) Load and evaluate a specified `.pact` or `.repl` file.
 - [log](/pact-5/operators/log) Compute the logarithm of the specified value with the specified base.
 - [less-than `<`](/pact-5/operators/lt) Return true if the first argument is less than the second argument.
 - [make-list](/pact-5/general/make-list) Create a list by repeating a specified value a certain number of times.
