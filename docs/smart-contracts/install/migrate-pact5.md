@@ -297,6 +297,9 @@ In Pact 4, you are allowed to override or shadow the function name.
 Pact 5 doesn't allow this behavior, and variables that use the same name as a built-in function resolve as the built-in function.
 If you use any variable identifiers with the same name as a built-in function name, you should modify the variable identifier to use a different name if you want to redeploy the contract as a Pact 5 contract.
 
+For a list of the reserved built-in function names, see [Function quick reference](/pact-5/func-quick-ref).
+For a list of reserved keywords, see [Syntax and keywords](/reference/syntax).
+
 ## Changed or removed built-in functions
 
 - `pact-version` was usable in the REPL and with the `/local` endpoint to determine the current Pact version. It was cut from Pact 5 due to time constraints.
