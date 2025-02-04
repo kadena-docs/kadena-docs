@@ -120,6 +120,7 @@ id: func-quick-ref
 - [mod](/pact-5/operators/mod) Compute the remainder for the first value divided by the second value.
 - [multiply (`*`)](/pact-5/operators/mult) Multiply the first argument by the second argument.
 - [namespace](/pact-5/general/namespace) Set the current namespace to a specified value.
+- [negate](/pact-5/general/negate) Negate a specified integer or decimal value.
 - [not-equal (`!=`)](/pact-5/operators/neq) Return true if the first argument does not equal the second argument.
 - [not?](/pact-5/operators/not-q) Apply a logical NOT to the results of a function.
 - [not](/pact-5/operators/not) Perform a boolean logic NOT operation.
@@ -146,9 +147,10 @@ id: func-quick-ref
 - [scalar-mult](/pact-5/zk/scalar-mult) Multiply a point by an integer value for a zero-knowledge proof.
 - [select](/pact-5/database/select) Retrieve full rows or specific columns from a table.
 - [shift](/pact-5/operators/shift) Perform a bitwise shift operation on the specified integer by the specified number of bits.
+- [show](/pact-5/general/show) Convert a specified `value` into a string.
 - [sort](/pact-5/general/sort) Sort a list of primitive values or objects.
-- [static-redeploy](/pact-5/general/static-redeploy) Redeploy a module without any code changes.
 - [sqrt](/pact-5/operators/sqrt) Compute the square root of the given value.
+- [static-redeploy](/pact-5/general/static-redeploy) Redeploy a module without any code changes.
 - [str-to-int](/pact-5/general/str-to-int) Compute the integer value of the specified string.
 - [str-to-list](/pact-5/general/str-to-list) Convert a string into a list where each element is a single-character string.
 - [subtract (`-`)](/pact-5/operators/sub) Negate an argument or subtract the second argument from the first argument.

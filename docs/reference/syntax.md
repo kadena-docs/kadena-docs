@@ -446,7 +446,7 @@ The following example shows a well-formed `defpact` with an equal number of step
 )
 ```
 
-### defschema
+## defschema
 
 Use the `defschema` keyword to define a _schema_ of table `fields` with the specified `name`.
 Each field in the schema takes the form of `fieldname[:fieldtype]`.
@@ -472,7 +472,7 @@ The following example illustrates defining the `accounts` schema and an `account
   data)
 ```
 
-### deftable
+## deftable
 
 Use the `deftable` keyword to define a database _table_ with the specified `name`.
 The name you specify is used in database functions to identify the table you want to work with.
@@ -503,6 +503,37 @@ The following example illustrates defining a schema and an `accounts` table:
 
   (deftable accounts:{account}
     "Main table for accounts module.")
+```
+
+## do
+
+Use the `do` keyword to evaluate a sequence of expressions and return the last one as the result.
+
+### Basic syntax
+
+To evaluate a sequence of expressions and return the last result, use the following syntax model:
+
+```pact
+(do (my-expression1) (my-expression2) (my-return-expression))
+```
+
+### Examples
+
+```pact
+pact> (do (print "hello world!") (+ 1 2) (+ 121 299))
+"hello world!"
+420
+```
+
+Notice how the return value is the last addition of `(+ 121 299)`.
+The `do` keyword evaluates every expression supplied, so if any expression errors along the way, the subsequent expressions will never be evaluated.
+For example:
+
+```pact
+pact> (do (enforce false "boom") (+ 1 2))
+(interactive):1:4: boom
+ 1 | (do (enforce false "boom") (+ 1 2))
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 ```
 
 ## implements
