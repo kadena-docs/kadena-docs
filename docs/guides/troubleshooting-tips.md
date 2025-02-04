@@ -54,6 +54,41 @@ If you don't get the results you expect from an API request, you should always c
 
 For more information about calling specific endpoints and their parameters, see the [API documentation](/api).
 
+## Common issues for Pact contracts
+
+In most cases, Pact error messages provide the information you need to resolve coding issues such as invalid syntax or formatting errors.
+However, there a few common errors that can be more difficult to diagnose and resolve.
+The following are the most common errors that you might encounter when executing functions defined in Pact contracts.
+
+### Contract-specific errors
+
+If you see an error message that isn't a Pact interpreter error, you should copy the message and search in the smart contract you are executing for a matching message. 
+It's likely that the function definition includes an `enforce` statement that contains the message and the error indicates that you haven't met all of the conditions that the `enforce` statement defines.
+
+### Error in $.signers[0].clist[0].name: ".": not enough input
+
+If you see a Pact parsing error similar to this, it indicates that you've forgotten to add the namespace of a capability that you tried to sign for. 
+Even contracts that are deployed in the root namespace must include at least the module name before the capability name. 
+For example, the capabilities defined in the `coin` contract require you to specify the `coin` module name before the capability name, such that to acquire the `TRANSFER` capability, you must sign for the `coin.TRANSFER` capability.
+
+For most contracts, you must sign for capabilities using a registered namespace, like `free` or `user` or a principal namespace like `n_eef68e581f767dd66c4d4c39ed922be944ede505`, and the module name before the capability name.
+For example, if you define the `VOTER_REG` capability in a `vote-mgr` module and deploy the module in the `free` namespace, you would sign for the `free.vote-mrg.VOTER_REG` capability.
+
+### Error: Keyset failure ...
+
+If you see a keyset failure, you should check for the following issues:
+
+- Check whether you have signed the transaction using the required keyset.
+- Check that you've met the conditions that are specified inb the keyset predicate.
+  For example, if a keyset requires more that one key to sign the message, be sure you have signed with the required number of keys.
+- Check that you have signed for all required capabilities.
+  For example, if you have signed to a acquire a capability, check whether the function requires you to sign for additional capabilities by reviewing the `with-capability` statements to be sure that all capabilities are in scope.
+
+### Capability not in scope
+
+If you attempt to access an account or row that is guarded by a capability defined outside of the scope of a function, executing the function might fail because the capability is not in scope. 
+In this case, you might need to execute a different function that brings the capability into scope fo the function you intended to execute.
+
 ## Common issues for Chainweb nodes
 
 The most common issues you might encounter if you're a node operator or attempting to connect to a remote node are problems with peer synchronization, network interruptions, or node unavailability.
