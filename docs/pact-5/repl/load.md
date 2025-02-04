@@ -14,10 +14,10 @@ To load a specific .pact or .repl filename, use the following syntax:
 
 ## Arguments
 
-Use the following arguments when using the `load` Pact function.
+Use the following argument when using the `load` Pact function.
 
 | Argument | Type | Description |
-|----------|------|------------ |
+|----------|------|---------|
 | filename | string | Specifies the .pact or .repl file you want to load into the Pact REPL.|
 | reset    | bool | Resets the REPL state before loading if set to true (optional).|
 
