@@ -102,8 +102,8 @@ To install Pact on Window Subsystem for Linux (WSL):
    pact --help
    ```
 
-   For more information about the command-line options, see Pact command-line interpreter.
-   For an introduction to Pact programming and language features, see basic language features.
+   For more information about the command-line options, see [Pact command-line interpreter](/reference/pact-cli).
+   For an introduction to Pact programming and language features, see [Pact features and conventions](/smart-contracts/lang-features).
 
 ## Troubleshooting
 
