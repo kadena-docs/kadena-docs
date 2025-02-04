@@ -122,7 +122,7 @@ Bindings are used in the following functions to assign variables to named column
 
 Lambda expressions are code blocks that create anonymous functions that can be applied in a local scope, rather than at the top level of a program with the `defun` keyword.
 
-Lambdas are supported in `let` and `let*` expression, and can be as inline arguments for built-in function applications.
+Lambdas are supported in `let` expressions, and can be as inline arguments for built-in function applications.
 
 ```pact
 ; identity function
@@ -578,8 +578,9 @@ The following example illustrates defining the `coin-sig` interface with documen
 ## let
 
 Use the `let` keyword to bind variables in pairs to over the scope of the code body.
-Variables within bind-pairs cannot refer to previously-declared variables in the same `let` declaration.
-For this, use [let\*](/reference/syntax#let).
+In Pact 4, `let` declarations din't all variables within bind-pairs to refer to previously-declared variables in the same declaration.
+In Pact 4, you could use the `let*` form to enable variables to reference previously-declared variables in the same `let` declaration.
+In Pact 5, the  `let*` keyword is deprecated and you can replace all let* declarations with `let` declarations.
 
 ### Basic syntax
 
@@ -598,12 +599,19 @@ pact > (let ((x 2) (y 5)) (* x y))
 10
 ```
 
+The following example illustrates referencing a previously-declared variable in the same `let` declaration in Pact 5:
+
+```pact
+(let ((x 2) (y (* x 10)))
+(+ x y))
+22
+```
+
 ## let\*
 
-Use the `let*` keyword to bind variables in pairs to over the scope of the code `body`.
-Variables can reference previously-declared variables in the same `let` declaration.
-The `let*` keyword is expanded at compile-time to nested `let` calls for each `bind-pair`.
-Therefore, you should use `let` statements where possible.
+Use the `let*` keyword to bind variables in pairs over the scope of the code `body`.
+In Pact 4, this form of the keyword enables variables to reference previously-declared variables in the same `let` declaration.
+In Pact 5, this form is deprecated and you can replace all let* declarations with `let` declarations.
 
 ### Basic syntax
 
