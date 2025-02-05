@@ -292,6 +292,8 @@
 
   .theme-edit-this-page { color: var(--k-action); }
 
+  .token.punctuation { color: var(--k-dark-0) !important; }
+
   article[class*='searchResultItem'] a:link,
   article[class*='searchResultItem'] a:visited,
   article[class*='searchResultItem'] a:active,
