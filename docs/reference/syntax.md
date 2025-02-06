@@ -262,7 +262,9 @@ For example, if the first condition evaluated passes, then branch-1 is executed.
 If the first condition isn't met, the second condition is evaluated and if that condition passes, then branch-2 is executed.
 The `else-branch` is only evaluated if all other conditions fail.
 
-`cond` is syntactically expanded such that:
+The `cond` special form allows you to evaluate a series of `if` expressions in a more concise manner.
+
+Syntactically, the `cond` form accepts a sequence of conditions:
 
 ```pact
 (cond
@@ -272,7 +274,7 @@ The `else-branch` is only evaluated if all other conditions fail.
    g)
 ```
 
-is expanded to:
+When the conditions are evaluated, the statements are expanded to a series of `if` statements:
 
 ```pact
 (if a b (if c d (if e f g)))
@@ -284,6 +286,34 @@ To evaluate a series of conditions, use the following syntax model:
 
 ```pact
 (cond (condition-1 branch-1) [(condition-2 branch-2) [...]] else-branch)
+```
+
+### Examples
+
+The following example demonstrates how to use `cond` to evaluate multiple branching conditional expressions. 
+
+```pact
+(module medals GOV
+    (defcap GOV () true)
+    (defun award:string (score:integer)
+      (cond ((< score 10) "Bronze")
+            ((< score 20) "Silver")
+            ((< score 30) "Gold")
+            "Platinum"))
+)
+```
+
+If you load this module, you can call the `award` function to see the conditions evaluated:
+
+```pact
+pact> (m.award 100)
+"Platinum"
+
+pact> (m.award 23)
+"Gold"
+
+pact> (m.award 3)
+"Bronze"
 ```
 
 ## defcap
@@ -304,7 +334,7 @@ To define a capability token that grants a permission or a privilege, use the fo
 
 ### Examples
 
-The following example illustrates defining the `USER_GURAD` capability:
+The following example illustrates defining the `USER_GUARD` capability:
 
 ```pact
 (defcap USER_GUARD (user)
