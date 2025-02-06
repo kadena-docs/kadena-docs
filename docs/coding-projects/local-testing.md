@@ -94,7 +94,7 @@ The following functions are some of the most commonly used REPL-only functions:
 | [env-sigs](/pact-5/repl/env-sigs) | Set transaction signature keys. |
 | [expect](/pact-5/repl/expect) | Evaluate expression and verify that it equals what is expected. |
 | [expect-failure](/pact-5/repl/expect-failure) | Evaluate an expression and succeed only if the expression results in an error. |
-| load | Load and evaluate a file. |
+| [load](/pact-5/repl/load) | Load and evaluate a file. |
 
 ## Load environment data
 
