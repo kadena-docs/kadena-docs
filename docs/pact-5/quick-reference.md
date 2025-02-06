@@ -71,8 +71,13 @@ id: func-quick-ref
 - [env-gasmodel](/pact-5/repl/env-gasmodel) Query or update the current gas model (REPL only).
 - [env-hash](/pact-5/repl/env-hash) Set the current transaction hash (REPL only).
 - [env-keys](/pact-5/repl/env-keys) Set the transaction signer keys (REPL only, deprecated).
+- [env-milligas](/pact-5/repl/env-milligas) Query the current gas state in units of one one thousandth of a gas unit.
+- [env-module-admin](/pact-5/repl/env-module-admin) Acquire the module administrative rights for any module loaded in the REPL.
 - [env-namespace-policy](/pact-5/repl/env-namespace-policy) Install a managed namespace policy (REPL only).
+- [env-set-debug-flag](/pact-5/repl/env-set-debug-flag) Set the Pact interpreter debug flags.
+- [env-set-milligas](/pact-5/repl/env-set-milligas) Set the current gas state to a specific value in units of one one thousandth of a gas unit.
 - [env-sigs](/pact-5/repl/env-sigs) Set signature keys for signing transactions and granting capabilities (REPL only).
+- [env-verifiers](/pact-5/repl/env-verifiers) Set transaction verifier names and capabilities.
 - [equal (`=`)](/pact-5/operators/eq) Return true if the first argument is equal to the second argument.
 - [exp](/pact-5/operators/exp) Calculate the exponential function of a value.
 - [expect-failure](/pact-5/repl/expect-failure) Evaluate an expression and succeed only if the expressions results in an error (REPL only).
@@ -127,12 +132,14 @@ id: func-quick-ref
 - [or?](/pact-5/operators/or-q) Apply a logical OR to the results a function.
 - [or](/pact-5/operators/or) Perform a boolean logic NOT operation.
 - [pact-id](/pact-5/general/pact-id) Return the identifier associated with `defpact` execution.
+- [pact-state](/pact-5/repl/pact-state) Inspect state from most recent `defpact` execution.
 - [pact-version](/pact-5/general/pact-version) Get the current Pact build version.
 - [pairing-check](/pact-5/zk/pairing-check) Perform pairing and final exponentiation on points for a zero knowledge proof.
 - [parse-time](/pact-5/time/parse-time) Construct time from a UTC value using a specified format.
 - [point-add](/pact-5/zk/point-add) Add two points together for a zero knowledge proof.
 - [poseidon-hash-hack-a-chain](/pact-5/general/poseidon-hash-hack-a-chain) Compute a hash using the Poseidon hash function used by Hack-a-Chain.
 - [power-of (`^`)](/pact-5/operators/pow) Raise an argument to the power of the second argument.
+- [print](/pact-5/repl/print) Convert a value into a string and print it to the REPL output.
 - [read-decimal](/pact-5/general/read-decimal) Read a `key` string or number value from the message data as a decimal.
 - [read-integer](/pact-5/general/read-integer) Read a `key` string or number value from the message data as an integer.
 - [read-keyset](/pact-5/general/read-keyset) Read a `key` from the message data as a keyset with a list of keys and a predicate function.
@@ -143,11 +150,13 @@ id: func-quick-ref
 - [require-capability](/pact-5/capabilities/require-capability) Check whether a specified capability has been granted.
 - [resume](/pact-5/general/resume) Bind a yielded object value from a `defpact` step to the execution of the next `defpact` step.
 - [reverse](/pact-5/general/reverse) Reverse the order of elements in a given list.
+- [rollback-tx](/pact-5/repl/rollback-tx) Roll back the current transaction.
 - [round](/pact-5/general/round) Perform Banker's rounding to return an integer or decimal value.
 - [scalar-mult](/pact-5/zk/scalar-mult) Multiply a point by an integer value for a zero-knowledge proof.
 - [select](/pact-5/database/select) Retrieve full rows or specific columns from a table.
 - [shift](/pact-5/operators/shift) Perform a bitwise shift operation on the specified integer by the specified number of bits.
 - [show](/pact-5/general/show) Convert a specified `value` into a string.
+- [sig-keyset](/pact-5/repl/sig-keyset) Build a keyset guard from keys present in message signatures.
 - [sort](/pact-5/general/sort) Sort a list of primitive values or objects.
 - [sqrt](/pact-5/operators/sqrt) Compute the square root of the given value.
 - [static-redeploy](/pact-5/general/static-redeploy) Redeploy a module without any code changes.
@@ -155,6 +164,7 @@ id: func-quick-ref
 - [str-to-list](/pact-5/general/str-to-list) Convert a string into a list where each element is a single-character string.
 - [subtract (`-`)](/pact-5/operators/sub) Negate an argument or subtract the second argument from the first argument.
 - [take](/pact-5/general/take) Retrieve a specified number of values from a list, string, or object.
+- [test-capability](pact-5/repl/test-capability) Acquire or install the `capability` specified.
 - [time](/pact-5/time/time.md) Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.
 - [try](/pact-5/general/try) Attempt a pure action without input, output, or state-changing operations.
 - [tx-hash](/pact-5/general/tx-hash) Get the hash of the current transaction as a string.
