@@ -164,7 +164,7 @@ id: func-quick-ref
 - [str-to-list](/pact-5/general/str-to-list) Convert a string into a list where each element is a single-character string.
 - [subtract (`-`)](/pact-5/operators/sub) Negate an argument or subtract the second argument from the first argument.
 - [take](/pact-5/general/take) Retrieve a specified number of values from a list, string, or object.
-- [test-capability](pact-5/repl/test-capability) Acquire or install the `capability` specified.
+- [test-capability](/pact-5/repl/test-capability) Acquire or install the `capability` specified.
 - [time](/pact-5/time/time.md) Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.
 - [try](/pact-5/general/try) Attempt a pure action without input, output, or state-changing operations.
 - [tx-hash](/pact-5/general/tx-hash) Get the hash of the current transaction as a string.
