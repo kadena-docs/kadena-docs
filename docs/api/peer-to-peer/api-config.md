@@ -143,7 +143,6 @@ For the bootstrap node, the response looks similar to the following:
     "readOnlyReplay": false,
     "reintroTxs": true,
     "reorgLimit": 480,
-    "rosetta": false,
     "serviceApi": {
         "interface": "invalid",
         "payloadBatchLimit": 1000,
