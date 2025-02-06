@@ -14,7 +14,7 @@ To load a specific .pact or .repl filename, use the following syntax:
 
 ## Arguments
 
-Use the following argument when using the `load` Pact function.
+Use the following arguments when using the `load` Pact function.
 
 | Argument | Type | Description |
 |----------|------|---------|

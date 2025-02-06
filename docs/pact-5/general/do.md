@@ -1,6 +1,6 @@
 # do
 
-`do` is a special form for evaluating a sequence of expressions and returning the last one as the result
+Use `do` to evaluate a sequence of expressions and return the last one as the result.
 
 ## Basic syntax
 
@@ -25,5 +25,4 @@ pact> (do (enforce false "boom") (+ 1 2))
 (interactive):1:4: boom
  1 | (do (enforce false "boom") (+ 1 2))
    |     ^^^^^^^^^^^^^^^^^^^^^^
-
 ```
