@@ -36,7 +36,8 @@ In this example, the `hello-pact.repl` file consists of one expression `(+ "Hell
 "Hello, Pact!"
 ```
 
-If you want to clear the REPL state before loading the file, set the optional `reset` argument to `true`:
+If you want to clear the REPL state before loading the file, set the optional `reset` argument to `true`.
+For example, to clear previous votes from the Pact REPL before loading the `vote-module.pact` file, add `true` for the `reset` argument:
 
 ```pact
 (load "vote-module.pact" true)
