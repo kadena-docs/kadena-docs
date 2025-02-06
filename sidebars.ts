@@ -166,7 +166,6 @@ const sidebars: SidebarsConfig = {
                               'api/service-api/check-node-health',
                               'api/service-api/get-node-info',
                               'api/service-api/mining',
-                              'api/service-api/rosetta',
                          ],
                     },
                     'api/data-models',
