@@ -17,6 +17,9 @@ Requests to the `/listen` endpoint keep the connection to the network open waiti
 
 Use the `POST https://{baseURL}/chain/{chain}/pact/api/v1/listen` endpoint to submit a blocking request for the results of a single transaction.
 
+Note that service API endpoints don't strictly require you to use secure connections (HTTPS).
+However, node operators can require it and connecting over HTTPS is strongly recommended to protect data in transit and to prevent potential browser issues.
+
 ### Path parameters
 
 | Parameter | Type | Description
