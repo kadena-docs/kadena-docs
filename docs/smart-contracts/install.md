@@ -39,6 +39,7 @@ You can choose to download and install either the latest, stable version of Pact
   By offering more modular and maintainable internal structures, Pact 5 can now better support community participation and enhancements to the language and components that rely on it.
   For more information about Pact 5, see the following resources:
 
+  - [Migrating to Pact 5](/smart-contracts/install/migrating-to-pact5)
   - [Pact 5 repository](https://github.com/kadena-io/pact-5)
   - [Pact 5 Beta: Improving Developer, Miner, and User Experience](https://www.kadena.io/perspectives/pact-5-beta)
 
@@ -51,7 +52,7 @@ The installation instructions in this section describe how to install Pact local
 
 To build Pact binaries directly from source, see the instructions in the appropriate repository:
 
-- [Pact 5](https://github.com/kadena-io/pact-5/releases/tag/development-latest)
+- [Pact 5](https://github.com/kadena-io/pact-5)
 - [Pact 4.x](https://github.com/kadena-io/pact?tab=readme-ov-file#building-from-source)
 
 <!--
