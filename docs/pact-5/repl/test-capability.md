@@ -34,3 +34,30 @@ pact> (module m g (defcap g () true))
 pact> (test-capability (g))
 "Capability acquired"
 ```
+
+In this example, the capability isn't a managed capability and doesn't require any arguments.
+Managed capabilities define a resource that the capability controls access to and a management function that modifies the resource.
+For example, you might define a managed capability and management function similar to the following:
+
+```pact
+   (defcap PAY (sender:string receiver:string amount:decimal)
+     @managed amount manage-PAY
+     (compose-capability (USER_GUARD sender)))
+ 
+   (defun manage-PAY (mgd recd)
+     (let ((bal:decimal (- mgd recd)))
+       (enforce (>= bal 0.0) "insufficient balance")
+       bal))
+ 
+   (defun pay (sender:string receiver:string amount:decimal)
+     (with-capability (PAY sender receiver amount) (transfer sender receiver amount))
+   )
+```
+
+For this example, the `PAY` managed capability requires the `sender`, `receiver`, and `amount` arguments:
+
+```pact
+(begin-tx "Set capability")
+   (test-capability (cap-role.PAY "Alice" "Bob" 3.0))
+(commit-tx)
+```
