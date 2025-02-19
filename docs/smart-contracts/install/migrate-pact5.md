@@ -300,6 +300,24 @@ If you use any variable identifiers with the same name as a built-in function na
 For a list of the reserved built-in function names, see [Function quick reference](/pact-5/func-quick-ref).
 For a list of reserved keywords, see [Syntax and keywords](/reference/syntax).
 
+### Integers returned as objects
+
+In Pact 5, functions that return integer values return an object with `int` as the key field and a number as a string or a JSON number.
+For example, you might see a return value similar to the following:
+
+```pact
+result: {status: "success", data: {int: 1}}
+```
+
+According to the Pact specification for encoding and decoding values, if you return a raw JSON number without the `int` field, the value is a double.
+If a function returns an object with the `int` field and a number, the value is an integer.
+
+In Pact 4, integer values that were returned as objects were silently converted to doubles in results.
+The silent conversion of integers to doubles caused tests that were written to expect integer values to fail.
+
+In Pact 5, values are returned as described by the Pact codec.
+Integer values are always returned as objects `{int: X}` and raw JSON numbers are always interpreted as doubles.
+
 ## Changed or removed built-in functions
 
 - `pact-version` was usable in the REPL and with the `/local` endpoint to determine the current Pact version. It was cut from Pact 5 due to time constraints.
