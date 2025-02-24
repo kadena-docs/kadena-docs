@@ -6,9 +6,42 @@ sidebar_position: 2
 tags: [pact, chainweb, network, node operator]
 ---
 
-# Kadena Chainweb EVM Sandbox
+# Get started with Kadena Chainweb EVM
 
-This repository presents a preview of the support for the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes]((https://kadena.io/chainweb)) in the
+The Kadena network relies on the Chainweb consensus protocol that enables multiple independent chains to share a common view of state beyond a certain block depth. 
+This common view of state enables any chain in the network to verify whether historical events beyond the required block depth occurred on any other chain. 
+For example, if a transaction occurs on chain 3, chain 3 can produce a [simple payment verification (SPV) proof](https://wiki.bitcoinsv.io/index.php/Simplified_Payment_Verification) that chain 6 can verify by checking the shared history. 
+The only requirement for verifying the transaction is that the proof must be conveyed from the original chain, in this example, chain 3—to the target chain, in this example, chain 6.
+
+With this approach, security relies strictly on the shared consensus across the chains in the network.
+There are no relayers, oracles, validators, archives, or third-party coordinators. 
+
+The chains in the Kadena Chainweb EVM network run in parallel, but independently, allowing for concurrent transaction processing without the risk of collisions or delays.
+Because Chainweb provides a single common view of state, global security, and concurrent payload processing, Kadena Chainweb EVM enables cross-chain transactions to be executed more efficiently and at a lower cost than traditional bridging techniques.
+
+## How it works
+
+At a high level, Kadena Chainweb EVM bridging involves three main steps:
+
+- An event occurs on a source chain
+
+  For a cross-chain transfer, a user *initiates* a transaction to transfer tokens from a source chain using a smart contract.
+  The smart contract emits a well-defined cross-chain event.
+
+- An off-chain endpoint generates proof of a specific event
+  
+  For a cross-chain transfer, a user *queries* an endpoint that generates a simple payment verification proof or another type of proof that can be validated.
+  The proof must encode all of the information required to uniquely identify the event on the source chain and the contract on the target chain.
+
+- The event is observed on the target chain
+  
+  For a cross-chain transfer, a user *relays* the proof to the target chain, where it is verified against the history shared by the source and target chains. 
+  By checking the shared history, the contract on the target chain validates that the transfer event claimed by the user occurred on the source chain.
+  The smart contract on the target chain completes the transaction, for example, by minting the number of tokens transferred from the source chain.
+
+## Chainweb EVM preview
+
+The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository presents a preview of the support for the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes]((https://kadena.io/chainweb)) in the
 [Kadena](https://kadena.io) blockchain.
 This preview demonstrates how to set up EVM-compatible nodes and execute cross-chain transactions to transfer assets from one chain to another.
 In the preview, thee are two EVM-compatible chains and a Solidity contract that demonstrates transferring tokens between the two EVM chains.
@@ -496,3 +529,167 @@ The mining accounts are:
 
 - `m/44'/1'/1'/0/0` (address: 0xd42d71cdc2A0a78fE7fBE7236c19925f62C442bA)
 - `m/44'/1'/1'/0/1` (address: 0x38a6BD13CC381c68751BE2cef97BD79EBcb2Bb31)
+
+## Running the front-end application demo
+
+The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository includes an `apps` folder with the files for an application that demonstrates deploying contracts, funding accounts, and transferring assets between the two Chainweb EVM chains in the development network.
+
+The demonstration requires the `pnpm` package manager to install dependencies.
+If you don't have `pnpm` installed in your local environment, follow the steps in [Prepare your workspace](#prepare-your-workspace) to get started.
+If you have `pnpm` installed and defined in your shell profile, you can continue to [Start the application server](#start-the-application-server).
+
+### Prepare your workspace
+
+1. Open a new terminal shell and change to the `kadena-evm-sandbox` directory created when you cloned the `kadena-evm-sandbox` repository:
+    
+   ```sh
+   cd kadena-evm-sandbox
+   ```
+   
+   If necessary, you can pull the latest files for the directory by running the following command:
+   
+   ```sh
+   git pull
+   ```
+
+2. Install `pnpm` by running the following command: 
+   
+   ```sh
+   npm install --global pnpm
+   ```
+
+2. Set up your workspace for `pnpm` by running the following command, then following the instructions displayed in the terminal: 
+
+   ```sh
+   pnpm setup
+   ```
+
+### Start the application server
+
+1. In the current terminal shell, check that the Kadena development network is up and producing blocks by running the following command:
+    
+   ```sh
+   ./network devnet status
+   ```
+
+2. In the current terminal shell, change to the `apps/kethamp-server` directory:
+    
+   ```sh
+   cd apps/kethamp-server
+   ```
+
+3. Install dependencies and generate types for the `kethamp-server` by running the following command:
+   
+   ```sh
+   pnpm install
+   ```
+
+4. Start the `kethamp-server` by running the following command:
+   
+   ```sh
+   pnpm start
+   ```
+
+   After you run this command, the server must continue to run in the terminal, so you need to open a new terminal shell in the next step.
+
+### Start the transfer demonstration application
+
+The sample application includes a set of playlists that demonstrate common transactions executing on the Kadena Chainweb EVM development network.
+
+The playlists include transactions that demonstrate the following activities:
+
+- Deploy contracts 
+- Fund accounts
+- Transfer assets between accounts on the same chain
+- Transfer assets between account on different chains
+
+The details of the transactions—including the chains, accounts, and amounts transferred—are defined in the `kadena-evm-sandbox/apps/kethamp-server/src/playlists.ts` file.
+
+To start the application:
+
+1. Open a new terminal shell and change to the `apps/kethamp` directory.
+   
+   For example, if you open a new terminal in your home directory, change to the` kadena-evm-sandbox/apps/kethamp` directory:
+    
+   ```sh
+   cd kadena-evm-sandbox/apps/kethamp
+   ```
+
+2. Install frontend dependencies for the `kethamp` application by running the following command:
+   
+   ```sh
+   pnpm install
+   ```
+
+3. Start the application in the terminal by running the following command:
+   
+   ```sh
+   pnpm dev
+   ```
+
+4. Open a browser and navigate to the application URL displayed in the terminal.
+   
+   By default, the application runs on the localhost and port 3000, so the default address in [http://localhost:3000/](http://localhost:3000/).
+
+   You should see that the application displays a message that indicates no contracts are deployed and a control panel similar to the following:
+
+   ![Chainweb EVM application](/img/evm-demo-app.jpg)
+
+5. Click the **Eject** control in the application to deploy the initial contract with playlists for chain0 and chain1.
+   
+   In the terminal where the application server runs, you should see messages similar to the following to indicate that contracts are successfully deployed on `kadena_devnet0` and `kadena_devnet1` and the accounts for Alice and Bob are funded with an initial balance:
+
+   ```sh
+   DEBUGPRINT[97]: playlist.ts:169: track= deploy
+   DEBUGPRINT[97]: playlist.ts:169: track= deploy
+   DEBUGPRINT[97]: playlist.ts:169: track= register-cross-chain
+   DEBUGPRINT[97]: playlist.ts:169: track= fund
+   DEBUGPRINT[97]: playlist.ts:169: track= fund
+   ```
+
+1. Click the **Play** control in the application to start running the selected playlist of transactions.
+   
+   In the terminal where the application server runs, you should see messages similar to the following to indicate
+   
+   You can click on different playlists, tracks, and operations to explore additional transaction details.
+
+   ![Transaction details for a single cross-chain transfer](/img/evm-single-xchain.jpg)
+
+2. Click the **Stop** control in the application to reset and restart the playlist at the current block height.
+   
+   ![Reset the playlist](/img/evm-reset.jpg)
+   
+### Stop the transfer demonstration
+
+To stop the transfer demonstration:
+
+1. Switch to the terminal where the `kethamp` application front-end runs, then press Control-c to stop the application process.
+
+2. Switch to the terminal where the `kethamp-server` application server runs, then press Control-c to stop the application server process.
+
+3. Navigate back to the `kadena-evm-sandbox` directory, then shut down the Kadena Chainweb EVM development network by running the following command:
+   
+   ```sh
+   ./network devnet stop
+   ```
+
+   ## Related resources
+
+For additional information about Kadena Chainweb EVM, see the following resources.
+
+- [Kadena Chainweb EVM repository](https://github.com/kadena-io/kadena-evm-sandbox)
+- [Kadena Chainweb EVM ETHDenver](https://kadena-git-js-eth-setup-geletkaplus.vercel.app/ethdenver25)
+- [Cross-chain bridging (draft summary)](#cross-chain-bridging-draft-summary)
+
+### Cross-chain bridging (draft summary)
+
+This Kadena Improvement Proposal (KIP) defines an interface and conventions for performing **cross-chain** bridging for Kadena Chainweb EVM-compatible chains. 
+The proposal introduces a protocol to standardize how transactions are initiated, verified, and completed across chains in an EVM-based network where information about event history is known to both the source and target chain.
+
+The protocol describes the smart contract functions and events required to perform the following steps for secure cross-chain bridging:
+
+- Initiate a cross-chain **burn** transaction on a source chain that emits a well-defined event with expected metadata.
+- Transmit proof that the transaction initiated on the source chain completed to be verified by the target chain.
+- Validate the proof that the event occurred—guaranteeing the provenance and uniqueness of transferred data—using a precompile function on the target chain.
+- Complete the cross-chain transfer with a **mint** transaction on the target chain.
+  
