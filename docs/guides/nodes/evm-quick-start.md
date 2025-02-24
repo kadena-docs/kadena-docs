@@ -675,10 +675,10 @@ To stop the transfer demonstration:
 
    ## Related resources
 
-For additional information about Kadena Chainweb EVM, see the following resources.
+For additional information about Kadena Chainweb EVM, see the following resources:
 
 - [Kadena Chainweb EVM repository](https://github.com/kadena-io/kadena-evm-sandbox)
-- [Kadena Chainweb EVM ETHDenver](https://kadena-git-js-eth-setup-geletkaplus.vercel.app/ethdenver25)
+- [Proposal: Cross-Chain Bridging Protocol (Draft)](https://github.com/kadena-io/kadena-evm-sandbox/docs/bridging-protocol.md)
 - [Cross-chain bridging (draft summary)](#cross-chain-bridging-draft-summary)
 
 ### Cross-chain bridging (draft summary)
