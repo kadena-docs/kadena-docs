@@ -675,7 +675,7 @@ To stop the transfer demonstration:
    ./network devnet stop
    ```
 
-   ## Related resources
+## Related resources
 
 For additional information about Kadena Chainweb EVM, see the following resources:
 
