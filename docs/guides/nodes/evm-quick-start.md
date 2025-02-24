@@ -345,6 +345,7 @@ To integrate with the Chainweb EVM development network:
        ]
      },
      ```
+
 1. Save your changes and close the `hardhat.config.js` file.
 
 ### Compiling and testing integration
