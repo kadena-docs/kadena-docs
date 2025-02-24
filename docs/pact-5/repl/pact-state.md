@@ -1,13 +1,13 @@
 # pact-state
 
-IUse `pact-state` to inspect state from most the recent defpact step execution. 
+Use `pact-state` to inspect state from most the recent defpact step execution. 
 This function returns an object with the following fields:
 
 - `pactId`: defpact identifier.
 - `yield`: yield result or false if the step didn't produce a yield.
 - `step`: executed step number.
 - `executed`: indicates if step was skipped because entity did not match.
-- 
+
 You can clear the defpact state from the REPL by including the optional `clear` argument set to `true`.
 
 ## Basic syntax
@@ -30,8 +30,7 @@ Use the following argument to clear the most recent defpact step executed from t
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| `clear` | bool | Clear the latest executed defpact from the REPL state (optional).|
-
+| `clear` | bool | Clear the latest executed defpact from the REPL state (optional). |
 
 ## Return value
 

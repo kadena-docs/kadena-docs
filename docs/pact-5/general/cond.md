@@ -1,7 +1,6 @@
 # cond
 
-Use `cond` to evaluate multiple branching conditional expressions. 
-This function allows you to evaluate a series of `if` expression in a more concise manner.
+`cond` is our macro for multiple branching conditional expressions. It allows you to do a multiway if expression in a more concise manner.
 
 ## Basic syntax
 

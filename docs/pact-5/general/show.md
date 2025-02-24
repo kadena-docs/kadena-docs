@@ -2,7 +2,7 @@
 
 Use `show` to convert a specified `value` into a string.
 
-### Basic syntax
+## Basic syntax
 
 To convert a `value` into a string, use the following syntax:
 
@@ -10,7 +10,7 @@ To convert a `value` into a string, use the following syntax:
 (show value)
 ```
 
-### Arguments
+## Arguments
 
 Use the following argument to specify the value to be converted to a string using the `show` Pact function.
 
@@ -18,11 +18,11 @@ Use the following argument to specify the value to be converted to a string usin
 | --- | --- | --- |
 | `value` | any | Specifies the value to be converted to a string. |
 
-### Return value
+## Return value
 
 The `show` function returns the argument as a string.
 
-### Examples
+## Examples
 
 The following examples demonstrate how to use the `show` function to convert a value to a string in a Pact REPL:
 

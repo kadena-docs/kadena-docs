@@ -14,11 +14,11 @@ To acquire or install the `capability` specified, use the following syntax:
 
 ## Arguments
 
-Use the following argument when using the `env-module-admin` Pact function.
+Use the following argument when using the `test-capabilities` Pact function.
 
 | Argument | Type | Description |
 |----------|------|------------ |
-| capability | capability-token | Specifies the capability and scope to test. |
+| `capability` | capability-token | Specifies the capability and scope to test. |
 
 ## Return value
 
@@ -26,7 +26,7 @@ The `test-capability` function returns a string that indicates whether the capab
 
 ## Example
 
-The following example demonstrates how to use `test-capability` to acquire a capability for the scope of a repl transaction
+The following example demonstrates how to use `test-capability` to acquire a capability for the scope of a REPL transaction:
 
 ```pact
 pact> (module m g (defcap g () true))

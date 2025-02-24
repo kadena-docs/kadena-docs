@@ -20,11 +20,11 @@ For each object, the `verifier_name` is the verifier signature to add to scope, 
 
 ## Arguments
 
-Use the following argument when using the `env-verifiers` Pact function.
+Use the following argument to set verifier information using the `env-verifiers` Pact function.
 
 | Argument | Type         | Description   |
 |----------|--------------|---------------|
-| `verifiers`  | [object] | Specifies the list verifier objects where each object represents a verifier `name` to add to scope and a list of associated capabilities that the verifier is scoped to. |
+| `verifiers`| [object] | Specifies the list verifier objects where each object represents a verifier `name` to add to scope and a list of associated capabilities that the verifier is scoped to.|
 
 ## Return value
 

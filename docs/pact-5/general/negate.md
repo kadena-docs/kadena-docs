@@ -21,11 +21,11 @@ Use the following argument to specify the value for negation.
 
 ## Return value
 
-The `negate` function returns the negation of the specified `value`.
+The `negate` function returns the negation of the specified `value`
 
 ## Examples
 
-The following example demonstrates how to use the `negate` function to negate a positive value in a Pact REPL:
+The following example demonstrates how to use the `negate` function to negate a positive decimal value in a Pact REPL:
 
 ```pact
 pact> (negate 1.0)
