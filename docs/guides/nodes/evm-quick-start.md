@@ -41,7 +41,7 @@ At a high level, Kadena Chainweb EVM bridging involves three main steps:
 
 ## Chainweb EVM preview
 
-The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository presents a preview of the support for the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes]((https://kadena.io/chainweb)) in the
+The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository presents a preview of the support for the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes](https://kadena.io/chainweb) in the
 [Kadena](https://kadena.io) blockchain.
 This preview demonstrates how to set up EVM-compatible nodes and execute cross-chain transactions to transfer assets from one chain to another.
 In the preview, thee are two EVM-compatible chains and a Solidity contract that demonstrates transferring tokens between the two EVM chains.
