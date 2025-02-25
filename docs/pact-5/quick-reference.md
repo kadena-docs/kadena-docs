@@ -41,7 +41,6 @@ id: func-quick-ref
 - [create-user-guard](/pact-5/guards/create-user-guard) Define a custom guard.
 - [days](/pact-5/time/days) Specify a number of days to add or subtract days from a given time.
 - [dec](/pact-5/operators/dec) Convert an integer to a decimal value.
-- [decrypt-cc20p1305](/pact-5/commitments/decrypt-cc20p1305) Decrypt using the CHACHA20-POLY1305 encryption algorithm.
 - [define-keyset](/pact-5/keysets/define-keyset) Define an authorization keyset from keyset data set in the environment.
 - [define-namespace](/pact-5/general/define-namespace) Create a new namespace or update the guards of an existing namespace.
 - [describe-keyset](/pact-5/database/describe-keyset) Retrieve metadata for a specified keyset.
@@ -104,7 +103,6 @@ id: func-quick-ref
 - [int-to-str](/pact-5/general/int-to-str) Represent an integer value as a string in a specified base.
 - [is-charset](/pact-5/general/is-charset) Check whether a string conforms to a supported character set.
 - [is-principal](/pact-5/guards/is-principal) Check whether a principal string conforms to the principal format.
-- [keylog](/pact-5/database/keylog) Return a log of the updates to a specified table for a specified key-row.
 - [keys-2](/pact-5/keysets/keys-2) Determine whether a keyset has at least two required keys.
 - [keys-all](/pact-5/keysets/keys-all) Determine whether a keyset has all of its required keys.
 - [keys](/pact-5/database/keys) Return all of the keys for a specified table in a module.
@@ -114,7 +112,6 @@ id: func-quick-ref
 - [less-than or equal (`<=`)](/pact-5/operators/leq) Return true if the first argument is less than or equal to the second argument.
 - [list-module](/pact-5/general/list-module) List modules available for loading.
 - [list-modules](/pact-5/database/list-modules) List all of the modules deployed on a particular chain using the `/local` endpoint.
-- [list](/pact-5/general/list) Create a list from the specified elements (deprecated).
 - [ln](/pact-5/operators/ln) Compute the natural logarithm of a specified value.
 - [load](/pact-5/repl/load) Load and evaluate a specified `.pact` or `.repl` file.
 - [log](/pact-5/operators/log) Compute the logarithm of the specified value with the specified base.
@@ -168,12 +165,9 @@ id: func-quick-ref
 - [time](/pact-5/time/time.md) Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.
 - [try](/pact-5/general/try) Attempt a pure action without input, output, or state-changing operations.
 - [tx-hash](/pact-5/general/tx-hash) Get the hash of the current transaction as a string.
-- [txids](/pact-5/database/txids) Return all transaction identifier greater than or equal to a specified identifier.
-- [txlog](/pact-5/database/txlog) Returns a log of all updates made to a specified table in a specific transaction identifier.
 - [typeof-principal](/pact-5/guards/typeof-principal) Return the protocol type of a given principal.
 - [typeof](/pact-5/general/typeof) Return a description of the data type for a specified value.
 - [update](/pact-5/database/update) Update a value for a database record in the specified table.
-- [validate-keypair](/pact-5/commitments/validate-keypair) Verify that the public key and secret key are valid.
 - [validate-principal](/pact-5/guards/validate-principal) Validate that a principal identifies a specified guard.
 - [verify-spv](/pact-5/spv/verify-spv) Perform a platform-specific simplified payment verification (SPV) proof.
 - [where](/pact-5/general/where) Define a clause to refine the results from `filter` or `select` operations.
