@@ -12,7 +12,7 @@ For this project, you'll build a smart contract with tables for adding and manip
 
 For this project, you'll create three tables in the `loans` module:
 
-- A `loan` table for storing loan holder information.
+- A `loans` table for storing loan holder information.
 - A `loan-history` table for tracking loan history.
 - A `loan-inventory` table for holding the loan inventory balance.
 
@@ -72,7 +72,7 @@ To start the module declaration:
      (define-keyset "free.loans-admin" (read-keyset "loan-admin-keyset"))
    ```
 
-1. Define the `loans` module governed by the `LOAN_ADMIN` capability and enforced to use the free.loans-admin keyset:
+1. Define the `loans` module governed by the `LOAN_ADMIN` capability and enforced to use the `free.loans-admin` keyset:
 
    ```pact
    (module loans LOAN_ADMIN
@@ -160,17 +160,16 @@ To define the constants for loan status:
 
 ## Define functions
 
-For this coding project, the `loans` module provides ten functions to provide comprehensive features for loan management.
+For this coding project, the `loans` module provides nine functions to provide comprehensive features for loan management.
 You can define them in any order.
 
 - `inventory-key` takes `loanId:string` and `owner:string`to create a composite key of `loanId:owner`.
 - `create-a-loan` takes `loanId`, `loanName`, `entityName`, and `loanAmount` to create a loan entry.
 - `assign-a-loan` takes `txid`, `loanId`, `buyer`, and `amount` to assign a loan.
 - `sell-a-loan` takes `txid`, `loanId`, `buyer`, `seller`, and `amount` to sell a loan.
-- `read-a-loan` takes `loanId` to read values from the `loans-table` for a given `loanId`.
-- `read-loan-tx` maps the values from the `loans` table to  the txids in the "loans" table at value 0.
-- `read-all-loans` select all values from the `loans-table` with `constantly` set to true.
-- `read-inventory-pair` takes `key` to set `inventory-key` and `balance` the provided `key`.
+- `read-a-loan` takes `loanId` to read values from the `loans` table for a given `loanId`.
+- `read-all-loans` select all values from the `loans` table with `constantly` set to true.
+- `read-inventory-pair` takes `key` to set `inventory-key` and `balance` for the provided `key`.
 - `read-loan-inventory` maps the value of `read-inventory-pair` to the keys of the `loan-inventory-table`.
 - `read-loans-with-status` takes `status` to select all values from the `loans-table` where `status` equals the provided `status`.
 
@@ -355,21 +354,6 @@ To define the `read-a-loan` function:
        (read loans loanId))
    ```
 
-### Define the read-loan-tx function
-
-To define the `read-loan-tx` function:
-
-1. Open the `loans.pact` file in your code editor.
-
-2. Start the `read-loan-tx` function with no parameters.
-
-3. Map the values of the transaction log in the `loans` table to the `txids` in the `loans` table at value 0.
-
-   ```pact
-     (defun read-loan-tx ()
-       (map (txlog loans) (txids loans 0)))
-   ```
-
 ### Define the read-all-loans function
 
 To define the `read-all-loans` function:
@@ -463,7 +447,7 @@ To test the functions in the `loans.pact` file:
 
 1. Open the `loans.repl` file.
 
-2. Add a transaction that loads the `loans.pact` file and calls the functions that update loan tables similar to the following:
+2. Add a transaction that loads the `loans.pact` file and then calls the functions that update the loan tables similar to the following:
 
    ```pact
    (begin-tx "Call functions that update loan tables")
@@ -477,7 +461,7 @@ To test the functions in the `loans.pact` file:
 
    Because you're loading the module and calling the functions in the same transaction, you don't need to include the namespace and module name to call the functions.
 
-3. Add a transaction that calls the functions that read loan information from table similar to the following:
+3. Add a transaction that calls the functions that read loan information from the loan tables similar to the following:
 
    ```pact
    (begin-tx "Call functions that read loan information")
@@ -491,7 +475,8 @@ To test the functions in the `loans.pact` file:
    (commit-tx)
    ```
 
-   In this example, you specify the module where the functions are defined using the namespace and module name.
+   In this example, you first specify that you want to use the module where the functions are defined using its namespace and module name.
+   Similar to loading the module, you can then call individual function without including the namespace and module name.
 
 4. Add transactions that call the individual functions similar to the following:
 
@@ -551,7 +536,7 @@ To test the functions in the `loans.pact` file:
    Load successful
    ```
 
-1. Ensure that the REPL output aligns with expected results.
+6. Ensure that the REPL output aligns with expected results.
 
 ## Review
 
