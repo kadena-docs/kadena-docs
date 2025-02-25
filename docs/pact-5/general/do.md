@@ -25,5 +25,4 @@ pact> (do (enforce false "boom") (+ 1 2))
 (interactive):1:4: boom
  1 | (do (enforce false "boom") (+ 1 2))
    |     ^^^^^^^^^^^^^^^^^^^^^^
-
 ```
