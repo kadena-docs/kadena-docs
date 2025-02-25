@@ -7,7 +7,7 @@ Use `do` to evaluate a sequence of expressions and return the last one as the re
 Use the following syntax:
 
 ```pact
-(do (my-expression1) (my-expression2) (my-return-exrepssion))
+(do (my-expression1) (my-expression2) (my-return-expression))
 ```
 
 ## Examples
