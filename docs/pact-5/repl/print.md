@@ -16,7 +16,7 @@ Use the following argument to specify the value to be converted into a string an
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| `value` | any | Specifies the value to be converted into a string and printed.  |
+| `value` | any | Specifies the value to be converted into a string and printed. |
 
 ## Return value
 

@@ -1,6 +1,7 @@
 # env-verifiers
 
-Use `env-verifiers` to set transaction verifier names and capabilities. This function enables you to define a list of objects with the "name" key specifying the verifier name, and the "caps" key specifying a list of associated capabilities.
+Use `env-verifiers` to set transaction verifier names and capabilities. 
+This function enables you to define a list of objects with the "name" key specifying the verifier name, and the "caps" key specifying a list of associated capabilities.
 
 ## Basic syntax
 
@@ -20,11 +21,11 @@ For each object, the `verifier_name` is the verifier signature to add to scope, 
 
 ## Arguments
 
-Use the following argument when using the `env-verifiers` Pact function.
+Use the following argument to set verifier information using the `env-verifiers` Pact function.
 
 | Argument | Type         | Description   |
 |----------|--------------|---------------|
-| `verifiers`  | [object] | Specifies the list verifier objects where each object represents a verifier `name` to add to scope and a list of associated capabilities that the verifier is scoped to. |
+| `verifiers`| [object] | Specifies the list verifier objects where each object represents a verifier `name` to add to scope and a list of associated capabilities that the verifier is scoped to.|
 
 ## Return value
 

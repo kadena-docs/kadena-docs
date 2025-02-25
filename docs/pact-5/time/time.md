@@ -33,7 +33,7 @@ The `time` function returns a time object constructed from the provided UTC valu
 
 ## Examples
 
-The following example demonstrates how to use the `time` function within the Pact REPL. 
+The following example demonstrates how to use the `time` function in the Pact REPL. 
 This example constructs a time object from the UTC value `"2016-07-22T11:26:35Z"`:
 
 ```pact

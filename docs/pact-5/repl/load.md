@@ -2,7 +2,6 @@
 
 Use `load` to load and evaluate a specified `.pact` or `.repl` file.
 You can reset the REPL state before loading the file by including the optional reset argument set to `true`.
-true.
 
 ## Basic syntax
 
@@ -28,7 +27,7 @@ The `load` function returns the unit value `()`.
 ## Example
 
 The following example demonstrates how to use the `load` function to load the `hello-pact.repl` file to interact with its function in the Pact REPL without resetting the current Pact REPL state.
-In this example, the `hello-pact.repl` file consists of one expression `(+ "Hello, " "Pact!")` that is evaluating and returned in the REPL:
+In this example, the `hello-pact.repl` file consists of one expression `(+ "Hello, " "Pact!")` that is evaluated and returned in the Pact REPL:
 
 ```pact
 (load "hello-pact.repl")
