@@ -320,11 +320,12 @@ Integer values are always returned as objects `{int: X}` and raw JSON numbers ar
 
 ## Changed or removed built-in functions
 
-- `pact-version` was usable in the REPL and with the `/local` endpoint to determine the current Pact version. It was cut from Pact 5 due to time constraints.
-- `enforce-pact-version` was usable in the REPL and with the `/local` endpoint to assert on the current Pact version. It was cut from Pact 5 due to time constraints.
-- `list` was deleted from Pact 5 after it was deprecated with a warning and increased gas costs in Pact 4. `(list 1 2 3)` is equivalent to `[1 2 3]`.
-- `decrypt-cc20p1305` and `validate-keypair` have been cut from Pact 5 due to time constraints and lack of users.
+- `pact-version` was usable in the REPL and with the `/local` endpoint to determine the current Pact version. It was removed in Pact 5 due to time constraints.
+- `enforce-pact-version` was usable in the REPL and with the `/local` endpoint to assert on the current Pact version. It was removed in Pact 5 due to time constraints.
+- `list` was removed in Pact 5 after it was deprecated with a warning and increased gas costs in Pact 4. `(list 1 2 3)` is equivalent to `[1 2 3]`.
+- `decrypt-cc20p1305` and `validate-keypair` have been removed in Pact 5 due to time constraints and lack of users.
 - `constantly` has changed in Pact 5. It now accepts exactly two arguments, and behaves as if it were `(lambda (x y) x)`.
+- `txlog` was removed in Pact 5 due to time constraints and lack of users.
 
 ## New built-in functions
 
