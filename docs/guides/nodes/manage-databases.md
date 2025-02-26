@@ -143,7 +143,7 @@ To reduce storage for Chainweb node databases:
    chainweb-node --database-directory=~/.local/share/chainweb-node/compact-db
    ```
 
-   If you're editing the configuration file, update the YAML or JSON file to set the databaseDirectory field to the location of the compacted database.
+   If you're editing the configuration file, update the YAML or JSON file to set the `databaseDirectory` field to the location of the compacted database.
    For example:
 
    ```yaml 
