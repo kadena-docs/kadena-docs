@@ -1,9 +1,56 @@
 ---
-title: Compact node databases
-id: compact-databases
+title: Manage node databases
+id: manage-databases
 ---
 
-# Compact node databases
+# Manage node databases
+
+Because a blockchain continuously adds new transactions in new blocks that change the state of the database, it's important to monitor and manage the databases that store chain data and transactional history.
+For example, as a node operator, you should plan for routine maintenance such as backing up or purging old data.
+
+The specific details of your maintenance plan—such as how often you back up or compact node databases—will depend on your specific use-case for the node.
+For example, if you are running a node as an indexer and want access to full node history, you'll need to consider adding storage or compacting databases more often to reduce disk space requirements.
+
+## Back up databases
+
+Chainweb nodes have two separate databases.
+One database—the RocksDB database—stores information about blocks and chains.
+A second database—the Pact Sqlite database—stores information about smart contracts and state. 
+
+You can configure a Chainweb node to enable database backup operations by starting the node with the `--enable-backup-api` and `--backup-directory` command-line options.
+For example:
+
+```bash
+./chainweb-node --enable-backup-api --backup-directory=/usr/share/cw-db-backups
+```
+
+Alternatively, you can configure a node to enable database backup operations by specifying the following configuration settings in a node configuration file:
+
+```yaml
+backup:
+  api:
+    enabled: true
+  directory: /usr/share/cw-db-backups
+```
+
+If you enable database backups in a configuration file, you can then restart the node with the modified configuration file. 
+For example:
+
+```bash
+./chainweb-node --config-file modified-config
+```
+
+After you enable the backup API for a node, you can use the `/make-backup` endpoint to a start backup job and the `/check-status` endpoint to check the status of a previously started backup job.
+
+You should note that when you call the `/make-backup` endpoint, the backup job always backs up the RocksDB database.
+Backing up the Pact Sqlite database is optional.
+Backing up both databases takes significantly more time than only backing up the RockDB database.
+In addition, Pact database backups always require as much space as the active Pact database.
+
+For more information about starting backup jobs using the `/make-backup` endpoint, see [Start a database backup job](/api/service-api/make-db-backup).
+For more information about checking the status of a database backup, see [Check the status of a database backup](api/service-api/check-db-backup).
+
+## Compact node databases
 
 Because a healthy blockchain continuously adds new transactions in new blocks that change the state of the database, managing the storage requirements on individual nodes can be challenging.
 
