@@ -48,7 +48,7 @@ Backing up both databases takes significantly more time than only backing up the
 In addition, Pact database backups always require as much space as the active Pact database.
 
 For more information about starting backup jobs using the `/make-backup` endpoint, see [Start a database backup job](/api/service-api/make-db-backup).
-For more information about checking the status of a database backup, see [Check the status of a database backup](api/service-api/check-db-backup).
+For more information about checking the status of a database backup, see [Check the status of a database backup](/api/service-api/check-db-backup).
 
 ## Compact node databases
 
