@@ -88,9 +88,9 @@ const sidebars: SidebarsConfig = {
                          },
                          items: [
                               'guides/nodes/howto-node-operator',
-                              'guides/nodes/compact-databases',
                               'guides/nodes/configure',
-                              'guides/nodes/monitoring',
+                              'guides/nodes/monitor',
+                              'guides/nodes/manage-databases',
                               //'guides/nodes/howto-evm',
                          ],
                     },
