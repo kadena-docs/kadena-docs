@@ -9,23 +9,27 @@ Node operators must explicitly enable access to the service API and expose its e
 The specific service API endpoints that are exposed for any node depend on the node configuration settings.
 
 If you're a node operator, you can enable service API endpoints using configuration settings for the Chainweb node. 
-The endpoints are served on a separate port over the unencrypted Hypertext Transfer Protocol (HTTP). 
+The endpoints are served on a separate port over the unencrypted Hypertext Transfer Protocol (HTTP) by default.
+For [bootstrap nodes](/reference/bootstrap), you can connect to service API endpoints using HTTP or the secure Hypertext Transfer Protocol (HTTPS).
+However, as a node operator, you can require access to any service API endpoints you expose to use HTTPS.
+In general, connecting over HTTPS is strongly recommended to protect data in transit and to prevent potential browser issues.
+
 As a node operator, you can also choose to expose the endpoints locally or through reverse proxies, load balancers, authentication frameworks, and other similar web technologies.
 
 ## Key features and use cases
 
 The Chainweb API is essential for various blockchain operations and analysis:
 
-1. **Node Information**: Access detailed information about individual nodes in the network.
-2. **Block and Transaction Data**: Retrieve comprehensive data about blocks and transactions across Kadena's multi-chain architecture.
-3. **Network Statistics**: Gather real-time statistics about the Kadena network's performance and state.
-4. **Peer-to-Peer Network Interaction**: Manage and monitor connections between nodes in the Kadena network.
-5. **Chain-Specific Queries**: Perform targeted queries on specific chains within Kadena's parallel chain structure.
-6. **Mining Operations**: Access endpoints relevant for miners and mining pool operators.
+- **Node information**: Access detailed information about individual nodes in the network.
+- **Block and transaction data**: Retrieve comprehensive data about blocks and transactions across Kadena's multi-chain architecture.
+- **Network statistics**: Gather real-time statistics about network performance and state.
+- **Peer-to-peer network topology**: View the block heights and adjacent relationships between nodes in the Kadena network.
+- **Chain-specific queries**: Perform targeted queries for specific chains within the multi-chain structure of the Kadena Chainweb architecture.
+- **Mining operations**: Access endpoints relevant for miners and mining pool operators.
 
 These features make the Chainweb API particularly valuable for developers building infrastructure tools, block explorers, analytics platforms, and other applications requiring deep blockchain data access.
 
-### Endpoints
+## Endpoints
 
 The Chainweb service API includes the following types of endpoints:
 
@@ -36,7 +40,7 @@ The Chainweb service API includes the following types of endpoints:
 - Mining service endpoints
 - Pact REST API endpoints
 
-### Base URL
+## Base URL
 
 Because the service API is configurable for individual nodes, the base URL for service API endpoints can vary.
 For bootstrap nodes, service API endpoints typically take the form of `api.<hostname>/chainweb/0.0/mainnet01` where the `<hostname>` is the IP address or domain name of a Chainweb node in the Kadena public blockchain network. 
