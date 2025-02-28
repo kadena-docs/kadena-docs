@@ -365,7 +365,7 @@ However, this example doesn't represent a typical use-case.
 In most cases, you want to carefully control and restrict access to capabilities to prevent unintended privilege elevation.
 If access to the module administrator privileges is managed in any way—for example, owned by a specific keyset or guard or if a module is not upgradable—you must be able to acquire the module administrator rights to bring a capability into scope.
 
-To acquire module administrator rights for testing purposes in the Pact REPL, you can use the [`env-module-admin`](/pact-5/repl/env-module-admin) and [`acquire-module-admin`](/pact-5/repl/acquire-module-admin) built-in functions.
+To acquire module administrator rights for testing purposes in the Pact REPL, you can use the [`env-module-admin`](/pact-5/repl/env-module-admin) and [`acquire-module-admin`](/pact-5/general/acquire-module-admin) built-in functions.
 
 The following example demonstrates using the `acquire-module-admin` function to access module administrator rights for `module-test` to upgrade a module:
 
