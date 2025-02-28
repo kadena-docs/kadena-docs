@@ -292,6 +292,110 @@ You can test scoped signatures using the `env-sigs` REPL-only function as follow
   (accounts.pay "alice" "bob" 10.0))
 ```
 
+## Use module administrator privileges for capabilities
+
+In Pact 5, you can bring a capability into scope at the top level of a module if you own the administrative privileges to control the module. 
+
+The following example illustrates defining a GOVERNANCE capability for the `test` module to always succeed:
+```pact
+(module test GOVERNANCE
+  (defcap GOVERNANCE() true)
+  (defcap EXAMPLE() true)
+
+    (defun test()
+       (+ 1 3)
+    )
+)
+```
+
+Because the GOVERNANCE capability owns the administrative privileges for the module, you can bring any capability into scope.
+The following example illustrates using the `test.GOVERNANCE` capability in the other-test module:
+
+```pact
+(module other-test G
+    (defcap G() true)
+    (defun test()
+      (with-capability (test.EXAMPLE) (+ 1 1))
+    )
+)
+```
+
+To test the example:
+
+1. Start the Pact REPL by running the following command:
+   
+   ```bash
+   pact
+   ```
+2. Load the `test` module defined in the `test1.pact` file:
+      
+   ```pact
+   (load "test1.pact")
+   "Loading test1.pact..."
+   Loaded module test, hash 2OUvUE4itUshnWEGRQBDnSapoGOkiiIrfl2gcgJXEFw
+   ()
+   ```
+
+2. Load the `other-test` module defined in the `test1.pact` file:
+   
+   ```pact
+   (load "test2.pact")
+   "Loading test2.pact..."
+   Loaded module other-test, hash MvBOzatzYx3t2Csj9XbjF6IbhLqqWy09PVsPzoTNFJ4
+   ()
+   ```
+
+3. Call the `test` function in the `other-test` module:
+   
+   ```pact
+   (other-test.test)
+   2
+   ```
+   
+   
+3. Call the `test` function in the `other-test` module:
+   
+   ```pact
+   (test.test)
+   4
+   ```   
+
+This example demonstrates the principle of using your module administrator privileges to bring any capability into scope.
+However, this example doesn't represent a typical use-case.
+In most cases, you want to carefully control and restrict access to capabilities to prevent unintended privilege elevation.
+If access to the module administrator privileges is managed in any way—for example, owned by a specific keyset or guard or if a module is not upgradable—you must be able to acquire the module administrator rights to bring a capability into scope.
+
+To acquire module administrator rights for testing purposes in the Pact REPL, you can use the [`env-module-admin`](/pact-5/repl/env-module-admin) and [`acquire-module-admin`](/pact-5/repl/acquire-module-admin) built-in functions.
+
+The following example demonstrates using the `acquire-module-admin` function to access module administrator rights for `module-test` to upgrade a module:
+
+```pact
+pact> (module module-test GOV (defcap GOV () (enforce false "non-upgradable")))
+Loaded module module-test, hash qM8W_NXbiYPRGTO73efZQeXIfBERIjmLZq2sVQViRn4
+pact> (begin-tx)
+"Begin Tx 0"
+pact> (use module-test)
+Loaded imports from module-test
+pact> (with-capability (GOV) 1)
+(interactive):1:39: non-upgradable
+ 1 | (with-capability (GOV) 1)
+   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  at(module-test.GOV.{qM8W_NXbiYPRGTO73efZQeXIfBERIjmLZq2sVQViRn4}):(interactive) 0:0-0:25
+pact> (acquire-module-admin module-test)
+"Module admin for module module-test acquired"
+pact> (with-capability (GOV) 1)
+1
+```
+
+To limit module administrator privileges for a capability to a specific transaction block, you can use the `env-module-admin` built-in function.
+
+```pact
+(env-module-admin module-test)
+"Acquired module admin for: module-test"
+pact> (with-capability (GOV) 2)
+2
+```
+
 ## Events
 
 In Pact, events are emitted as part of transaction execution and are included in the transaction results.
