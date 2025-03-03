@@ -10,7 +10,7 @@ toc_max_heading_level: 3
 
 If you encounter errors, warnings, or Bad Request failures when you attempt to connect to a Chainweb nodes or call Kadena API endpoints, you should check for the following common issues and potential solutions.
 
-## Common issues for API calls
+## Common API issues
 
 It can be challenging to call REST API endpoints manually from the command-line because of all of the information you must include in the URL to reach a node that can respond to your request.
 The following are the most common causes of potential issues when you have problems calling Kadena API endpoints.
@@ -54,7 +54,7 @@ If you don't get the results you expect from an API request, you should always c
 
 For more information about calling specific endpoints and their parameters, see the [API documentation](/api).
 
-## Common issues for Pact contracts
+## Common Pact contract issues
 
 In most cases, Pact error messages provide the information you need to resolve coding issues such as invalid syntax or formatting errors.
 However, there a few common errors that can be more difficult to diagnose and resolve.
@@ -65,9 +65,15 @@ The following are the most common errors that you might encounter when executing
 If you see an error message that isn't a Pact interpreter error, you should copy the message and search in the smart contract you are executing for a matching message. 
 It's likely that the function definition includes an `enforce` statement that contains the message and the error indicates that you haven't met all of the conditions that the `enforce` statement defines.
 
-### Error in $.signers[0].clist[0].name: ".": not enough input
+### Not enough input parsing error
 
-If you see a Pact parsing error similar to this, it indicates that you've forgotten to add the namespace of a capability that you tried to sign for. 
+One of the most common Pact parsing errors you might see is a signing error that's similar to the following:
+
+```pact
+Error in $.signers[0].clist[0].name: ".": not enough input
+```
+
+This error typically indicates that you've forgotten to add the namespace of a capability that you tried to sign for. 
 Even contracts that are deployed in the root namespace must include at least the module name before the capability name. 
 For example, the capabilities defined in the `coin` contract require you to specify the `coin` module name before the capability name, such that to acquire the `TRANSFER` capability, you must sign for the `coin.TRANSFER` capability.
 
@@ -87,9 +93,9 @@ If you see a keyset failure, you should check for the following issues:
 ### Capability not in scope
 
 If you attempt to access an account or row that is guarded by a capability defined outside of the scope of a function, executing the function might fail because the capability is not in scope. 
-In this case, you might need to execute a different function that brings the capability into scope fo the function you intended to execute.
+In this case, you might need to execute a different function that brings the capability into scope for the function you intended to execute.
 
-## Common issues for Chainweb nodes
+## Common Chainweb node issues
 
 The most common issues you might encounter if you're a node operator or attempting to connect to a remote node are problems with peer synchronization, network interruptions, or node unavailability.
 
