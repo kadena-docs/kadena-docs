@@ -54,8 +54,8 @@ To install Pact on Window Subsystem for Linux (WSL):
 
 1. Navigate to the appropriate Pact Releases page:
    
-   - [Pact Releases](https://github.com/kadena-io/pact/releases) to download the latest stable version of Pact 4.x. 
-   - [Releases/development-latest](https://github.com/kadena-io/pact-5/releases/tag/development-latest) to download the latest development version of Pact 5.
+   - [Pact 4 Releases](https://github.com/kadena-io/pact/releases) to download the latest stable version of Pact 4.x. 
+   - [Pact 5 Releases](https://github.com/kadena-io/pact-5/releases) to download the latest version of Pact 5.
 
 2. Download the latest `pact-<version>-linux-<arch>.tar.gz` file for the Linux operating system and architecture you use.
 
@@ -102,8 +102,8 @@ To install Pact on Window Subsystem for Linux (WSL):
    pact --help
    ```
 
-   For more information about the command-line options, see Pact command-line interpreter.
-   For an introduction to Pact programming and language features, see basic language features.
+   For more information about the command-line options, see [Pact command-line interpreter](/reference/pact-cli).
+   For an introduction to Pact programming and language features, see [Pact features and conventions](/smart-contracts/lang-features).
 
 ## Troubleshooting
 

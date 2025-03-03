@@ -18,7 +18,7 @@ For example, you can contribute by:
 - Creating new pull requests to fix issues yourself.
 - Creating pull request for new content other community members might find useful.
 
-This guide describes how you can make changes to the documentation website directly by editing source files or indirectly by requesting updates. 
+This guide describes how you can make changes to the documentation website directly by editing source files or indirectly by requesting updates.
 
 ## Before you begin
 
@@ -28,7 +28,7 @@ To follow the steps in this guide, verify the following basic requirements:
   programs, including `git` commands and command-line options.
 
 - You are familiar with using Markdown to add formatting elements to plain text
-  documents. 
+  documents.
   For information about using Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
 
 - You have the `yarn` package manager installed.
@@ -43,13 +43,13 @@ If you want to make a simple fix on an existing page—for example, to fix a typ
 
 To edit an existing page:
 
-1. Open [docs.kadena.io](https://docs.kadena.com) and navigate to the page you want to change.
+1. Open [docs.kadena.io](https://docs.kadena.io) and navigate to the page you want to change.
 2. Click **Edit this page** to open the page in its GitHub repository.
 3. Edit the page in GitHub, then click **Commit changes**.
 4. Replace the default commit message with a short description of your change and, optionally, an extended description of the change or why you're proposing the change.
 5. Select **Create a new branch for this commit and start a pull request**, then click **Propose changes**.
 6. Add any additional information to the title or description of the pull request, then click **Create pull request**.
-   
+
    Your pull request will be reviewed by a Kadena team member and merged, if approved.
 
 ## Set up a local development environment
@@ -88,7 +88,7 @@ To set up a local development environment for contributing to Kadena documentati
    ```
 
    All of the content for the Kadena Developer Documentation website is located in the `docs` directory and its subdirectories.
-   To contribute to documentation, you typically only need to work in the `docs` folder, its subfolders, and in individual Markdown (`.md`) pages. 
+   To contribute to documentation, you typically only need to work in the `docs` folder, its subfolders, and in individual Markdown (`.md`) pages.
 
 ## Preview documentation changes
 
@@ -109,8 +109,8 @@ To create a working branch:
 
    ```text
    git switch -c my-identifier-prefix/my-branch-name-here
-   ``` 
-   
+   ```
+
    For example, if your `git` handle is `lola-pistola` and you are fixing a typo in the `reference` folder, you might create a branch like this:
 
    ```code
@@ -119,13 +119,13 @@ To create a working branch:
 4. Open the file you want to fix in a code editor and make the appropriate changes for the issue you are trying to address.
 
 5. Add the file you changed to the list of staged commits by running a command similar to the following:
-   
+
    ```text
    git add path-to-changed-file
    ```
 
 6. Commit the staged changes with a descriptive commit message by running a command similar to the following:
-   
+
    ```text
    git commit -m "docs: Fix db function type"
    ```
@@ -137,7 +137,7 @@ To create a working branch:
    ```
 
 8. Click **Create pull request** to start a new pull request and provide any additional information about the changes you made.
-    
+
     A member of the Kadena team will review your pull request and approve or request changes.
     If no changes are required, the Kadena team member will merge your pull request.
     If a Kadena team member requests changes or clarification, update your pull request and request another review.
@@ -154,8 +154,8 @@ If you would like to contribute, you might be wondering “What is the differenc
 
 ### How-to guides
 
-A how-to guide describes how to achieve a goal or complete a task. 
-Only the information that is pertinent to achieving that goal or completing the task is included. 
+A how-to guide describes how to achieve a goal or complete a task.
+Only the information that is pertinent to achieving that goal or completing the task is included.
 With how-to guides, readers have enough information to know what they want to do—for example, open a bank account—but not necessarily enough information to know how to do it.
 For example, the how-to guide for opening a bank account wouldn't explain what a bank account is or why you might want to open one, but would focus on specific steps such as:
 
@@ -165,12 +165,12 @@ For example, the how-to guide for opening a bank account wouldn't explain what a
 
 ### Tutorials
 
-A tutorial is a hands-on illustration or lesson that enables the reader to achieve a **highly-predictable** result. 
+A tutorial is a hands-on illustration or lesson that enables the reader to achieve a **highly-predictable** result.
 Tutorials assume that readers have no prior knowledge on the subject being covered and that they require explicit guidance to complete each step to reach a **well-known** outcome.
-A tutorial is like a guided tour that helps the reader complete one organic task from start to finish. 
+A tutorial is like a guided tour that helps the reader complete one organic task from start to finish.
 For example, a tutorial for opening a bank account would identify an example institution, explicitly describe what to enter for every field of the application using sample information, and specify exactly how much currency to deposit.
 
-The single most important aspect of a tutorial is that it should always result in a successful, expected outcome that inspires confidence and delight in the reader. 
+The single most important aspect of a tutorial is that it should always result in a successful, expected outcome that inspires confidence and delight in the reader.
 
 The single most important distinction between a how-to guide and a tutorial is that, in a tutorial, the author decides what the goal should be and the author eliminates all distractions that would detract from the successful achievement of the goal.
 
@@ -178,8 +178,8 @@ The single most important distinction between a how-to guide and a tutorial is t
 
 To translate Kadena documentation:
 
-1. Copy the `docs` folder and rename it to `docs-[LANG]`. 
-   
+1. Copy the `docs` folder and rename it to `docs-[LANG]`.
+
    For example, create a folder named `docs-es` for translating topics into Spanish.
 
 2. Translate the content in the new folder.

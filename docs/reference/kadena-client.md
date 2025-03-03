@@ -1,5 +1,5 @@
 ---
-title: Kadena client
+title: Kadena TypeScript client
 description: The @kadena/client library provides a TypeScript-based API for interacting with Pact smart contracts and Chainweb nodes using frontend frameworks.
 if: kadena-client
 order: 3
@@ -8,7 +8,7 @@ layout: full
 tags: ['TypeScript', 'Kadena', 'Kadena client', 'frontend']
 ---
 
-# Kadena client
+# Kadena TypeScript client
 
 The `@kadena/client` library provides a TypeScript-based API for interacting with smart contracts and Chainweb nodes on the Kadena network. The library includes modules to help you perform the following types of common tasks:
 

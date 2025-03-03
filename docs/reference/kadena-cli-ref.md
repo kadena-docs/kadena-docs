@@ -12,7 +12,7 @@ tags: ['TypeScript', 'Kadena client', 'frontend']
 The Kadena command-line interface (`kadena-cli`) provides direct access to the Kadena blockchain and to commands that help you create, test, deploy, and manage applications for the Kadena network.
 You can use the Kadena command-line interface to perform tasks interactively or in scripts and automated workflows that don't allow interactive input.
 
-The Kadena CLI has one primary entry point—the `kadena` parent command. 
+The Kadena CLI has one primary entry point—the `kadena` parent command.
 By providing a single entry point for performing a wide range of tasks, the Kadena CLI integrates naturally into the typical development workflow.
 With commands designed specifically for building, testing, and managing Kadena-based applications, you can focus on building innovative applications using familiar tools and processes.
 
@@ -23,9 +23,9 @@ Before you use the Kadena command-line interface, verify the following basic req
 - You have `node`, version 18 or later, installed.
 
 - You have the `pnpm` package manager installed.
-  
+
   Depending on your development environment, you can install pnpm using a standalone script or using a package manager. For example, you can run the command `brew install pnpm` or `npm install --global pnpm` to install pnpm on your local computer. For more information about installing pnpm on different operating systems, see Installation.
-  
+
   Run `pnpm --version` to verify that you have pnpm installed and the version you are running.
 
 ## Installation
@@ -62,7 +62,7 @@ kadena <subcommand> <action> [arguments] [flag]
 
 The following diagram provides an overview of the kadena command-line interface:
 
-![Kadena command-line interface at a glance](/img/kadena-cli-overview.png)
+![Kadena command-line interface at a glance](/img/docs-command-line.png)
 
 ## Command subjects and syntax
 
@@ -109,11 +109,11 @@ kadena <subject> --help
 
 ## Interactive execution
 
-You can run all commands without any arguments by responding to prompts interactively from the command line. 
+You can run all commands without any arguments by responding to prompts interactively from the command line.
 You can skip prompting for any argument by passing your response as part of the command you want to run.
-Interactive prompting is designed to make command execution more intuitive and easy to follow with a guided user experience. 
+Interactive prompting is designed to make command execution more intuitive and easy to follow with a guided user experience.
 
-If you run a command in the Kadena CLI without specifying all of the required options, the CLI automatically prompts you to provide the missing information. 
+If you run a command in the Kadena CLI without specifying all of the required options, the CLI automatically prompts you to provide the missing information.
 This guided approach ensures that you provide all necessary information to successfully execute every command.
 
 To run commands with interactive prompting, type the `kadena` entry point, the command **subject**, and the **action** you want to take without any arguments.
@@ -136,14 +136,14 @@ By allowing you to run commands interactively, the Kadena CLI provides the follo
 - **Flexibility**: Allows for a more conversational and less rigid interaction with the CLI.
 
 If you want to disable all interactive prompts and confirmation messages, you can use the `--quiet `flag.
-The `--quiet` flag enables you to automate tasks in environments where interactive input is impractical, such as continuous integration (CI) pipelines. 
-If you include the  `--quiet` flag in a command, the command suppresses all interactive prompts and skips confirmations, so that the command executes uninterrupted. 
+The `--quiet` flag enables you to automate tasks in environments where interactive input is impractical, such as continuous integration (CI) pipelines.
+If you include the  `--quiet` flag in a command, the command suppresses all interactive prompts and skips confirmations, so that the command executes uninterrupted.
 This mode ensures that automated processes can run smoothly and efficiently, without the need for manual intervention.
 
 ## JSON or YAML output
 
-You can use the `--json` or `--yaml` flag to format output from the results of a command in JSON or YAML format. 
-The results are displayed in the selected format on standard output (stdout). 
+You can use the `--json` or `--yaml` flag to format output from the results of a command in JSON or YAML format.
+The results are displayed in the selected format on standard output (stdout).
 You can then pipe the output into a file or to other programs.
 For example, to format network information using JSON format, you can run the following command:
 
@@ -179,12 +179,12 @@ The command then displays the results in JSON format:
 ```
 
 The `--json` and `--yaml` options don't affect logging of informational messages, warnings, or errors.
-Log messages are sent to standard error (stderr) instead of standard output (stdout). 
-You can disable the logging of informational messages by setting the `KADENA_LOG=output` environment variable. 
+Log messages are sent to standard error (stderr) instead of standard output (stdout).
+You can disable the logging of informational messages by setting the `KADENA_LOG=output` environment variable.
 
 ## Legacy mode
 
-The `--legacy` flag ensures that the output format for commands related to wallets, keys, and transactions aligns with earlier cryptographic standards and with existing workflows and tools, such as Chainweaver. 
+The `--legacy` flag ensures that the output format for commands related to wallets, keys, and transactions aligns with earlier cryptographic standards and with existing workflows and tools, such as Chainweaver.
 This flag is especially useful if you need to interact with tools that rely on a legacy format for processing transactions or if you need to maintain backwards compatibility for a wallet or other application.
 
 ```shell

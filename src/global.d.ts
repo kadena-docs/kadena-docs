@@ -1,3 +1,5 @@
+declare module 'ga-4-react';
+
 declare module '*.jpg' {
      const content: string;
      export default content;

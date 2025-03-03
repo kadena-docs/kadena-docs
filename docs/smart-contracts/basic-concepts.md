@@ -62,7 +62,7 @@ Pact has several key features that make it well-suited to writing business appli
 
 ## Namespaces and modules
 
-Two important concepts in Pact are [namespaces](/resources/glossary#namespace) and [modules](/resources/glossary#namespace).
+Two important concepts in Pact are [namespaces](/resources/glossary#namespace) and [modules](/resources/glossary#module).
 A namespace is a logical ownership boundary for smart contracts that are controlled by a specific entity.
 Smart contracts include a namespace declaration to provide a unique prefix for everything—including modules, functions, keysets, and interfaces—that are defined within the namespace scope. 
 The _root namespace_ in the Kadena test and main networks is reserved for built-in contracts like the `coin` contract. 
@@ -103,10 +103,10 @@ When a contract is deployed, the deployment transaction that's sent to the block
 The transaction can also include code that modifies the database, for example, to initialize information that the contract requires.
 As a general rule, the transaction that you use to deploy a contract on the blockchain should be sent as a single message, so that any error will rollback the entire smart contract as a unit.
 
-When contracts are initialized on the blockchain, they identify a [namespace](#namespaces) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
+When contracts are initialized on the blockchain, they identify a [namespace](/resources/glossary#namespace) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
 Modules contain the main business logic for the application or service you want to deploy.
 Interfaces provide access to constant definitions and typed function signatures that are defined outside of a module to be implemented an used in a module.
-Deploying a contract also requires you to define one or more authorization [keysets](#keysets) that have administrative control over the contract modules and tables. 
+Deploying a contract also requires you to define one or more authorization [keysets](/resources/glossary#keyset) that have administrative control over the contract modules and tables. 
 Keysets that are defined as data in the runtime environment are then stored in the global keyset database.
 
 After setting the runtime context, Pact executes the module and interface declarations and creates required tables to complete the contract deployment.

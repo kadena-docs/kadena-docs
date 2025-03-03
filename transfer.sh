@@ -26,6 +26,15 @@ mkdir -p $DOCS_DIR
 echo "Copying builtins files into $DOCS_DIR..."
 cp -r $TEMP_DIR/$BUILTINS_DIR/* $DOCS_DIR/
 
+# Convert all files and directories to lowercase
+echo "Converting file and directory names to lowercase..."
+find $DOCS_DIR -depth | while read path; do
+    lowercase_path=$(echo "$path" | awk '{print tolower($0)}')
+    if [ "$path" != "$lowercase_path" ]; then
+        mv "$path" "$lowercase_path"
+    fi
+done
+
 # Find all markdown files and change lines that start with ### to ## if not the first line
 echo "Updating markdown files..."
 find $DOCS_DIR -name "*.md" | while read -r file; do
@@ -39,4 +48,4 @@ done
 echo "Cleaning up..."
 rm -rf $TEMP_DIR
 
-echo "Done! The builtins files have been merged into $DOCS_DIR, and all headings have been updated."
+echo "Done! The builtins files have been merged into $DOCS_DIR, converted to lowercase, and all headings have been updated."
