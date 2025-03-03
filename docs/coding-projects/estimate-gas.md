@@ -303,3 +303,20 @@ The following example demonstrates combining multiple functions into a single tr
    (env-gas)
 (commit-tx)
 ```
+
+## Review
+
+This project introduced several of the built-in REPL-only functions for calculating gas.
+The project included examples of the following use-cases:
+
+- Calculating the gas required to execute individual functions.
+- Calculating the gas required to execute a transaction that combined multiple functions.
+
+Through these examples, you learned how to:
+
+- Initiate table-based gas modeling.
+- Set an initial gas limit.
+- Report the gas consumed.
+- Reset the gas to zero.
+
+You also learned that you can update the gas limit, if needed.
