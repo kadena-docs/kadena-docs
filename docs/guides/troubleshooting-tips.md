@@ -10,7 +10,7 @@ toc_max_heading_level: 3
 
 If you encounter errors, warnings, or Bad Request failures when you attempt to connect to a Chainweb nodes or call Kadena API endpoints, you should check for the following common issues and potential solutions.
 
-## Common issues for API calls
+## Common API issues
 
 It can be challenging to call REST API endpoints manually from the command-line because of all of the information you must include in the URL to reach a node that can respond to your request.
 The following are the most common causes of potential issues when you have problems calling Kadena API endpoints.
@@ -54,7 +54,7 @@ If you don't get the results you expect from an API request, you should always c
 
 For more information about calling specific endpoints and their parameters, see the [API documentation](/api).
 
-## Common issues for Pact contracts
+## Common Pact contract issues
 
 In most cases, Pact error messages provide the information you need to resolve coding issues such as invalid syntax or formatting errors.
 However, there a few common errors that can be more difficult to diagnose and resolve.
@@ -95,7 +95,7 @@ If you see a keyset failure, you should check for the following issues:
 If you attempt to access an account or row that is guarded by a capability defined outside of the scope of a function, executing the function might fail because the capability is not in scope. 
 In this case, you might need to execute a different function that brings the capability into scope for the function you intended to execute.
 
-## Common issues for Chainweb nodes
+## Common Chainweb node issues
 
 The most common issues you might encounter if you're a node operator or attempting to connect to a remote node are problems with peer synchronization, network interruptions, or node unavailability.
 
