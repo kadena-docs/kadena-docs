@@ -322,6 +322,25 @@ To add simple calculator functions:
    15.48780488
    ```
 
+   It's important to note that these simple calculator functions are valid, but could be improved by explicitly specifying the data type expected.
+   For example, in the current form, you could execute the addNumbers function to concatenate two strings:
+
+   ```pact
+   (addNumbers "Hello " "Kadena")
+   "Hello Kadena"
+   ```
+
+   To prevent errors or unintentional behavior, you can explicitly define the type for each function.
+   For example, you might want to explicitly set the data type to `integer` or `decimal`:
+
+   ```pact
+   (defun addNumbers (a:integer b:integer)
+      (+ a b)
+    )
+   ```
+
+   For more information about specifying types, see [Typing in variable declarations](#typing-in-variable-declarations).
+
 ## Variables
 
 In the previous examples, you used the variable identifiers `a` and `b` to represent input arguments in your function declarations.
@@ -373,8 +392,8 @@ To use a constant in your module:
 
 ### Changeable values
 
-You can also define variables for values that can be changed using `let` or `let*` expressions.
-Within functions, you can use the `let` or `let*` keyword to bind a variable identifier to a value.
+You can also define variables for values that can be changed using `let` expressions.
+Within functions, you can use the `let` keyword to bind a variable identifier to a value.
 For example, you can assign the variable identifier `x` a value of `10` and perform a simple addition by entering the following in the Pact terminal:
 
 ```pact
@@ -385,13 +404,11 @@ For example, you can assign the variable identifier `x` a value of `10` and perf
 
 This expression returns the result of adding `5` to `x` with the value `15`.
 
-In most cases, you should use `let` expressions to bind variables to values.
-However, you can use the `let*` keyword to reference previously-declared variables in the same `let` declaration.
-The following example illustrates referencing a previously-declared variable in the same `let*` declaration:
+You can also use the `let` keyword to reference previously-declared variables in the same `let` declaration.
+The following example illustrates referencing a previously-declared variable in the same `let` declaration:
 
 ```pact
-(let* ((x 2) (y (* x 10)))
-(+ x y))
+(let ((x 2) (y (* x 10))) (+ x y))
 22
 ```
 
