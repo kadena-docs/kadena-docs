@@ -1,15 +1,13 @@
 ---
 title: Glossary
-description: General and specific terminology related to Kadena.
-menu: Kadena
-label: Glossary
-order: 3
-layout: full
+description: "Defines common concepts and terminology that are generally applicable or specific to decentralized computing, blockchain technology, Kadena, or the Kadena ecosystem."
+id: glossary
+sidebar_position: 1
 ---
 
 # Glossary
 
-This glossary defines and explains concepts and terminology that are specific to decentralized computing, blockchain technology, Kadena, or the Kadena ecosystem.
+This glossary defines and explains common concepts and terminology that are generally applicable or specific to decentralized computing, blockchain technology, Kadena, or the Kadena ecosystem.
 
 ## A
 
@@ -41,6 +39,10 @@ Contract addresses use the same format as wallet addresses.
 On the Kadena network, a **principal account name** is roughly equivalent to an Ethereum address because it establishes a unique identity.
 For Ethereum, the address establishes a one-to-one relationship with a public and private key pair.
 For Kadena, principal account names consist of a letter followed by a colon (:) and a public key or hash that uniquely identifies the account owner.
+
+### airdrop
+
+Tokens that are distributed to selected groups or all addresses on a blockchain network as a free incentive to encourage participation or adoption of a specific blockchain protocol, application, or service.
 
 ### application-specific integrated circuit (ASIC)
 
@@ -127,6 +129,12 @@ Financial services and applications that are not, or
 mostly not, controlled centrally, as in Centralized Finance. For example,
 Uniswap is a decentralized exchange, versus Coinbase which is a centralized
 exchange.
+
+### decentralized network 
+
+A network architecture in which every computer is a peer that can receive and respond to requests. 
+The individual peer computers—called nodes—use a consensus model to determine the final state of the network after responding to the requests received.
+Decentralized networks are generally more fault tolerant than networks that depend on centralized servers responding to incoming client requests.
 
 ### distributed autonomous organization (DAO)
 
