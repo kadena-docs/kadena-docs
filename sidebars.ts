@@ -467,6 +467,7 @@ const sidebars: SidebarsConfig = {
                     },
                     'reference/chainweb-cli',
                     'reference/bootstrap',
+                    'reference/latency',
                     'reference/guard-json',
                ],
           },
