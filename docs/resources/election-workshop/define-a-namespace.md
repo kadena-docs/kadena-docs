@@ -34,7 +34,7 @@ In this tutorial, you'll write and execute some code using the Pact smart contra
 
 To write a simple transaction in Pact:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 2. Create a new file named `namespace.repl` in the `pact` folder.
 
@@ -109,7 +109,7 @@ The `define-namespace` function is wrapped by the `expect` function to test that
 
 To define the election application namespace with the `define-namespace` function:
 
-1. Open the `election-dapp/pact/namespace.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/namespace.repl` file in the code editor on your computer.
 
 2. Add the following lines of code between the `begin-tx` and `commit-tx` lines:
 
@@ -177,7 +177,7 @@ After you define a namespace, only the `admin-keyset`—the namespace owner—ca
 
 To test modifying the election application namespace:
 
-1. Open the `election-dapp/pact/namespace.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/namespace.repl` file in the code editor on your computer.
 
 2. Add the following lines of code as a second transaction at the bottom of the `namespace.repl` file:
 
@@ -241,7 +241,7 @@ This transaction is expected to fail because it's signed using the `admin-keyset
 
 To verify that redefining the election application namespace fails:
 
-1. Open the `election-dapp/pact/namespace.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/namespace.repl` file in the code editor on your computer.
 
 2. Add the following lines of code as a third transaction at the bottom of the `namespace.repl` file:
 
@@ -278,7 +278,7 @@ To verify that the `user-keyset` can now redefine the namespace, you can load th
 
 To verify that redefining the election application namespace succeeds:
 
-1. Open the `election-dapp/pact/namespace.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/namespace.repl` file in the code editor on your computer.
 
 2. Add the following lines of code as a fourth transaction at the bottom of the `namespace.repl` file:
 
@@ -324,7 +324,7 @@ This example demonstrates creating a principal namespace using an `admin-keyset`
 
 To create a principal namespace:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 2. Create a new file named `principal-namespace.repl` in the `pact` folder.
 
@@ -410,11 +410,11 @@ To create your principal namespace on the development network:
    - Your administrative account name with the **k:** prefix exists on chain 1.
    - Your administrative account name is funded with KDA on chain 1.
 
-   ![Verify your administrative account in Chainweaver](/assets/docs/election-workshop/funded-account.png)
+   ![Verify your administrative account in Chainweaver](/img/election-workshop/funded-account.png)
 
    You're going to use Chainweaver to sign the transaction that creates the principal namespace.
 
-3. Open the `election-dapp/snippets/principal-namespace.ts` file in your code editor.
+3. Open the `election-workshop/snippets/principal-namespace.ts` file in your code editor.
 
    The `pactCommand` variable in this file contains the same Pact code for defining a principal namespace that you tested in the Pact REPL.
 
@@ -450,7 +450,7 @@ To create your principal namespace on the development network:
 
    In the remaining lines of code, the Kadena client processes the response it receives from your local development network.
 
-4. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+4. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 5. Create your principal namespace using the `create-namespace` script by running a command similar to the following with your administrative account name:
 
@@ -460,7 +460,7 @@ To create your principal namespace on the development network:
 
    Remember that `k:<your-public-key>` is the default **account name** for your administrative account that you funded in [Add an administrator account](/build/election/add-admin-account). You can copy this account name from Chainweaver when viewing the account watch list.
 
-   ![Sample QuickSign request](/assets/docs/election-workshop/quicksign-request.png)
+   ![Sample QuickSign request](/img/election-workshop/quicksign-request.png)
 
    If you don't see the request automatically, select Chainweaver to bring it to the foreground.
 
@@ -490,7 +490,7 @@ In this tutorial, you learned how to:
 
 The work you completed in this tutorial sets the groundwork for the next tutorial. In the next tutorial, you'll learn how to define a keyset inside your principal namespace and how the keyset you define is used to guard who can modify your election application smart contract.
 
-To see the code for the activity you completed in this tutorial and get the starter code for the next tutorial, check out the `05-keysets` branch from the `election-dapp` repository by running the following command in your terminal shell:
+To see the code for the activity you completed in this tutorial and get the starter code for the next tutorial, check out the `05-keysets` branch from the `election-workshop` repository by running the following command in your terminal shell:
 
 ```bash
 git checkout 05-keysets

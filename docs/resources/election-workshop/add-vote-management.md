@@ -37,13 +37,13 @@ To implement the `vote` function in the `election` Pact module, you can test you
 
 ### Organize your REPL files
 
-So far, you have added all of your tests for the `election` module to the  `election-dapp/pact/election.repl` file. 
+So far, you have added all of your tests for the `election` module to the  `election-workshop/pact/election.repl` file. 
 While this is convenient if you have a small number of tests, continuing to add tests to a single file will make testing more complex and more difficult to follow. 
 To keep tests more organized, you can split them into multiple `.repl` files and reuse the code by loading one file into the other. 
 
 To organize tests into separate files:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 2. Rename `election.repl` to `candidates.repl`.
 
@@ -86,7 +86,7 @@ So, in the Pact REPL you can test the behavior of the new `vote` function agains
 
 To prepare a test for incrementing votes:
 
-1. Open the `election-dapp/pact/voting.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/voting.repl` file in the code editor on your computer.
 
 2. Add transactions to load the `election` Pact module and to add a candidate to the `candidates` table:
    
@@ -135,7 +135,7 @@ To prepare a test for incrementing votes:
    Load failed
    ```
 
-4. Open the `election-dapp/pact/election.pact` file in your code editor.
+4. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 5. Define the `vote` function after the `add-candidate` function with the following lines of code: 
    
@@ -183,7 +183,7 @@ To make the `vote` function more robust, you should handle the scenario where th
 
 To prepare a test for votes on an invalid candidate:
 
-1. Open the `election-dapp/pact/voting.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/voting.repl` file in the code editor on your computer.
 
 2. Add the following transaction before the `Voting for a candidate` transaction:
 
@@ -258,7 +258,7 @@ To prepare a test for votes on an invalid candidate:
    The `with-default-read` function enables you to return a default object with default values or a specific error message if a specific condition is detected.
    In this example, you can use the `with-default-read` function to set the default values for the name (`""`) and votes (`0`) columns.
    
-6. Open the `election-dapp/pact/election.pact` file in your code editor.
+6. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 7. Update the `vote` function to use the `with-default-read` function:
 
@@ -304,7 +304,7 @@ In addition to a check against this table, you'll also need to check the keyset 
 
 To define the database schema and table:
 
-1. Open the `election-dapp/pact/election.pact` file in your code editor.
+1. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 2. Add the schema for the `votes` database table inside of the `election` module definition after the definition of the `candidates` schema and table with the following lines of code:
 
@@ -329,7 +329,7 @@ To define the database schema and table:
    If you set this field to `true` in your module deployment transaction, the statement between the first square brackets is executed.
    This statement creates the `votes` table based on its schema definition inside the module when you load the module into the Pact REPL or upgrade the module on the blockchain.
 
-2. Open the `election-dapp/pact/setup.repl` file in your code editor.
+2. Open the `election-workshop/pact/setup.repl` file in your code editor.
 
 3. Add `, 'init-votes: true` to the `env-data` so that this data is loaded in the Pact REPL environment when you load the `election` module and the `votes` table is created:
 
@@ -362,7 +362,7 @@ To define the database schema and table:
 
 To test that an account can only vote once:
 
-1. Open the `election-dapp/pact/voting.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/voting.repl` file in the code editor on your computer.
 
 2. Add the following transaction to assert that it is not possible to cast more than one vote:
 
@@ -399,7 +399,7 @@ To test that an account can only vote once:
 
    To fix this issue, you'll need to update the `vote` function in the `election` module.
 
-1. Open the `election-dapp/pact/election.pact` file in your code editor.
+1. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 3. Update the `vote` function to include the account name and prevent the same account from voting more than once:
    
@@ -439,7 +439,7 @@ To test that an account can only vote once:
 
    The frontend of the election application can then use the result from the `account-voted` function to determine if **Vote Now** should be enabled. 
    
-1. Open the `election-dapp/pact/voting.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/voting.repl` file in the code editor on your computer.
 
 2. Update all calls to the `vote` function to pass your administrative account name as the first argument.
    
@@ -481,7 +481,7 @@ account to vote on behalf of other accounts.
 
 To demonstrate voting on behalf of another account:
 
-1. Open the `election-dapp/pact/setup.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/setup.repl` file in the code editor on your computer.
 2. Add a `voter-keyset` to `env-data` so that this data is loaded in the Pact REPL environment when you load the `election` module:
 
    ```pact
@@ -511,7 +511,7 @@ To demonstrate voting on behalf of another account:
    
    Remember to replace the administrative account name with your own account name.
 
-1. Open the `election-dapp/pact/voting.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/voting.repl` file in the code editor on your computer.
 2. Add a transaction at the end of the file to cast a vote on behalf of the `voter` account signed by the `admin-keyset`.
 
    ```pact
@@ -544,7 +544,7 @@ To demonstrate voting on behalf of another account:
    The test failed because the `voter` account name doesn't exist in the `votes` table keys and the candidate exists, so the number of votes for the candidate is incremented. 
    You need to make sure that the signer of the transaction owns the `account` passed to the `vote` function.
 
-5. Open the `election-dapp/pact/election.pact` file in the code editor on your computer.
+5. Open the `election-workshop/pact/election.pact` file in the code editor on your computer.
 
 6. Define the `ACCOUNT-OWNER` capability to enforce the guard of the account passed to the `vote` function:
    
@@ -602,7 +602,7 @@ To demonstrate voting on behalf of another account:
 
 To verify that the voter account can vote on its own behalf:
 
-1. Open the `election-dapp/pact/voting.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/voting.repl` file in the code editor on your computer.
 
 1. Add a transaction to verify that the `voter` account can vote on its own behalf, leading to an increase of the number of votes on `Candidate A` to 2:
 
@@ -660,7 +660,7 @@ To update the `election` module on the development network:
    
    You're going to use Chainweaver to sign the transaction that updates the `election` module. 
 
-3. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 1. Deploy your election module on the development network by running a command similar to the following with your administrative account name:
    
@@ -699,7 +699,7 @@ After making these changes, you can use the frontend to cast votes on candidates
 
 To update the frontend to use the `election` module:
 
-1. Open `election-dapp/frontend/src/repositories/candidate/DevnetVoteRepository.ts` in your code editor.
+1. Open `election-workshop/frontend/src/repositories/candidate/DevnetVoteRepository.ts` in your code editor.
 2. Replace the value of the `NAMESPACE` constant with your own principal namespace.
 
    ```typescript
@@ -730,7 +730,7 @@ To update the frontend to use the `election` module:
 1. Remove the `@ts-ignore` comment from the function and notice the resulting errors.
    To fix the errors, you must generate types for your Pact module that can be picked up by `@kadena/client`.
 
-4. Open a terminal, change to the `election-dapp/frontend` directory, then generate types for your `election` module by running the following command:
+4. Open a terminal, change to the `election-workshop/frontend` directory, then generate types for your `election` module by running the following command:
    
    ```bash
    npm run pactjs:generate:contract:election
@@ -741,7 +741,7 @@ To update the frontend to use the `election` module:
 
 5. Review the `vote` function, remove the `@ts-ignore` comment, and save your changes to the `DevnetVoteRepository.ts` file.
 
-6. Open the `election-dapp/frontend` folder in a terminal shell on your computer.
+6. Open the `election-workshop/frontend` folder in a terminal shell on your computer.
 7. Install the frontend dependencies by running the following command:
    
    ```bash
@@ -784,7 +784,7 @@ To cast a vote using the election application website:
    
    After you vote, the Vote Now button is disabled because the frontend checks if your account has already voted by making a `local` request to the `account-voted` function of the `election` Pact module.
 
-   ![View the result after voting](/assets/docs/election-workshop/election-after-voting.png)
+   ![View the result after voting](/img/election-workshop/election-after-voting.png)
 
 ## Next steps
 
@@ -805,7 +805,7 @@ The next tutorial demonstrates how to add a **gas station** module to the `elect
 With this module, an election organization can act as the owner of an account that provides funds to pay the transaction fees on behalf of election voters. 
 By using a gas station, voters can cast votes without incurring any transaction fees.
 
-To see the code for the activity you completed in this tutorial and get the starter code for the next tutorial, check out the `09-gas-station` branch from the `election-dapp` repository by running the following command in your terminal shell:
+To see the code for the activity you completed in this tutorial and get the starter code for the next tutorial, check out the `09-gas-station` branch from the `election-workshop` repository by running the following command in your terminal shell:
 
 ```bash
 git checkout 09-gas-station

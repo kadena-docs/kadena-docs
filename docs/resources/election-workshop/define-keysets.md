@@ -36,7 +36,7 @@ REPL, you'll define a keyset to use on your local development network.
 
 To define a keyset:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 2. Create a new file named `keyset.repl` in the `pact` folder.
 
@@ -94,7 +94,7 @@ arguments:
 
 To define a keyset:
 
-1. Open the `election-dapp/pact/keyset.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/keyset.repl` file in the code editor on your computer.
 
 2. Add the following lines of code between the `begin-tx` and `commit-tx` lines:
 
@@ -230,7 +230,7 @@ of your namespace, you can add another test case to the `keyset.repl` file.
 
 To test keyset authorization works as expected:
 
-1. Open the `election-dapp/pact/keyset.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/keyset.repl` file in the code editor on your computer.
 
 1. Add the following lines to the bottom of the `keyset.repl` file:
 
@@ -306,7 +306,7 @@ to add the signature of a new authorized successor to the original
 
 To rotate the keyset to accept a new signature:
 
-1. Open the `election-dapp/pact/keyset.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/keyset.repl` file in the code editor on your computer.
 
 2. Add a new signature to the environment by adding the following lines of code after the last transaction that tested unauthorized access:
 
@@ -364,7 +364,7 @@ As a best practice, you can use the Pact REPL to test the transaction before you
 
 To test your keyset definition:
 
-1. Open the `election-dapp/pact/principal-namespace.repl` file in the code editor on your computer.
+1. Open the `election-workshop/pact/principal-namespace.repl` file in the code editor on your computer.
    
    You might remember that this file:
    
@@ -433,7 +433,7 @@ To define your keyset on the development network:
    - Your administrative account name with the **k:** prefix exists on chain 1.
    - Your administrative account name is funded with KDA on chain 1.
 
-3. Open the `election-dapp/snippets/define-keyset.ts` file in your code editor.
+3. Open the `election-workshop/snippets/define-keyset.ts` file in your code editor.
 
 1. Review the initial client configuration.
    
@@ -497,7 +497,7 @@ To define your keyset on the development network:
    }
    ```
    
-3. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 4. Create the keyset for your principal namespace using the `define-keyset` script by running a command similar to the following with your administrative account name:
    
@@ -534,7 +534,7 @@ You'll define the Pact module inside of your principal namespace and control how
 
 To see the code for the activity you completed in this tutorial and get the
 starter code for the next tutorial, check out the `06-smart-contracts` branch
-from the `election-dapp` repository by running the following command in your
+from the `election-workshop` repository by running the following command in your
 terminal shell:
 
 ```bash

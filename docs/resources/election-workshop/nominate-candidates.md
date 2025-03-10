@@ -41,7 +41,7 @@ module, just like selecting the namespace.
 
 To define the database schema and table:
 
-1. Open the `election-dapp/pact/election.pact` file in the code editor on your
+1. Open the `election-workshop/pact/election.pact` file in the code editor on your
    computer.
 2. Add the schema for the database table inside of the `election` module
    definition with the following lines of code:
@@ -80,7 +80,7 @@ REPL.
 
 To test table creation:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 4. Create a new file named `election.repl` in the `pact` folder.
 5. Set the `env-data` and `env-sigs` fields for the REPL test environment to use the public key for your own administrative account.
    
@@ -167,7 +167,7 @@ module on the development network.
 
 To test that the table works as expected:
 
-1. Open the `election-dapp/pact/election.repl` file in the code editor on your
+1. Open the `election-workshop/pact/election.repl` file in the code editor on your
    computer.
 
 1. Add a transaction to test the current implementation of the
@@ -213,9 +213,9 @@ To test that the table works as expected:
    ```
 
    You can fix this issue by updating the return value of the `list-candidates`
-   function in the `election-dapp/pact/election.pact` file.
+   function in the `election-workshop/pact/election.pact` file.
 
-1. Open the `election-dapp/pact/election.pact` file in your code editor.
+1. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 1. Update the return value of the `list-candidates` function to select all of
    the rows of the `candidates` table, including the key and the column values
@@ -275,7 +275,7 @@ votes they've received, but without any candidates for anyone to vote on.
 
 To add candidates to the database:
 
-1. Open the `election-dapp/pact/election.repl` file in your code editor.
+1. Open the `election-workshop/pact/election.repl` file in your code editor.
 
 2. Add a transaction to test that candidates have been added to the database
    using the `election.add-candidate` function:
@@ -323,7 +323,7 @@ To add candidates to the database:
    The `key` value is a unique index for the table row that is added. This value
    can't be automatically generated, so you have to pass a value yourself.
 
-3. Open the `election-dapp/pact/election.pact` file in your code editor.
+3. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 4. Define the `add-candidate` function inside the `election` module definition to
    receive a `candidate` JSON object and call the built-in `insert` function:
@@ -397,7 +397,7 @@ To add candidates to the database:
    Load successful
    ```
 
-3. Verify that you only have three candidates in the table by adding the following assertion to the `election-dapp/pact/election.repl` file:
+3. Verify that you only have three candidates in the table by adding the following assertion to the `election-workshop/pact/election.repl` file:
 
    ```pact
    (begin-tx "List candidates")
@@ -451,7 +451,7 @@ access to the `add-candidate` function.
 
 To guard access to the `add-candidate` function:
 
-1. Open the `election-dapp/pact/election.repl` file in the code editor on your
+1. Open the `election-workshop/pact/election.repl` file in the code editor on your
    computer.
 
 2. Add a transaction in which you expect adding a fourth candidate to fail.
@@ -497,7 +497,7 @@ To guard access to the `add-candidate` function:
    Load failed
    ```
 
-4. Open the `election-dapp/pact/election.pact` file in your code editor.
+4. Open the `election-workshop/pact/election.pact` file in your code editor.
 
 5. Update the `add-candidate` function to add a capability guard as follows:
 
@@ -554,7 +554,7 @@ To update the `election` module on the development network:
    You're going to use Chainweaver to sign the transaction that updates the
    module.
 
-3. Open the `election-dapp/snippets` folder in the terminal shell.
+3. Open the `election-workshop/snippets` folder in the terminal shell.
 
 4. Update your `election` module on the development network by running a command
    similar to the following with your administrative account name:
@@ -618,7 +618,7 @@ To update the `election` module on the development network:
    code in the editor pane and verify that the `election` module deployed on the
    local development network is what you expect.
 
-## Connect the front-end
+## Connect the frontend
 
 You now have the election backend defined in a smart contract running on the
 development network. To make the functions in the smart contract available to
@@ -641,7 +641,7 @@ module running on the development network blockchain.
 To modify the frontend to list candidates from the development network:
 
 1. Open
-   `election-dapp/frontend/src/repositories/candidate/DevnetCandidateRepository.ts`
+   `election-workshop/frontend/src/repositories/candidate/DevnetCandidateRepository.ts`
    in your code editor.
 
 2. Replace the value of the `NAMESPACE` constant with your own principal
@@ -677,7 +677,7 @@ To modify the frontend to list candidates from the development network:
     
     To fix this problem, you must generate types for your Pact module that can be picked up by the Kadena client (`@kadena/client` library).
 
-2. Open a terminal, change to the `election-dapp/frontend` directory, then
+2. Open a terminal, change to the `election-workshop/frontend` directory, then
    generate types for your `election` module by running the following command:
 
    ```bash
@@ -701,7 +701,7 @@ To modify the frontend to list candidates from the development network:
    - Processes the response from the development network and returns a list of
      candidates or an empty list.
 
-6. Change to the terminal where the `election-dapp/frontend` directory is your
+6. Change to the terminal where the `election-workshop/frontend` directory is your
    current working directory.
 
 7. Install the frontend dependencies by running the following command:
@@ -729,7 +729,7 @@ To modify the frontend to list candidates from the development network:
 
 To modify the frontend to add candidates from the development network:
 
-1. Open `election-dapp/frontend/src/repositories/candidate/DevnetCandidateRepository.ts` in your code editor.
+1. Open `election-workshop/frontend/src/repositories/candidate/DevnetCandidateRepository.ts` in your code editor.
 
 2. Review the `addCandidate` function.
    
@@ -845,7 +845,7 @@ cast a vote on a candidate with their Kadena account.
 
 To see the code for the activity you completed in this tutorial and get the
 starter code for the next tutorial, check out the `08-voting` branch from the
-`election-dapp` repository by running the following command in your terminal
+`election-workshop` repository by running the following command in your terminal
 shell:
 
 ```bash

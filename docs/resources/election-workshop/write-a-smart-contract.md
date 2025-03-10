@@ -51,7 +51,7 @@ module.
 
 To create the starter code for a Pact module:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 2. Create a new file named `module.repl` in the `pact` folder.
 
@@ -220,7 +220,7 @@ access to the `election` module and the `list-candidate` function.
 
 To test access to the `election` module:
 
-1. Open the `election-dapp/pact/module.repl` file in the code editor on your
+1. Open the `election-workshop/pact/module.repl` file in the code editor on your
    computer.
 
 1. Add the following transaction to assert that the `election` module is
@@ -303,7 +303,7 @@ To test that updates work as expected, you can try updating the Pact module with
 
 To test updating a module with the correct keyset:
 
-1. Open the `election-dapp/pact/module.repl` file in the code editor on your
+1. Open the `election-workshop/pact/module.repl` file in the code editor on your
    computer.
 
 2. Add the following lines of code after the last transaction:
@@ -367,7 +367,7 @@ you can simulate an unauthorized user attempting to update a module.
 
 To test updating a module with an incorrect keyset:
 
-1. Open the `election-dapp/pact/module.repl` file in the code editor on your
+1. Open the `election-workshop/pact/module.repl` file in the code editor on your
    computer.
 
 2. Add the following lines of code after the last transaction:
@@ -420,7 +420,7 @@ By moving module ownership to a governance capability, you can later use the `el
 
 To modify governance for the module:
 
-1. Open the `election-dapp/pact/module.repl` file in the code editor on your
+1. Open the `election-workshop/pact/module.repl` file in the code editor on your
    computer.
 
 2. Add the following lines of code after the last transaction:
@@ -487,7 +487,7 @@ To deploy the Pact module on the development network:
    
    You're going to use Chainweaver to sign the transaction that deploys the module. 
 
-3. Open the `election-dapp/pact` folder in the code editor on your computer.
+3. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 4. Create a new file named `election.pact` in the `pact` folder.
 
@@ -510,7 +510,7 @@ To deploy the Pact module on the development network:
    )
    ```
 
-6. Open the `election-dapp/snippets/deploy-module.ts` file in your code editor. 
+6. Open the `election-workshop/snippets/deploy-module.ts` file in your code editor. 
    
    You'll notice several differences between this script and the previous scripts you've used. 
    For example, in this script, the Pact code is read from your `election.pact` module rather than passed as a string or a function call to an existing module like `Pact.modules.coin`. 
@@ -538,7 +538,7 @@ To deploy the Pact module on the development network:
   
    Because you must for pay processing any transaction request even if a transaction fails, you should use a preflight request for any computationally expensive transactions—like deploying a module—before sending the actual transaction to the blockchain.
 
-4. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+4. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 1. Deploy your election module on the development network by running a command similar to the following with your administrative account name:
    
@@ -656,7 +656,7 @@ and fix bugs as your application matures.
 
 To test updating a deployed smart contract:
 
-1. Open the `election-dapp/pact/election.pact` file in the code editor on your
+1. Open the `election-workshop/pact/election.pact` file in the code editor on your
    computer.
 
 2. Modify the `list-candidates` function to return a different list. For
@@ -666,7 +666,7 @@ To test updating a deployed smart contract:
      (defun list-candidates () [1, 2, 3, 4, 5])
    ```
 
-4. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+4. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 5. Update the `election` module by running the `deploy-module:devnet` script:
    
@@ -696,7 +696,7 @@ To verify that other accounts can't update your module:
 
 1. Copy the **Account name** for the new account.
 
-4. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+4. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 5. Create and fund the new account using the `transfer-create` script by running a command similar to the following with the new account name you copied from Chainweaver:
 
@@ -782,7 +782,7 @@ database table and add a new function to nominate candidates.
 
 To see the code for the activity you completed in this tutorial and get the
 starter code for the next tutorial, check out the `07-nominate-candidates`
-branch from the `election-dapp` repository by running the following command in
+branch from the `election-workshop` repository by running the following command in
 your terminal shell:
 
 ```bash

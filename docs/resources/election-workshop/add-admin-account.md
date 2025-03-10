@@ -50,7 +50,7 @@ To create a new key pair and account:
 
    If you expand the new account, you'll see that no balance exists for the account on any chain and there's no information about the owner or keyset for the account. For example:
 
-   ![Initial state of a new account](/assets/docs/election-workshop/new-admin-account.png)
+   ![Initial state of a new account](/img/election-workshop/new-admin-account.png)
 
    In this initial state, the account name acts as a placeholder, but the account doesn't exist yet on the development network.
 
@@ -85,7 +85,7 @@ For this tutorial, you can fund the administrative account that governs the elec
 
 ### Prepare to work with the coin contract
 
-As you saw in [Explore default contracts](/build/election/start-a-local-blockchain#explore-default-contractsh1478700565), the development network includes several default smart contracts, including the coin contract. 
+As you saw in [Explore default contracts](/resources/election-workshop/start-a-local-blockchain#explore-default-contractsh1478700565), the development network includes several default smart contracts, including the coin contract. 
 In this tutorial, you'll use the `transfer-create` function that's defined in the `coin` smart contract to transfer 20 KDA from a public test account to your administrative account.
 
 However, transferring coins using functions in the coin contract requires you to interact with **Pact types** that are defined in the contract.
@@ -93,7 +93,7 @@ Before you can transfer coins using the Kadena client scripts in the `snippets` 
 
 To generate the types required to work with the coin contract:
 
-1. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+1. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 1. Generate the types by running the following command:
    
@@ -119,10 +119,10 @@ To generate the types required to work with the coin contract:
       
       WARNING: No namespace found for module "fungible-xchain-v1". You can pass --namespace as a fallback.
       
-   Creating directory /Users/pistolas/election-dapp/snippets/node_modules/.kadena/pactjs-generated
-   Writing default package.json to /Users/pistolas/election-dapp/snippets/node_modules/.kadena/pactjs-generated/package.json
+   Creating directory /Users/pistolas/election-workshop/snippets/node_modules/.kadena/pactjs-generated
+   Writing default package.json to /Users/pistolas/election-workshop/snippets/node_modules/.kadena/pactjs-generated/package.json
    
-   Verifying tsconfig.json at `/Users/pistolas/election-dapp/snippets/tsconfig.json`
+   Verifying tsconfig.json at `/Users/pistolas/election-workshop/snippets/tsconfig.json`
    ```
 
    Because you're generating types to create an account outside of the context of a particular namespace, you can ignore the `namespace` warnings.
@@ -133,7 +133,7 @@ Before you transfer coins from a public test account, you should review the scri
 
 To prepare to run the `transfer-create.ts` script:
 
-1. Open the `election-dapp/snippets/transfer-create.ts` script in your code editor.
+1. Open the `election-workshop/snippets/transfer-create.ts` script in your code editor.
 
 1. Review the initial client configuration.
    
@@ -198,7 +198,7 @@ To transfer coins to fund the administrative account:
 
 2. Click **Accounts** in the Chainweaver navigation pane, then click the Copy to clipboard icon to copy the account name for your account.
 
-3. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 4. Create and fund your administrative account using the `transfer-create` script by running a command similar to the following with the k: account name for your administrative account:
 
@@ -243,7 +243,7 @@ To transfer coins to fund the administrative account:
 
 3. Expand your administrative account to verify that on chain 1 you are the owner, one keyset is defined, and the balance is 20 KDA.
 
-   ![Your funded administrative account on the development network](/assets/docs/election-workshop/funded-account.png)
+   ![Your funded administrative account on the development network](/img/election-workshop/funded-account.png)
 
 ## Next steps
 

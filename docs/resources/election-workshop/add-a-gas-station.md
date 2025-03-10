@@ -58,13 +58,13 @@ To create a voter account:
 
    If you expand the new account, you'll see that no balance exists for the account on any chain and there's no information about the owner or keyset for the account.
 
-6. Open the `election-dapp/snippets/create-account.ts` file in the code editor on your computer.
+6. Open the `election-workshop/snippets/create-account.ts` file in the code editor on your computer.
 
    You'll notice that this script is similar to the `./snippets/transfer-create.ts` script you used previously. 
    The script imports functions from the Kadena client library to call the `create-account` function of the `coin` contract to create a voter account.
    However, the`main` function doesn't pass any funds or sign for the `COIN.TRANSFER` capability.
 
-7. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+7. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 8. Run the following command to create a new voter account.
 
@@ -115,7 +115,7 @@ To attempt to cast a vote with the voter account:
    - Your voter account name with the **k:** prefix exists on chain 1.
    - Your voter account name has no KDA account balance (0) on chain 1.
 
-3. Open the `election-dapp/frontend` folder in a terminal shell on your computer.
+3. Open the `election-workshop/frontend` folder in a terminal shell on your computer.
 
 4. Install the frontend dependencies by running the following command:
 
@@ -151,7 +151,7 @@ In this tutorial, you'll add a second Pact module—the `election-gas-station` m
 
 To create the gas station module:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 
 2. Create a new `election-gas-station.pact` file in the `pact` folder.
 
@@ -209,9 +209,9 @@ To create the gas station module:
    Load failed
    ```
 
-   The `gas-payer-v1` interface you have referenced in your `election-gas-station.pact` file is defined in the `election-dapp/pact/root/gas-payer-v1.pact` file. This file is included in your project so that you can test your module in the Pact REPL. The interface is also pre-installed on the Kadena development, test, and main networks, so you don't need to deploy it when you deploy the `election-gas-station` module. However, you haven't implemented the `gas-payer-v1` interface yet in the `election-gas-station.pact` file.
+   The `gas-payer-v1` interface you have referenced in your `election-gas-station.pact` file is defined in the `election-workshop/pact/root/gas-payer-v1.pact` file. This file is included in your project so that you can test your module in the Pact REPL. The interface is also pre-installed on the Kadena development, test, and main networks, so you don't need to deploy it when you deploy the `election-gas-station` module. However, you haven't implemented the `gas-payer-v1` interface yet in the `election-gas-station.pact` file.
 
-6. Open the `election-dapp/pact/root/gas-payer-v1.pact` file in the code editor on your computer and review the signature for the interface.
+6. Open the `election-workshop/pact/root/gas-payer-v1.pact` file in the code editor on your computer and review the signature for the interface.
 
    The documentation for the `gas-payer-v1` interface file states that `GAS_PAYER` should compose a capability. You can include a capability within a capability using the built-in `compose-capability` function. From this documentation, you know that you need to add the `ALLOW_GAS` capability that always returns `true` within the `GAS_PAYER` capability to implement the `gas-payer-v1` interface.
 
@@ -282,7 +282,7 @@ To deploy the new Pact module on the development network:
 
    You're going to use Chainweaver to sign the transaction that deploys the module.
 
-3. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 4. Deploy your `election-gas-station` module on the development network by running a command similar to the following with your administrative account name:
 
@@ -290,7 +290,7 @@ To deploy the new Pact module on the development network:
    npm run deploy-gas-station:devnet -- k:<your-public-key>
    ```
 
-   The `election-dapp/deploy-gas-station.ts` script is similar to the `election-dapp/deploy-module.ts` script, except that it deploys the `election-gas-station.pact` module. Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/build/election/add-admin-account). You can copy this account name from Chainweaver when viewing the account watch list.
+   The `election-workshop/deploy-gas-station.ts` script is similar to the `election-workshop/deploy-module.ts` script, except that it deploys the `election-gas-station.pact` module. Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/add-admin-account). You can copy this account name from Chainweaver when viewing the account watch list.
 
    When you run the script, you should see Chainweaver display a QuickSign Request.
 
@@ -406,7 +406,7 @@ To make the gas station account more secure, you can create it using a principal
 
 To create a capability-guarded account:
 
-1. Open the `election-dapp/pact` folder in the code editor on your computer.
+1. Open the `election-workshop/pact` folder in the code editor on your computer.
 2. Open the `election-gas-station.pact` file and add the following line of code to the end of the module definition:
 
    ```pact
@@ -504,7 +504,7 @@ To deploy the new Pact module on the development network:
 
    You're going to use Chainweaver to sign the transaction that updates the module.
 
-3. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 4. Deploy your `election-gas-station` module on the development network by running a command similar to the following with your administrative account name:
 
@@ -512,7 +512,7 @@ To deploy the new Pact module on the development network:
    npm run deploy-gas-station:devnet -- k:<your-public-key> upgrade init
    ```
 
-   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/build/election/add-admin-account). 
+   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/add-admin-account). 
    You can copy this account name from Chainweaver when viewing the account watch list.
    As before, you must include  `upgrade` and `init` to update the contract and add the GAS_STATION_ACCOUNT capability guard from your `election-gas-station` module.
 
@@ -567,7 +567,7 @@ To fund the gas station account:
 
    You're going to use Chainweaver to sign the transaction that funds the gas station account.
 
-3. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 4. Transfer one KDA from your administrative account to the gas station account by running the following command:
 
    ```bash
@@ -639,7 +639,7 @@ At this point, most of the work required to use a gas station to pay transaction
 App.tsx:42 Uncaught (in promise) {callStack: Array(0), type: 'TxFailure', message: 'Keyset failure (keys-all): [bbccc99e...]', info: ''}
 ```
 
-When you added the `ACCOUNT-OWNER` capability to the `election-dapp/pact/election.pact` file, you didn't set the scope for the capability.
+When you added the `ACCOUNT-OWNER` capability to the `election-workshop/pact/election.pact` file, you didn't set the scope for the capability.
 
 You might recall in the previous tutorial that you tested voting with a transaction similar to the following in the `voting.repl` file:
 
@@ -692,7 +692,7 @@ To cast a vote with the voter account:
 
    If you have closed the election application you previously had running:
 
-   - Open the `election-dapp/frontend` folder in a terminal shell on your computer.
+   - Open the `election-workshop/frontend` folder in a terminal shell on your computer.
    - Install the frontend dependencies by running the `npm install` command.
    - Start the frontend application configured to use the `devnet` backend by running the `npm run start-devnet` command.
 
@@ -704,7 +704,7 @@ To cast a vote with the voter account:
 
    You should see the vote count for the candidate you voted for incremented by one vote.
 
-   ![View the result after voting](/assets/docs/election-workshop/election-two-votes.png)
+   ![View the result after voting](/img/election-workshop/election-two-votes.png)
 
 ## Enforce a limit on transaction fees
 
@@ -783,7 +783,7 @@ After you've completed the changes to secure the gas station account, you are re
 
 To update the smart contract and complete the workshop:
 
-1. Open the `election-dapp/pact` folder in a terminal shell on your computer and verify all of the tests you created in the workshop pass using the Pact REPL.
+1. Open the `election-workshop/pact` folder in a terminal shell on your computer and verify all of the tests you created in the workshop pass using the Pact REPL.
 
    - pact/candidates.repl
    - pact/election-gas-station.repl
@@ -801,7 +801,7 @@ To update the smart contract and complete the workshop:
    - Your administrative account name with the **k:** prefix exists on chain 1.
    - Your administrative account name is funded with KDA on chain 1.
 
-1. Open the `election-dapp/snippets` folder in a terminal shell on your computer.
+1. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
 
 1. Update your `election-gas-station` module on the development network by running a command similar to the following with your administrative account name:
 
@@ -809,7 +809,7 @@ To update the smart contract and complete the workshop:
    npm run deploy-gas-station:devnet -- k:<your-public-key> upgrade
    ```
 
-   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/build/election/add-admin-account). You can copy this account name from Chainweaver when viewing the account watch list. When you run the script, you should see Chainweaver display a QuickSign Request.
+   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/add-admin-account). You can copy this account name from Chainweaver when viewing the account watch list. When you run the script, you should see Chainweaver display a QuickSign Request.
 
 1. Click **Sign All** to sign the request.
 
@@ -828,7 +828,7 @@ In this tutorial, you learned how to:
 - Restrict access to the gas station account based on conditions you specify in the Pact module.
 - Deploy the gas station module on the development network.
 
-In this workshop, you configured an election application to use the Kadena client to interact with a smart contract deployed on the Kadena blockchain as its backend. The workshop demonstrates the basic functionality for conducting an election online that uses a blockchain to provide more efficient, transparent, and tamper-proof results. However, as you saw in [Add vote management](/build/election/add-vote-management), it's possible for individuals to vote more than once by simply creating additional Kadena accounts. That might be a challenge you want to explore.
+In this workshop, you configured an election application to use the Kadena client to interact with a smart contract deployed on the Kadena blockchain as its backend. The workshop demonstrates the basic functionality for conducting an election online that uses a blockchain to provide more efficient, transparent, and tamper-proof results. However, as you saw in [Add vote management](/resources/election-workshop/add-vote-management), it's possible for individuals to vote more than once by simply creating additional Kadena accounts. That might be a challenge you want to explore.
 
 As an alternative, you might want to deploy the election application and smart contract on the Kadena test network, making it available to community members.
 
