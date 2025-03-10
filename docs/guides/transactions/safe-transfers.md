@@ -21,7 +21,7 @@ It's especially important to construct this type of transaction if you are using
 
 ## Using a YAML request file and curl
 
-Wallets with front-end interfaces can make transfers, including safe transfers, transparent for end-users.
+Wallets with frontend interfaces can make transfers, including safe transfers, transparent for end-users.
 However, it's often useful to step through the process from the command-line to better understand the mechanics of how a safe transfer works.
 
 In this example:

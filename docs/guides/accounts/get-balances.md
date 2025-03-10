@@ -10,7 +10,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 This guide provides instructions and examples for checking an account balance using an API call, Kadena CLI commands, and the Kadena client TypeScript library.
 These examples illustrate how you can construct calls to the blockchain to get an account balance—an important operation if you're building a wallet, exchange, game, or other application where you need to retrieve and display account information.
-If you're using Chainweaver or another wallet or front-end application, this information is typically available directly through the user interface, with the application performing an operation similar to these examples behind the scenes.
+If you're using Chainweaver or another wallet or frontend application, this information is typically available directly through the user interface, with the application performing an operation similar to these examples behind the scenes.
 
 ## Using a YAML request and curl
 
