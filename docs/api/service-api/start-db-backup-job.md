@@ -319,9 +319,9 @@ GET http://api.chainweb.com/chainweb/0.0/mainnet01/header/updates
 
 This request returns a stream of events with the BlockHeader event property and a data property:
 
-<!-- ![BlockHeader event stream](/assets/docs/blockheader-event.png) -->
+![BlockHeader event stream](/img/blockheader-event.png)
 
-If you expand the data property for an event, the event includes details similar to the folloiwng:
+If you expand the data property for an event, the event includes details similar to the following:
 
 ```json
 {
