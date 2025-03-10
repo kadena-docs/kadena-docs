@@ -15,7 +15,7 @@ This coding project focuses on how to:
 - Format YAML execution requests as JSON objects.
 - Submit YAML requests using the Pact REST API endpoints.
 
-By becoming familiar with how to perform these tasks, you'll be better prepared to develop a full stack application that combines a Pact smart contract backend with a Javascript-based front-end.
+By becoming familiar with how to perform these tasks, you'll be better prepared to develop a full stack application that combines a Pact smart contract backend with a Javascript-based frontend.
 
 ![Pact REST API and local server](/img/docs-pact-server-api.png)
 

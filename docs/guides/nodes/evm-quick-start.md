@@ -58,7 +58,7 @@ The repository for the preview includes the following directories and components
 | Name | What it provides
 | ---- | ----------------
 | allocations | Files to set up an ethers project that describes a set of BIP-44 wallets and allocations to be created in the genesis block for the development network.
-| apps | Files to set up the contract, server, and front-end application that demonstrates cross-chain transactions.
+| apps | Files to set up the contract, server, and frontend application that demonstrates cross-chain transactions.
 | blockscout | Files to set up an optional block explorer for the EVM chains in the development network. [Blockscout](https://www.blockscout.com/) instances provide an explorer interface and API similar to [Etherscan](https://etherscan.io).
 | devnet | A Docker compose project and files to set up the Chainweb node for the development network.  
 | docker&#8209;bake.hcl | A script to build multi-platform images for the development network Docker compose project.
@@ -533,7 +533,7 @@ The mining accounts are:
 - `m/44'/1'/1'/0/0` (address: 0xd42d71cdc2A0a78fE7fBE7236c19925f62C442bA)
 - `m/44'/1'/1'/0/1` (address: 0x38a6BD13CC381c68751BE2cef97BD79EBcb2Bb31)
 
-## Running the front-end application demo
+## Running the frontend application demo
 
 The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository includes an `apps` folder with the files for an application that demonstrates deploying contracts, funding accounts, and transferring assets between the two Chainweb EVM chains in the development network.
 
@@ -666,7 +666,7 @@ To start the application:
 
 To stop the transfer demonstration:
 
-1. Switch to the terminal where the `kethamp` application front-end runs, then press Control-c to stop the application process.
+1. Switch to the terminal where the `kethamp` application frontend runs, then press Control-c to stop the application process.
 
 2. Switch to the terminal where the `kethamp-server` application server runs, then press Control-c to stop the application server process.
 
