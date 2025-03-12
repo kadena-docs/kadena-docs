@@ -52,7 +52,7 @@ To set up the local network, open a terminal shell on your computer then run the
 git clone https://github.com/kadena-io/devnet
 cd devnet
 npm install
-docker run --rm --interactive --tty --publish 8080:8080 --volume kadena_devnet:/data --name devnet kadena/devnet}
+docker run --rm --interactive --tty --publish 8080:8080 --volume kadena_devnet:/data --name devnet kadena/devnet
 ```
 
 For more information about starting the Kadena development network in a Docker container, see [Set up the local network](/smart-contracts/install/local-dev-node).
