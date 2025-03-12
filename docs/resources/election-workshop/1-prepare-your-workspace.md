@@ -112,7 +112,7 @@ If you expand the `frontend` folder, you'll see that it includes a `repositories
 Within that folder, there's a `candidate` repository and a `vote` repository.
 Each repository has two implementations: an **InMemory** implementation and a **Devnet** implementation.
 
-Initially, the frontend for the election application website uses React components that are not connected to a blockchain backend. 
+Initially, the frontend for the election website uses React components that are not connected to a blockchain backend. 
 Instead, the project is configured to use the in-memory implementation of the repositories.
 With this implementation, all data operations requested by interacting with the website frontend are served using JavaScript arrays and objects that are defined in an in-memory backend file. 
 

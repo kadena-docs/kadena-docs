@@ -78,104 +78,82 @@ You can also create accounts using wallet applications like Kadena SpireKey and 
 Wallet applications provide often make interacting with blockchain networks, accounts, and keys easier.
 
 You must have at least one account on the development network to complete the election workshop.
+If you have public and private keys for testing, you can add them to the development environment using the `kadena account add` commands.
 
-If you don't already have an account, you can create one using the [Chainweaver desktop application](https://github.com/kadena-io/chainweaver/releases), the [Chainweaver web application](https://chainweaver.kadena.network/), or the Kadena CLI.
+If you don't already have an account, you can create one using the [Chainweaver desktop application](https://github.com/kadena-io/chainweaver/releases), the [Chainweaver web application](https://chainweaver.kadena.network/), or `kadena-cli` commands.
 
-To create an account:
+To create an account using `kadena-cli` commands:
 
-1. Open Chainweaver.
+1. Open a terminal shell on your computer.
+2. Install the `kadena-cli` library by running the following command:
+   
+   ```bash
+   npm install --global @kadena/kadena-cli
+   ```
 
-2. Review the Terms of Service and confirm that you agree to them, then click **Create a new wallet**.
+3. Initialize the development environment with a configuration folder, wallet, and account by running the following command
 
-3. Type and confirm the password you want to use for this account, then click **Continue**.
+   ```bash
+   kadena config init
+   ```
 
-4. Confirm that you understand the importance of the recovery phrase, then click **Continue**.
+   This command creates the `.kadena` configuration folder location in your current working directory. adds default network settings to a `networks` subfolder, and prompts you to create a wallet.
 
-5. Click **Copy** to copy the 12-word recovery phrase to the clipboard so you can save it in a secure location, for example, as a note in a password vault.
+4. Follow the prompts displayed to create a wallet and an account public and private key pair for the development network.
 
-   You can also reveal each word by moving the cursor over the text field in the browser. 
-   Write each word in the correct order and store the complete recovery phrase in a secure place.
+   After you provide the required information, you should see details about the new account  similar to the following:
 
-6. Confirm that you have stored the recovery phrase, then click **Continue**.
+   ```bash
+   ====================================================
+   == 🚨 IMPORTANT: Mnemonic Phrase 🚨 ==
+   ====================================================
+   Mnemonic Phrase:
+   prize select sad post topic install found spend cable feature nest room
+   
+   Please store the mnemonic phrase in a SAFE and SECURE place. 
+   This phrase is the KEY to recover your wallet. Losing it means losing access to your assets.
+   
+   ====================================================
+   
+   First keypair generated
+   publicKey: e1ea3b130881ec420badfde86ba518751d4c575874399452aa7aed476807d68c
+   
+   Wallet Storage Location
+   .kadena/wallets/pistolas-dev.yaml
+   
+   Account created
+   accountName: k:e1ea3b130881ec420badfde86ba518751d4c575874399452aa7aed476807d68c
+   
+   Account Storage Location
+   .kadena/accounts/pistolas-dev.yaml 
+   ```
 
-7. Verify the 12-word recovery phrase by typing the correct words in the correct order, then click **Continue**.
-
-8. Click **Done** to view your new wallet.
+   Be sure to copy and store the mnemonic phrase in a safe place.
+   This 12-word secret phrase is required if you ever need to recover your wallet.
 
 ## Connect to the development network
 
-Now that you have a Chainweaver wallet, you can connect it to the development network.
+You now have a local wallet with the basic account information required to sign transactions: a public key, an account name, and a predicate.
+However, the local account isn't yet associated with any network or chain identifiers.The first wallet and default account information provide you with the basics for signing transactions: a public key, an account name, and a predicate.
+Because there aren't many practical applications that involve signing transactions using a local account, you'll want to choose a network and one or more chains to make the account available on-chain within that network.
 
-To add the development network to your new wallet:
+Before you can use an account to transfer assets and sign the most common types of transactions, it must exist on a network and have funds on one or more chains.
+For the workshop, you'll connect the local account to the development network, but you could follow similar steps to make it available on the Kadena test network or the Kadena main production network.
 
-1. Unlock Chainweaver.
-2. Click **Settings** in the Chainweaver navigation panel.
-3. Click **Network**.
-4. Under Edit Networks, type the network name **devnet**, then click **Create**.
-5. Expand the **devnet** network, then add the localhost as a node for this network by typing 127.0.0.1:8080.
+To add funds on the development network using `kadena-cli` commands:
 
-   If the local computer is still running the development network Docker container, you should see the dot next to the node turn green.
+1. Verify that the development network is currently running.
+2. Open a terminal shell on your computer.
+3. Fund the first account you created for the wallet by running the following command:
+   
+   ```bash
+   kadena account fund
+   ```
 
-1. Click **Ok** to close the network settings.
+4. Follow the prompts displayed to add an account for the development network.
 
-   After you click Ok, you can see **devnet** selected as your current network.
-   All actions you perform in Chainweaver are now executed on the local development network.
 
-## Explore default contracts
 
-The development network has several smart contracts deployed by default.
-You can use Chainweaver to view and interact with these default smart contracts.
-
-To view the default smart contracts:
-
-1. In Chainweaver, click **Contracts** in the navigation panel.
-
-   After you click Contracts, Chainweaver displays two working areas:
-
-   - The left side displays a sample contract in an editor that you can use to view and edit contract code and execute commands interactively.
-   - The right side provides controls that enable you to navigate between contracts, view contract details, and test operations for contracts you have deployed.
-
-1. On the right side of Contracts, click **Module Explorer** to view a list of contracts
-that are already deployed on the local development network.
-
-1. Under Deployed Contracts, change **All chains** to chain **0** to see the
-list of unique contracts that are deployed to development network by default:
-
-   - coin
-   - fungible-v1
-   - fungible-v2
-   - fungible-xchain-v1
-   - gas-payer-v1
-   - ns
-
-   These default contracts provide the basic functionality for the following common tasks:
-
-   - Using tokens in the `coin` and `fungible` contracts.
-   - Paying transaction fees in the `gas-payer` contract.
-   - Organizing contracts into namespaces in the `ns` contract.
-
-   These contracts are the same as the contracts in the `./pact/root` folder of your project.
-   As you might remember from [Prepare your workspace](/build/election/prepare-your-workspace), the contracts exist in your project to enable local testing without connecting to the development network.
-
-   You should also note that these default contracts aren't related to the election application. 
-   You'll be creating election-related content in contracts in later tutorials.
-
-1. Click **View** for the `coin` contract to view its details.
-
-   Explore the implemented interfaces, function calls, and capabilities listed for the contract.
-   For example, under **Implemented interfaces**, view the `fungible-v2` interface and review the descriptions of the following functions:
-
-   - transfer
-   - transfer-create
-   - details
-   - create-account
-
-   You'll interact with these functions and learn more about these features of smart contracts in later tutorials.
-   For now, it's enough to have a general idea of what's in a typical contract.
-
-2. Click **Open** to load the source code for the `coin` contract into the left pane.
-
-   Scroll through the source code and review the comments (`@doc`) to get a sense of how this contract works.
 
 ## Use TypeScript and Kadena client
 
