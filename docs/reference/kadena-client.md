@@ -922,6 +922,16 @@ To sign with one key pair:
 ```typescript
 const signWithKeypair = createSignWithKeypair({ publicKey, secretKey });
 
+const tx = Pact.builder
+  .execution(Pact.modules.coin.transfer(senderAccount, receiverAccount, amount))
+  .addSigner(senderKey, (signFor) => [
+    signFor('coin.GAS'),
+    signFor('coin.TRANSFER', senderAccount, receiverAccount, amount),
+  ])
+  .setMeta({ chainId: '0', senderAccount })
+  .setNetworkId(NETWORK_ID)
+  .createTransaction();
+
 const signedTx = signWithKeypair(tx);
 ```
 
