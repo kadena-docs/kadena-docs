@@ -9,7 +9,7 @@ sidebar_position: 3
 
 The _Simple payments_ project is designed to help you build a simple contract that transfers value between two accounts.
 Because a blockchain acts as a digital ledger, transferring value between accounts is one of the most common blockchain operations.
-Knowing how to create a smart contract that can securely transfer assets is one of the most important building blocks that will enable you up to create more complex applications.
+Knowing how to create a smart contract that can securely transfer assets is one of the most important building blocks that will enable you to create more complex applications.
 
 For this project, you'll create one Pact `payments` module smart contract that consists of three functions:
 
