@@ -639,9 +639,9 @@ The following example illustrates defining the `coin-sig` interface with documen
 ## let
 
 Use the `let` keyword to bind variables in pairs to over the scope of the code body.
-In Pact 4, `let` declarations din't all variables within bind-pairs to refer to previously-declared variables in the same declaration.
+In Pact 4, `let` declarations didn't allow variables within bind-pairs to refer to previously-declared variables in the same declaration.
 In Pact 4, you could use the `let*` form to enable variables to reference previously-declared variables in the same `let` declaration.
-In Pact 5, the  `let*` keyword is deprecated and you can replace all let* declarations with `let` declarations.
+In Pact 5, the  `let*` keyword is deprecated and you can replace all `let*` declarations with `let` declarations.
 
 ### Basic syntax
 

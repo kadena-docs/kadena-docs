@@ -9,7 +9,7 @@ sidebar_position: 3
 
 The _Simple payments_ project is designed to help you build a simple contract that transfers value between two accounts.
 Because a blockchain acts as a digital ledger, transferring value between accounts is one of the most common blockchain operations.
-Knowing how to create a smart contract that can be securely transfer assets is one of the most important building blocks that will enable you up to create more complex applications.
+Knowing how to create a smart contract that can securely transfer assets is one of the most important building blocks that will enable you up to create more complex applications.
 
 For this project, you'll create one Pact `payments` module smart contract that consists of three functions:
 
@@ -86,7 +86,7 @@ To start the module declaration:
    {"admin-keyset":{ "keys": ["fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7"], "pred": "keys-all" } }
    ```
    
-   Note that you can use the standard string notation with double quotation marks or symbol notation with a single quotation mark (`'admin-keyset`) for identifiers. 
+   Note that you can use the standard string notation with double quotation marks or symbol notation with a single quotation mark ('admin-keyset) for identifiers. 
    For more information about string literals used as identifiers, see [Symbols](/reference/syntax#symbols).
 
 3. Create a module named `payments` that is governed by the `admin-keyset`.
@@ -132,7 +132,7 @@ To define the schema and table:
      (deftable payments-table:{payments})
    ```
 
-4. Move the closing parenthesis that marks the end of the `payments` module declaration after the table definition to include the schema and table inside of the module.
+4. Move the closing parenthesis that marks the end of the `payments` module declaration after the table definition to include the schema and table definitions inside of the module.
    
    Without comments, your code should look similar to the following:
    
@@ -174,7 +174,7 @@ To define the `create-account` function:
 1. Start the `create-account` function definition with the keyword `defun` and add the parameters `id`, `initial-balance`, and `keyset`.
    
    ```pact
-   (defun create-account (id initial-balance keyset)
+   (defun create-account:string (id:string initial-balance:decimal keyset:guard)
    
    )
    ```
@@ -214,7 +214,7 @@ To define the `create-account` function:
    
      (deftable payments-table:{payments})
 
-     (defun create-account (id initial-balance keyset)
+     (defun create-account:string (id:string initial-balance:decimal keyset:guard)
         (enforce-keyset "admin-keyset")
         (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
         (insert payments-table id
@@ -234,7 +234,7 @@ To define the `get-balance` function:
 1. Start the `get-balance` function definition with the keyword `defun` and the required argument to be the `id` key-row value.
    
    ```pact
-     (defun get-balance (id)
+     (defun get-balance (id:string)
      
      )
    ```
@@ -282,7 +282,7 @@ To define the `get-balance` function:
             "keyset": keyset })
      )
     
-     (defun get-balance (id)
+     (defun get-balance (id:string)
         (with-read payments-table id
           { "balance":= balance, "keyset":= keyset }
         (enforce-one "Access denied"
@@ -302,7 +302,7 @@ To define the `pay` function:
 1. Start the `pay` function definition with the keyword `defun` and specify the parameters as `from`, `to`, and `amount`.
    
    ```pact
-     (defun pay (from to amount)
+     (defun pay (from:string to:string amount:decimal)
      
      )
    ```
@@ -389,7 +389,7 @@ To define the `pay` function:
         balance)
      )
 
-     (defun pay (from to amount)
+     (defun pay (from:string to:string amount:decimal)
         (with-read payments-table from { "balance":= from-bal, "keyset":= keyset }
            (enforce-keyset keyset)
            (with-read payments-table to { "balance":= to-bal }
