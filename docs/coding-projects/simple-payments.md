@@ -126,6 +126,8 @@ To define the schema and table:
         keyset:guard)
    ```
 
+   It's worth noting that the row key for the table isn't defined in the schema for the table.
+
 3. Define the `payments-table` to use the  `{payments}` schema you created in the previous step.
    
    ```pact
