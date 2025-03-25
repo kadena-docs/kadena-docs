@@ -23,16 +23,16 @@ You can define capabilities to do the following:
 - Report events from operations executed in a transaction.
 
 In the most common use case, you define capabilities to manage permissions by enforcing one or more conditions. 
-In combination with guards, these permission-driven capabilities act as gatekeepers to grant or deny access to specific operations in smart contract functions.
-Capabilities that are used to manage permissions during the execution of a transaction are the most basic type of capability.
+In combination with guards, these permission-driven capabilities act as gatekeepers to grant or deny access to specific operations within the context of smart contract functions.
+In general, these capabilities grant a _ticket_ that, if _acquired_, allows the user to perform a privileged operation.
+If the user doesn't meet the criteria to acquire the ticket, any part of the transaction that requires the ticket fails.
 
-You define this type of capability by specifying the `defcap` reserved keyword followed by a name, optional arguments, and a predicate function body that returns a boolean value.
+You can think of the capabilities that are used to manage permissions as basic capabilities.
 For more information about defining, acquiring, and scoping basic capabilities, see [Expressing basic capabilities](#expressing-basic-capabilities)
 
-It's also possible to use a capability to manage a specific resource.
+In addition to permissions, you can use capabilities to manage values for specified resources.
 Capabilities that manage resources are called **managed capabilities**. 
-Managed capabilities are defined with the same `defcap` reserved keyword, but also include the `@managed` metadata tag in the declaration body.
-Managed capabilities also have slightly different properties and more complex use cases than capabilities that only control access to operations.
+Managed capabilities have slightly different properties and more complex use cases than capabilities that only control access to operations.
 For more information about defining and using managed capabilities, see [Managed capabilities](#managed-capabilities).
 
 You can configure any capability you define to emit an event by including the `@event` metadata tag in the declaration body.
@@ -40,43 +40,15 @@ For more information about using capabilities to emit events, see [Events](#even
 
 ## Expressing basic capabilities
 
-Basic capabilities provide a system for managing permissions during the execution of a transaction.
-In general, you can think of basic capabilities as a _ticket_ that, when _acquired_, allows the user to perform a privileged operation.
-If the user is unable to acquire the ticket, any part of the transaction that requires the ticket fails.
-
-You can define capabilities in Pact modules by specifying the `defcap` reserved keyword followed by the following:
+Basic capabilities enable you to manage permissions by specifying the conditions that allow access to contract functions.
+Therefore, in most cases, you define capabilities inside of the same module declaration as the functions that should use them.
+Within the module declaration, you define capabilities by specifying the `defcap` reserved keyword and providing the following information:
 
 - A capability _name_ that describes the permission to be acquired or the operation to be protected.
 - Optional _parameters_ that specify input arguments, properties, or conditions for the capability.
-- A _predicate function_ that determines whether the capability is acquired or not.
+- A _predicate function_ that determines whether the capability is granted or rejected.
 
-The following example defines a basic ALLOW_ENTRY capability:
-
-```pact
-(defcap ALLOW_ENTRY (user-id:string)
-  "Govern entry operation."
-  (with-read users-table user-id
-    { "guard" := guard, "active" := active }
-    (enforce-guard guard)
-    (enforce active "Only active users allowed entry"))
-)
-```
-
-In this example, the ALLOW_ENTRY definition consists of the following:
-
-- `ALLOW_ENTRY` is the _name_ of the capability.
-
-- `user-id` is a _parameter_ to be evaluated when the capability is called.
-
-- `with-read` contains the body of the capability that implements the _predicate function_ for the capability.
-  In its simplest form, the predicate function evaluates one or more conditions to determine whether the permission is granted.
-  If the conditions that are checked pass—that is, if the expression evaluates to true—the function where the capability is called acquires the capability.
-
-### Acquiring a capability
-
-You must define capabilities within the context of the module where you define the functions that should use them. 
-You'll learn more about this requirement in [Scopes and capabilities](#scope-in-pact-modules).
-For the purposes of this example, you can assume that the `ALLOW_ENTRY` capability is defined in a `registration` module that looks like this:
+The following example defines a basic `ALLOW_ENTRY` capability in a `registration` module:
 
 ```pact
 (module registration GOVERNANCE
@@ -92,20 +64,36 @@ For the purposes of this example, you can assume that the `ALLOW_ENTRY` capabili
 )
 ```
 
-After you define a capability, you can call the `with-capability`built-in function to determine whether a function can acquire the capability.
-For example, you can define the `entry` function to attempt to acquire the `ALLOW_ENTRY` capability before executing a protected operation by calling the `with-capability` function like this:
+In this example, the `defcap` declaration for the `ALLOW_ENTRY` capability consists of the following:
+
+- `ALLOW_ENTRY` is the _name_ of the capability.
+
+- `user-id` is a _parameter_ to be evaluated for the capability when the is capability called.
+
+- `with-read` is the body of the capability that implements the _predicate function_ for the capability.
+
+In its simplest form, the predicate function evaluates one or more conditions to determine whether the permission is granted.
+If all of the conditions are met—that is, if the expression evaluates to true—the capability is granted and operations continue.
+
+### Evaluating and granting permissions
+
+The `defcap` declaration defines the conditions to evaluate to determine whether a permission should be granted (true) or rejected (false).
+You use the `with-capability` built-in function whenever you want to check these conditions before allowing a user to perform a privileged operation.
+
+For example, the following `entry` function calls the `with-capability` function to evaluate the `ALLOW_ENTRY` capability before executing two protected operations:
 
 ```pact
 (defun entry (user-id)
   (with-capability (ALLOW_ENTRY user-id)
     (add-entry user-id)            ;; call a protected operation within the with-capability block
-    (update-entry-status user-id)  ;; update database within the with-capability block
+    (update-entry-status user-id)  ;; update a database within the with-capability block
   )
   (record-audit "ENTRY" user-id)   ;; call an unprotected operation outside of the with-capability block
 )
 ```
 
-If acquiring the capability is successful, the capability remains in effect for the scope of the call to the `with-capability` function.
+As illustrated in this example, the capability applies to the protected operations inside of the  `with-capability` code block.
+If the capability is granted, it remains in effect for both operations contained within the scope of the `with-capability` function.
 After the code block containing the call to the `with-capability` function exits, the capability is removed.
 Restricting the capability to the code contained within the `with-capability` block prevents duplicate testing of the predicate.
 Capabilities that have already been acquired and that are currently in scope are not re-evaluated.
@@ -113,21 +101,29 @@ Capabilities that have already been acquired and that are currently in scope are
 ### Requiring a capability
 
 The `with-capability` function enables authorized users to acquire the specified capability that grants them permission to perform a privileged operation.
-The `require-capability` function requires authorized users to have been granted the specified capability before they can execute a privileged operation.
-The `require-capability` function doesn't allow users to acquire a capability.
-If the capability wasn't acquired in the context of another function, the function calling the `require-capability` function will fail.
+The `require-capability` function requires authorized users to have already been granted the specified capability before they can execute a privileged operation.
+The `require-capability` function doesn't evaluate the conditions to grant a capability.
+If the required capability wasn't acquired in the context of another function, the function calling the `require-capability` function fails.
 
-For example, you can require the ALLOW_ENTRY capability to have been acquired and currently in scope before executing the `add-entry` function like this:
+For example, you can require the `ALLOW_ENTRY` capability to have been acquired and currently in scope before executing the `add-entry` function like this:
 
 ```pact
+(defun entry (user-id)
+  (with-capability (ALLOW_ENTRY user-id)
+    (add-entry user-id)            
+    (update-entry-status user-id)
+  )
+  (record-audit "ENTRY" user-id)
+)
+
 (defun add-entry (user-id)
-  (require-capability (ALLOW_ENTRY user-id))
+  (require-capability (ALLOW_ENTRY user-id)) ;; require a previously acquired capability
   ...
 )
 ```
 
 By requiring a capability, you can define private or restricted functions than cannot be called directly.
-In this example, the `add-entry` function can only be called by code inside the module that grants the ALLOW_ENTRY capability and can only be called for this `user-id` in particular, restricting the function to that user.
+In this example, the `add-entry` function can only be called by code inside the module that grants the `ALLOW_ENTRY` capability and can only be called for this `user-id` in particular, restricting the function to that user.
 
 However, it's important to note that the `require-capability` function doesn't scope to a body of code.
 The position at which you insert it affects the semantics of the function call and the operations that happen first, before the capability requirement is applied.
@@ -137,7 +133,7 @@ In general, you should insert the `require-capability` call at the beginning of 
 ### Composing capabilities
 
 A `defcap` declaration can also include other capabilities, for modular factoring of guard code or to compose an outer capability from smaller, inner capabilities.
-For example, the following ALLOW_ENTRY capability declaration includes an inner capability—the DB_LOG capability—that's defined its own separate `defcap` declaration:
+For example, the following `ALLOW_ENTRY` capability declaration includes an inner capability—the DB_LOG capability—that's defined its own separate `defcap` declaration:
 
 ```pact
 (defcap ALLOW_ENTRY (user-id:string)
@@ -190,11 +186,12 @@ In this example:
 
 ## Managed capabilities
 
-Most capabilities control permissions and act as tickets that you must acquire to access protected operations.
-However, Pact also supports **managed capabilities** that are identified by adding the `@managed` metadata tag in the `defcap` declaration body.
+Most capabilities control permissions to access protected operations.
+However, Pact also supports managed capabilities.
 Managed capabilities provide an additional layer of security that requires all parties involved in a transaction to specify the actions they are authorizing with their signature.
 By requiring a signature to authorize an action, managed capabilities allow for safe inter-operation with otherwise untrusted code.
 
+You specify a that a capability is a managed capability by adding the `@managed` metadata tag in the `defcap` declaration body.
 You can define managed capabilities to manage resources in two different ways:
 
 - To update a specific resource dynamically through a **management function**. 
@@ -206,7 +203,7 @@ Managed capabilities that don't specify a management function can only be called
 ### Using management functions
 
 One of the most common use cases for managed capabilities with management functions is for transfer operations.
-The following example illustrates this use case with the `TRANSFER` managed capability and the TRANSFER_mgr management function:
+The following example illustrates this use case with the `TRANSFER` managed capability and the `TRANSFER_mgr` management function:
 
 ```pact
   (defcap TRANSFER:bool (sender:string receiver:string amount:decimal)
@@ -225,8 +222,8 @@ The following example illustrates this use case with the `TRANSFER` managed capa
   )
 ```
 
-In this example, the `TRANSFER` capability allows the `sender` to approve any number of transfer operations to the `receiver` up to the _resource_ specified by the `@managed` keyword.
-In this case, the resource is the `amount` value and the `TRANSFER_mgr` function checks and updates that resource value each time the TRANSFER capability is called for in the `transfer` function:
+In this example, the `TRANSFER` capability allows the `sender` to approve any number of transfer operations to the `receiver` up to the _managed resource_ specified by the `@managed` keyword.
+In this case, the resource is the `amount` value and the `TRANSFER_mgr` function checks and updates that resource value each time the `TRANSFER` capability is called for in the `transfer` function:
 
 ```pact
 (defun transfer:string (sender:string receiver:string amount:decimal)
@@ -243,9 +240,9 @@ In this case, the resource is the `amount` value and the `TRANSFER_mgr` function
 )
 ```
 
-If transfer operations exceed the `amount` value, the TRANSFER capability can no longer be brought into scope.
+If transfer operations exceed the `amount` value, the `TRANSFER` capability can no longer be brought into scope.
 
-You can install the TRANSFER capability by calling the `install-capability` function to scope the capability to a signature and set the initial `amount` for the resource to be managed.
+You can install the `TRANSFER` capability by calling the `install-capability` function to scope the capability to a signature and set the initial `amount` for the resource to be managed.
 
 ```pact
 (install-capability (coin.TRANSFER sender receiver amount))
@@ -257,8 +254,6 @@ In that scenario, the value passed as the first argument to the management funct
 You can use managed capabilities and management functions to manage any type of resource.
 For example, you could specify a list or an object as the resource you want to manage, then write a management function that removes names from the list or updates object properties based on some condition.
 However, the `@managed` keyword only allows you to specify a single resource to be managed—that is, updated—by the management function.
-
-The management function takes the type of the managed parameter, executes the logic required to validate the requested capability, and returns the new managed value that results from the request.
 
 ### Single-use managed capabilities
 
@@ -286,7 +281,7 @@ Scoped capabilities enable transaction signers to safely call untrusted code.
 For example, the `sender` of a transaction can specify the `GAS` capability to authorize gas payments in the `coin` contract.
 By scoping the signature to this capability, the account signature can't be used to access any other code that might be called by the transaction.
 
-If a user authorizes a managed capability, the capability is installed and attached to the signature list for the transaction.
+If a user authorizes a specific capability, the capability is attached to the signature list for the transaction.
 For example, the following transaction excerpt attaches two capabilities—coin.TRANSFER and coin.GAS—to the public key "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7" signature:
 
 ```json
@@ -745,6 +740,6 @@ For example:
 
 However, the `@event` metadata tag can't be used alongside `@managed` metadata tag, because managed capabilities emit events automatically with the parameters specified when the capability is acquired.
 From an eventing point of view, managed capabilities are those capabilities that can only happen once.
-Whereas, a non-managed, eventing capability can fire events an arbitrary amount of times.
+Basic capabilities  that aren't managed can emit events any number of times.
 
 You can use the [env-events](/pact-5/repl/env-events) function in the Pact REPL to test for emitted events in `.repl` scripts.
