@@ -184,163 +184,21 @@ In this example:
 - The `DEBIT` capability governs the ability to debit, enforcing the guard.
 - The `CREDIT` simply creates a restricted capability for the `credit` function.
 
-## Managed capabilities
+## Calling basic capabilities
 
-Most capabilities control permissions to access protected operations.
-However, Pact also supports managed capabilities.
-Managed capabilities provide an additional layer of security that requires all parties involved in a transaction to specify the actions they are authorizing with their signature.
-By requiring a signature to authorize an action, managed capabilities allow for safe inter-operation with otherwise untrusted code.
+To give you better insight into how to call capabilities, it's important to consider the concept of scope in Pact modules.
+Potentially, there are several layers of scope that can you might need to navigate, including:
 
-You specify a that a capability is a managed capability by adding the `@managed` metadata tag in the `defcap` declaration body.
-You can define managed capabilities to manage resources in two different ways:
+- Top-level scope
+- Module scope
+- Outer capability scope for composing capabilities
+- Inner capability scope for composed capabilities
+- Signature-based scope
 
-- To update a specific resource dynamically through a **management function**. 
-- To automatically update a resource once without using a management function.
+You've seen an example of outer and inner capability scope in [Composing capabilities](#composing-capabilities).
+However, it's equally important to know the difference between top-level scope and module scope for capabilities.
 
-Managed capabilities that use a management function can be called multiple times.
-Managed capabilities that don't specify a management function can only be called once.  
-
-### Using management functions
-
-One of the most common use cases for managed capabilities with management functions is for transfer operations.
-The following example illustrates this use case with the `TRANSFER` managed capability and the `TRANSFER_mgr` management function:
-
-```pact
-  (defcap TRANSFER:bool (sender:string receiver:string amount:decimal)
-    @managed amount TRANSFER-mgr
-    (enforce (!= sender receiver) "same sender and receiver")
-    (enforce (> amount 0.0) "Positive amount")
-    (compose-capability (DEBIT sender))
-    (compose-capability (CREDIT receiver))
-  )
-
-  (defun TRANSFER-mgr:decimal (managed:decimal requested:decimal)
-    (let ((newbal (- managed requested))) ;; update managed quantity for next time
-      (enforce (>= newbal 0.0)            ;; check that the new balance doesn't exceed the managed quantity
-        (format "TRANSFER exceeded for balance {}" [managed]))
-      newbal)
-  )
-```
-
-In this example, the `TRANSFER` capability allows the `sender` to approve any number of transfer operations to the `receiver` up to the _managed resource_ specified by the `@managed` keyword.
-In this case, the resource is the `amount` value and the `TRANSFER_mgr` function checks and updates that resource value each time the `TRANSFER` capability is called for in the `transfer` function:
-
-```pact
-(defun transfer:string (sender:string receiver:string amount:decimal)
-    (enforce (!= sender receiver) "sender cannot be the receiver of a transfer")
-    (enforce (> amount 0.0) "transfer amount must be positive")
-
-    (with-capability (TRANSFER sender receiver amount)
-      (debit sender amount)
-      (with-read coin-table receiver
-        { "guard" := g }
-
-        (credit receiver g amount))
-    )
-)
-```
-
-If transfer operations exceed the `amount` value, the `TRANSFER` capability can no longer be brought into scope.
-
-You can install the `TRANSFER` capability by calling the `install-capability` function to scope the capability to a signature and set the initial `amount` for the resource to be managed.
-
-```pact
-(install-capability (coin.TRANSFER sender receiver amount))
-```
-
-In subsequent calls, you use the `with-capability` function and the `amount` argument to specify a value for the resource being requested before the capability can be granted.
-In that scenario, the value passed as the first argument to the management function comes from the current amount held in the Pact state.
-
-You can use managed capabilities and management functions to manage any type of resource.
-For example, you could specify a list or an object as the resource you want to manage, then write a management function that removes names from the list or updates object properties based on some condition.
-However, the `@managed` keyword only allows you to specify a single resource to be managed—that is, updated—by the management function.
-
-### Single-use managed capabilities
-
-Managed capabilities that specify a management function update the managed resource dynamically each time the requested capability is acquired.
-If a managed capability doesn't specify a management function, the requested capability can only be called once in a transaction.
-After the capability is installed, it can be granted exactly once for the given parameters.
-Further attempts will fail after the initial grant goes out of scope.
-
-In the following example, the VOTE capability is automatically managed to ensure that a validated member can only vote once:
-
-```pact
-(defcap VOTE (member:string)
-  @managed
-  (validate-member member))
-```
-
-### Installing signatures and verifiers
-
-In Pact transaction messages, transaction signers can **scope** their signature to one or more specific capabilities.
-By scoping signatures to specific capabilities, smart contract users can restrict guard operations based on that signature.
-These explicitly-authorized actions are separate from the Pact code that's executed in the transaction.
-Regardless of the code that runs during the transaction, the scoped capabilities ensure that only the authorized actions can be performed on the user's behalf.
-
-Scoped capabilities enable transaction signers to safely call untrusted code.
-For example, the `sender` of a transaction can specify the `GAS` capability to authorize gas payments in the `coin` contract.
-By scoping the signature to this capability, the account signature can't be used to access any other code that might be called by the transaction.
-
-If a user authorizes a specific capability, the capability is attached to the signature list for the transaction.
-For example, the following transaction excerpt attaches two capabilities—coin.TRANSFER and coin.GAS—to the public key "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7" signature:
-
-```json
-{
-    "signers": [
-        {
-            "pubKey": "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7",
-            "clist": [
-            {
-                "name": "coin.TRANSFER",
-                "args": ["k:fe4b6da3...27f608b7" "k:4fe7981d...0bc284d0\",2]},
-            {
-                "name": "coin.GAS",
-                "args":[]}
-            ]
-        }
-    ]
-}
-```
-
-If the predicate function for the managed capability allows the signer to install the capability, the installed capability then governs the code required to unlock protected operations on the user's behalf.
-
-You can test scoped signatures using the `env-sigs` built-in function as follows:
-
-```pact
-(module accounts GOV
-  ...
-  (defcap PAY (sender:string receiver:string amount:decimal)
-    (enforce-keyset (at 'keyset (read accounts sender))))
-
-  (defun pay (sender:string receiver:string amount:decimal)
-    (with-capability (PAY sender receiver amount)
-      (transfer sender receiver amount)))
-  ...
-)
-
-(env-sigs [{'key: "alice", 'caps: ["(accounts.PAY \"alice\" \"bob\" 10.0)"]}])
-(accounts.pay "alice" "bob" 10.0) ;; works as the cap matches the signature caps
-
-(env-sigs [('key: "alice", 'caps: ["(accounts.PAY \"alice\" "\carol\" 10.0)"]}])
-(expect-failure "payment to bob will no longer be able to enforce alice's keyset"
-(accounts.pay "alice" "bob" 10.0))
-```
-
-Managed capabilities can also be installed by [_verifier plug-ins_](https://github.com/kadena-io/KIPs/pull/57).
-Capabilities that are installed by verifier plug-ins are also scoped to the specific capabilities that they install.
-Verifier plugins are external to Pact.
-However, they are similar to signature capabilities in that they enable you to specify some type of trusted entity—for example, a signature or a generated proof—that grants the capabilities to perform some type of protected operation.
-A signature capability can use the `(enforce-guard g)` function to check that the keyset guard `g` includes the signer's key.
-A capability granted by a verifier plug-in can use the `(enforce-verifier 'name)` function to check that `"name"` is the name of the verifier plug-in.
-
-### Managed capability events
-
-Managed capabilities always emit events automatically with the parameters specified when the capability is first installed or acquired.
-However, managed capabilities only emit events once.
-Capabilities that aren't managed can emit events any number fo times.
-For more information about events, see [Events](#events).
-
-## Scope in Pact modules
+### Top-level scope
 
 In Pact, the functions and expressions that you execute outside of a module declaration are often referred to as top-level expressions. 
 Functions and expressions that are defined within a module declaration are within the scope of that module.
@@ -375,6 +233,8 @@ For example, you use top-level expressions to define and enter a namespace, defi
 )
 ```
 
+### Module scope
+
 The functions and expressions that are defined in a module declaration are included in the scope of that module.
 For example, if you define the `awards` function in the `league` module declaration, the function is within the scope of the `league` module.
 
@@ -386,6 +246,8 @@ For example, if you define the `awards` function in the `league` module declarat
    )
 )
 ```
+
+### Acquire a capability inside of a module
 
 In most cases, capabilities are defined within the scope of a module and you can acquire the access token from within the body of any function defined in the module if you meet the conditions specified in the body of the `defcap` declaration.
 
@@ -438,7 +300,7 @@ league.pact:13:7: with-capability form not allowed within defcap
     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
-## Acquire a capability outside of a module
+### Acquire a capability outside of a module
 
 You can acquire a capability in the top-level—that is, outside of the scope of a module—or within the scope of another module if, and only if, you have the administrative privileges to control the module and satisfy the conditions to acquire the capability.
 
@@ -714,6 +576,155 @@ If any other account or arbitrary string is used, the operation fails:
 Error: <interactive>:9:4: Invalid account
 ```
 
+## Managed capabilities
+
+Most capabilities control permissions to access protected operations.
+However, Pact also supports managed capabilities.
+Managed capabilities provide an additional layer of security that requires all parties involved in a transaction to specify the actions they are authorizing with their signature.
+By requiring a signature to authorize an action, managed capabilities allow for safe inter-operation with otherwise untrusted code.
+
+You specify a that a capability is a managed capability by adding the `@managed` metadata tag in the `defcap` declaration body.
+You can define managed capabilities to manage resources in two different ways:
+
+- To update a specific resource dynamically through a **management function**. 
+- To automatically update a resource once without using a management function.
+
+Managed capabilities that use a management function can be called multiple times.
+Managed capabilities that don't specify a management function can only be called once.  
+
+### Using management functions
+
+One of the most common use cases for managed capabilities with management functions is for transfer operations.
+The following example illustrates this use case with the `TRANSFER` managed capability and the `TRANSFER_mgr` management function:
+
+```pact
+  (defcap TRANSFER:bool (sender:string receiver:string amount:decimal)
+    @managed amount TRANSFER-mgr
+    (enforce (!= sender receiver) "same sender and receiver")
+    (enforce (> amount 0.0) "Positive amount")
+    (compose-capability (DEBIT sender))
+    (compose-capability (CREDIT receiver))
+  )
+
+  (defun TRANSFER-mgr:decimal (managed:decimal requested:decimal)
+    (let ((newbal (- managed requested))) ;; update managed quantity for next time
+      (enforce (>= newbal 0.0)            ;; check that the new balance doesn't exceed the managed quantity
+        (format "TRANSFER exceeded for balance {}" [managed]))
+      newbal)
+  )
+```
+
+In this example, the `TRANSFER` capability allows the `sender` to approve any number of transfer operations to the `receiver` up to the _managed resource_ specified by the `@managed` keyword.
+In this case, the resource is the `amount` value and the `TRANSFER_mgr` function checks and updates that resource value each time the `TRANSFER` capability is called for in the `transfer` function:
+
+```pact
+(defun transfer:string (sender:string receiver:string amount:decimal)
+    (enforce (!= sender receiver) "sender cannot be the receiver of a transfer")
+    (enforce (> amount 0.0) "transfer amount must be positive")
+
+    (with-capability (TRANSFER sender receiver amount)
+      (debit sender amount)
+      (with-read coin-table receiver
+        { "guard" := g }
+
+        (credit receiver g amount))
+    )
+)
+```
+
+If transfer operations exceed the `amount` value, the `TRANSFER` capability can no longer be brought into scope.
+
+You can install the `TRANSFER` capability by calling the `install-capability` function to scope the capability to a signature and set the initial `amount` for the resource to be managed.
+
+```pact
+(install-capability (coin.TRANSFER sender receiver amount))
+```
+
+In subsequent calls, you use the `with-capability` function and the `amount` argument to specify a value for the resource being requested before the capability can be granted.
+In that scenario, the value passed as the first argument to the management function comes from the current amount held in the Pact state.
+
+You can use managed capabilities and management functions to manage any type of resource.
+For example, you could specify a list or an object as the resource you want to manage, then write a management function that removes names from the list or updates object properties based on some condition.
+However, the `@managed` keyword only allows you to specify a single resource to be managed—that is, updated—by the management function.
+
+### Single-use managed capabilities
+
+Managed capabilities that specify a management function update the managed resource dynamically each time the requested capability is acquired.
+If a managed capability doesn't specify a management function, the requested capability can only be called once in a transaction.
+After the capability is installed, it can be granted exactly once for the given parameters.
+Further attempts will fail after the initial grant goes out of scope.
+
+In the following example, the VOTE capability is automatically managed to ensure that a validated member can only vote once:
+
+```pact
+(defcap VOTE (member:string)
+  @managed
+  (validate-member member))
+```
+
+### Installing signatures and verifiers
+
+In Pact transaction messages, transaction signers can **scope** their signature to one or more specific capabilities.
+By scoping signatures to specific capabilities, smart contract users can restrict guard operations based on that signature.
+These explicitly-authorized actions are separate from the Pact code that's executed in the transaction.
+Regardless of the code that runs during the transaction, the scoped capabilities ensure that only the authorized actions can be performed on the user's behalf.
+
+Scoped capabilities enable transaction signers to safely call untrusted code.
+For example, the `sender` of a transaction can specify the `GAS` capability to authorize gas payments in the `coin` contract.
+By scoping the signature to this capability, the account signature can't be used to access any other code that might be called by the transaction.
+
+If a user authorizes a specific capability, the capability is attached to the signature list for the transaction.
+For example, the following transaction excerpt attaches two capabilities—coin.TRANSFER and coin.GAS—to the public key "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7" signature:
+
+```json
+{
+    "signers": [
+        {
+            "pubKey": "fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7",
+            "clist": [
+            {
+                "name": "coin.TRANSFER",
+                "args": ["k:fe4b6da3...27f608b7" "k:4fe7981d...0bc284d0\",2]},
+            {
+                "name": "coin.GAS",
+                "args":[]}
+            ]
+        }
+    ]
+}
+```
+
+If the predicate function for the managed capability allows the signer to install the capability, the installed capability then governs the code required to unlock protected operations on the user's behalf.
+
+You can test scoped signatures using the `env-sigs` built-in function as follows:
+
+```pact
+(module accounts GOV
+  ...
+  (defcap PAY (sender:string receiver:string amount:decimal)
+    (enforce-keyset (at 'keyset (read accounts sender))))
+
+  (defun pay (sender:string receiver:string amount:decimal)
+    (with-capability (PAY sender receiver amount)
+      (transfer sender receiver amount)))
+  ...
+)
+
+(env-sigs [{'key: "alice", 'caps: ["(accounts.PAY \"alice\" \"bob\" 10.0)"]}])
+(accounts.pay "alice" "bob" 10.0) ;; works as the cap matches the signature caps
+
+(env-sigs [('key: "alice", 'caps: ["(accounts.PAY \"alice\" "\carol\" 10.0)"]}])
+(expect-failure "payment to bob will no longer be able to enforce alice's keyset"
+(accounts.pay "alice" "bob" 10.0))
+```
+
+Managed capabilities can also be installed by [_verifier plug-ins_](https://github.com/kadena-io/KIPs/pull/57).
+Capabilities that are installed by verifier plug-ins are also scoped to the specific capabilities that they install.
+Verifier plugins are external to Pact.
+However, they are similar to signature capabilities in that they enable you to specify some type of trusted entity—for example, a signature or a generated proof—that grants the capabilities to perform some type of protected operation.
+A signature capability can use the `(enforce-guard g)` function to check that the keyset guard `g` includes the signer's key.
+A capability granted by a verifier plug-in can use the `(enforce-verifier 'name)` function to check that `"name"` is the name of the verifier plug-in.
+
 ## Events
 
 In Pact, events are emitted as part of transaction execution and are included in the transaction results.
@@ -725,21 +736,24 @@ Events are treated as capabilities because they share the following characterist
   With capabilities, the capability name is the topic, and the arguments are the data.
 - Granting permission to acquire a managed capability is, in itself, an event recorded for transaction.
   Events complete the managed capability lifecycle, where you might install or approve a capability of some quantity on the way in, but not necessarily see what quantity was used.
-  With events, the output of the actually acquired capability is present in the transaction results.
+  With events, the output of the acquired capability is present in the transaction results.
 - Capabilities are protected such that they can only be acquired in module code, which is appropriate for events as well.
 
-Any capability can cause events to be emitted when the capability is acquired by using the `@event` metadata tag.
+You can emit events for any basic capability by including the `@event` metadata tag in the `defcap` declaration.
 For example:
 
 ```pact
-(defcap BURN(qty:decimal)
+(defcap BURN:decimal (qty:decimal)
   @event
   ...
 )
 ```
 
-However, the `@event` metadata tag can't be used alongside `@managed` metadata tag, because managed capabilities emit events automatically with the parameters specified when the capability is acquired.
-From an eventing point of view, managed capabilities are those capabilities that can only happen once.
-Basic capabilities  that aren't managed can emit events any number of times.
+If you include the `@event` metadata tag in the `defcap` declaration, the event is emitted any time that capability is successfully acquired.
+Basic capabilities that aren't managed can emit events any number of times.
 
-You can use the [env-events](/pact-5/repl/env-events) function in the Pact REPL to test for emitted events in `.repl` scripts.
+Managed capabilities emit events automatically without specifying the `@event` metadata tag.
+The event for a managed capability is emitted once when the capability is first installed or acquired.
+Events from managed capabilities include the parameters specified when the capability was installed or acquired.
+
+You can use the [`env-events`](/pact-5/repl/env-events) built-in function to test for emitted events in `.repl` scripts.
