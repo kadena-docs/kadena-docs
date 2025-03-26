@@ -1,6 +1,6 @@
 ---
 title: Modules and references
-description: "Modules that define the business logic and essential functions for blockchain applications and provide the basic foundation for all Pact smart contracts."
+description: "Modules define the business logic and essential functions for blockchain applications and provide the basic foundation for all Pact smart contracts."
 id: modules
 sidebar_position: 7
 ---
@@ -94,7 +94,7 @@ Note that the capability name has no significance, except to indicate the purpos
 Its placement at the beginning of the module declaration is what identifies this capability as a module governance capability.
 
 It's worth noting that, when you initially deploy a module, the module governance capability is not invoked.
-This behavior is different than when you use use a keyset.
+This behavior is different than when you use a keyset.
 With a keyset, the keyset must always be defined and evaluated to ensure that the keyset exists before a module can be deployed.
 Therefore, you might consider module governance using a capability to be more risky than using a keyset.
 You should test modules thoroughly when implementing module governance capabilities to ensure that you don't introduce bugs that might prevent a module from being upgraded.
@@ -161,11 +161,12 @@ After the upgrade transaction is distributed, the vote is tallied in the governa
             { "for": (+ 1 f), "against": a }
           { "for": f, "against": (+ 1 a) })))
   )
+)
 ```
 
 ## Module properties and components
 
-As you've see module declarations start with the `module` keyword and a name.
+As you've seen, module declarations start with the `module` keyword and a name.
 Module names must be unique within a namespace.
 You can define custom namespaces for local development.
 However, you must deploy modules to a registered namespace in the Kadena test or production networks.
@@ -267,7 +268,6 @@ If you explicitly define the function, constant, and schema names to import, onl
 
 You can also specify a `hash` argument in `use` statements to check that an imported module's hash matches the `hash` you expect, and fail if the hashes are not the same.
 By including the `hash` argument in a `use` statement, you can perform a simplified form of version control or dependency checking.
-
 
 The following example is an excerpt from the `marmalade-v2.ledger` module that illustrates the relationships created by combining `implements` and `use` statements.
 In this example, `marmalade-v2` is the primary namespace where the `ledger` contract is deployed.
@@ -391,7 +391,7 @@ For example:
 )
 ```
 
-To invoke the above function, the module names are directly referenced in code.
+To invoke the `swap` function, the module names are directly referenced in code.
 
 ```pact
 
@@ -422,11 +422,11 @@ Module reference values are normal Pact values that can be stored in the databas
 
 ### Polymorphism
 
-Module reference values provide polymorphism for use cases like the example above with an emphasis on interoperability.
+Module reference values provide polymorphism for use cases like the previous example with an emphasis on interoperability.
 A module reference is specified with one or more interfaces, allowing for values to reference modules that implement those interfaces.
 
-In the calling example above, the module reference `a-token:module{fungible-v2}` accepts a reference to the Kadena `coin` KDA token module, because `coin` implements `fungible-v2`.
-There's nothing special about the `fungible-v2` contract.
+In the previous example, the module reference `a-token:module{fungible-v2}` accepts a reference to the Kadena `coin` KDA token module, because `coin` implements `fungible-v2`.
+There's nothing special about the `fungible-v2` interface.
 Module references can specify any defined interface and accept any module that implements the specified interface.
 
 The Pact module reference polymorphism is similar to generics in Java or traits in Rust, and should not be confused with more object-oriented polymorphism like that found with Java classes or TypeScript types.
@@ -449,10 +449,10 @@ This behavior is different from Pact direct references, which are not late-bindi
 
 Because module references allow external modules to interoperate with your code, you should not assume that the external code is safe.
 Instead, you should treat any module reference call as a call to untrusted code.
-In particular, you should be aware the invoking module references in the context of acquiring a capability can result in unintended privilege escalation.
+In particular, you should be aware that invoking module references in the context of acquiring a capability can result in unintended privilege escalation.
 
 For example, the following `data-market` module has a public `collect-data` function that is intended to allow external modules to provide some data, resulting in the one-time payment of a fee.
-The external modules implement `data-collector` interface with a `collect` function to get the data and a `get-fee-recipient` function to identify the receiving account.
+The external modules implement a `data-collector` interface with a `collect` function to get the data and a `get-fee-recipient` function to identify the receiving account.
 In this example, the `data-market` module code acquires the `COLLECT` capability, and uses this capability to prevent `collect` and a `get-fee-recipient` functions from being called directly.
 
 However, with the wrong code, this seemingly benign code can be exploited by a malicious module reference implementation:
@@ -468,6 +468,7 @@ However, with the wrong code, this seemingly benign code can be exploited by a m
       ;; BAD: modref invoked with capability in scope!
       (store-data (collector::collect))
       (pay-fee (collector::get-fee-recipient)))
+  )
 
   (defun pay-fee (account:string)
     "Private function to pay one-time fee for collection"
@@ -478,12 +479,12 @@ However, with the wrong code, this seemingly benign code can be exploited by a m
     "Private function to update database with data collection results"
     (require-capability (COLLECT))
     ...)
-
+)
 ```
 
 The problem with the module code is that the `with-capability` call happens _before_ the calls to the module reference operations, such that while the external module code is executing, the `COLLECT` capability is in scope.
 While the `COLLECT` capability is in scope, the `pay-fee` and `store-data` functions can be called from anywhere.
-A malicious coder could exploit this code with a module reference that calls the `data-market.pay-fee` function repeatedly in the seemingly innocent calls to the `collect` or `get-fee-recipient` functions.
+Malicious code could exploit this code with a module reference that calls the `data-market.pay-fee` function repeatedly in the seemingly innocent calls to the `collect` or `get-fee-recipient` functions.
 Malicious code could also call the `data-market.store-data` function and wreak havoc that way.
 The important point in this example is that once a capability is in scope, the protections provided by the `require-capability` function aren't available.
 
@@ -506,7 +507,8 @@ A malicious implementation has no way to invoke the sensitive code.
 
 ### Coding with module references
 
-Modules and interfaces thus need to be referenced directly, which is simply accomplished by issuing their name in code.
+You can reference modules and interfaces directly by issuing their name in code.
+For example:
 
 ```pact
 (module foo 'k
@@ -526,7 +528,7 @@ ns.bar ;; module reference to `bar` interface, also of type 'module'
 ns.zzz ;; module reference to `zzz` module, of type 'module{ns.bar}'
 ```
 
-Using a module reference in a function is accomplished by specifying the type of the module reference argument, and using the [dereference operator](/reference/syntax#dereference-operator) `::` to invoke a member function of the interfaces specified in the type.
+Using a module reference in a function is accomplished by specifying the type of the module reference argument, and using the [dereference operator](/reference/syntax#dereference-operator) `::` to invoke a member function of the interface specified in the type.
 
 ```pact
 (interface baz
@@ -542,7 +544,7 @@ Using a module reference in a function is accomplished by specifying the type of
 ...
 
 (defun foo (bar:module{baz})
-  (bar::quux 1 "hi") ;; derefs 'quux' on whatever module is passed in
+  (bar::quux 1 "hi")   ;; dereferences 'quux' on whatever module is passed in
   bar::ONE             ;; directly references interface const
 )
 
