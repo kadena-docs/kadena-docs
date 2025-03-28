@@ -23,30 +23,33 @@ You can define capabilities to do the following:
 - Report events from operations executed in a transaction.
 
 In the most common use case, you define capabilities to manage permissions by enforcing one or more conditions. 
-In combination with guards, these permission-driven capabilities act as gatekeepers to grant or deny access to specific operations within the context of smart contract functions.
-In general, these capabilities grant a _ticket_ that, if _acquired_, allows the user to perform a privileged operation.
-If the user doesn't meet the criteria to acquire the ticket, any part of the transaction that requires the ticket fails.
+In combination with guards, these permission-driven capabilities act as gatekeepers to grant access to smart contract functions if the user or contract that controls the guard allows the operation to continue.
+In general, capabilities protect privileged operations—such as coin.transfer operations—that users must authorize by signing the transaction with their keys or verify in some other way.
+However, as a contract author, you can define capabilities verify other conditions—such as the account balance or how long it's been since the last transfer operation—before granting the permission requested. 
+If the permission isn't granted, the code where the capability is called won't be executed.
 
-You can think of the capabilities that are used to manage permissions as basic capabilities.
+You can think of the capabilities that are used to manage permissions as **basic capabilities**.
 For more information about defining, acquiring, and scoping basic capabilities, see [Expressing basic capabilities](#expressing-basic-capabilities)
 
 In addition to permissions, you can use capabilities to manage values for specified resources.
 Capabilities that manage resources are called **managed capabilities**. 
-Managed capabilities have slightly different properties and more complex use cases than capabilities that only control access to operations.
+Managed capabilities have slightly different properties enable users or other contracts to set and update the value for a specified parameter.
+As a contract author, you can define managed capabilities to allow **contract users** to manage a resource value, for example, to set a limit on the amount that can be transferred in a given transaction or to define the maximum supply of a resource.
 For more information about defining and using managed capabilities, see [Managed capabilities](#managed-capabilities).
 
-You can configure any capability you define to emit an event by including the `@event` metadata tag in the declaration body.
+Capabilities can also emit events in transaction results.
 For more information about using capabilities to emit events, see [Events](#events).
 
 ## Expressing basic capabilities
 
-Basic capabilities enable you to manage permissions by specifying the conditions that allow access to contract functions.
+Basic capabilities enable you to manage permissions by specifying the conditions that allow access to a particular resource or contract function.
 Therefore, in most cases, you define capabilities inside of the same module declaration as the functions that should use them.
 Within the module declaration, you define capabilities by specifying the `defcap` reserved keyword and providing the following information:
 
 - A capability _name_ that describes the permission to be acquired or the operation to be protected.
 - Optional _parameters_ that specify input arguments, properties, or conditions for the capability.
-- A _predicate function_ that determines whether the capability is granted or rejected.
+- A _capability body_ with the predicate function that determines whether the capability is granted or rejected.  
+  This predicate function is evaluated during capability acquisition.
 
 The following example defines a basic `ALLOW_ENTRY` capability in a `registration` module:
 
@@ -68,12 +71,15 @@ In this example, the `defcap` declaration for the `ALLOW_ENTRY` capability consi
 
 - `ALLOW_ENTRY` is the _name_ of the capability.
 
-- `user-id` is a _parameter_ to be evaluated for the capability when the is capability called.
+- `user-id` is a _parameter_ that is passed to the capability body to be evaluated.
 
-- `with-read` is the body of the capability that implements the _predicate function_ for the capability.
+- `with-read` is the _capability body_ that implements the predicate function.
+  The capability body is evaluated when the `with-capability` function is called with a specific `user-id` parameter.
+  For example, if the `user-id` is `bob`, the capability body is evaluated when `(with-capability (ALLOW_ENTRY "bob") ...)` is called.
 
-In its simplest form, the predicate function evaluates one or more conditions to determine whether the permission is granted.
-If all of the conditions are met—that is, if the expression evaluates to true—the capability is granted and operations continue.
+In its simplest form, the capability body evaluates one or more conditions to determine whether the permission is granted.
+If the conditions are met—without exiting or throwing an error—the capability is granted and operations continue.
+In general, you should test all of the conditions you want to define in the `defcap` declaration using `enforce` statements, so that the permission won't be granted if any condition fails.
 
 ### Evaluating and granting permissions
 
@@ -83,7 +89,7 @@ You use the `with-capability` built-in function whenever you want to check these
 For example, the following `entry` function calls the `with-capability` function to evaluate the `ALLOW_ENTRY` capability before executing two protected operations:
 
 ```pact
-(defun entry (user-id)
+(defun entry (user-id:string)
   (with-capability (ALLOW_ENTRY user-id)
     (add-entry user-id)            ;; call a protected operation within the with-capability block
     (update-entry-status user-id)  ;; update a database within the with-capability block
@@ -93,15 +99,17 @@ For example, the following `entry` function calls the `with-capability` function
 ```
 
 As illustrated in this example, the capability applies to the protected operations inside of the  `with-capability` code block.
-If the capability is granted, it remains in effect for both operations contained within the scope of the `with-capability` function.
-After the code block containing the call to the `with-capability` function exits, the capability is removed.
+If the capability is granted, it remains in scope for all operations contained within the scope of the `with-capability` function.
+In this example, the `ALLOW_ENTRY` capability remains in scope for the `add-entry` and `update-entry-status` functions.
+After the code block containing the call to the `with-capability` function exits, the capability is no longer in scope.
+In this example, the `ALLOW_ENTRY` capability is removed from scope before executing the `record-audit` function that's outside of the `with-capability` block.
 Restricting the capability to the code contained within the `with-capability` block prevents duplicate testing of the predicate.
 Capabilities that have already been acquired and that are currently in scope are not re-evaluated.
 
 ### Requiring a capability
 
-The `with-capability` function enables authorized users to acquire the specified capability that grants them permission to perform a privileged operation.
-The `require-capability` function requires authorized users to have already been granted the specified capability before they can execute a privileged operation.
+The `with-capability` function enables smart contract users to attempt to acquire a specified capability that allows them to perform an operation within a limited scope.
+The `require-capability` function requires smart contract users to have already been granted the specified capability before they can execute an operation.
 The `require-capability` function doesn't evaluate the conditions to grant a capability.
 If the required capability wasn't acquired in the context of another function, the function calling the `require-capability` function fails.
 
@@ -580,14 +588,14 @@ Error: <interactive>:9:4: Invalid account
 
 Most capabilities control permissions to access protected operations.
 However, Pact also supports managed capabilities.
-Managed capabilities provide an additional layer of security that requires all parties involved in a transaction to specify the actions they are authorizing with their signature.
-By requiring a signature to authorize an action, managed capabilities allow for safe inter-operation with otherwise untrusted code.
+Managed capabilities provide an additional layer of security that requires all parties involved in a transaction to specify the actions they are authorizing with their signature or a guard.
+By requiring a signature or guard to authorize an action, managed capabilities enable smart contract users to safely interact with otherwise untrusted code.
 
-You specify a that a capability is a managed capability by adding the `@managed` metadata tag in the `defcap` declaration body.
+As a smart contract author, you specify that a capability is a managed capability by adding the `@managed` metadata tag in the `defcap` declaration body.
 You can define managed capabilities to manage resources in two different ways:
 
 - To update a specific resource dynamically through a **management function**. 
-- To automatically update a resource once without using a management function.
+- To automatically update a resource **once** without using a management function.
 
 Managed capabilities that use a management function can be called multiple times.
 Managed capabilities that don't specify a management function can only be called once.  
@@ -634,16 +642,23 @@ In this case, the resource is the `amount` value and the `TRANSFER_mgr` function
 
 If transfer operations exceed the `amount` value, the `TRANSFER` capability can no longer be brought into scope.
 
-You can install the `TRANSFER` capability by calling the `install-capability` function to scope the capability to a signature and set the initial `amount` for the resource to be managed.
+Smart contract users set the values for the `transfer` operation and `TRANSFER` capability and approve the operation by signing for the capability when they send the transaction to the blockchain.
+Typically, you allow smart contract users to set the transfer values and approve the operation through the frontend of a smart wallet or a similar application.
+For example, as a smart contract author, you enable smart contract users to construct and submit transactions that set the `sender`, `receiver`, and `amount` parameters and sign for the `TRANSFER` capability when they call the `transfer` operation.
+In the Pact REPL, you can emulate setting the keys in the environment data and signing the capability.
+For example:
 
 ```pact
-(install-capability (coin.TRANSFER sender receiver amount))
+(env-data {"alice":["alice"], "bob":["bob"]})
+(env-sigs [{"key":"alice", "caps":[(pistolas-coin.TRANSFER "alice" "bob" 50.0)]}])
+(pistolas-coin.transfer "alice" "bob" 40.0)
 ```
 
-In subsequent calls, you use the `with-capability` function and the `amount` argument to specify a value for the resource being requested before the capability can be granted.
-In that scenario, the value passed as the first argument to the management function comes from the current amount held in the Pact state.
+You should note that managed capabilities always require smart contract users to explicitly approve the operation to be performed.
+If a transaction includes a managed capability, all capabilities involved in the transaction require a signature. 
+Unrestricted keys aren't allowed if a transaction includes a managed capability.
 
-You can use managed capabilities and management functions to manage any type of resource.
+In most cases, managed resources represent decimal or integer values, but you can use managed capabilities and management functions to manage any type of resource.
 For example, you could specify a list or an object as the resource you want to manage, then write a management function that removes names from the list or updates object properties based on some condition.
 However, the `@managed` keyword only allows you to specify a single resource to be managed—that is, updated—by the management function.
 
@@ -651,7 +666,6 @@ However, the `@managed` keyword only allows you to specify a single resource to 
 
 Managed capabilities that specify a management function update the managed resource dynamically each time the requested capability is acquired.
 If a managed capability doesn't specify a management function, the requested capability can only be called once in a transaction.
-After the capability is installed, it can be granted exactly once for the given parameters.
 Further attempts will fail after the initial grant goes out of scope.
 
 In the following example, the VOTE capability is automatically managed to ensure that a validated member can only vote once:
@@ -662,15 +676,16 @@ In the following example, the VOTE capability is automatically managed to ensure
   (validate-member member))
 ```
 
-### Installing signatures and verifiers
+## Scoped signatures and verifiers
 
 In Pact transaction messages, transaction signers can **scope** their signature to one or more specific capabilities.
 By scoping signatures to specific capabilities, smart contract users can restrict guard operations based on that signature.
 These explicitly-authorized actions are separate from the Pact code that's executed in the transaction.
-Regardless of the code that runs during the transaction, the scoped capabilities ensure that only the authorized actions can be performed on the user's behalf.
+Regardless of the code that runs during the transaction, scoped capabilities ensure that only authorized actions can be performed on the user's behalf.
 
-Scoped capabilities enable transaction signers to safely call untrusted code.
-For example, the `sender` of a transaction can specify the `GAS` capability to authorize gas payments in the `coin` contract.
+Unlike managed capabilities that require a signature or a guard and a managed resource, most capabilities allow users to sign transactions using an unrestricted signing key.
+Scoped capabilities provide a transparent way for transaction signers to safely call untrusted code.
+For example, the `sender` of a transaction can explicitly sign for the `GAS` capability to authorize gas payments in the `coin` contract.
 By scoping the signature to this capability, the account signature can't be used to access any other code that might be called by the transaction.
 
 If a user authorizes a specific capability, the capability is attached to the signature list for the transaction.
@@ -694,31 +709,71 @@ For example, the following transaction excerpt attaches two capabilities—coin.
 }
 ```
 
-If the predicate function for the managed capability allows the signer to install the capability, the installed capability then governs the code required to unlock protected operations on the user's behalf.
-
-You can test scoped signatures using the `env-sigs` built-in function as follows:
+The following example illustrates an `accounts` module with a `PAY` capability that isn't managed:
 
 ```pact
-(module accounts GOV
-  ...
+(begin-tx)
+(module accounts GOVERNANCE
+  (defcap GOVERNANCE ()
+    (enforce false "NON-UPGRADABLE")
+  )
+
+  (defschema account
+    balance:decimal
+    account-guard:guard
+  )
+  (deftable accounts-table:{account})
+
   (defcap PAY (sender:string receiver:string amount:decimal)
-    (enforce-keyset (at 'keyset (read accounts sender))))
+    (enforce-guard (at 'account-guard (read accounts-table sender))))
 
   (defun pay (sender:string receiver:string amount:decimal)
     (with-capability (PAY sender receiver amount)
       (transfer sender receiver amount)))
-  ...
+  
+  (defun transfer (sender:string receiver:string amount:decimal)
+    (with-read accounts-table sender
+      { "balance" := b}
+      (with-read accounts-table receiver
+        {"balance" := to-balance}
+          (update accounts-table receiver {"balance":(+ to-balance amount)})
+          (update accounts-table sender {"balance":(- b amount)})
+      )
+    )
+  )
 )
-
-(env-sigs [{'key: "alice", 'caps: ["(accounts.PAY \"alice\" \"bob\" 10.0)"]}])
-(accounts.pay "alice" "bob" 10.0) ;; works as the cap matches the signature caps
-
-(env-sigs [('key: "alice", 'caps: ["(accounts.PAY \"alice\" "\carol\" 10.0)"]}])
-(expect-failure "payment to bob will no longer be able to enforce alice's keyset"
-(accounts.pay "alice" "bob" 10.0))
+(create-table accounts-table)
+(env-data {"alice":["alice"], "bob":["bob"]})
+(write accounts-table "alice" {"balance":100.0, "account-guard":(read-keyset "alice")})
+(write accounts-table "bob" {"balance":100.0, "account-guard":(read-keyset "bob")})
+(commit-tx)
 ```
 
-Managed capabilities can also be installed by [_verifier plug-ins_](https://github.com/kadena-io/KIPs/pull/57).
+In the Pact REPL, you can attach the signature for the `alice` key to the `accounts.PAY` capability by using the `env-sigs` built-in function as follows:
+
+```pact
+(env-sigs [{"key": "alice", "caps": [(accounts.PAY "alice" "bob" 10.0)]}])
+(accounts.pay "alice" "bob" 10.0) ;; works as the cap matches the signature caps
+```
+
+If you modify the scoped capability to use a different receiver or amount, the transaction returns a keyset failure.
+
+```pact
+(env-sigs [{"key": "alice", "caps": [(accounts.PAY "alice" "carol" 10.0)]}])
+(accounts.pay "alice" "bob" 10.0)
+```
+
+For example:
+
+```pact
+cope-pay.repl:14:4: Keyset failure (keys-all): [alice...]
+ 14 |     (enforce-guard (at 'account-guard (read accounts-table sender))))
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  at(accounts.PAY.{z5Kc3VKBgIr085VLRK2n1rMdlmIxi-NN-P7lYfA6xqg} "alice" "bob" 10.0):scope-pay.repl:16:4-17:40
+  at(accounts.pay.{z5Kc3VKBgIr085VLRK2n1rMdlmIxi-NN-P7lYfA6xqg} "alice" "bob" 10.0):scope-pay.repl:40:0-40:33
+```
+
+Scoped capabilities can also be installed by [_verifier plug-ins_](https://github.com/kadena-io/KIPs/pull/57).
 Capabilities that are installed by verifier plug-ins are also scoped to the specific capabilities that they install.
 Verifier plugins are external to Pact.
 However, they are similar to signature capabilities in that they enable you to specify some type of trusted entity—for example, a signature or a generated proof—that grants the capabilities to perform some type of protected operation.
