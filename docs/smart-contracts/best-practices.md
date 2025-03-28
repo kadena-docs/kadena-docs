@@ -1,7 +1,7 @@
 ---
 title: Common mistakes and best practices 
 description: "Recommendations and reminders for patterns to avoid and practices to follow when writing programs using the Pact smart contract programming language." 
-id: contract-ref
+id: best-practices
 ---
 
 # Common mistakes and best practices 
@@ -58,7 +58,16 @@ The following list summarizes patterns, practices, and strategies for writing Pa
 
 - Keep in mind that the account and its associated keyset that's used to sign the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables. 
 
-## Reducing vulnerability and enforcing access controls
+## Enforcing access controls
+
+As discussed in [Capabilities](/smart-contracts/capabilities), basic and managed capabilities are critical components for controlling how permissions are granted to users of smart contracts.
+In addition, most modules define a governance capability as the module owner.
+Conceptually, capabilities aren't difficult to comprehend or implement.
+However, if they aren't used correctly, capabilities can make your contract vulnerable to unexpected behavior or to be exploited.
+
+The following examples demonstrate patterns and outcomes for governance and basic capabilities.
+
+### Governance
 
 The code defined for the GOVERNANCE capability determines the ownership of a module and its administrative privileges.
 For simplicity in code examples, the body of the GOVERNANCE capability is often set to true. 
@@ -144,6 +153,8 @@ The following example illustrates a more secure pattern that defines a keyset, t
 ```
 
 In this example, you define a `hello-world` keyset in the `free` namespace and must include the `ks` keyset definition in the environment data for testing in the Pact REPL or in the message payload for deployment.
+
+### Basic capabilities
 
 The following example illustrates defining a second capability to control access to a specific function:
 
