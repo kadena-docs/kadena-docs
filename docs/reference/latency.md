@@ -63,7 +63,7 @@ After mining is successful, the new block candidate is added to the target chain
 ## Single chain transactions
 
 On average, single chain transactions take approximately 45 seconds.
-However, transaction latency—defined as the time between submitting a transaction to a node `/send` endpoint and seeing its result with the `/poll` endpoint—can take much longer than 45 seconds, in particular, if there are mining delays.
+However, transactions can take much longer than 45 seconds, in particular, if there are mining delays.
 
 To give you better insight into how transactions are executed, the following example describes the workflow for a single chain transaction.
 You start a transaction by submitting a formatted request to the `/send` endpoint on a node.
@@ -89,7 +89,7 @@ For two distant chains—representing the worst case—a cross-chain transfer is
 
 - The initiating transaction has an average time from submission to completion of 45 seconds.
 - With the current 20-chain graph, two blocks at most must be propagated to the target chain so that the source and target chain share the same view of state, with an average time of 30 seconds per block. 
-  The number of blocks at most must be propagated will increase as more chains are added, and will depend on the distance between the chains.
+  The number of blocks that must be propagated will increase as more chains are added, and will depend on the distance between the chains.
 - The continuation step is a second transaction, again with an average time of 45 seconds.
 
 Therefore, a cross-chain transfer typically takes 2 minutes and 30 seconds to complete.
@@ -98,5 +98,7 @@ If either the source or target chain is ahead of the other chain, more blocks mi
 ## Mining per block
 
 Mining a block takes 16 seconds on average with the current 20-chain graph. 
-The average time it takes to mine a block will decrease as more chains are added and chains spend more time blocked from creating new blocks.
-With the average block production of 30 seconds, mining accounts for roughly half of the time it takes to advance each chain by one block. In most cases, this delay is caused by adjacent chains that have not yet advanced to the block height required for the target chain to add a new block.
+With the average block production time of 30 seconds and the current 20-chain graph, mining accounts for roughly half of the time it takes to advance each chain by one block.
+The average time it takes to mine a block is likely decrease as more chains are added.
+However, the total block production time is expected to remain about 30 seconds on average because chains might spend more time blocked from creating new blocks.
+In most cases, this delay is caused by adjacent chains that have not yet advanced to the block height required for the target chain to add a new block.
