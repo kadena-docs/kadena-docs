@@ -28,7 +28,11 @@ The following list summarizes the most common difficulties that developers who a
 
 The following list summarizes patterns, practices, and strategies for writing Pact code and delivering quality projects for the Kadena ecosystem.
 
-- Explicitly type all variables in all functions. 
+- Explicitly type all variables in all functions.
+
+- Use objects with schemas and use lists with the list item type resolved. 
+  For example, use (a:object{my-schema}) and avoid (a:object).
+  Similarly, use (a:[integer]) instead of (a:list). 
 
 - Run the type checker over the code as you iterate on the implementation. 
 
@@ -36,15 +40,13 @@ The following list summarizes patterns, practices, and strategies for writing Pa
 
 - Be careful when using module references. 
 
-- Enforce conditions that should terminate contract execution immediately. 
+- Enforce conditions that should terminate transaction execution immediately. 
 
 - Use the /local endpoint to query blockchain data. 
 
 - Only use select statements in /local queries. 
 
 - Consider what data must be on chain and any data or operations that might be better suited to off-chain handling. 
-
-- Consider using capability guards and user guards in addition to or in place of keyset guards. 
 
 - Plan for longevity and avoid defining functions that create unbounded lists and tables. 
 
@@ -74,9 +76,8 @@ For simplicity in code examples, the body of the GOVERNANCE capability is often 
 For example:
 
 ```pact
-(namespace 'free)
-(module YODA GOV
-   (defcap GOV () true) ; Anyone can take over the governance of the module
+(module payments GOV
+   (defcap GOV () true)
    ...
 )
 ```
@@ -94,7 +95,7 @@ As previously noted, the following pattern is often used in sample code for simp
 ```pact
 (namespace 'free)
 (module YODA0 GOV
-  (defcap GOV () true) ; Anyone can take control of the module the true statement
+  (defcap GOV () true) ; Anyone can take over the governance of the module with this capability body
   
   (defun hello-world:string (input:string)
     (format "Hello {}" [input]))
@@ -111,16 +112,16 @@ Another common mistake is to read a keyset or message that doesn't enforce a sig
 
 (module YODA1 GOV
   (defcap GOV () 
-    (enforce-keyset (read-keyset 'hello-world))) ; You can put any value into hello-world with no enforcement
+    (enforce-keyset (read-keyset 'hello-world))) ; You can put any value into hello-world
   
   (defun hello-world:string (input:string)
     (format "Hello {}" [input]))
 )
 ```
 
-In this example, you haven't defined a `hello-world` keyset in the `free` namespace.
-The `read-keyset` function doesn't verify that "hello-world" represents a valid keyset object or valid values.
-With this pattern, you won't see an error but no enforcement is being performed. 
+In this example, the `read-keyset` function reads whatever value is defined under the "hello-world" key in the environment data.
+The `read-keyset` function doesn't verify that the value under the "hello-world" key represents a valid keyset object, valid values, or a keyset you control.
+If someone else specifies a valid keyset in the environment data, that keyset would pass the governance check and take control of the module.
 
 The following example is similar except that it identifies a specific keyset name to enforce—not just read—and specifies that the keyset exists within the `free` namespace:
 
@@ -130,13 +131,13 @@ The following example is similar except that it identifies a specific keyset nam
 (module YODA2 GOV
   (defcap GOV () 
     (enforce-keyset "free.hello-world")) ; You must create the keyset on-chain in the same transaction
-                                         ; used to deploy the module or the keyset and module can take over
+                                         ; used to deploy the module
   (defun hello-world:string (input:string)
     (format "Hello {}" [input]))
 )
 ```
 
-This example uses the correct syntax, but the `free.hello-world` keyset could be claimed by someone else if you don't create the keyset before deploying the module or in the message payload for the transaction used to deploy the module.
+This example uses the correct syntax, but the `free.hello-world` keyset could be claimed by someone else if you don't create the keyset in the message payload for the transaction used to deploy the module.
 
 The following example illustrates a more secure pattern that defines a keyset, then uses that keyset to control the administrative privileges for a module:
 
