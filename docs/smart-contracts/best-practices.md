@@ -6,7 +6,7 @@ id: best-practices
 
 # Common mistakes and best practices 
 
-As a programming language, Pact has some unique features that make it adaptable to writing sophisticated applications, but that are also flexible enough to coding mistakes that can make a contract vulnerable to potential misuse. 
+As a programming language, Pact has some unique features that make it adaptable to writing sophisticated applications, but that are also flexible enough to allow coding mistakes that can make a contract vulnerable to potential misuse. 
 This topic summarizes common mistakes to avoid and best practices you should follow as you develop programs with Pact. 
 
 ## Common issues
@@ -20,7 +20,7 @@ The following list summarizes the most common difficulties that developers who a
 - How namespaces, accounts, and guards are used in Pact can be difficult to adjust to for developers familiar with other blockchain ecosystems or programming languages.
   For example, Solidity developers are used to accounts being public keys and contracts having addresses, and often write smart contracts that only support single key (k:) accounts or deploy contracts insecurely in the free namespace.
 
-- Developers often forget to add types to their contracts, causing crashes in transactions later on.
+- Developers often forget to add types to their contracts, causing type errors that result in failed transactions later on.
 
 - Projects often split contract functionality into too many separate contracts—even if they share the same governance—complicating security and the overall design.
 
@@ -28,7 +28,7 @@ The following list summarizes the most common difficulties that developers who a
 
 The following list summarizes patterns, practices, and strategies for writing Pact code and delivering quality projects for the Kadena ecosystem.
 
-- Explicitly type all variables in all functions.
+- Explicitly type all function parameters and results.
 
 - Use objects with schemas and use lists with the list item type resolved. 
   For example, use (a:object{my-schema}) and avoid (a:object).
@@ -36,29 +36,34 @@ The following list summarizes patterns, practices, and strategies for writing Pa
 
 - Run the type checker over the code as you iterate on the implementation. 
 
-- Create unit tests for every function that fully exercise error cases. 
+- Create unit tests for every function that fully exercise error cases, especially cases of missing authorization to perform actions. 
 
-- Be careful when using module references. 
+- Be careful when using module references.
+  In particular, keep in mind that when you call into other modules, those modules will be granted the same set of capabilities as the code making the call into those modules.
 
-- Enforce conditions that should terminate transaction execution immediately. 
+- Use the `enforce` built-in functions to check for conditions that should terminate transaction execution immediately. 
+  The `enforce` functions ensure that if any invariants are violated, the transaction fails. 
 
-- Use the /local endpoint to query blockchain data. 
+- Use the [`/local`](/api/pact-api/local) endpoint when you want to query Pact state in tables or blockchain data.
 
-- Only use select statements in /local queries. 
+- Use [events](/smart-contracts/capabilities#events) to send information about transaction results to off-chain software.
+
+- Only use [`select`](/pact-5/database/select) and [`keys`](/pact-5/database/keys) built-in functions in `/local` queries. 
 
 - Consider what data must be on chain and any data or operations that might be better suited to off-chain handling. 
 
-- Plan for longevity and avoid defining functions that create unbounded lists and tables. 
+- Plan for longevity and avoid defining functions that grow data structures—like lists—without bounds. 
+  In general, gas usage per transaction should not go up over time as your code is used more. 
 
 - Keep functions that share the same governance in the same module. 
   It’s fine to create composable contracts with reusable utility functions. 
   However, it’s generally a better practice to keep the implementation of core functions in the same module unless the functions are governed by different parties.
 
-- Design and document the capabilities your contract requires and the conditions you'll use to enforce to control access to privileged operations. 
-  Remember that capabilities can provide fine-grain access control to functions, but only if you enforce the conditions to guard them correctly.
-  If you don't plan carefully, capabilities can also leave your contract more vulnerable to attacks and misuse.
+- Design and document the capabilities your contract requires and the conditions you'll use to enforce that only authorized users have access to privileged operations. 
+  Remember that capabilities can provide fine-grained access control to functions, but only if you enforce the conditions to guard them correctly.
+  Be sure you know how calling a capability using the `with-capability` function differs from calling a capability using the `require-capability` function.
 
-- Keep in mind that the account and its associated keyset that's used to sign the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables. 
+- Keep in mind that any code executed in the same transaction as the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables. 
 
 ## Enforcing access controls
 
