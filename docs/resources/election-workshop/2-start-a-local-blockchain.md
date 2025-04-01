@@ -151,136 +151,66 @@ To add funds on the development network using `kadena-cli` commands:
    ```
 
 4. Follow the prompts displayed to add an account for the development network.
-
-
-
-
-## Use TypeScript and Kadena client
-
-Chainweaver is one way to interact with your smart contract code.
-Another common way to interact with smart contracts is by using the Kadena client and TypeScript files.
-
-To explore using TypeScript and Kadena client:
-
-1. Open the `election-workshop` folder in your code editor and expand the `./snippets` folder.
-
-2. Select the `package.json` file and review the list of scripts.
-
+   
    For example:
-
-   ```json
-   "scripts": {
-    "coin-details:devnet": "KADENA_NETWORK=devnet ts-node ./coin-details.ts",
-    "create-account:devnet": "KADENA_NETWORK=devnet ts-node ./create-account.ts",
-    "create-namespace:devnet": "KADENA_NETWORK=devnet ts-node ./principal-namespace.ts",
-    "define-keyset:devnet": "KADENA_NETWORK=devnet ts-node ./define-keyset.ts",
-    "deploy-gas-station:devnet": "KADENA_NETWORK=devnet ts-node ./deploy-gas-station.ts",
-    "deploy-module:devnet": "KADENA_NETWORK=devnet ts-node ./deploy-module.ts",
-    "format": "prettier --write .",
-    "generate-types:coin:devnet": "pactjs contract-generate --contract coin --api http://localhost:8080/chainweb/0.0/development/chain/1/pact",
-    "list-modules:devnet": "KADENA_NETWORK=devnet ts-node ./list-modules.ts",
-    "transfer-create:devnet": "KADENA_NETWORK=devnet ts-node ./transfer-create.ts",
-    "transfer:devnet": "KADENA_NETWORK=devnet ts-node ./transfer.ts"
-   },
-   ```
-
-   These `npm` scripts call the corresponding TypeScript files in the `./snippets` folder.
-   Before you execute any of these scripts, you need to:
-
-   - Install package dependencies.
-   - Check the configuration of the `KADENA_NETWORK` environment variable.
-
-1. Open a terminal in the code editor, change to the `snippets` folder, then install the package dependencies by running the following commands:
-
+   
    ```bash
-   cd ./snippets
-   npm install
+   ? Select an account (alias - account name): pistolas-dev - k:a6731c....93119689
+   ? Select a network: devnet
+   ? Enter a ChainId (0-19) (comma or hyphen separated e.g 0,1,2 or 1-5 or all): 3
+   ? Enter an amount: 14
+   Success with Warnings:
+   Account "k:a6731ce787ece3941fcf28ce6ccf58150b55a23310e242f4bcb0498c93119689" does not exist on Chain ID(s) 3. So the account will be created on these Chain ID(s).
+   
+   Transaction explorer URL for 
+   Chain ID "3" : http://localhost:8080/explorer/development/tx/n99505XeBZURcHtPHGQESEiEmbv_ZjSF4uXCCbZLzKA
+   ✔ Funding account successful.
+   
+   Account "k:a6731ce787ece3941fcf28ce6ccf58150b55a23310e242f4bcb0498c93119689" funded with 14 coin(s) on Chain ID(s) "3" in development network.
+   Use "kadena account details" command to check the balance.
+   
+   Executed:
+   kadena account fund --account="pistolas-dev" --network="devnet" --chain-ids="3" --amount="14" 
    ```
 
-2. Open the `configuration.ts` file in your code editor.
+## Verify the account
 
-   Notice that when the environment variable `KADENA_NETWORK` is set to `devnet`, the functions exported from this file return the following:
+To verify the account on the development network using `kadena-cli` commands:
 
-   - The network identifier `development`.
-   - The chain identifier `1`.
-   - The API base URL `localhost:8080`—the host and port for the node you previously specified for the development network—and appended with the network id and chain id.
-
-   These configuration settings are loaded into the `list-modules.ts` file to configure the transaction that is sent to your local blockchain using the Kadena client.
-
-3. Open the `list-modules.ts` file in your code editor.
-
-   ```typescript
-   import { Pact, createClient } from '@kadena/client';
-   import { getApiHost, getChainId, getNetworkId } from './configuration';
-
-   const client = createClient(getApiHost());
-
-   main();
-   async function main() {
-     const transaction = Pact.builder
-       .execution('(list-modules)')
-       .setMeta({ chainId: getChainId() })
-       .setNetworkId(getNetworkId())
-       .createTransaction();
-     try {
-       const response = await client.dirtyRead(transaction);
-
-       const { result } = response;
-
-       if (result.status === 'success') {
-         console.log(result.data);
-       } else {
-         console.error(result.error);
-       }
-    } catch (e: unknown) {
-      console.error((e as Error).message);
-    }
-   }
-   ```
-
-   Let's take a closer look at this code:
-
-   - In the `main` function, the `Pact.builder` creates a transaction for executing the Pact code `(list-modules)`.
-   - The `(list-modules)` function is a globally available function that isn't tied to a particular contract.
-   - Because the `(list-modules)` function is a read-only operation, you can execute the transaction without paying any transaction fees using the `dirtyRead` method of the Kadena client.
-   Internally, the `dirtyRead` method transforms the transaction object into a JSON object that is posted to an HTTP API endpoint of your development node.
-
-   The rest of the `main` function processes the response from the API.
-
-4. Execute the `(list-modules)` script in the terminal by running the following command:
-
+1. Verify that the development network is currently running.
+2. Open a terminal shell on your computer.
+3. Verify the account is funded on the development network by running the following command:
+   
    ```bash
-   npm run list-modules:devnet
+   kadena account details
    ```
 
-   The script output lists the modules deployed on your local development network.
+4. Follow the prompts displayed to add an account for the development network.
+   
    For example:
 
    ```bash
-   > snippets@1.0.0 list-modules:devnet
-   > KADENA_NETWORK=devnet ts-node ./list-modules.ts
-   [
-    'coin',
-    'fungible-v1',
-    'fungible-v2',
-    'fungible-xchain-v1',
-    'gas-payer-v1',
-    'ns'
-   ]
+   ? Select an account (alias - account name): pistolas-dev - k:a6731c....93119689
+   ? Select a network: devnet
+   ? Enter a ChainId (0-19) (comma or hyphen separated e.g 0,1,2 or 1-5 or all): 3
+   Details of account "pistolas-dev" on network "development"
+   Name                             ChainID Public Keys                   Predicate Balance
+   k:a6731ce787ec....b0498c93119689 3       a6731ce787ec...b0498c93119689 keys-all  14     
+   
+   Executed:
+   kadena account details --account="pistolas-dev" --network="devnet" --chain-ids="3" 
    ```
-
-   This list is the same as the list displayed in the Chainweaver Module Explorer.
-   You can use either Chainweaver or Kadena client to interact with the Kadena blockchain. 
-   These tools support both simple read operations and complex multi-step transactions.
-   You'll learn more about using Chainweaver and Kadena client to test smart contracts in later tutorials as you develop functionality for the election backend.
 
 ## Next steps
 
-At this point, you have a functioning Kadena blockchain development network—**devnet**—running on your local computer.
+At this point, you have a functioning Kadena blockchain development network running on your local computer.
 In this tutorial, you learned:
 
--  How to start and stop a development network running on your local computer.
--  How to create a Chainweaver account and connect Chainweaver to the development network running on a local node.
+-  How to start and stop a development network running in a Dockeer container on your local computer.
+-  How to create a local wallet and account using `kadena-cli` commands.
+-  How to fund an account on the development network using `kadena-cli` commands.
+-  How to verify account details for an account on the development network using `kadena-cli` commands.
+
 -  How to explore the contracts that are deployed by default using Chainweaver.
 -  How you can explore contracts using TypeScript files and the Kadena client.
 

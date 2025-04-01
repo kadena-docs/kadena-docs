@@ -165,6 +165,6 @@ To explore the election application website frontend:
 At this point, you have prepared a basic development environment and have explored the project directory structure. 
 You've also had your first look at the frontend for the election website and explored its main features. 
 
-In the next tutorial, you'll start a development network—**devnet**—on your local computer inside of a Docker container. 
+In the next tutorial, you'll start a development network on your local computer inside of a Docker container. 
 The development network is a local blockchain similar to the Kadena test network where you can experiment with different features in an isolated environment.
 After you get the development network running, you'll be ready to start developing smart contracts to connect the election application to the blockchain backend.
