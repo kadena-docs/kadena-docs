@@ -24,7 +24,7 @@ Before you start this tutorial, verify the following basic requirements:
 
 - You have an internet connection and a web browser installed on your local computer.
 - You have a code editor, such as [Visual Studio Code](https://code.visualstudio.com/download), access to an interactive terminal shell, and are generally familiar with using command-line programs.
-- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/resources/election-workshop/1-prepare-your-workspace) and have checked out the `01-getting-started` branch.
+- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/resources/election-workshop/workshop-prepare) and have checked out the `01-getting-started` branch.
 - You have [Docker](https://docs.docker.com/get-docker/) installed and are generally familiar with using Docker commands for containerized applications.
 
 ## Run the development network in Docker
@@ -210,9 +210,6 @@ In this tutorial, you learned:
 -  How to create a local wallet and account using `kadena-cli` commands.
 -  How to fund an account on the development network using `kadena-cli` commands.
 -  How to verify account details for an account on the development network using `kadena-cli` commands.
-
--  How to explore the contracts that are deployed by default using Chainweaver.
--  How you can explore contracts using TypeScript files and the Kadena client.
 
 In the next tutorial, you'll learn how you can use accounts and permissions to control who is allowed to perform different tasks on the development network.
 In creating accounts, you'll learn about core concepts—including namespaces, keysets, and
