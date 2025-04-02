@@ -31,8 +31,8 @@ The following list summarizes patterns, practices, and strategies for writing Pa
 - Explicitly type all function parameters and results.
 
 - Use objects with schemas and use lists with the list item type resolved. 
-  For example, use (a:object{my-schema}) and avoid (a:object).
-  Similarly, use (a:[integer]) instead of (a:list). 
+  For example, use `(a:object{mySchema})` and avoid `(a:object)`.
+  Similarly, use `(a:[integer])` instead of `(a:list)`. 
 
 - Run the type checker over the code as you iterate on the implementation. 
 
@@ -63,7 +63,9 @@ The following list summarizes patterns, practices, and strategies for writing Pa
   Remember that capabilities can provide fine-grained access control to functions, but only if you enforce the conditions to guard them correctly.
   Be sure you know how calling a capability using the `with-capability` function differs from calling a capability using the `require-capability` function.
 
-- Keep in mind that any code executed in the same transaction as the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables. 
+- Keep in mind that any code executed in the same transaction as the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables.
+
+- Create your own [principal namespace](/guides/transactions/howto-namespace-tx) before deploying contracts on the Kadena test or main production network.
 
 ## Enforcing access controls
 
