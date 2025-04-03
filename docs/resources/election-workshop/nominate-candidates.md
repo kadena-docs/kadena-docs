@@ -9,7 +9,7 @@ sidebar_position: 8
 
 # Nominate candidates
 
-In [Write a smart contract](/build/election/write-a-smart-contract), you learned about defining Pact modules and created a skeleton `election` module for the smart contract that will become the backend of the election application. 
+In [Write a smart contract](/resources/election-workshop/workshop-write), you learned about defining Pact modules and created a skeleton `election` module for the smart contract that will become the backend of the election application. 
 In this tutorial, you'll update the `election` module with a database table and functions to support the following operations:
 
 - Store a list of candidates and the number of votes each candidate receives.
@@ -24,13 +24,13 @@ Before you start this tutorial, verify the following basic requirements:
 
 - You have an internet connection and a web browser installed on your local computer.
 - You have a code editor, such as [Visual Studio Code](https://code.visualstudio.com/download), access to an interactive terminal shell, and are generally familiar with using command-line programs.
-- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/build/election/prepare-your-workspace).
-- You have the development network running in a Docker container as described in [Start a local blockchain](/build/election/start-a-local-blockchain).
-- You are [connected to the development network](/build/election/start-a-local-blockchain#connect-to-the-development-network) using your local host IP address and port number 8080.
-- You have created and funded an administrative account as described in [Add an administrator account](/build/election/add-admin-account).
-- You have created a principal namespace on the development network as described in [Define a namespace](/build/election/define-a-namespace).
-- You have defined the keyset that controls your namespace using the administrative account as described in [Define keysets](/build/election/define-keysets). 
-- You have created a minimal election module using the Pact smart contract language as described in [Write a smart contract](/build/election/write-a-smart-contract).
+- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/resources/election-workshop/workshop-prepare).
+- You have the development network running in a Docker container as described in [Start a local blockchain](/resources/election-workshop/workshop-start).
+- You are [connected to the development network](/resources/election-workshop/workshop-start#connect-to-the-development-network) using your local host IP address and port number 8080.
+- You have created and funded an administrative account as described in [Add an administrator account](/resources/election-workshop/workshop-admin).
+- You have created a principal namespace on the development network as described in [Define a namespace](/resources/election-workshop/workshop-namespace).
+- You have defined the keyset that controls your namespace using the administrative account as described in [Define keysets](/resources/election-workshop/workshop-keysets). 
+- You have created a minimal election module using the Pact smart contract language as described in [Write a smart contract](/resources/election-workshop/workshop-write).
   
 ## Define the database schema and table
 
@@ -563,7 +563,7 @@ To update the `election` module on the development network:
    npm run deploy-module:devnet -- k:<your-public-key> upgrade init-candidates
    ```
    
-   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/build/election/add-admin-account).
+   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/workshop-admin).
    You can copy this account name from Chainweaver when viewing the account watch list. 
   
    In addition to the account name, you pass `upgrade` and `init-candidates` to add`{"init-candidates": true, "upgrade": true}` to the transaction data.

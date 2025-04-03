@@ -29,14 +29,14 @@ Before you start this tutorial, verify the following basic requirements:
 
 - You have an internet connection and a web browser installed on your local computer.
 - You have a code editor, such as [Visual Studio Code](https://code.visualstudio.com/download), access to an interactive terminal shell, and are generally familiar with using command-line programs.
-- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/build/election/prepare-your-workspace).
-- You have the development network running in a Docker container as described in [Start a local blockchain](/build/election/start-a-local-blockchain).
-- You are [connected to the development network](/build/election/start-a-local-blockchain#connect-to-the-development-network) using your local host IP address and port number 8080.
-- You have created and funded an administrative account as described in [Add an administrator account](/build/election/add-admin-account).
-- You have created a principal namespace on the development network as described in [Define a namespace](/build/election/define-a-namespace).
-- You have defined the keyset that controls your namespace using the administrative account as described in [Define keysets](/build/election/define-keysets).
-- You have created an election Pact module and deployed it as described in [Write a smart contract](/build/election/write-a-smart-contract).
-- You have updated and deployed the election smart contract on the development network as described in [Nominate candidates](/build/election/nominate-candidates) and [Add vote management](/build/election/add-vote-management).
+- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/resources/election-workshop/workshop-prepare).
+- You have the development network running in a Docker container as described in [Start a local blockchain](/resources/election-workshop/workshop-start).
+- You are [connected to the development network](/resources/election-workshop/workshop-start#connect-to-the-development-network) using your local host IP address and port number 8080.
+- You have created and funded an administrative account as described in [Add an administrator account](/resources/election-workshop/workshop-admin).
+- You have created a principal namespace on the development network as described in [Define a namespace](/resources/election-workshop/workshop-namespace).
+- You have defined the keyset that controls your namespace using the administrative account as described in [Define keysets](/resources/election-workshop/workshop-keysets).
+- You have created an election Pact module and deployed it as described in [Write a smart contract](/resources/election-workshop/workshop-write).
+- You have updated and deployed the election smart contract on the development network as described in [Nominate candidates](/resources/election-workshop/workshop-nominate) and [Add vote management](/resources/election-workshop/workshop-vote).
 
 ## Create a voter account
 

@@ -92,7 +92,7 @@ whether your development environment meets the following basic requirements:
 
 If you have everything you need, let’s start building the election website by
 following the workshop roadmap to get started with
-[Prepare your workspace](/build/election/prepare-your-workspace).
+[Prepare your workspace](/resources/election-workshop/workshop-prepare).
 
 ## Workshop roadmap
 
@@ -107,14 +107,14 @@ begin building the blockchain back-end for the election website. The workshop
 repository contains branches with starter code for every tutorial, so you can
 compare your solution with the finished code at every step along the way.
 
-- [Prepare your workspace](/build/election/prepare-your-workspace)
-- [Start a local blockchain](/build/election/start-a-local-blockchain)
-- [Add an administrator account](/build/election/add-admin-account)
-- [Define a namespaces](/build/election/define-a-namespace)
-- [Define keysets](/build/election/define-keysets)
-- [Write the smart contract](/build/election/write-a-smart-contract)
-- [Nominate candidates](/build/election/nominate-candidates)
-- [Add voting management](/build/election/add-vote-management)
+- [Prepare your workspace](/resources/election-workshop/workshop-prepare)
+- [Start a local blockchain](/resources/election-workshop/workshop-start)
+- [Add an administrator account](/resources/election-workshop/workshop-admin)
+- [Define a namespaces](/resources/election-workshop/workshop-namespace)
+- [Define keysets](/resources/election-workshop/workshop-keysets)
+- [Write the smart contract](/resources/election-workshop/workshop-write)
+- [Nominate candidates](/resources/election-workshop/workshop-nominate)
+- [Add voting management](/resources/election-workshop/workshop-vote)
 - [Add a gas station](/build/election/add-a-gas-station)
 
 Stay tuned for future editions of this workshop and for more intermediate and

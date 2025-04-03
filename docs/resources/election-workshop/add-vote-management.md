@@ -20,13 +20,13 @@ Before you start this tutorial, verify the following basic requirements:
 
 - You have an internet connection and a web browser installed on your local computer.
 - You have a code editor, such as [Visual Studio Code](https://code.visualstudio.com/download), access to an interactive terminal shell, and are generally familiar with using command-line programs.
-- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/build/election/prepare-your-workspace).
-- You have the development network running in a Docker container as described in [Start a local blockchain](/build/election/start-a-local-blockchain).
-- You are [connected to the development network](/build/election/start-a-local-blockchain#connect-to-the-development-network) using your local host IP address and port number 8080.
-- You have created and funded an administrative account as described in [Add an administrator account](/build/election/add-admin-account).
-- You have created a principal namespace on the development network as described in [Define a namespace](/build/election/define-a-namespace).
-- You have defined the keyset that controls your namespace using the administrative account as described in [Define keysets](/build/election/define-keysets).
-- You have created an election Pact module and deployed it as described in [Write a smart contract](/build/election/write-a-smart-contract) and updated its functionality as described in [Nominate candidates](/build/election/nominate-candidates).
+- You have cloned the [voting-dapp](https://github.com/kadena-community/voting-dapp.git) repository to create your project directory as described in [Prepare your workspace](/resources/election-workshop/workshop-prepare).
+- You have the development network running in a Docker container as described in [Start a local blockchain](/resources/election-workshop/workshop-start).
+- You are [connected to the development network](/resources/election-workshop/workshop-start#connect-to-the-development-network) using your local host IP address and port number 8080.
+- You have created and funded an administrative account as described in [Add an administrator account](/resources/election-workshop/workshop-admin).
+- You have created a principal namespace on the development network as described in [Define a namespace](/resources/election-workshop/workshop-namespace).
+- You have defined the keyset that controls your namespace using the administrative account as described in [Define keysets](/resources/election-workshop/workshop-keysets).
+- You have created an election Pact module and deployed it as described in [Write a smart contract](/resources/election-workshop/workshop-write) and updated its functionality as described in [Nominate candidates](/resources/election-workshop/workshop-nominate).
 
 ## Increment votes for a candidate
 
@@ -668,7 +668,7 @@ To update the `election` module on the development network:
    npm run deploy-module:devnet -- k:<your-public-key> upgrade init-votes
    ```
 
-   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/build/election/add-admin-account).
+   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/workshop-admin).
    You can copy this account name from Chainweaver when viewing the account watch list.
    
    In addition to the account name and `upgrade`, you must include `init-votes` in the command to add `{"init-votes": true}` to the transaction data.
@@ -690,7 +690,7 @@ To update the `election` module on the development network:
 
 ## Update the frontend
 
-As you learned in [Nominate candidates](/build/election/nominate-candidates), the election application frontend is written in TypeScript and uses repositories to exchange data with the backend. 
+As you learned in [Nominate candidates](/resources/election-workshop/workshop-nominate), the election application frontend is written in TypeScript and uses repositories to exchange data with the backend. 
 By default, the frontend uses the in-memory implementations of the repositories. 
 By making changes to the implementation of the `interface IVoteRepository` in the
 `frontend/src/repositories/candidate/DevnetVoteRepository.ts` file, you can configure the
