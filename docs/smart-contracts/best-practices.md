@@ -24,6 +24,10 @@ The following list summarizes the most common difficulties that developers who a
 
 - Projects often split contract functionality into too many separate contracts—even if they share the same governance—complicating security and the overall design.
 
+- Contract operations that should require user authorization use `enforce-guard` to require a transaction signature without using a capability to scope the user's consent to a particular action. 
+  In Pact, you can enable users to sign for specific capabilities so that they know exactly what operations they are authorizing with their signature.
+  However, if you allow unscoped signatures by using `enforce-guard` without putting it into the body of a capability body, it's impossible for users for know what actions they are authorizing with their signature.
+
 ## Best practices 
 
 The following list summarizes patterns, practices, and strategies for writing Pact code and delivering quality projects for the Kadena ecosystem.
@@ -66,6 +70,9 @@ The following list summarizes patterns, practices, and strategies for writing Pa
 - Keep in mind that any code executed in the same transaction as the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables.
 
 - Create your own [principal namespace](/guides/transactions/howto-namespace-tx) before deploying contracts on the Kadena test or main production network.
+
+- You should always use capabilities to guard contract operations that require user authorization.
+  In most cases, you should define [managed capabilities](/smart-contracts/capabilities#managed-capabilities)) for these types of operations, so that users can explicitly sign for those capabilities to authorize just those specific actions.
 
 ## Enforcing access controls
 
