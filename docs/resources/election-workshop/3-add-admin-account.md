@@ -73,215 +73,69 @@ To create a new key pair and account:
    kadena key generate --key-alias="election-admin" --key-amount="1"
    ```
 
-5. Click **Keys** in the Chainweaver navigation panel.
+5. Add an account for the new key pair by running the `kadena account add` command and following the prompts displayed.
 
-6. Click **Generate Key** to add a new public key to your list of public keys.
-
-7. Click **Add k: Account** for the new public key to add a new account to the list of accounts you are watching in Chainweaver.
-
-   If you expand the new account, you'll see that no balance exists for the account on any chain and there's no information about the owner or keyset for the account. For example:
-
-   ![Initial state of a new account](/img/election-workshop/new-admin-account.png)
-
-   In this initial state, the account name acts as a placeholder, but the account doesn't exist yet on the development network.
-
-   If you change to the `./snippets` folder in the election project directory, you can also verify that your account doesn't exist using the Kadena client. For example, you can run the `coin-details` script for the administrative account you just added with a command similar to the following:
+   For example:
 
    ```bash
-   npm run coin-details:devnet -- k:<your-public-key>
-   ```
-
-   Because your account doesn't exist yet on the development network, the script returns an error similar to the following:
-
-   ```text
-     type: 'TxFailure',
-     message: 'with-read: row not found: k:5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0',
-   ```
-
-## Prepare to create an onchain account
-
-An account must have funds before it can be used on any Kadena blockchain. 
-To interact with the Kadena main public network (`mainnet`), you typically buy KDA as a digital asset through an exchange, and then transfer the KDA to the Kadena account you want to fund. 
-For the Kadena test network (`testnet`), you can submit a request to transfer KDA to an account for testing purposes using the Kadena [Developer Tools](https://tools.kadena.io/).
-
-### Prepare to fund an account
-
-To interact with the local development network, you can:
-
-- Create your own [faucet contract](https://github.com/thomashoneyman/real-world-pact/tree/main/01-faucet-contract) to fund a test account.
-- Provide your account information to someone who can transfer KDA to you.
-- Transfer KDA from a public test account with publicly visible [private keys](https://github.com/kadena-io/chainweb-node/blob/master/pact/genesis/devnet/keys.yaml).
-
-For this tutorial, you can fund the administrative account that governs the election application by transferring KDA from one of the public test accounts.
-
-### Prepare to work with the coin contract
-
-As you saw in [Explore default contracts](/resources/election-workshop/start-a-local-blockchain#explore-default-contractsh1478700565), the development network includes several default smart contracts, including the coin contract. 
-In this tutorial, you'll use the `transfer-create` function that's defined in the `coin` smart contract to transfer 20 KDA from a public test account to your administrative account.
-
-However, transferring coins using functions in the coin contract requires you to interact with **Pact types** that are defined in the contract.
-Before you can transfer coins using the Kadena client scripts in the `snippets` folder, you need to generate the types required.
-
-To generate the types required to work with the coin contract:
-
-1. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
-
-1. Generate the types by running the following command:
+   ➜  ~ kadena account add                      
+   ? How would you like to add the account locally? Key - Add an account by providing public keys from a key file or entering key details manually
+   ? Enter an alias for an account: election-admin
+   ? Enter an account name (optional): election-admin
+   ? Enter the name of a fungible: coin
+   ? Do you want to verify the account on chain? No, add the account without verifying on chain
+   ? Select public keys to add to account(alias - publickey): election-admin.yaml 
+   d0aa328025....b3a36c18ae
+   ? Select a keyset predicate: keys-all
    
-   ```bash
-   npm run generate-types:coin:devnet
-   ```
+   The account configuration "election-admin" has been saved in .kadena/accounts/election-admin.yaml
    
-   This script uses the pactjs-cli to generate types from the oin contract on the development network.
-   You should see output similar to the following:
+   
+   Executed:
+   kadena account add --from="key" --account-alias="election-admin" --account-name="election-admin" --fungible="coin" --public-keys="d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae" --predicate="keys-all" 
+   ```
+
+   Now that you have a local account for the election administrator
+   You now have a local account for the election administrator.
+   However, an account must have funds before it can be used on any Kadena blockchain.
+   To enable the local account for the election administrator to be used on-chain, you must fund the account on a specific network and chain.
+   You can fund on-chain accounts for testing purposes by submitting a request using [Kadena Developer Tools](https://tools.kadena.io/) or the `kadena account fund` command.
+
+   Note that you can't fund an account for the Kadena main production network using the Developer Tools or Kadena CLI commands.
+
+6. Fund the new account on the development network and one or more chains by running the `kadena account fund` command and following the prompts displayed.
+
+   For example:
 
    ```bash
-   > snippets@1.0.0 generate-types:coin:devnet
-   > pactjs contract-generate --contract coin --api http://localhost:8080/chainweb/0.0/development/chain/1/pact
+   kadena account fund
+   ? Select an account (alias - account name): election-admin - election-admin
+   ? Select a network: devnet
+   ? Enter a ChainId (0-19) (comma or hyphen separated e.g 0,1,2 or 1-5 or all): 3
+   ? Enter an amount: 15
+   Success with Warnings:
+   Account "election-admin" does not exist on Chain ID(s) 3. So the account will be created on these Chain ID(s).
    
-   Generating pact contracts from chainweb for coin
-   fetching coin
-   fetching fungible-v2
-   fetching fungible-xchain-v1
-
-      WARNING: No namespace found for module "coin". You can pass --namespace as a fallback.
-      
-      WARNING: No namespace found for module "fungible-v2". You can pass --namespace as a fallback.
-      
-      WARNING: No namespace found for module "fungible-xchain-v1". You can pass --namespace as a fallback.
-      
-   Creating directory /Users/pistolas/election-workshop/snippets/node_modules/.kadena/pactjs-generated
-   Writing default package.json to /Users/pistolas/election-workshop/snippets/node_modules/.kadena/pactjs-generated/package.json
+   Transaction explorer URL for 
+   Chain ID "3" : http://localhost:8080/explorer/development/tx/ZTXIQqmYhaUjEnl-BP4ajOzRdQeHz5C2FX76l4bC7hk
+   ✔ Funding account successful.
    
-   Verifying tsconfig.json at `/Users/pistolas/election-workshop/snippets/tsconfig.json`
+   Account "election-admin" funded with 15 coin(s) on Chain ID(s) "3" in development network.
+   Use "kadena account details" command to check the balance.
+   
+   Executed:
+   kadena account fund --account="election-admin" --network="devnet" --chain-ids="3" --amount="15"
    ```
-
-   Because you're generating types to create an account outside of the context of a particular namespace, you can ignore the `namespace` warnings.
-
-### Prepare to run the transfer-create script
-
-Before you transfer coins from a public test account, you should review the script that calls the `transfer-create` to learn more about how Kadena client libraries enable you to insteract with the Kadean blockchain.
-
-To prepare to run the `transfer-create.ts` script:
-
-1. Open the `election-workshop/snippets/transfer-create.ts` script in your code editor.
-
-1. Review the initial client configuration.
-   
-   As you can see in the first five lines, the script imports functions from the Kadena client library and imports configuration information from the 
-   `configuration.ts` file to create a client for interacting with the blockchain:
-   
-   ```typescript
-   import { Pact, createClient, createSignWithKeypair, isSignedTransaction } from '@kadena/client';
-   import { PactNumber } from '@kadena/pactjs';
-   import { getApiHost, getChainId, getNetworkId } from './configuration';
-   
-   const client = createClient(getApiHost());
-   ```
-   
-   You must specify the receiving account—your administrative account name—as an argument when running the script, so the script displays an error message if the argument isn't provided.
-
-   ```typescript
-   if (!process.argv[2]) {
-     console.error('Please specify a Kadena account.');
-   }
-   ```
-
-1. Review the sender account information. 
-   
-   As you can see in the next lines, the sender is `sender00`.
-   This account is one of the public development network accounts that holds some KDA on all chains. 
-   The public and private keys for this account are copied from GitHub.
-
-   ```typescript
-   const FUNDING_ACCOUNT = 'sender00';
-   const FUNDING_ACCOUNT_PUBLIC_KEY = '368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca';
-   const FUNDING_ACCOUNT_PRIVATE_KEY = '251a920c403ae8c8f65f59142316af3c82b631fba46ddea92ee8c95035bd2898';
-   
-   const accountKey = (account: string): string => account.split(':')[1];
-   ```
-
-2. Review the `main` function.
-
-   In the remainder of the script, the `main` function calls the `transfer-create` function of the `coin` contract with information about the sender, receiver, and the amount to create and fund your administrative account. 
-
-   Inside the `main` function, the amount to transfer is converted to a `PactDecimal` with the format: `{ decimal: '20.0' }`.
-
-   The script then generates the Pact code and creates the transaction for you, based on the typing information generated in [Prepare to work with the coin contract](#prepare-to-work-with-the-coin-contract) and the arguments provided to the function.
-
-   The third argument of `transfer-create` is a function that returns the **guard** for the account to be created. 
-   To define the guard for the account, the `.addData()` function uses the public key of the administrative account as the only key and `keys-all` as the predicate. 
-   This guard associates the public key of your administrative account with the private key you hold in Chainweaver to ensure that only you can control the account.
-
-   The `.addSigner()` function specifies that the sender must sign the transaction to pay the transaction fee—commonly referred to as **gas**—and to make the transfer with the provided details. 
-   
-   In the `.setMeta()` function, `sender00` is specified as the `senderAccount`. 
-   After setting the networkId from the `devnet` configuration, the transaction is created. 
-   The transaction is then signed with the private key of the `sender00` account and the transaction is submitted.
-
-## Transfer coins to create an account
-
-To transfer coins to fund the administrative account:
-
-1. Verify the development network is currently running on your local computer.
-
-1. Open and unlock the Chainweaver desktop or web application.
-
-2. Click **Accounts** in the Chainweaver navigation pane, then click the Copy to clipboard icon to copy the account name for your account.
-
-3. Open the `election-workshop/snippets` folder in a terminal shell on your computer.
-
-4. Create and fund your administrative account using the `transfer-create` script by running a command similar to the following with the k: account name for your administrative account:
-
-   ```bash
-   npm run transfer-create:devnet -- k:<your-public-key>
-   ```
-
-   Replace `k:<your-public-key>` with the **account name** for your administrative account. 
-   You can copy this account name from Chainweaver when viewing the account watch list.
-   After a few seconds, you should see output similar to the following:
-
-   ```bash
-   > snippets@1.0.0 transfer-create:devnet
-   > KADENA_NETWORK=devnet ts-node ./transfer-create.ts k:5ec41b89d...5c35e2c0
-   
-   { status: 'success', data: 'Write succeeded' }
-   ```
-
-1. Verify that your account was created using the Kadena client and the `coin-details` script for the administrative account with a command similar to the following:
-
-   ```bash
-   npm run coin-details:devnet -- k:5ec41b89d...5c35e2c0
-   ```
-
-   You should see information about the new account similar to the following:
-
-   ```bash
-   {
-     guard: {
-       pred: 'keys-all',
-       keys: [
-          '5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0'
-       ]
-
-     },
-     balance: 20,
-     account: 'k:5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0'
-   }
-   ```
-
-2. Click **Accounts** in the Chainweaver navigation panel.
-
-3. Expand your administrative account to verify that on chain 1 you are the owner, one keyset is defined, and the balance is 20 KDA.
-
-   ![Your funded administrative account on the development network](/img/election-workshop/funded-account.png)
 
 ## Next steps
 
-In this tutorial, you learned how to:
+In this tutorial, you learned how to use `kadena-cli` commands to create an account for the election administrator.
+You used use `kadena-cli` commands to complete the following basic tasks:
 
-- Generate a new public and secret key for a Kadena account using Chainweaver.
-- Transfer coins to create and fund a new account using the Kadena client.
-- Verify account information using the Kadena client and in Chainweaver.
+- Generate a new random public and secret key.
+- Add a new local account using the public key.
+- Fund the new account on a specific network and chain.
+- Verify account information.
 
-You'll use the KDA you transferred to the administrative account to pay transaction fees for defining keysets, deploying smart contract modules, and nominating candidates in later tutorials. Before we get there, the next tutorial demonstrates how to create a namespace for a new keyset and smart contracts.
+You'll use the coins you transferred to the administrative account to pay transaction fees for defining keysets, deploying smart contract modules, and nominating candidates in later tutorials. 
+Before you get there, the next tutorial demonstrates how to create a **namespace** that will be governed by the election administrator account and that you'll use when you're ready to deploy your smart contract.
