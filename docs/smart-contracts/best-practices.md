@@ -1,15 +1,15 @@
 ---
-title: Common mistakes and best practices 
+title: Pact best practices 
 description: "Recommendations and reminders for patterns to avoid and practices to follow when writing programs using the Pact smart contract programming language." 
 id: best-practices
 ---
 
-# Common mistakes and best practices 
+# Pact best practices 
 
 As a programming language, Pact has some unique features that make it adaptable to writing sophisticated applications, but that are also flexible enough to allow coding mistakes that can make a contract vulnerable to potential misuse. 
 This topic summarizes common mistakes to avoid and best practices you should follow as you develop programs with Pact. 
 
-## Common issues
+## Common issues and mistakes
 
 The following list summarizes the most common difficulties that developers who are new to Pact encounter or are most likely to misinterpret.
 
@@ -27,6 +27,15 @@ The following list summarizes the most common difficulties that developers who a
 - Contract operations that should require user authorization use `enforce-guard` to require a transaction signature without using a capability to scope the user's consent to a particular action. 
   In Pact, you can enable users to sign for specific capabilities so that they know exactly what operations they are authorizing with their signature.
   However, if you allow unscoped signatures by using `enforce-guard` without putting it into the body of a capability body, it's impossible for users for know what actions they are authorizing with their signature.
+
+- Developers often avoid defining managed capabilities because they seem complex or to introduce friction by requiring users to explicitly authorize the operation they are signing for.
+  However, managed capabilities prevent transactions from replay operations that could allow funds to be drained from accounts or other operations could have unintended consequences.
+  By requiring a signature, capability guard, or user guard to authorize activity, you can safeguard users from transactions that perform unintended operation when executing contract functions.
+
+- Developers sometimes deploy contracts in the free or user namespace, fail to register a principal namespace, or accidentally deploy contracts in more than one namespace.
+  It's important to note, that functions are defined in module declarations, and modules are deployed in namespaces.
+  A `payment` function defined in the `pistolas-retail` module that's deployed in the `n_01234567` namespace is not the same as the `payment` function defined in the `pistolas-retail` module that's deployed in the `n_890abcde` namespace.
+  Even if the code is identical, the path to the function uniquely identifies each function.
 
 ## Best practices 
 
