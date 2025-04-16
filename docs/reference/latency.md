@@ -10,6 +10,41 @@ sidebar_position: 5
 There are a number of factors that influence the time it takes to execute transactions, including network topology and the performance of individual nodes.
 This section provides benchmarks, estimations, and calculations to help you better understand the time it takes to execute transactions on Chainweb nodes under different circumstances.
 
+## Single chain transactions
+
+On average, single chain transactions take approximately 45 seconds.
+However, transactions can take much longer than 45 seconds, in particular, if there are mining delays.
+
+To give you better insight into how transactions are executed, the following example describes the workflow for a single chain transaction.
+You start a transaction by submitting a formatted request to the `/send` endpoint on a node.
+The code provided by the `/send` endpoint performs some simple initial checks that validate the transaction has a reasonably high chance of being executed successfully. 
+These initial checks ensure that you learn if a transaction is invalid as soon as possible. 
+If the transaction passes the initial checks, the `/send` process adds the transaction to the mempool for the local node. 
+The transaction is then gossiped to remote nodes, and, eventually, one of the nodes is selected to mine the next block, and the node includes the transaction in that block. 
+After the mined block is added to its target chain, the block with the transaction result is synchronized on the local node, and a request to the `/poll` endpoint returns the transaction result.
+
+Under normal load, the initial checks should take less than a millisecond for a single transaction.
+However, if a node in under heavy load—for example, because the PactService is contending with a high volume of `/local` or `/send` calls or because the node is catching up—you might experience delays in sending or polling transactions. 
+It's worth noting that if a node is too busy, it will always prioritize staying caught up over sending transactions.
+
+The propagation of transactions in the mempool to other nodes takes, on average, 10 seconds, but it can take longer if there are networking delays, such as increased network traffic or slow network connections between nodes.
+Block propagation back to the local node is usually a matter of seconds.
+
+## Cross-chain transfers
+
+As discussed in [Transaction format and flow](/smart-contracts/transactions), a cross-chain transfer is essentially two separate but related transactions.
+The time it takes to complete a cross-chain transfer can depend on several factors, including the physical distance between the chain nodes in the network, network congestion, and the synchronization of state between the chains involved.
+
+For two distant chains—representing the worst case—a cross-chain transfer is expected to take the following time to complete:
+
+- The initiating transaction has an average time from submission to completion of 45 seconds.
+- With the current 20-chain graph, two blocks at most must be propagated to the target chain so that the source and target chain share the same view of state, with an average time of 30 seconds per block. 
+  The number of blocks that must be propagated will increase as more chains are added, and will depend on the distance between the chains.
+- The continuation step is a second transaction, again with an average time of 45 seconds.
+
+Therefore, a cross-chain transfer typically takes 2 minutes and 30 seconds to complete.
+If either the source or target chain is ahead of the other chain, more blocks might be required to synchronize the chains before the transaction can complete, in which case the transfer might take additional time.
+
 ## Local execution
 
 In general, calls to the Chainweb `/local` endpoint return results almost immediately.
@@ -59,41 +94,6 @@ Mining time follows an [exponential distribution](https://en.wikipedia.org/wiki/
 Because other parts of the block production process take some time as well, mining time will actually be less than 30 seconds on average.
 
 After mining is successful, the new block candidate is added to the target chain on the mining node, and then sent around the chainweb network for other nodes to see.
-
-## Single chain transactions
-
-On average, single chain transactions take approximately 45 seconds.
-However, transactions can take much longer than 45 seconds, in particular, if there are mining delays.
-
-To give you better insight into how transactions are executed, the following example describes the workflow for a single chain transaction.
-You start a transaction by submitting a formatted request to the `/send` endpoint on a node.
-The code provided by the `/send` endpoint performs some simple initial checks that validate the transaction has a reasonably high chance of being executed successfully. 
-These initial checks ensure that you learn if a transaction is invalid as soon as possible. 
-If the transaction passes the initial checks, the `/send` process adds the transaction to the mempool for the local node. 
-The transaction is then gossiped to remote nodes, and, eventually, one of the nodes is selected to mine the next block, and the node includes the transaction in that block. 
-After the mined block is added to its target chain, the block with the transaction result is synchronized on the local node, and a request to the `/poll` endpoint returns the transaction result.
-
-Under normal load, the initial checks should take less than a millisecond for a single transaction.
-However, if a node in under heavy load—for example, because the PactService is contending with a high volume of `/local` or `/send` calls or because the node is catching up—you might experience delays in sending or polling transactions. 
-It's worth noting that if a node is too busy, it will always prioritize staying caught up over sending transactions.
-
-The propagation of transactions in the mempool to other nodes takes, on average, 10 seconds, but it can take longer if there are networking delays, such as increased network traffic or slow network connections between nodes.
-Block propagation back to the local node is usually a matter of seconds.
-
-## Cross-chain transfers
-
-As discussed in [Transaction format and flow](/smart-contracts/transactions), a cross-chain transfer is essentially two separate but related transactions.
-The time it takes to complete a cross-chain transfer can depend on several factors, including the physical distance between the chain nodes in the network, network congestion, and the synchronization of state between the chains involved.
-
-For two distant chains—representing the worst case—a cross-chain transfer is expected to take the following time to complete:
-
-- The initiating transaction has an average time from submission to completion of 45 seconds.
-- With the current 20-chain graph, two blocks at most must be propagated to the target chain so that the source and target chain share the same view of state, with an average time of 30 seconds per block. 
-  The number of blocks that must be propagated will increase as more chains are added, and will depend on the distance between the chains.
-- The continuation step is a second transaction, again with an average time of 45 seconds.
-
-Therefore, a cross-chain transfer typically takes 2 minutes and 30 seconds to complete.
-If either the source or target chain is ahead of the other chain, more blocks might be required to synchronize the chains before the transaction can complete, in which case the transfer might take additional time.
 
 ## Mining per block
 
