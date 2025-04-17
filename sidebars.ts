@@ -499,6 +499,23 @@ const sidebars: SidebarsConfig = {
                items: [
                     'resources/glossary',
                     'resources/solutions',
+                    {
+                         type: 'category',
+                         label: 'Workshop: Election app',
+                         link: {
+                              type: 'doc',
+                              id: 'resources/election-workshop/workshop-welcome',
+                         },
+                         items: [
+                              'resources/election-workshop/workshop-prepare',
+                              'resources/election-workshop/workshop-start',
+                              'resources/election-workshop/workshop-admin',
+                              'resources/election-workshop/workshop-namespace',
+                              'resources/election-workshop/workshop-keysets',
+                              //'resources/election-workshop/workshop-prepare',
+
+                         ]
+                    },
                     'resources/writing-guide',
                     'resources/contribute-doc',
                     'resources/contribute-dev',
