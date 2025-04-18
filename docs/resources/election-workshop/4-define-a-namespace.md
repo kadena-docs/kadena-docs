@@ -46,7 +46,7 @@ To write a simple test transaction in Pact:
 
 2. Create a new file named `namespace.repl` in the `pact` folder.
 
-3. Write an empty transaction by adding the `begin-tx` and `commit-tx` built-in functions in the `namespace.repl` file:
+3. Write an empty transaction by adding the [`begin-tx`](/pact-5/repl/begin-tx) and [`commit-tx`](/pact-5/repl/commit-tx) built-in functions in the `namespace.repl` file:
 
    ```pact
    (begin-tx "Define a namespace called 'election")
@@ -78,10 +78,10 @@ To write a simple test transaction in Pact:
 
 Pact has two built-in functions to define and work inside of a namespace: 
 
-- The `define-namespace` function enables you to define or redefine a namespace name and access rules.
-- The `namespace` function enable you to specify the namespace you want to work with.
+- The [`define-namespace`](/pact-5/general/define-namespace) function enables you to define or redefine a namespace name and access rules.
+- The [`namespace`](/pact-5/general/namespace) function enable you to specify the namespace you want to work with.
  
-To define a namespace, you must specify two [**keysets**](/resources/glossary#keyset) that control who can **access** the namespace as a **user** and who owns the namespace as an **admininistrator**. 
+To define a namespace, you must specify two [**keysets**](/resources/glossary#keyset) that control who can **access** the namespace as a **user** and who owns the namespace as an **administrator**. 
 
 - The user keyset can execute public functions that are defined in the modules that are deployed in the namespace.
 - The administrator keyset can deploy and modify the modules that are available in the namespace.
@@ -103,7 +103,7 @@ The following example illustrates defining an "election" namespace with keysets 
 ```
 
 This call is all you need to define the "election" namespace.
-However, your `namespace.repl` file can include REPL-specific built-in functions—such as the `expect` built-in function—as a wrapper to test that calling the `define-namespace` function will succeed.
+However, your `namespace.repl` file can include REPL-specific built-in functions—such as the [`expect`](/pact-5/repl/expect) built-in function—as a wrapper to test that calling the `define-namespace` function will succeed.
 
 To wrap the `define-namespace` function call with the `expect` built-in function, you must specify the following arguments:
 
@@ -127,7 +127,7 @@ To define the "election" namespace:
 
 1. Open the `election-workshop/pact/namespace.repl` file in the code editor on your computer.
 
-2. Replace the `This is an empty transaction` commented line with the expect built-in function between the `begin-tx` and `commit-tx` function calls:
+2. Replace the `This is an empty transaction` commented line with the `expect` built-in function between the `begin-tx` and `commit-tx` function calls:
 
    ```pact
    (expect
@@ -434,7 +434,7 @@ Next, you can define a principal namespace on the development network using the 
 ## Create your own principal namespace
 
 Now that you've seen how to use the `define-namespace` and `create-principal-namespace` functions, you're ready to create your own principal namespace on your local development network with the administrative account you created previously.
-There are several ways you can create a transaction to define a principal namespace, including by creating a YAML API request or by using the `election-workshop/snippets/principal-namespace.ts` sample script.
+There are several ways you can create a transaction to define a principal namespace, including by creating a YAML API request to submit to the `/send` endpoint or by using the `election-workshop/snippets/principal-namespace.ts` sample script.
 
 This tutorial demonstrates how to create a principal namespace by using `kadena tx` commands.
 
@@ -445,7 +445,6 @@ To create a principal namespace on the development network:
 2. Open your code editor and navigate to `transaction-templates` in the `.kadena` configuration folder.
    
    For example, open the `~/.kadena/transaction-templates` folder in your code editor.
-
 
 3. Create a new transaction template (`.ktpl`) file.
    
