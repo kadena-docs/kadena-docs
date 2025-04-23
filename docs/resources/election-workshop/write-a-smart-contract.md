@@ -9,20 +9,14 @@ sidebar_position: 7
 
 # Write a smart contract
 
-Now that you have a unique namespace controlled by your administrative keyset,
-you're ready to start building the backend for the election application. In this
-tutorial, you'll learn the basics of how to write a **smart contract** that can
-be deployed on the blockchain as the backend code for the election application.
+Now that you have a unique namespace controlled by your administrative keyset, you're ready to start building the backend for the election application. 
+In this tutorial, you'll learn the basics of how to write a **smart contract** that can be deployed on the blockchain as the backend code for the election application.
 
-A smart contract is a special type of application runs automatically when the
-conditions specified in the contract logic are met. By deploying a smart
-contract on a blockchain, the terms of an agreement can be executed
-programmatically in a decentralized way, without any intermediary involvement or
-process delays.
+A smart contract is a special type of application runs automatically when the conditions specified in the contract logic are met. 
+By deploying a smart contract on a blockchain, the terms of an agreement can be executed programmatically in a decentralized way, without any intermediary involvement or process delays.
 
-On the Kadena blockchain, a smart contract consists of one or more **modules**
-written in the Pact programming language. For this tutorial, the election smart
-contract consists of two modules: the main **election** module and an auxiliary
+On the Kadena blockchain, a smart contract consists of one or more **modules** written in the Pact programming language. 
+For this tutorial, the election smart contract consists of two modules: the main **election** module and an auxiliary
 **gas station** module.
 
 The exercises in this tutorial illustrate the basics of building and deploying a Pact module as you develop the main **election** module. 
@@ -43,10 +37,9 @@ Before you start this tutorial, verify the following basic requirements:
 
 ## Define a minimal Pact module
 
-To get started writing Pact modules, you must have a file that contains the bare
-minimum of code required to deploy. You can create and test this starter code
-for a Pact module using the Pact REPL. After you have a minimal working
-deployment, you can add and refactor the code to add functionality to the Pact
+To get started writing Pact modules, you must have a file that contains the bare minimum of code required to deploy. 
+You can create and test this starter code for a Pact module using the Pact REPL. 
+After you have a minimal working deployment, you can add and refactor the code to add functionality to the Pact
 module.
 
 To create the starter code for a Pact module:
@@ -55,52 +48,20 @@ To create the starter code for a Pact module:
 
 2. Create a new file named `module.repl` in the `pact` folder.
 
-3. Add a transaction that defines a module named `election` by typing the
-   following lines of code in the `module.repl` file:
+3. Add a transaction that defines a module named `election` and a **governance capability** to protect access to the module's functions by typing the following lines of code in the `module.repl` file:
 
    ```pact
-   (begin-tx
-     "Deploy the election module"
-   )
-     (module election)
+   (begin-tx "Deploy the election module")
+     (module election GOV)
    (commit-tx)
    ```
-
-4. Execute the transaction using the `pact` command-line program running locally
-   or using [pact-cli](http://localhost:8080/ttyd/pact-cli/) from the Docker
-   container.
-
-   If `pact-cli` is installed locally, run the following command inside the `pact` folder in the terminal shell:
-
-   ```bash
-   pact module.repl --trace
-   ```
-
-   As before, if you don't have `pact` installed locally, you can load the
-   `module.repl` file in the [pact-cli](http://localhost:8080/ttyd/pact-cli/)
-   from the Docker container with the following command:
-
-   ```pact
-   (load "module.repl")
-   ```
-
-   If you are using the `pact-cli` in a browser, you can replace the
-   `pact module.repl --trace` command with `(load "module.repl")` throughout this
-   tutorial.
-
-   You'll see that this transaction fails with an error similar to the
-   following:
-
-   ```bash
-   error: Unexpected end of input, Expected: atom, Expected: literal
-   ```
    
-   Modules require you to define either a **keyset** or a **capability** to protect access to the module's functions.
+   All modules require either a **keyset** or a **capability** to protect access to the module's functions.
    Capabilities are similar to keysets in that they control permissions—who can do what—in the context of a Pact smart contract. 
    You'll learn more about capabilities in this tutorial and in other tutorials.
    For now, you can use the `admin-keyset` you defined in the previous tutorial.
 
-5. Add the `admin-keyset` to the transaction to define the `election` module in
+4. Add the `admin-keyset` to the transaction to define the `election` module in
    the `module.repl` file:
 
    ```pact
@@ -122,7 +83,7 @@ To create the starter code for a Pact module:
    any functions. You must define at least one function in a Pact module for the
    module to be valid.
 
-6. Add a `list-candidates` function inside the transaction that defines the `election` module.
+5. Add a `list-candidates` function inside the transaction that defines the `election` module.
    
    ```pact
    (begin-tx
@@ -146,7 +107,7 @@ To create the starter code for a Pact module:
    `module.repl` file doesn't define a namespace, so it can't define or use the
    keyset you've specified for the module definition.
 
-7. Add the following code—which should look familiar from the previous
+6. Add the following code—which should look familiar from the previous
    tutorials—before the transaction to define the `election` module:
 
    ```pact
@@ -182,7 +143,7 @@ To create the starter code for a Pact module:
    - Defines the `election` namespace.
    - Enters the `election` namespace to define the `election.admin-keyset` as the namespace owner.
 
-8. Execute the transaction using the `pact` command-line program:
+7. Execute the transaction using the `pact` command-line program:
 
    ```pact
    pact module.repl --trace
