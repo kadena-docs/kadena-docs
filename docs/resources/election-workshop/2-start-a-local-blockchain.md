@@ -75,10 +75,10 @@ To start the local development network:
 
 As you might have seen in [Create new accounts](/guides/accounts/howto-create-accounts), there are several ways to create Kadena accounts, including Kadena command-line interface commands.
 You can also create accounts using wallet applications like Kadena SpireKey and Chainweaver.
-Wallet applications provide often make interacting with blockchain networks, accounts, and keys easier.
+Wallet applications often make interacting with blockchain networks, accounts, and keys easier.
 
 You must have at least one account on the development network to complete the election workshop.
-If you have public and private keys for testing, you can add them to the development environment using the `kadena account add` commands.
+If you have public and private keys for testing, you can add them to the development environment using the `kadena account add` command.
 
 If you don't already have an account, you can create one using the [Chainweaver desktop application](https://github.com/kadena-io/chainweaver/releases), the [Chainweaver web application](https://chainweaver.kadena.network/), or `kadena-cli` commands.
 
@@ -97,11 +97,11 @@ To create an account using `kadena-cli` commands:
    kadena config init
    ```
 
-   This command creates the `.kadena` configuration folder location in your current working directory. adds default network settings to a `networks` subfolder, and prompts you to create a wallet.
+   This command creates the `.kadena` configuration folder in your current working directory, adds default network settings to a `networks` subfolder, and prompts you to create a wallet.
 
 4. Follow the prompts displayed to create a wallet and an account public and private key pair for the development network.
 
-   After you provide the required information, you should see details about the new account  similar to the following:
+   After you provide the required information, you should see details about the new account similar to the following:
 
    ```bash
    ====================================================
@@ -134,27 +134,21 @@ To create an account using `kadena-cli` commands:
 ## Connect to the development network
 
 You now have a local wallet with the basic account information required to sign transactions: a public key, an account name, and a predicate.
-However, the local account isn't yet associated with any network or chain identifiers.The first wallet and default account information provide you with the basics for signing transactions: a public key, an account name, and a predicate.
-Because there aren't many practical applications that involve signing transactions using a local account, you'll want to choose a network and one or more chains to make the account available on-chain within that network.
-
+However, the local account isn't yet associated with any network or chain identifiers.
 Before you can use an account to transfer assets and sign the most common types of transactions, it must exist on a network and have funds on one or more chains.
+
 For the workshop, you'll connect the local account to the development network, but you could follow similar steps to make it available on the Kadena test network or the Kadena main production network.
 
 To add funds on the development network using `kadena-cli` commands:
 
 1. Verify that the development network is currently running.
 2. Open a terminal shell on your computer.
-3. Fund the first account you created for the wallet by running the following command:
-   
-   ```bash
-   kadena account fund
-   ```
-
-4. Follow the prompts displayed to add an account for the development network.
+3. Fund the first account you created for the wallet by running the `kadena account fund` command and following the prompts displayed.
    
    For example:
    
    ```bash
+   kadena account fund
    ? Select an account (alias - account name): pistolas-dev - k:a6731c....93119689
    ? Select a network: devnet
    ? Enter a ChainId (0-19) (comma or hyphen separated e.g 0,1,2 or 1-5 or all): 3
@@ -179,17 +173,12 @@ To verify the account on the development network using `kadena-cli` commands:
 
 1. Verify that the development network is currently running.
 2. Open a terminal shell on your computer.
-3. Verify the account is funded on the development network by running the following command:
-   
-   ```bash
-   kadena account details
-   ```
-
-4. Follow the prompts displayed to add an account for the development network.
+3. Verify the account is funded on the development network by running the kadena account details command and following the prompts displayed:
    
    For example:
 
    ```bash
+   kadena account details   
    ? Select an account (alias - account name): pistolas-dev - k:a6731c....93119689
    ? Select a network: devnet
    ? Enter a ChainId (0-19) (comma or hyphen separated e.g 0,1,2 or 1-5 or all): 3
@@ -206,12 +195,9 @@ To verify the account on the development network using `kadena-cli` commands:
 At this point, you have a functioning Kadena blockchain development network running on your local computer.
 In this tutorial, you learned:
 
--  How to start and stop a development network running in a Dockeer container on your local computer.
+-  How to start and stop a development network running in a Docker container on your local computer.
 -  How to create a local wallet and account using `kadena-cli` commands.
 -  How to fund an account on the development network using `kadena-cli` commands.
 -  How to verify account details for an account on the development network using `kadena-cli` commands.
 
-In the next tutorial, you'll learn how you can use accounts and permissions to control who is allowed to perform different tasks on the development network.
-In creating accounts, you'll learn about core concepts—including namespaces, keysets, and
-modules—and how to use them to grant or restrict access to specific functions.
-For example, you'll learn how to use an account, namespace, and keyset definition to control the permission to add candidates to the ballot in an election.
+In the next tutorial, you'll learn more about accounts and how to control who is allowed to perform different tasks on the development network.

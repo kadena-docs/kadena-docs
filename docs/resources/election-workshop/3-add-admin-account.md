@@ -7,8 +7,8 @@ sidebar_position: 4
 
 # Add an administrator account
 
-At this point, the election application doesn't restrict who can nominate a candidate. 
-In this tutorial, you'll create an administrative account to control the actions that can be taken in the election application.
+At this point, you have a wallet and an account that can connect to the development network and sign transactions using at least one chain where funds are available. 
+In this tutorial, you'll create an administrative account to take ownership of the election application, with permission to deploy and update Pact modules and to execute protected operations.
 
 As discussed in [Accounts, keys, and principals](/smart-contracts/accoounts), Kadena accounts aren't simply public keys.
 Instead, Kadena accounts consist of four parts:
@@ -22,7 +22,7 @@ For this tutorial, you'll create an administrative account with only one key and
 The `keys-all` predicate requires transactions to be signed by all keys in the account. 
 Because you're creating this account with only one key, only one signature will be required to sign transactions. 
 You can use any text string of three to 256 characters for the account name. 
-However, the convention for accounts that only have one key is to use the prefix `k:` followed by public key of the account.
+However, the general convention for account names that only have one key is to use the prefix `k:` followed by public key of the account.
 
 For a more general introduction to how public and private keys are used to sign transactions and in Kadena accounts, see [Beginner’s Guide to Kadena: Accounts + Keysets](https://medium.com/kadena-io/beginners-guide-to-kadena-accounts-keysets-fb7f32104291).
 
@@ -38,8 +38,8 @@ Before you start this tutorial, verify the following basic requirements:
 
 ## Generate the administrative key pair
 
-There are many tools you can use to create keys, including kadena-cli commands like you used in the previous tutorial, Chainweaver, or other wallet applications. 
-In fact, if you followed the [Start a local blockchain](/resources/election-workshop/workshop-start) tutorial, you already have one public and private key pair that you could use as the basis for your administrative account. 
+There are many tools you can use to create keys, including `kadena-cli` commands like you used in the previous tutorial, Chainweaver, or other wallet applications. 
+If you followed the [Start a local blockchain](/resources/election-workshop/workshop-start) tutorial, you already have at least one public and private key pair that you could use as the basis for your administrative account. 
 However, for demonstration purposes, let's create a completely new key pair to use as the administrative account for the election application.
 
 To create a new key pair and account:
@@ -78,7 +78,7 @@ To create a new key pair and account:
    For example:
 
    ```bash
-   ➜  ~ kadena account add                      
+   kadena account add                      
    ? How would you like to add the account locally? Key - Add an account by providing public keys from a key file or entering key details manually
    ? Enter an alias for an account: election-admin
    ? Enter an account name (optional): election-admin
@@ -128,13 +128,12 @@ To create a new key pair and account:
 
 ## Next steps
 
-In this tutorial, you learned how to use `kadena-cli` commands to create an account for the election administrator.
-You used use `kadena-cli` commands to complete the following basic tasks:
+In this tutorial, you learned how to use `kadena-cli` commands to complete the following basic tasks:
 
 - Generate a new random public and secret key.
 - Add a new local account using the public key.
 - Fund the new account on a specific network and chain.
 - Verify account information.
 
-You'll use the coins you transferred to the administrative account to pay transaction fees for defining keysets, deploying smart contract modules, and nominating candidates in later tutorials. 
-Before you get there, the next tutorial demonstrates how to create a **namespace** that will be governed by the election administrator account and that you'll use when you're ready to deploy your smart contract.
+You'll use the coins you transferred to the administrative account to pay transaction fees for all of the activities in later tutorials. 
+Before you get to those tutorials, the next tutorial demonstrates how to create a **namespace** that will be governed by the election administrator account you created in this tutorial.

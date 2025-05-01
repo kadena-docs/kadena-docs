@@ -10,9 +10,7 @@ sidebar_position: 6
 As you learned in [Add an administrator account](/resources/election-workshop/workshop-admin) and [Define a namespace](/resources/election-workshop/workshop-namespace), keysets determine rules for signing transactions and controlling the accounts that can access and update the namespaces where you deploy smart contracts. 
 This tutorial demonstrates how to define the `admin-keyset` in the principal namespace that you created in [Define a namespace](/resources/election-workshop/workshop-namespace) using the public key of the administrative account you created in [Add an administrator account](/resources/election-workshop/workshop-admin). 
 
-After you define the `admin-keyset` in your principal namespace, you'll be able
-to use it to authorize your administrative account to submit specific types of
-transactions for the election application you're building. 
+After you define the `admin-keyset` in your principal namespace, you'll be able to use it to authorize your administrative account to submit specific types of transactions for the election application you're building. 
 For example, you'll be able to authorize transactions that deploy and upgrade the election smart contract and that nominate the candidates that other accounts can vote on.
 
 ## Before you begin
@@ -156,9 +154,9 @@ To test keyset authorization works as expected:
 
    ```pact
    (env-data
-     { 'admin-keyset :
-       { 'keys : [ 'other-public-key ]
-       , 'pred : 'keys-all
+     { "admin-keyset" :
+       { "keys" : [ "other-public-key" ]
+       , "pred" : "keys-all"
        }
      }
    )
@@ -170,8 +168,8 @@ To test keyset authorization works as expected:
    
    ```pact
    (env-sigs
-     [{ 'key  : 'other-public-key
-      , 'caps : []
+     [{ "key"  : "other-public-key"
+      , "caps" : []
      }]
    )
    ```
@@ -226,11 +224,11 @@ To rotate the keyset to accept a new signature:
 
    ```pact
    (env-sigs
-     [{ 'key  : 'other-public-key
-      , 'caps : []
+     [{ "key"  : "other-public-key"
+      , "caps" : []
      }
-     ,{ 'key  : 'admin-public-key
-      , 'caps : []
+     ,{ "key"  : "admin-public-key"
+      , "caps" : []
      }]
    )
    ```
@@ -267,15 +265,13 @@ To rotate the keyset to accept a new signature:
    Load successful
    ```
 
-   This output indicates that your test passed and you have successfully rotated
-   the `election.election-admin-keyset` to be governed by an `admin-keyset` that contains
-   the `other-public-key` signature.
+   This output indicates that your test passed and you have successfully rotated the `election.election-admin-keyset` to be governed by an `admin-keyset` that contains the `other-public-key` signature.
 
-## Test your keyset definition
+## Test keyset definition in a principal namespace
 
 In [Define a namespace](/resources/election-workshop/workshop-namespace), you defined a principal namespace for your local development network. 
 In this tutorial, you'll add a keyset definition for your account to govern that principal namespace. 
-As a best practice, you can use the Pact REPL to test the transaction before you submit it on the development network. 
+As a best practice, you should test transactions locally using the Pact REPL before you send them as API requests to the development network. 
 
 To test your keyset definition:
 
@@ -283,15 +279,15 @@ To test your keyset definition:
    
    You might remember that this file:
    
-   - Loads the public key of the `sender00` account and the `ns` module from the local filesystem into the context of the Pact REPL.
+   - Loads the public key of the `sender00` account and the `ns` module from the local filesystem into the environment data of the Pact REPL.
    - Creates the principal namespace using the `ns-name` variable. 
 
 2. Add the following signature and transaction to define the keyset:
 
    ```pact
    (env-sigs
-     [{ 'key  : "368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"
-      , 'caps : []
+     [{ "key"  : "368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"
+      , "caps" : []
      }]
    )
    (begin-tx "Define a keyset in the principal namespace")
@@ -340,12 +336,39 @@ To define a keyset for the principal namespace on the development network:
 
 1. Verify the development network is currently running on your local computer.
 
+2. Open your code editor and navigate to the `election-namespace.ktpl` file that you created previously.
+   
+   For example, open the `~/.kadena/transaction-templates` folder in your code editor.
 
+3. Modify the code in the transaction request to define a keyset in your principal namespace using the public key for the `election-admin` administrator account that you created in [Add an administrator account](/resources/election-workshop/workshop-admin).
+   
+   For example:
+   
+   ```yaml
+   code: |-
+     (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin" ))))
+        (define-namespace ns-name (read-keyset "election-admin" ) (read-keyset "election-admin" ))
+     )
 
+     (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin"))))
+        (namespace ns-name)
+     (define-keyset (format "{}.{}" [ns-name "election-admin"]) (read-keyset "election-admin" ))
+     )
+   ```
+   
+   Note that combining the code to define or redefine the namespace and define a keyset for the namespace doesn't record the namespace name in the transaction results.
+   If you didn't take note of the principal namespace defined for the keyset you used in the previous tutorial, you can rerun the transaction to define the principal namespace or create a separate transaction similar to the following:
+   
+   ```pact
+   (define-namespace (ns.create-principal-namespace (read-keyset "election-admin")) (read-keyset "election-admin") (read-keyset "election-admin"))
+   ```
 
-
+   You'll always get the same unique principal namespace for the same keyset. 
+   The principal namespace for the `d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae` public key used in the previous tutorial is `n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80` and the keyset defined in that namespace for this tutorial is `n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election-admin`.
+   You need this information in the next tutorial.
+   
 You now have a **keyset definition** that governs your principal namespace on the local development network.
-This keyset is controlled by the administrative account you created in Chainweaver.
+This keyset is controlled by the administrative account you created using `kadena-cli` commands.
 
 ## Next steps
 
@@ -353,14 +376,13 @@ In this tutorial, you learned how to:
 
 - Define and update a keyset in the Pact REPL.
 - Test the behavior of keysets before defining a keyset on the blockchain.
-- Use the Kadena client to define a keyset in your principal namespace on the local development network.
+- Create a transaction to define a keyset in your principal namespace on the local development network.
 
 In the next tutorial, you'll create your first **Pact module** for the election application.
-You'll define the Pact module inside of your principal namespace and control how it's used with the keyset you defined in this tutorial. After you complete the tutorial, you'll have the basic functionality for the election application website.
+You'll define the Pact module inside of your principal namespace and control how it's used with the keyset you defined in this tutorial. 
+After you complete the tutorial, you'll have the basic functionality for the election application website.
 
-To see the code for the activity you completed in this tutorial and get the
-starter code for the next tutorial, check out the `06-smart-contracts` branch
-from the `election-workshop` repository by running the following command in your
+To see the code for the activity you completed in this tutorial and get the starter code for the next tutorial, check out the `06-smart-contracts` branch from the `election-workshop` repository by running the following command in your
 terminal shell:
 
 ```bash
