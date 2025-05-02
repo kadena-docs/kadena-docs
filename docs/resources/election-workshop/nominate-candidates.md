@@ -89,8 +89,8 @@ To test table creation:
    ```pact
    (env-data
      { 'admin-keyset:
-         { 'keys : [ "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0" ]
-         , 'pred : 'keys-all
+         { "keys" : [ "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0" ]
+         , "pred" : "keys-all"
          }
      , 'upgrade: false
      , 'init-candidates: true
@@ -98,7 +98,7 @@ To test table creation:
    )
 
    (env-sigs
-     [{ 'key  : "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0"
+     [{ "key"  : "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0"
       , 'caps : []
      }]
    )
@@ -332,7 +332,7 @@ To add candidates to the database:
    (defun add-candidate (candidate)
      (insert
        candidates
-       (at 'key candidate)
+       (at "key" candidate)
        {
          "name": (at 'name candidate),
          "votes": 0
@@ -459,14 +459,14 @@ To guard access to the `add-candidate` function:
    ```pact
    (env-data
      { 'admin-keyset :
-       { 'keys : [ 'other-key ]
-       , 'pred : 'keys-all
+       { "keys" : [ 'other-key ]
+       , "pred" : "keys-all"
        }
      }
    )
 
    (env-sigs
-     [{ 'key  : 'other-key
+     [{ "key"  : 'other-key
       , 'caps : []
      }]
    )
@@ -506,7 +506,7 @@ To guard access to the `add-candidate` function:
      (with-capability (GOVERNANCE)
        (insert
          candidates
-         (at 'key candidate)
+         (at "key" candidate)
          {
            "name": (at 'name candidate),
            "votes": 0
@@ -763,7 +763,7 @@ To modify the frontend to add candidates from the development network:
    ```typescript
    .addData('admin-keyset', {
      keys: [accountKey(sender)],
-     pred: 'keys-all',
+     pred: "keys-all"',
    })
    .addSigner(accountKey(sender))
    ```

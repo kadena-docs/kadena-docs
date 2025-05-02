@@ -337,7 +337,7 @@ To define the database schema and table:
    (env-data
      { 'admin-keyset:
          { 'keys : [ "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0" ]
-         , 'pred : 'keys-all
+         , "pred" : 'keys-all
          }
      , 'init-candidates: true
      , 'init-votes: true
@@ -608,7 +608,7 @@ To verify that the voter account can vote on its own behalf:
 
    ```pact
    (env-sigs
-     [{ 'key  : "voter"
+     [{ "key"  : "voter"
       , 'caps : []
      }]
    )

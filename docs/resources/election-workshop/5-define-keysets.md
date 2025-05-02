@@ -355,7 +355,15 @@ To define a keyset for the principal namespace on the development network:
      (define-keyset (format "{}.{}" [ns-name "election-admin"]) (read-keyset "election-admin" ))
      )
    ```
-   
+
+5. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
+
+6. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed.
+
+7. Send the signed transaction to the blockchain by running the `kadena tx send` command and following the prompts displayed.
+
+8. Verify the transaction results using the request key for the transaction.
+
    Note that combining the code to define or redefine the namespace and define a keyset for the namespace doesn't record the namespace name in the transaction results.
    If you didn't take note of the principal namespace defined for the keyset you used in the previous tutorial, you can rerun the transaction to define the principal namespace or create a separate transaction similar to the following:
    
