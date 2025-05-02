@@ -239,7 +239,8 @@ The following example illustrates using a guard as input to acquire the capabili
 
 (module YODA5 GOV
   (defcap GOV () 
-    (enforce-keyset "n_d5ff15.hello-world")) 
+    (enforce-guard (keyset_ref_guard "n_d5ff15.hello-world"))
+  )
   
   (defcap USER (account:string guard:guard) 
     (enforce-guard guard)) ; This condition requires the guard to be provided as input to sign for the transaction
@@ -267,7 +268,8 @@ The following example illustrates another common enforcement mistake;
 
 (module YODA6 GOV
   (defcap GOV () 
-    (enforce-keyset "n_d5ff15.hello-world"))
+    (enforce-guard (keyset_ref_guard "n_d5ff15.hello-world"))
+  )
 
   (defcap USER (account:string) 
     (enforce (!= account "") "Specify an account")) ; Anyone can sign for this capability
@@ -294,7 +296,8 @@ The following example illustrates using a hard-coded account string instead of r
 
 (module YODA7 GOV
   (defcap GOV () 
-    (enforce-keyset "n_d5ff15.ks")) 
+    (enforce-guard (keyset_ref_guard "n_d5ff15.ks"))
+  )
   
   (defcap USER (account:string) 
     (enforce (= account "k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0") "Invalid account"))
