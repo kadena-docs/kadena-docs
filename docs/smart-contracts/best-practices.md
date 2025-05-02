@@ -24,9 +24,9 @@ The following list summarizes the most common difficulties that developers who a
 
 - Projects often split contract functionality into too many separate contracts—even if they share the same governance—complicating security and the overall design.
 
-- Contract operations that should require user authorization use `enforce-guard` to require a transaction signature without using a capability to scope the user's consent to a particular action. 
-  In Pact, you can enable users to sign for specific capabilities so that they know exactly what operations they are authorizing with their signature.
-  However, if you allow unscoped signatures by using `enforce-guard` without putting it into the body of a capability body, it's impossible for users for know what actions they are authorizing with their signature.
+- Contract operations that require user authorization use the `enforce-guard` function to require a transaction signature without using a capability.
+  In Pact, capabilities enable users to scope their signature to specific actions—explicitly signaling their consent—so that they know exactly what operations they are authorizing with their signature.
+  However, if you allow unscoped signatures by using `enforce-guard` without putting it into the body of a capability code block, it's impossible for users for know what actions they are authorizing with their signature.
 
 - Developers often avoid defining managed capabilities because they seem complex or to introduce friction by requiring users to explicitly authorize the operation they are signing for.
   However, managed capabilities prevent transactions from replay operations that could allow funds to be drained from accounts or other operations could have unintended consequences.
@@ -73,15 +73,18 @@ The following list summarizes patterns, practices, and strategies for writing Pa
   However, it’s generally a better practice to keep the implementation of core functions in the same module unless the functions are governed by different parties.
 
 - Design and document the capabilities your contract requires and the conditions you'll use to enforce that only authorized users have access to privileged operations. 
-  Remember that capabilities can provide fine-grained access control to functions, but only if you enforce the conditions to guard them correctly.
-  Be sure you know how calling a capability using the `with-capability` function differs from calling a capability using the `require-capability` function.
+  Remember that capabilities can provide explicit and fine-grained access control to functions, but only if you enforce the conditions to guard them correctly.
+  Upfront planning can help to ensure you define and grant capabilities precisely where they are needed to make your contract secure.
+  Be sure you know how calling a capability by using the `with-capability` function differs from calling a capability by using the `require-capability` function.
 
 - Keep in mind that any code executed in the same transaction as the transaction that deploys a contract is granted full administrative privilege over the module, including the ability to update the module and edit module tables.
 
 - Create your own [principal namespace](/guides/transactions/howto-namespace-tx) before deploying contracts on the Kadena test or main production network.
 
-- You should always use capabilities to guard contract operations that require user authorization.
-  In most cases, you should define [managed capabilities](/smart-contracts/capabilities#managed-capabilities)) for these types of operations, so that users can explicitly sign for those capabilities to authorize just those specific actions.
+- You should always use [managed capabilities](/smart-contracts/capabilities#managed-capabilities) to guard contract operations that require user authorization and that should only be executed once in a transaction.
+  All capabilities allow users to authorize specific actions. 
+  Managed capabilities allow contracts to keep track of how a capability that's been granted in a transaction can be used, either by setting a limit on a protected resource or by preventing the capability from being granted more than once in a transaction.
+  For functions involving assets transfers, you should use managed capabilities to prevent replay attacks within a transaction.
 
 ## Enforcing access controls
 
@@ -94,8 +97,17 @@ The following examples demonstrate patterns and outcomes for governance and basi
 
 ### Governance
 
-The code defined for the GOVERNANCE capability determines the ownership of a module and its administrative privileges.
-For simplicity in code examples, the body of the GOVERNANCE capability is often set to true. 
+As discussed in [Modules and references](/smart-contracts/modules), every Pact module has a keyset or capability that has full administrative ownership of the module. 
+In most cases, modules define a **governance capability**. 
+The governance capability for a module is different from other capabilities in two important ways: 
+
+- The governance capability for a module provides total control over the code defined in the module.
+  With this capability, the module owner can grant capabilities, access tables, modify module functions, and deploy upgraded module code on the blockchain.
+
+- External code can attempt to take control of a module by acquiring the module's governance capability.
+  Usually, capabilities can only be granted inside the module they are defined in.
+
+In example code for modules, the body of the governance capability is often set to `true` for simplicity.
 For example:
 
 ```pact
@@ -105,7 +117,9 @@ For example:
 )
 ```
 
-If the code associated with a capability—like GOVERNANCE in this example—is simply set to true, no conditions are being enforced to restrict access and the capability is always granted.
+If the code associated with a capability—like GOV in this example—is simply set to true, no conditions are being enforced to restrict access and the capability is always granted when requested.
+Any Pact code can take total control over the module.
+
 If you don't enforce any restrictions on the module administrative privileges, anyone can take control of the contract and modify its tables and functions. 
 This vulnerability might seem insignificant while you're testing in a development environment.
 However, it's important to plan for and implement access controls that prevent unauthorized use of functions that perform any type of sensitive or privileged operation.
@@ -116,7 +130,8 @@ You can find more complex and complete examples in the `coin` contract and in th
 As previously noted, the following pattern is often used in sample code for simplicity:
 
 ```pact
-(namespace 'free)
+(namespace "free")     ; Public namespace used for testing only
+
 (module YODA0 GOV
   (defcap GOV () true) ; Anyone can take over the governance of the module with this capability body
   
@@ -131,11 +146,11 @@ You should only use this pattern in your local development environment and in th
 Another common mistake is to read a keyset or message that doesn't enforce a signing key to grant a capability as illustrated in the following example:
 
 ```pact
-(namespace 'free)
+(namespace "n_d5ff15")
 
 (module YODA1 GOV
   (defcap GOV () 
-    (enforce-keyset (read-keyset 'hello-world))) ; You can put any value into hello-world
+    (enforce-keyset (read-keyset "hello-world"))) ; You can put any value into hello-world
   
   (defun hello-world:string (input:string)
     (format "Hello {}" [input]))
@@ -146,49 +161,53 @@ In this example, the `read-keyset` function reads whatever value is defined unde
 The `read-keyset` function doesn't verify that the value under the "hello-world" key represents a valid keyset object, valid values, or a keyset you control.
 If someone else specifies a valid keyset in the environment data, that keyset would pass the governance check and take control of the module.
 
-The following example is similar except that it identifies a specific keyset name to enforce—not just read—and specifies that the keyset exists within the `free` namespace:
+The following example is similar except that it identifies a specific keyset name to enforce—not just read—and specifies that the keyset exists within the `n_d5ff15` namespace:
 
 ```pact
-(namespace 'free)
+(namespace "n_d5ff15")
 
 (module YODA2 GOV
   (defcap GOV () 
-    (enforce-keyset "free.hello-world")) ; You must create the keyset on-chain in the same transaction
-                                         ; used to deploy the module
+    (enforce-keyset "n_d5ff15.hello-world")) ; You must create the keyset on-chain in the same transaction
+                                             ; used to deploy the module
   (defun hello-world:string (input:string)
     (format "Hello {}" [input]))
 )
 ```
 
-This example uses the correct syntax, but the `free.hello-world` keyset could be claimed by someone else if you don't create the keyset in the message payload for the transaction used to deploy the module.
+This example uses the correct syntax, but the `n_d5ff15.hello-world` keyset could be claimed by someone else if you don't create the keyset in the message payload for the transaction used to deploy the module.
 
 The following example illustrates a more secure pattern that defines a keyset, then uses that keyset to control the administrative privileges for a module:
 
 ```pact
-(namespace 'free)
-(define-keyset "free.hello-world" (read-keyset 'ks))
+(namespace "n_d5ff15")
+
+(define-keyset "n_d5ff15.hello-world" (read-keyset 'ks))
 
 (module YODA3 GOV
   (defcap GOV () 
-    (enforce-keyset "free.hello-world")) ; Correct usage for deploying a module in the free namespace
+    (enforce-guard (keyset_ref_guard "n_d5ff15.hello-world")) ; Correct usage for deploying a module 
+  )
   (defun hello-world:string (input:string)
     (format "Hello {}" [input]))
 )
 ```
 
-In this example, you define a `hello-world` keyset in the `free` namespace and must include the `ks` keyset definition in the environment data for testing in the Pact REPL or in the message payload for deployment.
+In this example, you define a `hello-world` keyset in the `n_d5ff15` principal namespace and must include the `ks` keyset definition in the environment data for testing in the Pact REPL or in the message payload for deployment.
 
 ### Basic capabilities
 
 The following example illustrates defining a second capability to control access to a specific function:
 
 ```pact
-(namespace 'free)
-(define-keyset "free.hello-world" (read-keyset 'ks))
+(namespace "n_d5ff15")
+
+(define-keyset "n_d5ff15.hello-world" (read-keyset 'ks))
 
 (module YODA4 GOV
   (defcap GOV () 
-    (enforce-keyset "free.hello-world")) 
+     (enforce-guard (keyset_ref_guard "n_d5ff15.hello-world"))
+  ) 
   (defcap USER (account:string) 
     (enforce-guard (at 'guard (coin.details account)))) ; This condition requires an account to exist, but will  
                                                         ; validate that the account guard matches the signer
@@ -204,7 +223,7 @@ The `hello-world` function has also been modified to require an `account` string
 For example:
 
 ```pact
-(free.YODA4.hello-world "Robot" "k:000ca7383b2267a0ffe768b97b96104d0fb82e576c53e35a6a44e0bb675c53ce")
+(n_d5ff15.YODA4.hello-world "Robot" "k:000ca7383b2267a0ffe768b97b96104d0fb82e576c53e35a6a44e0bb675c53ce")
 ```
 
 With this pattern, the condition for the USER capability checks that the guard matches the specified account.
@@ -214,12 +233,13 @@ The USER capability now enforces that only the specified account can run the `he
 The following example illustrates using a guard as input to acquire the capability to access a specific function:
 
 ```pact
-(namespace 'free)
-(define-keyset "free.hello-world" (read-keyset 'ks))
+(namespace "n_d5ff15")
+
+(define-keyset "n_d5ff15.hello-world" (read-keyset 'ks))
 
 (module YODA5 GOV
   (defcap GOV () 
-    (enforce-keyset "free.hello-world")) 
+    (enforce-keyset "n_d5ff15.hello-world")) 
   
   (defcap USER (account:string guard:guard) 
     (enforce-guard guard)) ; This condition requires the guard to be provided as input to sign for the transaction
@@ -235,19 +255,19 @@ If the guard is a keyset, you can use the `read-keyset` function and keyset name
 For example, if the guard is the keyset you defined using `ks` as the keyset name, you could call the function with arguments similar to the following:
 
 ```pact
-(free.YODA5.hello-world "Robot" "k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0" (read-keyset 'ks)) 
+(n_d5ff15.YODA5.hello-world "Robot" "k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0" (read-keyset 'ks)) 
 "Hello Robot"
 ```
 
 The following example illustrates another common enforcement mistake;
 
 ```pact
-(namespace 'free)
-(define-keyset "free.hello-world" (read-keyset 'ks))
+(namespace "n_d5ff15")
+(define-keyset "n_d5ff15.hello-world" (read-keyset 'ks))
 
 (module YODA6 GOV
   (defcap GOV () 
-    (enforce-keyset "free.hello-world"))
+    (enforce-keyset "n_d5ff15.hello-world"))
 
   (defcap USER (account:string) 
     (enforce (!= account "") "Specify an account")) ; Anyone can sign for this capability
@@ -262,19 +282,19 @@ With this pattern, any string used for the `account` argument passes the enforce
 For example, any value can be used with this function:
 
 ```pact
-(free.YODA6.hello-world "Robot" "jae") 
+(n_d5ff15.YODA6.hello-world "Robot" "jae") 
 "Hello Robot"
 ```
 
 The following example illustrates using a hard-coded account string instead of reading a keyset or guard from a table or the message payload:
 
 ```pact
-(namespace "free")
-(define-keyset "free.ks" (read-keyset 'ks))
+(namespace "n_d5ff15")
+(define-keyset "n_d5ff15.ks" (read-keyset 'ks))
 
 (module YODA7 GOV
   (defcap GOV () 
-    (enforce-keyset "free.ks")) 
+    (enforce-keyset "n_d5ff15.ks")) 
   
   (defcap USER (account:string) 
     (enforce (= account "k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0") "Invalid account"))
@@ -288,13 +308,13 @@ The following example illustrates using a hard-coded account string instead of r
 If the enforced `account` string is used, the capability is acquired:
 
 ```pact
-(free.YODA7.hello-world "Robot" "k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0")
+(n_d5ff15.YODA7.hello-world "Robot" "k:4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0")
 "Hello Robot"
 ```
 
 If any other account or arbitrary string is used, the operation fails:
 
 ```pact
-(free.YODA7.hello-world "Robot" "k:9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99")
+(n_d5ff15.YODA7.hello-world "Robot" "k:9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99")
 Error: <interactive>:9:4: Invalid account
 ```
