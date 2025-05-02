@@ -473,13 +473,16 @@ To deploy the Pact module on the development network:
    )
    ```
 
-5. Create a new transaction template (`.ktpl`) named `election-module-devnet.ktpl` file in the `~/.kadena/transaction-templates` folder.
+5. Create a new transaction template named `election-module-devnet.ktpl` file in the `~/.kadena/transaction-templates` folder.
 
-4. Open the `election-module-devnet.ktpl` file in your code editor to create a reusable transaction request similar to the following using the path to the election.pact file that contains your Pact module code.
+6. Open the `election-module-devnet.ktpl` file and create a reusable transaction request similar to the following using the path to the `election.pact` file that contains your Pact module code.
    
    ```pact
    codeFile: "../../election.pact"
    data:
+     election-admin:
+       keys: ["{{public-key}}"]
+       pred: "keys-all"
    meta:
      chainId: "{{chain-id}}"
      sender: "{{{sender-account}}}"
@@ -492,38 +495,18 @@ To deploy the Pact module on the development network:
    networkId: "{{network-id}}"
    ```
    
-5. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
+7. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
 
-5. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
+8. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed.
 
-6. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed.
+9. Send the signed transaction to the blockchain by running the `kadena tx send` command and following the prompts displayed.
 
-7. Send the signed transaction to the blockchain by running the `kadena tx send` command and following the prompts displayed.
-
-8. Verify the transaction results using the request key for the transaction.
-   
-   You now have a smart contract with one `election` module governed by the `admin-keyset` deployed in your principal namespace on your local development network.
-
-## Update your deployed Pact module
-
-Being able to update a deployed smart contract is an important part of building applications on the Kadena network. Many blockchain projects don't allow smart contracts to be updated after they have been deployed on the public blockchain.
-With Kadena, you can build and deploy iteratively so you can add new features and fix bugs as your application matures.
-
-To test updating a deployed smart contract:
-
-1. Open the `election-workshop/pact/election.pact` file in the code editor.
-
-2. Modify the `list-candidates` function to return a different list. 
-   For example:
-
-   ```pact
-     (defun list-candidates () [1, 2, 3, 4, 5])
-   ```
-
-3. Redeploy the updated module using `kadena tx` commands.
+   You can verify the transaction results using the request key for the transaction.
 
 ## Next steps
 
+Congratulations! 
+You now have a smart contract with one `election` module governed by the `election-admin` deployed in your principal namespace on your local development network.
 In this tutorial, you learned how to:
 
 - Define a minimal Pact module.
@@ -532,15 +515,13 @@ In this tutorial, you learned how to:
 - Implement governance for a module by using a capability.
 - Update a deployed module governed by your keyset.
 
-So far, your `election` module only contains one simple function that doesn't do very much. 
+So far, your `election` module only contains one simple function. 
 The next tutorial demonstrates how to add a schema and a database table to the `election` module and how to use that table to store the names of election candidates and the number of votes each candidate receives.
 
 You'll also update the `list-candidates` function to return data from the database table and add a new function to nominate candidates.
 
 To see the code for the activity you completed in this tutorial and get the
-starter code for the next tutorial, check out the `07-nominate-candidates`
-branch from the `election-workshop` repository by running the following command in
-your terminal shell:
+starter code for the next tutorial, check out the `07-nominate-candidates` branch from the `election-workshop` repository by running the following command in your terminal shell:
 
 ```bash
 git checkout 07-nominate-candidates
