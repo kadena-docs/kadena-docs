@@ -1,6 +1,6 @@
 # do
 
-Use `do` to evaluate a sequence of expressions and return the last one as the result.
+Use `do` to evaluate a sequence of expressions in order and only return the result from the last expression.
 
 ## Basic syntax
 

@@ -17,7 +17,7 @@ Use the following arguments to specify the inputs for computing the Poseidon has
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| `i`, `j`, `k`, `l`, `m`, `n`, `o`, `p` | `integer` | Specifies the inputs for the Poseidon hash function. |
+| `i`, `j`, `k`, `l`, `m`, `n`, `o`, `p` | integer | Specifies the inputs for the Poseidon hash function. |
 
 ## Return value
 
