@@ -228,15 +228,43 @@ To update the list-candidates function to read data from a table:
 
 ## Add candidates
 
-At this point, you have a database table for storing candidate names and the
-votes they've received, but without any candidates for anyone to vote on.
+At this point, you have a database table for storing candidate names and the votes they've received, but without any candidates for anyone to vote on.
 
 To add candidates to the database:
 
-1. Open the `election-workshop/pact/election.repl` file in your code editor.
+1. Open the `election-workshop/pact/election.pact` file in your code editor.
 
-2. Add a transaction to test that candidates have been added to the database
-   using the `election.add-candidate` function:
+2. Define a new `add-candidate` function inside the `election` module declaration.
+   You'll use this function to insert candidate information from a JSON object into each row in the `candidates` table.
+   The function uses the `insert` built-in function to add each candidate to the table.
+
+   ```pact
+   (defun add-candidate (candidate:object)
+     (insert candidates
+       (at "key" candidate)
+       {
+         "name": (at "name" candidate),
+         "votes": 0
+       }
+     )
+   )
+   ```
+
+   In this code, you pass the following arguments to the `insert` function:
+   
+   - The name of table you want to update. 
+     In this case, the table is the `candidates` table. 
+   - The value for the key of the row to be inserted. 
+     In this case, the value of the `key` field is extracted from the `candidate` object.
+   - The key-value object representing the row to be inserted into the table. 
+     The object consists of a `name` key and a `votes` key that correspond to the columns in the schema for the `candidates` table.
+     In this case, the `votes` column of the new value always gets a value `0` and the `name` column gets the name you specify in the JSON object.
+
+   Now that you've added the `add-candidate` function to the `election` module, you can test it by adding tests to the `election.repl` file.
+
+3. Open the `election-workshop/pact/election.repl` file in your code editor.
+
+4. Add a transaction to test that candidates can be added to the database using the `election.add-candidate` function:
 
    ```pact
    (begin-tx "Add candidates")
@@ -259,84 +287,58 @@ To add candidates to the database:
    (commit-tx)
    ```
 
-   If you were to execute the transaction now, the test would fail because the
-   `add-candidate` function doesn't exist yet in the `election` module and you
-   would see output similar to the following:
+   Notice that each candidate object has the fields `key` and `name`, while the `candidate-schema` you defined for the `candidates` table has columns for `name` and `votes`. 
+   Because the `add-candidate` function sets the `votes` column to have an initial value of `0` when a new candidate is added, you don't need to send a value for votes in the transaction.
+
+   The `key` value is a unique index for the table row that is added. 
+   This value can't be automatically generated, so you have to pass a value yourself.
+
+5. Execute the code in the `election.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
 
    ```bash
-   election.repl:40:0:Error: Cannot resolve add-candidate
-   Load failed
-   ```
-
-   However, from this code, you can see that the `add-candidate` function
-   accepts a candidate object as an argument, and that the object is defined in
-   JSON format.
-
-   Notice that this object has the fields `key` and `name`, while the
-   `candidate-schema` you defined for the `candidates` table has two columns
-   `name` and `votes`. The `votes` column always has an initial value of `0`
-   when a new candidate is added, so you don't need to send a value for votes in
-   the transaction.
-
-   The `key` value is a unique index for the table row that is added. This value
-   can't be automatically generated, so you have to pass a value yourself.
-
-3. Open the `election-workshop/pact/election.pact` file in your code editor.
-
-4. Define the `add-candidate` function inside the `election` module definition to
-   receive a `candidate` JSON object and call the built-in `insert` function:
-
-   ```pact
-   (defun add-candidate (candidate)
-     (insert
-       candidates
-       (at "key" candidate)
-       {
-         "name": (at 'name candidate),
-         "votes": 0
-       }
-     )
-   )
-   ```
-
-   In this code, you pass the following arguments to the `insert` function:
-   
-   - The name of table you want to update. 
-     In this case, the table is the `candidates` table. 
-   - The value for the key of the row to be inserted. 
-     In this case, the value of the `key` field is extracted from the `candidate` object
-   - The key-value object representing the row to be inserted into the table. 
-     The keys correspond to the column names.
-     In this case, the `votes` column of the new value always gets a value `0` and the `name` column gets a value of `"Candidate A"`, `"Candidate B"`, or `"Candidate C"`, as per your test cases.
-
-   Now that you've added the `add-candidate` function to the `election` module, you can test it using the `election.repl` file.
-
-1. Execute the transaction using the `pact` command-line program:
-
-   ```pact
    pact election.repl --trace
    ```
 
    You should see that the transaction succeeds with output similar to the following:
 
    ```bash
-   election.repl:39:0:Trace: Using n_14912521e87a6d387157d526b281bde8422371d1.election
-   election.repl:40:0:Trace: Expect: success: Add Candidate A
-   election.repl:45:0:Trace: Expect: success: Add Candidate B
-   election.repl:50:0:Trace: Expect: success: Add Candidate C
-   election.repl:55:0:Trace: Commit Tx 4: Add candidates
+   ...
+   election.repl:37:0-37:27:Trace: "Begin Tx 4 Add candidates"
+   election.repl:38:5-38:62:Trace: Loaded imports from n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
+   election.repl:39:5-43:6:Trace: "Expect: success Add Candidate A"
+   election.repl:44:5-48:6:Trace: "Expect: success Add Candidate B"
+   election.repl:49:5-53:6:Trace: "Expect: success Add Candidate C"
+   election.repl:54:0-54:11:Trace: "Commit Tx 4 Add candidates"
    Load successful
    ```
 
-   The key of each row in a table must be unique. You can add a transaction to
-   the `election.repl` file to test that you can't insert a row with a duplicate
-   key.
-
-2. Add a transaction to the `election.repl` file to test that you can't insert a row with a duplicate key:
+   You can add a transaction to call the `list-candidates` function after adding candidates to the database in the `election.repl` file like this:
 
    ```pact
-   (begin-tx "Add candidate with existing key")
-     (use n_14912521e87a6d387157d526b281bde8422371d1.election)
+   (begin-tx "List candidates")
+     (use n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election)
+       (list-candidates)
+   (commit-tx)
+   ```
+   
+   Now that there's data in the table, the `list-candidates` function returns the rows from the table:
+
+   ```bash
+   ...
+   election.repl:57:2-57:59:Trace: Loaded imports from n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
+   election.repl:58:4-58:21:Trace: [{"key": "1","name": "Candidate A","votes": 0} {"key": "2","name": "Candidate B","votes": 0} {"key": "3","name": "Candidate C","votes": 0}]
+   election.repl:59:0-59:11:Trace: "Commit Tx 5 List candidates"
+   Load successful
+   ```
+   
+   Because the key for each row in a table must be unique, you should test that you can't insert a row with a duplicate
+   key.
+
+6. Add a transaction to the `election.repl` file to test that you can't insert a row with a duplicate key:
+
+   ```pact
+   (begin-tx "Add candidate with existing key fails")
+     (use n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election)
      (expect-failure
        "Database exception: Insert: row found for key 1"
        (add-candidate { "key": "1", "name": "Candidate D" })
@@ -344,22 +346,22 @@ To add candidates to the database:
    (commit-tx)
    ```
 
-   If you were to execute this transaction, it would fail—as expected—with
-   output similar to the following:
+   If you were to execute this transaction, it would fail—as expected—with output similar to the following:
 
    ```bash
-   election.repl:57:0:Trace: Begin Tx 5: Add candidate with existing key
-   election.repl:58:2:Trace: Using n_14912521e87a6d387157d526b281bde8422371d1.election
-   election.repl:59:2:Trace: Expect failure: success: Database exception: Insert: row found for key 1
-   election.repl:63:0:Trace: Commit Tx 5: Add candidate with existing key
+   ...
+   election.repl:61:0-61:50:Trace: "Begin Tx 6 Add candidate with existing key fails"
+   election.repl:62:0-62:57:Trace: Loaded imports from n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
+   election.repl:63:0-66:1:Trace: "Expect failure: Success: Database exception: Insert: row found for key 1"
+   election.repl:67:0-67:11:Trace: "Commit Tx 6 Add candidate with existing key fails"
    Load successful
    ```
 
-3. Verify that you only have three candidates in the table by adding the following assertion to the `election-workshop/pact/election.repl` file:
+7. Verify that you only have three candidates in the table by adding the following assertion to the `election-workshop/pact/election.repl` file:
 
    ```pact
    (begin-tx "List candidates")
-     (use n_14912521e87a6d387157d526b281bde8422371d1.election)
+     (use n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election)
      (expect
        "There should be three candidates"
        3
@@ -368,68 +370,87 @@ To add candidates to the database:
    (commit-tx)
    ```
 
-4. Execute the transaction using the `pact` command-line program:
+5. Execute the code in the `election.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
 
-   ```pact
+   ```bash
    pact election.repl --trace
    ```
 
-   You should see that the transaction succeeds with output similar to the
-   following:
+   You should see that the transaction succeeds with output similar to the following:
 
    ```bash
+   ...
    election.repl:64:0:Trace: Begin Tx 6: List candidates
-   election.repl:65:2:Trace: Using n_14912521e87a6d387157d526b281bde8422371d1.election
+   election.repl:65:2:Trace: Using n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
    election.repl:66:2:Trace: Expect: success: There should be three candidates
    election.repl:71:0:Trace: Commit Tx 6: List candidates
    Load successful
    ```
 
-   You've now seen how candidates can be stored in a database table and that the
-   `list-candidates` function works as expected to retrieve information from
-   that table. The next step is to restrict access to the `add-candidate`
-   function, so that ony the `election` module owner can update the `candidates`
-   database.
+   You've now seen how candidates can be stored in a database table and that the `list-candidates` function works as expected to retrieve information from that table. 
+   The next step is to restrict access to the `add-candidate` function, so that ony the `election` module owner can update the `candidates` database.
 
 ## Guard add-candidate with a capability
 
-Right now, the `add-candidate` function is publicly accessible. Anyone with a
-Kadena account can nominate a candidate. If everyone can nominate and vote on
-anyone, the whole election process and the idea of representative governance
-breaks down. To prevent that kind of chaos, you need a gatekeeper—a guard—that
-restricts access to the nominating process and the number of candidates to be
-voted on.
+At this point, the `add-candidate` function is a public function that anyone can use to nominate candidates. 
+To prevent that kind of election chaos, you need a gatekeeper—a guard—that restricts access to the nominating process and the number of candidates or proposals to be voted on.
 
-For the election application, this gatekeeper or **guard** is the holder of the
-`admin-keyset` administrative account. To restrict access to the `add-candidate`
-function, you can use the `GOVERNANCE` capability. The `GOVERNANCE` capability
-enforces the use of the `admin-keyset` to sign transactions that call specific
-functions. In the election application, the `GOVERNANCE` capability protects
-access to the `add-candidate` function.
+For the election application, this gatekeeper or **guard** is the holder of the `election-admin` administrative account. 
+To restrict access to the `add-candidate` function, you can define a new `ELECTION-ADMIN` capability. 
+With this capability, you can enforce that the `election-admin` must sign transactions that call specific functions. For the `election` module, you'll use the `ELECTION-ADMIN` capability to protect access to the `add-candidate` function.
 
 To guard access to the `add-candidate` function:
 
-1. Open the `election-workshop/pact/election.repl` file in the code editor on your
-   computer.
+1. Open the `election-workshop/pact/election.pact` file in your code editor.
 
-2. Add a transaction in which you expect adding a fourth candidate to fail.
+2. Define a new ELECTION-ADMIN capability that enforces the use of the `election-admin` administrative account.
+   
+   ```pact
+   (defcap ELECTION-ADMIN () 
+     (enforce-guard (keyset-ref-guard "n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election-admin")))
+   ```
+
+3. Update the `add-candidate` function to check whether the `ELECTION-ADMIN` capability is granted:
+
+   ```pact
+   (defun add-candidate (candidate:object)
+     (with-capability (ELECTION-ADMIN)
+       (insert candidates
+         (at "key" candidate)
+         {
+           "name": (at "name" candidate),
+           "votes": 0
+         }
+       )
+     )
+   )
+   ```
+
+   The `with-capability` function ensures that the `ELECTION-ADMIN` capability is in scope for the code block—the capability body—that inserts a `candidate` object into the `candidates` table. 
+   If the `ELECTION-ADMIN` capability can't be granted, because of a keyset failure in this case, the code block wrapped by the `with-capability` function isn't executed.
+
+   After making these changes in the `election.pact` file, you should add tests to verify the code works as you expect it to.
+
+4. Open the `election-workshop/pact/election.repl` file in the code editor.
+
+5. Add a transaction in which you expect adding a fourth candidate to fail.
 
    ```pact
    (env-data
-     { 'admin-keyset :
-       { "keys" : [ 'other-key ]
+     { "admin-keyset" :
+       { "keys" : [ "other-key" ]
        , "pred" : "keys-all"
        }
      }
    )
 
    (env-sigs
-     [{ "key"  : 'other-key
-      , 'caps : []
+     [{ "key"  : "other-key"
+      , "caps" : []
      }]
    )
 
-   (begin-tx "Add candidate without permission")
+   (begin-tx "Add candidate without permission fails")
      (use n_14912521e87a6d387157d526b281bde8422371d1.election)
      (expect-failure
        "Adding a candidate with the wrong keyset should fail"
@@ -439,174 +460,145 @@ To guard access to the `add-candidate` function:
    (commit-tx)
    ```
 
-3. Execute the transaction using the `pact` command-line program:
-   
-   ```pact
+6. Execute the code in the `election.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
+
+   ```bash
    pact election.repl --trace
    ```
 
-   You should see that the transaction fails with output similar to the
-   following:
+   You should see that the using the `add-candidate` function is a guarded operation that fails when the wrong keyset is used with output similar to the following:
 
    ```bash
-   election.repl:89:4:Trace: FAILURE: Adding a candidate with the wrong keyset should fail: expected failure, got result = "Write succeeded"
-   election.repl:94:2:Trace: Commit Tx 7: Add candidate without permission
-   election.repl:89:4:ExecError: FAILURE: Adding a candidate with the wrong keyset should fail: expected failure, got result = "Write succeeded"
-   Load failed
-   ```
-
-4. Open the `election-workshop/pact/election.pact` file in your code editor.
-
-5. Update the `add-candidate` function to add a capability guard as follows:
-
-   ```pact
-   (defun add-candidate (candidate)
-     (with-capability (GOVERNANCE)
-       (insert
-         candidates
-         (at "key" candidate)
-         {
-           "name": (at 'name candidate),
-           "votes": 0
-         }
-       )
-     )
-   )
-   ```
-
-   The `with-capability` function tries to bring the `GOVERNANCE` in scope of the code block that it wraps. 
-   If it fails to do so, because of a keyset failure in this case, the wrapped code block isn't executed. 
-   
-6. Execute the transaction using the `pact` command-line program:
-   
-   ```pact
-   pact election.repl --trace
-   ```
-
-   You should see output similar to the following that verifies the
-   `add-candidate` function is now guarded by the `GOVERNANCE` capability:
-
-   ```bash
-   election.repl:87:2:Trace: Begin Tx 7: Add candidate without permission
-   election.repl:88:4:Trace: Using n_14912521e87a6d387157d526b281bde8422371d1.election
-   election.repl:89:4:Trace: Expect failure: success: Adding a candidate with the wrong keyset should fail
-   election.repl:94:2:Trace: Commit Tx 7: Add candidate without permission
+   ...
+   election.repl:77:3-83:3:Trace: "Setting transaction data"
+   election.repl:85:2-89:3:Trace: "Setting transaction signatures/caps"
+   election.repl:91:2-91:53:Trace: "Begin Tx 8 Add candidate without permission fails"
+   election.repl:92:4-92:61:Trace: Loaded imports from n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
+   election.repl:93:4-97:5:Trace: "Expect failure: Success: Adding a candidate with the wrong keyset should fail"
+   election.repl:98:2-98:13:Trace: "Commit Tx 8 Add candidate without permission fails"
    Load successful
    ```
 
-## Update the election module locally
+7. Clear the environment data and signature and add another transaction to try to call the `add-candidate` function.
 
-Now that you've updated and tested your `election` module using the Pact REPL,
-you can update the module deployed on the local development network.
+   ```pact
+   (env-data {})
+   (env-sigs [])
+   (begin-tx "Add candidate without permission fails")
+     (use n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election)
+     (add-candidate { "key": "4", "name": "Candidate D" })
+   (commit-tx)
+   ```
+
+8. Execute the code in the `election.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
+
+   ```bash
+   pact election.repl --trace
+   ```
+
+   You should see that calling the `add-candidate` function fails with output similar to the following:
+
+   ```bash
+   ...
+   election.repl:103:2-103:59:Trace: Loaded imports from n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
+   election.pact:11:5: Keyset failure (keys-all): [d0aa3280...]
+    11 |      (enforce-guard (keyset-ref-guard "n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election-admin")))
+       |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     at(n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.ELECTION-ADMIN.{Cp4zNjFLxwm66mq6BWMpo4z1seYIjWyOfsPXXUNkcxE}):election-07-wip.pact:26:5-34:6
+     at(n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate.{Cp4zNjFLxwm66mq6BWMpo4z1seYIjWyOfsPXXUNkcxE} {"key": "4","...}):election.repl:104:2-104:55
+   ```
+   
+9. Remove the changes to the environment data and signatures and the last two transactions, then execute the code in the `election.repl` file to verify that the file loads successfully using the `election-admin` keyset guard.
+
+## Deploy the election module locally
+
+Now that you've updated and tested your `election` module using the Pact REPL, you can update the module deployed on the local development network.
 
 To update the `election` module on the development network:
 
 1. Verify the development network is currently running on your local computer.
 
-2. Open and unlock the Chainweaver desktop or web application and verify that:
-
-   - You're connected to **development network (devnet)** from the network list.
-   - Your administrative account name with the **k:** prefix exists on chain 1.
-   - Your administrative account name is funded with KDA on chain 1.
-
-   You're going to use Chainweaver to sign the transaction that updates the
-   module.
-
-3. Open the `election-workshop/snippets` folder in the terminal shell.
-
-4. Update your `election` module on the development network by running a command
-   similar to the following with your administrative account name:
-
-   ```bash
-   npm run deploy-module:devnet -- k:<your-public-key> upgrade init-candidates
-   ```
+2. Open the `election-module-devnet.ktpl` file, add the `"init-candidates": true` property to the transaction data, and save the file.
    
-   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/workshop-admin).
-   You can copy this account name from Chainweaver when viewing the account watch list. 
-  
-   In addition to the account name, you pass `upgrade` and `init-candidates` to add`{"init-candidates": true, "upgrade": true}` to the transaction data.
-   These fields are required to allow you to update the module and execute the `(create-table candidates)` statement from your `election` module.
-
-1. Click **Sign All** in Chainweaver to sign the request.
-
-   After you click Sign All, the transaction is executed and the results are
-   displayed in your terminal shell. For example, you should see output similar
-   to the following:
-
-   ```bash
-   {
-     gas: 60855,
-     result: { status: 'success', data: [ 'TableCreated' ] },
-     reqKey: 'Bd80eOQ-yeWqrcsj6iEuFZ2rcMrv3OsWXhGZKOyEkHw',
-     logs: 'UjxuW6e-d_p2nmYsytoqdKjqza3Gq_839IIWZ1uQDDs',
-     events: [
-       {
-         params: [Array],
-         name: 'TRANSFER',
-         module: [Object],
-         moduleHash: 'M1gabakqkEi_1N8dRKt4z5lEv1kuC_nxLTnyDCuZIK0'
-       }
-     ],
-     metaData: {
-       publicMeta: {
-         creationTime: 1705172812,
-         ttl: 28800,
-         gasLimit: 100000,
-         chainId: '1',
-         gasPrice: 1e-8,
-         sender: 'k:5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0'
-       },
-       blockTime: 1705172951004717,
-       prevBlockHash: 'AMJ6IoPnkMJ8WZFe6Vso5uuYAhep4gP87ANb7rYyvwg',
-       blockHeight: 14456
-     },
-     continuation: null,
-     txId: 14483,
-     preflightWarnings: []
-   }
-   { status: 'success', data: [ 'TableCreated' ] }
+   ```yaml
+   data:
+     election-admin:
+       keys: ["{{public-key}}"]
+       pred: "keys-all"
+     "init-candidates": true
    ```
 
-2. Verify your contract changes in the Chainweaver Module Explorer by refreshing
-   the list of **Deployed Contracts**, then clicking **View** for the `election`
-   module.
+3. Create a transaction that uses the `election-module-devnet.ktpl` template by running the `kadena tx add` command and following the prompts displayed.
 
-   After you click View, the Module Explorer displays the `list-candidates` and
-   `add-candidate` functions. If you click **Open**, you can view the module
-   code in the editor pane and verify that the `election` module deployed on the
-   local development network is what you expect.
+4. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed.
+
+5. Send the signed transaction to the blockchain by running the `kadena tx send` command and following the prompts displayed.
+
+   You can verify the transaction results using the request key for the transaction.
+  
+   ![Election module deployed on the development chain](/img/election-workshop/deploy-module.png)
+
+## Add a candidate
+
+After you deploy the module on the local development network, you can use your administrative account to add, sign, and send transactions that add candidates to the `candidates` table.
+
+To add a candidate to the `election` module you have deployed on the development network:
+
+1.  Create a new reusable transaction template named `add-election-candidate.ktpl` in the `~/.kadena/transaction-templates` folder.
+
+2. Open the `add-election-candidate.ktpl` file and create a YAML transaction request similar to the following.
+   
+   ```pact
+   code: |-
+   (n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate  { "key": "1", "name": "Maya Garcia" })
+   data:
+      election-admin:
+        keys: ["{{public-key}}"]
+        pred: "keys-all"
+   meta:
+      chainId: "{{chain-id}}"
+      sender: "{{{sender-account}}}"
+      gasLimit: 80300
+      gasPrice: 0.000001
+      ttl: 600
+   signers:
+      - public: "{{public-key}}"
+        caps: []
+   networkId: "{{network-id}}"
+   ```
+
+7. Create a transaction that uses the `add-election-candidate.ktpl` template by running the `kadena tx add` command and following the prompts displayed.
+
+8. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed.
+
+9. Send the signed transaction to the blockchain by running the `kadena tx send` command and following the prompts displayed.
+   
+   You can verify the transaction results using the request key for the transaction.
+   
+   ![Candidate added to the blockchain successfully](/img/election-workshop/add-candidate.png)
 
 ## Connect the frontend
 
-You now have the election backend defined in a smart contract running on the
-development network. To make the functions in the smart contract available to
-the election application website, you need to modify the frontend to exchange
-data with the development network.
+You now have the election backend defined in a smart contract running on the development network. 
+To make the functions in the smart contract available to the election application website, you need to modify the frontend to exchange data with the development network.
 
-The frontend, written in TypeScript, uses repositories to exchange data with the
-backend. The interfaces for these repositories are defined in the
-`frontend/src/types.ts` file. By default, the frontend uses the in-memory
-implementations of the repositories. By making changes to the implementation of
-the `interface ICandidateRepository` in
-`frontend/src/repositories/candidate/DevnetCandidateRepository.ts`, you can
-configure the frontend to use the `devnet` backend instead of the `in-memory`
-backend. After making these changes, you can use the frontend to add candidates
-to and list candidates from the `candidates` table managed by your `election`
-module running on the development network blockchain.
-
-### List candidates
+The frontend, written in TypeScript, uses repositories to exchange data with the backend. 
+The interfaces for these repositories are defined in the `frontend/src/types.ts` file. 
+By default, the frontend uses the in-memory implementations of the repositories. 
+By making changes to the implementation of the `interface ICandidateRepository` in `frontend/src/repositories/candidate/DevnetCandidateRepository.ts`, you can configure the frontend to use the `devnet` backend instead of the `in-memory` backend. 
+After making these changes, you can use the frontend to view candidates from the `candidates` table managed by your `election` module running on the development network blockchain.
 
 To modify the frontend to list candidates from the development network:
 
-1. Open
-   `election-workshop/frontend/src/repositories/candidate/DevnetCandidateRepository.ts`
-   in your code editor.
+1. Open `election-workshop/frontend/src/repositories/candidate/DevnetCandidateRepository.ts` in your code editor.
 
-2. Replace the value of the `NAMESPACE` constant with your own principal
-   namespace.
+2. Update the values for the `CHAIN_ID` and `NAMESPACE` constants with the chain where you deployed the election modules and your own principal namespace.
 
    ```typescript
-   const NAMESPACE = 'n_14912521e87a6d387157d526b281bde8422371d1';
+   const NETWORK_ID = 'development';
+   const CHAIN_ID = '3';
+   const API_HOST = `http://localhost:8080/chainweb/0.0/${NETWORK_ID}/chain/${CHAIN_ID}/pact`;
+   const NAMESPACE = 'n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80';
    ```
 
 3. Review the `listCandidates` function:
@@ -631,36 +623,28 @@ To modify the frontend to list candidates from the development network:
    };
    ```
     
-1. Remove the `@ts-ignore` comment and notice that the name of your module cannot be found in `Pact.modules`.
+4. Remove the `@ts-ignore` comment and notice that the name of your module cannot be found in `Pact.modules`.
     
     To fix this problem, you must generate types for your Pact module that can be picked up by the Kadena client (`@kadena/client` library).
 
-2. Open a terminal, change to the `election-workshop/frontend` directory, then
-   generate types for your `election` module by running the following command:
+5. Open a terminal in your code editor, change to the `election-workshop/frontend` directory, then generate types for the `election` module by running the following command:
 
    ```bash
    npm run pactjs:generate:contract:election
    ```
 
-   This command uses the `pactjs` library to generate the TypeScript definitions
-   for the election contract and should clear the error reported by the code
-   editor. Depending on the code editor, you might need to close the project in
-   the editor and reopen it to reload the code editor window with the change.
+   This command uses the `pactjs` library to generate the TypeScript definitions for the election contract and should clear the error reported by the code editor. 
+   Depending on the code editor, you might need to close the project in the editor and reopen it to reload the code editor window with the change.
 
    After you clear the error, note that the `listCandidates` function:
 
-   - Sets the chain identifier, gas limit, and network identifier before
-     creating the transaction.
-   - Uses the `dirtyRead` method to preview the transaction result without
-     sending a transaction to the blockchain. The `dirtyRead` method is provided
-     by the Kadena client library. This method allows you to return a raw
-     response for a transaction as you saw when you deployed your smart
-     contract.
-   - Processes the response from the development network and returns a list of
-     candidates or an empty list.
+   - Sets the chain identifier, gas limit, and network identifier before creating the transaction.
+   - Uses the `dirtyRead` method to preview the transaction result without sending a transaction to the blockchain.
+     The `dirtyRead` method is provided by the Kadena client library. 
+     This method allows you to return a raw response for a transaction.
+   - Processes the response from the development network and returns a list of candidates or an empty list.
 
-6. Change to the terminal where the `election-workshop/frontend` directory is your
-   current working directory.
+6. Change to the terminal where the `election-workshop/frontend` directory is your current working directory.
 
 7. Install the frontend dependencies by running the following command:
 
@@ -668,142 +652,30 @@ To modify the frontend to list candidates from the development network:
    npm install
    ```
 
-1. Start the frontend application configured to use the `devnet` backend by running the following command: 
+8. Start the frontend application configured to use the `devnet` backend by running the following command: 
 
    ```bash
    npm run start-devnet
    ```
 
-9. Open `http://localhost:5173` in your browser and verify that the website
-   loads without errors.
+9. Open `http://localhost:5173` in your browser and verify that the website loads without errors.
 
-   You'll notice that—unlike the frontend configured to the in-memory
-   backend—there are no candidates displayed when the frontend connects to the
-   development network backend. With the development network backend, candidates
-   must be added to the `candidates` table before they can be displayed. To do
-   that, you must first modify the `addCandidate` function in the frontend.
+   You'll notice that—unlike the frontend configured to the in-memory backend—there are no candidates displayed when the frontend connects to the development network backend. 
+   With the development network backend, candidates must be added to the `candidates` table before they can be displayed. 
+   To do that, you must first modify the `addCandidate` function in the frontend.
 
-### Add candidate
-
-To modify the frontend to add candidates from the development network:
-
-1. Open `election-workshop/frontend/src/repositories/candidate/DevnetCandidateRepository.ts` in your code editor.
-
-2. Review the `addCandidate` function.
-   
-   In the first line, the function receives a candidate object and the account of the transaction sender.
-
-   ```typescript
-   const addCandidate = async (candidate: ICandidate, sender: string = ''): Promise<void> => {
-   ```
-
-   You provide this information using a form on the website.
-
-   The next lines start constructing the transaction:
-
-   ```typescript
-   const transaction = Pact.builder.execution(
-     // @ts-ignore
-     Pact.modules[`${NAMESPACE}.election`]['add-candidate'](candidate),
-   );
-   ```
-
-3. Remove the `@ts-ignore` comment to enable the frontend function to call the
-   `add-candidate` function in your `election` module.
-
-   The function takes the `candidate` object to insert data into the
-   `candidates` database when the transaction is executed.
-
-   Because the `add-candidate` function is guarded by the `GOVERNANCE`
-   capability that enforces the `admin-keyset` account, the next lines add the
-   keyset and signer data to the transaction:
-
-   ```typescript
-   .addData('admin-keyset', {
-     keys: [accountKey(sender)],
-     pred: "keys-all"',
-   })
-   .addSigner(accountKey(sender))
-   ```
-
-   These lines correspond to the `(env-data)` and `(env-sig)` code you specified in your `./pact/election.repl` file.
-   Unlike the transaction for listing candidates, the transaction for adding candidates must be sent to the blockchain, so you must pay a transaction fee—in units of gas—for the resources consumed to process the transaction.
-   
-   The value of the `senderAccount` field in the metadata specifies the account that pays for gas.
-   This is important to remember because, in the [Add a gas station](/build/election/add-a-gas-station) tutorial, you'll specify the account of a **gas station** to pay for transactions that are signed by voters.
-   However, the transaction to add a candidate must be signed and paid for by the same account.
-
-   ```typescript
-   .addSigner(accountKey(sender))
-   .setMeta({
-     chainId: CHAIN_ID,
-     senderAccount: sender,
-   })
-   ```
-
-   The `addCandidate` function also implements a preflight request. The
-   preflight request allows you to test a transaction without sending it. The
-   response to the preflight request contains information about the expected
-   success of the transaction and the how much gas the transaction requires. If
-   the transaction would fail or the gas fee is higher than you would like, you
-   can choose not to send the transaction.
-
-   ```typescript
-   const preflightResponse = await client.preflight(signedTx);
-
-   if (preflightResponse.result.status === 'failure') {
-     throw preflightResponse.result.error;
-   }
-   ```
-
-   The remainder of the `addCandidate` function deals with sending the
-   transaction and processing the response.
-
-2. Open and unlock the Chainweaver desktop or web application and verify that:
-
-   - You're connected to **development network (devnet)** from the network list.
-   - Your administrative account name with the **k:** prefix exists on chain 1.
-   - Your administrative account name is funded with KDA on chain 1.
-
-   You're going to use Chainweaver to sign the transaction that adds a candidate
-   to the database.
-
-3. Click **Accounts** in the Chainweaver navigation panel, then copy the account
-   name for your administrative account.
-
-4. Open `http://localhost:5173` in your browser, then click **Set Account**.
-
-5. Paste your administrative account, then click **Save**.
-
-6. Click **Add candidate**, type the candidate information, then click **Save**. 
-   
-   Type candidate information using the following format:
-
-   ```json
-   { "key": "1", "name": "Your name" }
-   ```
-
-7. Click **Sign All**.
-   
-   After signing the request, a loading indicator is displayed on the website while the transaction is in progress. 
-   As soon as the transaction completes successfully, the candidate you nominated is added to the list.
 
 ## Next steps
 
 In this tutorial, you learned how to:
 
 - Upgrade the smart contract for your election website.
-- Include a `candidates` database table and functions for listing and adding
-  candidates to the table.
-- Connect the frontend of the election website to the local development network
-  as a backend.
+- Include a `candidates` database table and functions for listing and adding candidates to the table.
+- Connect the frontend of the election website to the local development network as a backend.
 
-In the next tutorial, you'll upgrade the `election` module to enable people to
-cast a vote on a candidate with their Kadena account.
+In the next tutorial, you'll upgrade the `election` module to enable people to cast a vote on a candidate with their Kadena account.
 
-To see the code for the activity you completed in this tutorial and get the
-starter code for the next tutorial, check out the `08-voting` branch from the
-`election-workshop` repository by running the following command in your terminal
+To see the code for the activity you completed in this tutorial and get thstarter code for the next tutorial, check out the `08-voting` branch from the `election-workshop` repository by running the following command in your terminal
 shell:
 
 ```bash

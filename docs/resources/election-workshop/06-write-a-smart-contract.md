@@ -473,7 +473,7 @@ To deploy the Pact module on the development network:
    )
    ```
 
-5. Create a new transaction template named `election-module-devnet.ktpl` file in the `~/.kadena/transaction-templates` folder.
+5. Create a new transaction template named `election-module-devnet.ktpl` in the `~/.kadena/transaction-templates` folder.
 
 6. Open the `election-module-devnet.ktpl` file and create a reusable transaction request similar to the following using the path to the `election.pact` file that contains your Pact module code.
    
