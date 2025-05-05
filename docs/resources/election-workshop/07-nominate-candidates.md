@@ -34,17 +34,15 @@ Before you start this tutorial, verify the following basic requirements:
   
 ## Define the database schema and table
 
-To prepare the `election` module database, you must first define a **schema**
-for the table. You can then define a table that uses the schema inside the
-`election` module. The actual creation of the table happens outside the Pact
-module, just like selecting the namespace.
+To prepare the `election` module database, you must first define a **schema** for the table. 
+You can then define a table that uses the schema inside the `election` module. 
+The actual creation of the table happens outside the Pact module declaration, as you saw with defining and entering a namespace.
 
 To define the database schema and table:
 
-1. Open the `election-workshop/pact/election.pact` file in the code editor on your
-   computer.
-2. Add the schema for the database table inside of the `election` module
-   definition with the following lines of code:
+1. Open the `election-workshop/pact/election.pact` file in the code editor on your computer.
+
+2. Add the schema for the database table inside of the `election` module declaration with the following lines of code:
 
    ```pact
      (defschema candidates-schema
@@ -55,12 +53,12 @@ To define the database schema and table:
      (deftable candidates:{candidates-schema})
    ```
 
-   In this code, `defschema` defines a `candidate-schema` for a database table
-   with two columns: `name` of type string and `votes` of type integer.
+   In this code, `defschema` defines a `candidate-schema` for a database table named `candidates` with two columns: 
+   
+   - `name` of type string 
+   - `votes` of type integer
 
-3. Create the table outside of the election module by adding the following lines
-   of code at the end of the `./pact/election.pact` file, after the closing
-   parenthesis (`)`) of the `election` module definition:
+3. Create the table outside of the election module by adding the following lines of code at the end of the `./pact/election.pact` file, after the closing parenthesis (`)`) of the `election` module declaration:
 
    ```pact
    (if (read-msg "init-candidates")
@@ -74,54 +72,51 @@ To define the database schema and table:
 
 ## Test table creation
 
-Before trying to create the table on your local development network, you can
-verify that your changes work as expected by running some tests in the Pact
-REPL.
+Before trying to create the table on your local development network, you can verify that your changes work as expected by running some tests in the Pact REPL.
 
 To test table creation:
 
-1. Open the `election-workshop/pact` folder in the code editor on your computer.
-4. Create a new file named `election.repl` in the `pact` folder.
-5. Set the `env-data` and `env-sigs` fields for the REPL test environment to use the public key for your own administrative account.
+1. Open the `election-workshop/pact` folder in the code editor.
+2. Create a new file named `election.repl` in the `pact` folder.
+3. Set the `env-data` and `env-sigs` fields for the REPL test environment to use the public key for your administrative account.
    
    For example:
 
    ```pact
    (env-data
-     { 'admin-keyset:
-         { "keys" : [ "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0" ]
+     { "election-admin":
+         { "keys" : [ "d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae" ]
          , "pred" : "keys-all"
          }
-     , 'upgrade: false
-     , 'init-candidates: true
+     , "init-candidates": true
      }
    )
-
+   
    (env-sigs
-     [{ "key"  : "5ec41b89d323398a609ffd54581f2bd6afc706858063e8f3e8bc76dc5c35e2c0"
-      , 'caps : []
+     [{ "key"  : "d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae"
+      , "caps" : []
      }]
    )
    ```
 
-   Also, notice that `'init-candidates: true` is included in the environment data to ensure that the `(create-table candidates)` command is executed when you load the `election` module into the Pact REPL. 
+   Also, notice that `init-candidates: true` is included in the environment data to ensure that the `(create-table candidates)` command is executed when you load the `election` module into the Pact REPL. 
 
-6. Define your principal namespace and the `admin-keyset` for the namespace using the principal namespace you used in your `election.pact` file.
+4. Define your principal namespace and the `admin-keyset` for the namespace using the principal namespace you used in your `election.pact` file.
 
    ```pact
-   (begin-tx "Define principal namespace")
-     (define-namespace 'n_14912521e87a6d387157d526b281bde8422371d1 (read-keyset 'admin-keyset ) (read-keyset 'admin-keyset ))
+   (begin-tx "Define the principal namespace")
+     (define-namespace "n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80" (read-keyset "election-admin" ) (read-keyset "election-admin" ))
    (commit-tx)
-
-   (begin-tx "Define admin-keyset")
-     (namespace 'n_14912521e87a6d387157d526b281bde8422371d1)
-     (define-keyset "n_14912521e87a6d387157d526b281bde8422371d1.admin-keyset" (read-keyset 'admin-keyset ))
+   
+   (begin-tx "Define the election-admin keyset in the namespace")
+     (namespace "n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80")
+     (define-keyset "n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election-admin" (read-keyset "election-admin" ))
    (commit-tx)
    ```
    
-   These transactions are required because, inside of the `election.pact` file, the `election` module is defined in your principal namespace and it is governed by the `admin-keyset` in that namespace.
+   These transactions are required because, inside of the `election.pact` file, the `election` module is defined in your principal namespace and it is governed by the `election-admin` in that namespace.
 
-7. Add a transaction to load the election module:
+5. Add a transaction to load the election module:
    
    ```pact
    (begin-tx "Load election module")
@@ -129,97 +124,45 @@ To test table creation:
    (commit-tx)
    ```
 
-8. Execute the transaction using the `pact` command-line program running locally or using [pact-cli](http://localhost:8080/ttyd/pact-cli/) from the Docker container.
-
-   If `pact-cli` is installed locally, run the following command inside the
-   `pact` folder in current terminal shell:
+4. Execute the code in the `election.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
 
    ```bash
    pact election.repl --trace
    ```
 
-   As before, if you don't have `pact` installed locally, you can load the
-   `election.repl` file with the following command:
-
-   ```pact
-   (load "election.repl")
-   ```
-
-   If you are using the `pact-cli` in a browser, you can replace the
-   `pact election.repl --trace` command with `(load "election.repl")` throughout this
-   tutorial.
-
-   You should see that the transaction succeeds with output similar to the
-   following:
+   You should see that the transaction succeeds with output similar to the following:
 
    ```bash
-   election.pact:3:0:Trace: Loaded module n_14912521e87a6d387157d526b281bde8422371d1.election, hash TW9dmlTaCle12OF9zwn9Z_oF1cX2qhTbZYZAwDXkTqY
-   election.pact:16:0:Trace: ["TableCreated"]
-   election.repl:27:0:Trace: Commit Tx 2: Load election module
+   ...
+   election.repl:0:0-7:1:Trace: "Setting transaction data"
+   election.repl:9:0-13:1:Trace: "Setting transaction signatures/caps"
+   election.repl:15:0-15:43:Trace: "Begin Tx 0 Define the principal namespace"
+   election.repl:16:2-16:129:Trace: "Namespace defined: n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80"
+   election.repl:17:0-17:11:Trace: "Commit Tx 0 Define the principal namespace"
+   election.repl:19:0-19:62:Trace: "Begin Tx 1 Define the election-admin keyset in the namespace"
+   election.repl:20:2-20:58:Trace: "Namespace set to n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80"
+   election.repl:21:2-21:109:Trace: "Keyset write success"
+   election.repl:22:0-22:11:Trace: "Commit Tx 1 Define the election-admin keyset in the namespace"
+   election.repl:24:0-24:33:Trace: "Begin Tx 2 Load election module"
+   election.repl:25:2-25:24:Trace: "Loading election.pact..."
+   election.pact:0:0-0:56:Trace: "Namespace set to n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80"
+   election.pact:3:0-16:1:Trace: Loaded module n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election, hash _zJBtnrLTTYsbTcnDk_qt13sJPfnlTTBJ13jz11x_Sc
+   election.pact:19:0-22:1:Trace: ["TableCreated"]
+   election.repl:26:0-26:11:Trace: "Commit Tx 2 Load election module"
    Load successful
    ```
 
-## List candidates from a table
+## Update the list-candidates function
 
-Although the `candidates` table seems to have been created successfully, it is
-worth testing that the table works as expected before updating the `election`
-module on the development network.
+The current implementation of the `list-candidates` function returns a simple list.
+Although it appears that the `candidates` table has been created successfully, the table doesn't have any data to return.
+Before you can test that the `candidates` table works as expected, you must modify the code for the `list-candidates` function.
 
-To test that the table works as expected:
-
-1. Open the `election-workshop/pact/election.repl` file in the code editor on your
-   computer.
-
-1. Add a transaction to test the current implementation of the
-   `election.list-candidates` function:
-
-   ```pact
-   (begin-tx "List candidates")
-     (use n_14912521e87a6d387157d526b281bde8422371d1.election)
-     (expect
-       "There should be no candidates in the candidates table"
-       [1, 2, 3, 4, 5]
-       (list-candidates)
-     )
-   (commit-tx)
-   ```
-
-1. Execute the transaction using the `pact` command-line program:
-
-   ```pact
-   pact election.repl --trace
-   ```
-
-   If the current implementation of the `list-candidates` function returns [1,
-   2, 3, 4, 5], you should see the transaction succeed with output similar to
-   the following:
-
-   ```bash
-   election.repl:29:0:Trace: Begin Tx 3: List candidates
-   election.repl:30:2:Trace: Using n_14912521e87a6d387157d526b281bde8422371d1.election
-   election.repl:31:2:Trace: Expect: success: There should be no candidates in the candidates table
-   election.repl:36:0:Trace: Commit Tx 3: List candidates
-   Load successful
-   ```
-
-   If you were to change the expected output to an empty list (`[]`) and run the
-   file again, you would see the transaction fails with output similar to the
-   following:
-
-   ```bash
-   election.repl:37:0:Trace: Commit Tx 3: List candidates
-   election.repl:32:2:ExecError: FAILURE: There should be no candidates in the candidates table: expected []:[<a>], received [1 2 3 4 5]:[<c>]
-   Load failed
-   ```
-
-   You can fix this issue by updating the return value of the `list-candidates`
-   function in the `election-workshop/pact/election.pact` file.
+To update the list-candidates function to read data from a table:
 
 1. Open the `election-workshop/pact/election.pact` file in your code editor.
-
-1. Update the return value of the `list-candidates` function to select all of
-   the rows of the `candidates` table, including the key and the column values
-   of each row.
+   
+2. Update the return value of the `list-candidates` function to select all of the rows of the `candidates` table, including the key and the column values of each row.
 
    For example:
 
@@ -231,14 +174,14 @@ To test that the table works as expected:
      ))
    ```
 
-   In this code, the `fold-db` function is like a `SELECT * FROM table` statement in SQL, except that it fetches the value of the `key` column  separately from the other column values. 
+   The `fold-db` function fetches the value of the `key` column separately from the other column values. 
    
    - The first argument for `fold-db` is the table name. 
    - The second argument is a predicate function that determines which rows should be selected. 
      To fetch all rows from a table, you can simply return `true` here. 
    - The third argument is an accumulator function that allows you to map the data of each row to a different format. 
    
-   This example formats the return value of the `fold-db` function as a JSON object with the following structure.
+   This code example formats the return value of the `fold-db` function as a JSON object with the following structure.
 
    ```pact
    [
@@ -247,26 +190,41 @@ To test that the table works as expected:
    ]
    ```
 
-1. Execute the transaction using the `pact` command-line program:   
+3. Open the `election-workshop/pact/election.repl` file in the code editor.
+
+4. Add a transaction to test the new implementation of the `election.list-candidates` function:
 
    ```pact
+   (begin-tx "List candidates")
+     (use n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election)
+     (expect
+       "There are no candidates in the candidates table"
+       []
+       (list-candidates)
+     )
+   (commit-tx)
+   ```
+
+5. Execute the code in the `election.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
+
+   ```bash
    pact election.repl --trace
    ```
 
-   Because there are no candidates in the table, you should see the transaction
-   succeeds with output similar to the following:
+   Because there are no candidates in the table, you should see the transaction succeeds with output similar to the following:
 
    ```bash
-   election.repl:30:2:Trace: Using n_14912521e87a6d387157d526b281bde8422371d1.election
-   election.repl:31:2:Trace: Expect: success: There should be no candidates in the candidates table
-   election.repl:36:0:Trace: Commit Tx 3: List candidates
+   ...
+   election.repl:28:0-28:28:Trace: "Begin Tx 3 List candidates"
+   election.repl:29:2-29:59:Trace: Loaded imports from n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election
+   election.repl:30:2-34:3:Trace: "Expect: success There are no candidates in the candidates table"
+   election.repl:35:0-35:11:Trace: "Commit Tx 3 List candidates"
    Load successful
    ```
 
-   Note that you shouldn't include a call to a function like `fold-db` in
-   transactions sent to the blockchain. Instead, you can make a local request to
-   select all rows from a table to save gas. You'll learn more about making
-   local requests using the Kadena client later in this tutorial.
+   Note that you shouldn't include a call to a function like `fold-db` in transactions sent to the blockchain. 
+   Instead, you can make a local request to select all rows from a table to save gas. 
+   You'll learn more about making local requests later in this tutorial.
 
 ## Add candidates
 

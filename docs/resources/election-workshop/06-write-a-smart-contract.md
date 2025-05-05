@@ -384,7 +384,7 @@ To test that updating a module with an incorrect keyset fails:
    
 5. Remove the code you added for testing an incorrect keyset.
       
-6. Execute the code in the using the Pact command-line interpreter and the `--trace` command-line option to verify that the `module.repl` file loads successfully before you continue:
+6. Execute the code in the `module.repl` file to verify that the file loads successfully before you continue:
    
    ```pact
    pact module.repl --trace
