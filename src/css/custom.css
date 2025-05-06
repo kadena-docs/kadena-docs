@@ -303,6 +303,50 @@
 
   p[class*='searchResultItemSummary'] { display: none !important; }
 
+  .language-pact-bad {
+      border: .5px solid red;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      position: relative; }
+
+      .language-pact-bad * {
+         color: red !important;
+         word-wrap: break-word;
+         overflow-wrap: break-word;
+         white-space: normal; }
+
+      .language-pact-bad .buttonGroup__atx { display: none !important; }
+       
+      /* Red Circle */
+      .language-pact-bad::before {
+         content: '';
+         position: absolute;
+         top: -8px;
+         right: -8px;
+         width: 25px;
+         height: 25px;
+         background-color: red;
+         border-radius: 50%;
+         z-index: 1; }
+       
+      /* White "X" */
+      .language-pact-bad::after {
+         content: '×';
+         position: absolute;
+         top: -8px;
+         right: -8px;
+         width: 25px;
+         height: 25px;
+         color: white;
+         font-size: 17px;
+         line-height: 23px;
+         text-align: center;
+         z-index: 2;
+         pointer-events: none; }
+
+
   /*
    * DOCUSAURUS
    * (light mode)
