@@ -433,7 +433,7 @@ To guard access to the `add-candidate` function:
 
 4. Open the `election-workshop/pact/election.repl` file in the code editor.
 
-5. Add a transaction in which you expect adding a fourth candidate to fail.
+5. Set the environment data and signature to use a different key, then add a transaction that you expect to fail for adding a fourth candidate.
 
    ```pact
    (env-data
@@ -451,7 +451,7 @@ To guard access to the `add-candidate` function:
    )
 
    (begin-tx "Add candidate without permission fails")
-     (use n_14912521e87a6d387157d526b281bde8422371d1.election)
+     (use n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election)
      (expect-failure
        "Adding a candidate with the wrong keyset should fail"
        "Keyset failure (keys-all)"
@@ -510,7 +510,7 @@ To guard access to the `add-candidate` function:
    
 9. Remove the changes to the environment data and signatures and the last two transactions, then execute the code in the `election.repl` file to verify that the file loads successfully using the `election-admin` keyset guard.
 
-## Deploy the election module locally
+## Deploy the election module
 
 Now that you've updated and tested your `election` module using the Pact REPL, you can update the module deployed on the local development network.
 
@@ -592,7 +592,7 @@ To modify the frontend to list candidates from the development network:
 
 1. Open `election-workshop/frontend/src/repositories/candidate/DevnetCandidateRepository.ts` in your code editor.
 
-2. Update the values for the `CHAIN_ID` and `NAMESPACE` constants with the chain where you deployed the election modules and your own principal namespace.
+2. Update the values for the `CHAIN_ID` and `NAMESPACE` constants with the chain where you deployed the `election` module and your own principal namespace.
 
    ```typescript
    const NETWORK_ID = 'development';
@@ -633,7 +633,7 @@ To modify the frontend to list candidates from the development network:
    npm run pactjs:generate:contract:election
    ```
 
-   This command uses the `pactjs` library to generate the TypeScript definitions for the election contract and should clear the error reported by the code editor. 
+   This command uses the `pactjs` library to generate the TypeScript definitions for the election module and should clear the error reported by the code editor. 
    Depending on the code editor, you might need to close the project in the editor and reopen it to reload the code editor window with the change.
 
    After you clear the error, note that the `listCandidates` function:
@@ -660,22 +660,21 @@ To modify the frontend to list candidates from the development network:
 
 9. Open `http://localhost:5173` in your browser and verify that the website loads without errors.
 
-   You'll notice that—unlike the frontend configured to the in-memory backend—there are no candidates displayed when the frontend connects to the development network backend. 
-   With the development network backend, candidates must be added to the `candidates` table before they can be displayed. 
-   To do that, you must first modify the `addCandidate` function in the frontend.
-
+   You'll notice that—unlike the frontend configured to the in-memory backend—only the candidate you added after deploying the module on the development network is displayed. 
+   With the development network backend, candidates must be added to the `candidates` table before they can be displayed.
 
 ## Next steps
 
 In this tutorial, you learned how to:
 
-- Upgrade the smart contract for your election website.
-- Include a `candidates` database table and functions for listing and adding candidates to the table.
-- Connect the frontend of the election website to the local development network as a backend.
+- Define a simple database schema and database table to store candidates.
+- Define functions for listing and adding candidates to the `candidates` table.
+- Deploy the `election` module on the development network running locally.
+- Connect the frontend of the election website to use the `election` module deployed on the development network as a backend.
 
 In the next tutorial, you'll upgrade the `election` module to enable people to cast a vote on a candidate with their Kadena account.
 
-To see the code for the activity you completed in this tutorial and get thstarter code for the next tutorial, check out the `08-voting` branch from the `election-workshop` repository by running the following command in your terminal
+To see the code for the activity you completed in this tutorial and get the starter code for the next tutorial, check out the `08-voting` branch from the `election-workshop` repository by running the following command in your terminal
 shell:
 
 ```bash
