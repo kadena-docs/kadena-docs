@@ -129,7 +129,7 @@ You can find more complex and complete examples in the `coin` contract and in th
 
 As previously noted, the following pattern is often used in sample code for simplicity:
 
-```pact
+```pact-bad
 (namespace "free")     ; Public namespace used for testing only
 
 (module YODA0 GOV
@@ -145,7 +145,7 @@ You should only use this pattern in your local development environment and in th
 
 Another common mistake is to read a keyset or message that doesn't enforce a signing key to grant a capability as illustrated in the following example:
 
-```pact
+```pact-bad
 (namespace "n_d5ff15")
 
 (module YODA1 GOV
