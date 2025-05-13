@@ -311,11 +311,7 @@
       user-select: none;
       position: relative; }
 
-      .language-pact-bad * {
-         color: red !important;
-         word-wrap: break-word;
-         overflow-wrap: break-word;
-         white-space: normal; }
+      .language-pact-bad * { color: red !important; }
 
       .language-pact-bad .buttonGroup__atx { display: none !important; }
        
