@@ -577,9 +577,17 @@ To add a candidate to the `election` module you have deployed on the development
    
    ![Candidate added to the blockchain successfully](/img/election-workshop/add-candidate.png)
 
+   You can reuse the `add-election-candidate.ktpl` template to add more candidates to the candidates table by updating the code to specify a new index key and candidate name or proposal title.
+   For example:
+   
+   ```pact
+   code: |-
+   (n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate  { "key": "2a", "name": "Approve the budget for the new library." })
+   ```
+
 ## Connect the frontend
 
-You now have the election backend defined in a smart contract running on the development network. 
+You now have the election backend defined in a Pact module running on the development network. 
 To make the functions in the smart contract available to the election application website, you need to modify the frontend to exchange data with the development network.
 
 The frontend, written in TypeScript, uses repositories to exchange data with the backend. 
@@ -601,12 +609,11 @@ To modify the frontend to list candidates from the development network:
    const NAMESPACE = 'n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80';
    ```
 
-3. Review the `listCandidates` function:
+3. Remove the `@ts-ignore` comment from the `listCandidates` function:
 
    ```typescript
    const listCandidates = async (): Promise<ICandidate[]> => {
      const transaction = Pact.builder
-       // @ts-ignore
        .execution(Pact.modules[`${NAMESPACE}.election`]['list-candidates']())
        .setMeta({
          chainId: CHAIN_ID,
@@ -622,45 +629,44 @@ To modify the frontend to list candidates from the development network:
        : [];
    };
    ```
-    
-4. Remove the `@ts-ignore` comment and notice that the name of your module cannot be found in `Pact.modules`.
-    
-    To fix this problem, you must generate types for your Pact module that can be picked up by the Kadena client (`@kadena/client` library).
+        
+    This function uses the Kadena client (`@kadena/client`) library to connect to the development network and read data from the blockchain.
+    After you remove the `@ts-ignore` comment, you should notice that the code editor highlights a problem with your module because it isn't defined in the `IPactModules` interface.
+    To fix this problem, you must generate types for the `election` module so they can be used when called by Kadena client library functions.
 
-5. Open a terminal in your code editor, change to the `election-workshop/frontend` directory, then generate types for the `election` module by running the following command:
+4. Open a terminal in your code editor, change to the `election-workshop/frontend` directory, then generate types for the `election` module by running the following command:
 
    ```bash
    npm run pactjs:generate:contract:election
    ```
 
-   This command uses the `pactjs` library to generate the TypeScript definitions for the election module and should clear the error reported by the code editor. 
+   This command uses the `pactjs` library to generate TypeScript definitions for the `election` module and should clear the error reported by the code editor. 
    Depending on the code editor, you might need to close the project in the editor and reopen it to reload the code editor window with the change.
 
    After you clear the error, note that the `listCandidates` function:
 
    - Sets the chain identifier, gas limit, and network identifier before creating the transaction.
-   - Uses the `dirtyRead` method to preview the transaction result without sending a transaction to the blockchain.
-     The `dirtyRead` method is provided by the Kadena client library. 
-     This method allows you to return a raw response for a transaction.
+   - Creates a `client` connection to the blockchain.
+   - Uses the `dirtyRead` method form the `@kadena/client` library to return a raw response for the transaction result without sending a transaction to the blockchain.
    - Processes the response from the development network and returns a list of candidates or an empty list.
 
-6. Change to the terminal where the `election-workshop/frontend` directory is your current working directory.
+5. Change to the terminal where the `election-workshop/frontend` directory is your current working directory.
 
-7. Install the frontend dependencies by running the following command:
+6. Install the frontend dependencies by running the following command:
 
    ```bash
    npm install
    ```
 
-8. Start the frontend application configured to use the `devnet` backend by running the following command: 
+7. Start the frontend application configured to use the `devnet` backend by running the following command: 
 
    ```bash
    npm run start-devnet
    ```
 
-9. Open `http://localhost:5173` in your browser and verify that the website loads without errors.
+8. Open `http://localhost:5173` in your browser and verify that the website loads without errors.
 
-   You'll notice that—unlike the frontend configured to the in-memory backend—only the candidate you added after deploying the module on the development network is displayed. 
+   You'll notice that—unlike the frontend configured to use the in-memory backend—only the candidate you added after deploying the module on the development network is displayed. 
    With the development network backend, candidates must be added to the `candidates` table before they can be displayed.
 
 ## Next steps

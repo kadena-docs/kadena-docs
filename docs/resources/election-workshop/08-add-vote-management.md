@@ -695,7 +695,7 @@ To update the `election` module on the development network:
    ```
 
    Because you created in the `candidates` table in the previous tutorial, you must remove the `"init-candidates": true` property from the transaction data.
-   You must include `"init-votes": true` in the transaction data to create the `votes` table using the `(create-table votes)` statement when you deploy your `election` module.
+   You must include `"init-votes": true` in the transaction data to create the `votes` table using the `(create-table votes)` statement when you update your `election` module.
    Because you are redeploying your module on the same network and chain, you also must include `"upgrade": true` in the transaction data. 
 
 1. Create a transaction that uses the `election-module-devnet.ktpl` template by running the `kadena tx add` command and following the prompts displayed.
@@ -709,13 +709,12 @@ To update the `election` module on the development network:
 
    ![Successful deployment on the development network](/img/election-workshop/votes-table.jpg) 
    
-
 ## Update the frontend
 
 As you learned in [Nominate candidates](/resources/election-workshop/workshop-nominate), the election application frontend is written in TypeScript and uses repositories to exchange data with the backend. 
 By default, the frontend uses the in-memory implementations of the repositories. 
 By making changes to the implementation of the `interface IVoteRepository` in the `frontend/src/repositories/candidate/DevnetVoteRepository.ts` file, you can configure the frontend to use the `devnet` backend instead of the `in-memory` backend. 
-After making these changes, you can use the frontend to cast votes on candidates listed in the `candidates` table and managed by the `election` module running on the development network blockchain.
+After making these changes, you can use the frontend to cast votes on candidates listed in the `candidates` table and managed by the `election` module running on the development network.
 
 To update the frontend to use the `election` module:
 
@@ -751,10 +750,10 @@ To update the frontend to use the `election` module:
    };
    ```
    
-1. Remove the `@ts-ignore` comment from the function and notice the resulting errors.
+4. Remove the `@ts-ignore` comment from the function and notice the resulting errors.
    To fix the errors, you must generate types for your Pact module that can be picked up by `@kadena/client`.
 
-4. Open a terminal, change to the `election-workshop/frontend` directory, then generate types for your `election` module by running the following command:
+5. Open a terminal, change to the `election-workshop/frontend` directory, then generate types for your `election` module by running the following command:
    
    ```bash
    npm run pactjs:generate:contract:election
@@ -763,16 +762,16 @@ To update the frontend to use the `election` module:
    This command uses the `pactjs` library to generate the TypeScript definitions for the election contract and should clear the errors reported by the code editor. 
    Depending on the code editor, you might need to close the project in the editor and reopen it to reload the code editor window with the change.
 
-5. Review the `vote` function, remove the `@ts-ignore` comment, and save your changes to the `DevnetVoteRepository.ts` file.
+6. Review the `vote` function, remove the `@ts-ignore` comment, and save your changes to the `DevnetVoteRepository.ts` file.
 
-6. Open the `election-workshop/frontend` folder in a terminal shell on your computer.
-7. Install the frontend dependencies by running the following command:
+7. Open the `election-workshop/frontend` folder in a terminal shell on your computer.
+8. Install the frontend dependencies by running the following command:
    
    ```bash
    npm install
    ```
 
-8. Start the frontend application configured to use the development network running locally by running the following command: 
+9. Start the frontend application configured to use the development network running locally by running the following command: 
 
    ```bash
    npm run start-devnet
