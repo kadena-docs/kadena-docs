@@ -50,6 +50,7 @@ id: func-quick-ref
 - [diff-time](/pact-5/time/diff-time) Compute the difference in seconds between two specified times.
 - [distinct](/pact-5/general/distinct) Return a list with duplicates removed.
 - [div (`/`)](/pact-5/operators/div) Divide the first argument by the second argument.
+- [do](/pact-5/general/do) Evaluate a sequence of expressions and return the result from the last expression.
 - [drop](/pact-5/general/drop) Remove values from a list or string.
 - [emit-event](/pact-5/capabilities/emit-event) Emit a specified capability as an event.
 - [enforce-guard](/pact-5/general/enforce-guard) Execute a specified guard or keyset to enforce predicate logic.
@@ -165,6 +166,7 @@ id: func-quick-ref
 - [time](/pact-5/time/time.md) Construct a time object from a UTC value using the `%Y-%m-%dT%H:%M:%SZ` format.
 - [try](/pact-5/general/try) Attempt a pure action without input, output, or state-changing operations.
 - [tx-hash](/pact-5/general/tx-hash) Get the hash of the current transaction as a string.
+- [typecheck](/pact-5/repl/typecheck) Run the Pact static type checker on a module.
 - [typeof-principal](/pact-5/guards/typeof-principal) Return the protocol type of a given principal.
 - [typeof](/pact-5/general/typeof) Return a description of the data type for a specified value.
 - [update](/pact-5/database/update) Update a value for a database record in the specified table.
