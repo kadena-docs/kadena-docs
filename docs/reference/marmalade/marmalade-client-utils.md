@@ -420,7 +420,7 @@ createTokenId(inputs): string
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | policyConfig | object | Specifies which types of policies are configured for the specified token. This object is used to validate that you have expected types defined for the all of the policies you have selected for a token.|
-| policies | Array<string> | Specifies the list of policy names applied to the token.|
+| policies | Array of strings | Specifies the list of policy names applied to the token.|
 | uri | string | Specifies the location of the token metadata JSON file in the form of uniform resource identifier (URI). |
 | precision | IPactInt or PactReference | Specifies the token precision.        |
 | collectionName | string | Specifies the name of the token collection, if applicable. |
@@ -481,7 +481,7 @@ createToken(inputs, config): IEmitterWrapper
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | policyConfig | object | Specifies which types of policies are configured for the specified token. This object is used to validate that you have expected types defined for the all of the policies you have selected for a token.|
-| policies | Array<string> | Specifies the list of policy names applied to the token. |
+| policies | Array of strings | Specifies the list of policy names applied to the token. |
 | uri | string | Specifies the location of the token metadata JSON file in the form of uniform resource identifier (URI). |
 | precision | IPactInt or PactReference | Specifies the token precision.        |
 | collectionName | string | Specifies the name of the token collection, if applicable. |
