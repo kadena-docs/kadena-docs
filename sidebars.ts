@@ -248,6 +248,7 @@ const sidebars: SidebarsConfig = {
                               'pact-5/general/define-namespace',
                               'pact-5/general/describe-namespace',
                               'pact-5/general/distinct',
+                              'pact-5/general/do',
                               'pact-5/general/drop',
                               'pact-5/general/enforce-guard',
                               'pact-5/general/enforce-one',
@@ -410,6 +411,7 @@ const sidebars: SidebarsConfig = {
                               'pact-5/repl/rollback-tx',
                               'pact-5/repl/sig-keyset',
                               'pact-5/repl/test-capability',
+                              'pact-5/repl/typecheck',
                          ],
                     },
                     {
