@@ -456,9 +456,7 @@ To deploy the Pact module on the development network:
 4. Add the minimal Pact code required to define a module to the `election.pact` file.
    
    ```pact
-   (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin" ))))
-     (define-namespace ns-name (read-keyset "election-admin" ) (read-keyset "election-admin" ))
-   )
+   (define-namespace (ns.create-principal-namespace (read-keyset "election-admin")) (read-keyset "election-admin") (read-keyset "election-admin"))
    
    (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin"))))
      (namespace ns-name)

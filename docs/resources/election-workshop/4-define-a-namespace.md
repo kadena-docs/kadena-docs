@@ -393,9 +393,7 @@ To create a principal namespace:
    (expect
      "A principal namespace can be created"
      "Namespace defined: n_560eefcee4a090a24f12d7cf68cd48f11d8d2bd9"
-     (let ((ns-name (ns.create-principal-namespace (read-keyset "admin-keyset"))))
-       (define-namespace ns-name (read-keyset "admin-keyset" ) (read-keyset "admin-keyset" ))
-     )
+     (define-namespace (ns.create-principal-namespace (read-keyset "election-admin")) (read-keyset "election-admin") (read-keyset "election-admin"))
    )
    (commit-tx)
    ```
@@ -456,8 +454,7 @@ To create a principal namespace on the development network:
    
    ```yaml
    code: |-
-     (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin" ))))
-         (define-namespace ns-name (read-keyset "election-admin" ) (read-keyset "election-admin" ))
+     (define-namespace (ns.create-principal-namespace (read-keyset "election-admin")) (read-keyset "election-admin") (read-keyset "election-admin"))
      )
    data:
      election-admin:
@@ -481,9 +478,7 @@ To create a principal namespace on the development network:
 
    ```yaml
    code: |-
-     (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin" ))))
-         (define-namespace ns-name (read-keyset "election-admin" ) (read-keyset "election-admin" ))
-     )
+     (define-namespace (ns.create-principal-namespace (read-keyset "election-admin")) (read-keyset "election-admin") (read-keyset "election-admin"))
    data:
      election-admin:
        keys: ["{{public-key}}"]

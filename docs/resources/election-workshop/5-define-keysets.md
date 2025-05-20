@@ -346,9 +346,7 @@ To define a keyset for the principal namespace on the development network:
    
    ```yaml
    code: |-
-     (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin" ))))
-        (define-namespace ns-name (read-keyset "election-admin" ) (read-keyset "election-admin" ))
-     )
+     (define-namespace (ns.create-principal-namespace (read-keyset "election-admin")) (read-keyset "election-admin") (read-keyset "election-admin"))
 
      (let ((ns-name (ns.create-principal-namespace (read-keyset "election-admin"))))
         (namespace ns-name)
