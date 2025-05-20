@@ -81,7 +81,7 @@ To create a new key pair and account:
    kadena account add                      
    ? How would you like to add the account locally? Key - Add an account by providing public keys from a key file or entering key details manually
    ? Enter an alias for an account: election-admin
-   ? Enter an account name (optional): election-admin
+   ? Enter an account name (optional): 
    ? Enter the name of a fungible: coin
    ? Do you want to verify the account on chain? No, add the account without verifying on chain
    ? Select public keys to add to account(alias - publickey): election-admin.yaml 
@@ -92,10 +92,10 @@ To create a new key pair and account:
    
    
    Executed:
-   kadena account add --from="key" --account-alias="election-admin" --account-name="election-admin" --fungible="coin" --public-keys="d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae" --predicate="keys-all" 
+   kadena account add --from="key" --account-alias="election-admin" --account-name="" --fungible="coin" --public-keys="d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae" --predicate="keys-all" 
    ```
 
-   You now have a local account for the election administrator.
+   You now have a local account that uses the default naming convention with a `k:` prefix for the election administrator.
    However, an account must have funds before it can be used on any Kadena blockchain.
    To enable the local account for the election administrator to be used on-chain, you must fund the account on a specific network and chain.
    You can fund on-chain accounts for testing purposes by submitting a request using [Kadena Developer Tools](https://tools.kadena.io/) or the `kadena account fund` command.
