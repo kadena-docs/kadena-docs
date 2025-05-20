@@ -8,9 +8,10 @@ layout: full
 
 # Token standard architecture
 
-As you learned in [What is Marmalade?](/reference/marmalade), Marmalade is a token standard that defines the interfaces for minting and managing digital items like non-fungible tokens and token collections using Pact smart contracts on the Kadena network. 
+Marmalade contracts define a poly-fungible token standard and token policy management for the Kadena blockchain.
+These contracts provide interfaces for defining, minting, and managing digital items like non-fungible tokens and token collections using Pact smart contracts on the Kadena network. 
 
-The Marmalade standard includes several built-in smart contracts to manage how tokens are minted, offered for sale, and transferred between accounts. 
+The Marmalade token standard architecture depends on several smart contracts that enable you to manage how tokens are minted, offered for sale, and transferred between accounts. 
 This multi-layered contract architecture simplifies how you create and manage tokens, define marketplace policies, and implement common token features.
 
 ## Core contracts

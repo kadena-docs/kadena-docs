@@ -246,7 +246,7 @@ Required capabilities and parameters for the `transfer-create` function:
 
 ## sale
 
-Use `sale` to execute a two-step transaction using the offer and buy steps with an escrow account as described in [Token sales and trustless-escrow](/reference/marmalade#token-sales-and-trustless-escrow).
+Use `sale` to execute a two-step transaction using the offer and buy steps with a trustless escrow account.
 
 Because a sale requires two steps that must be completed in a specific order, the transaction is defined using a pact.
 For information about the syntax used to define a pact, see [defpact](/reference/syntax#defpact).
