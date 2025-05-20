@@ -8,7 +8,7 @@ sidebar_position: 1
 # Ledger contract
 
 The Marmalade token standard provides interfaces that enable you to define, mint, and secure tokens.
-As discussed in [Contract architecture](/build/nft-marmalade/architecture), the Marmalade ledger contract provides the core functionality to create, manage, and transfer tokens minted using the Marmalade token standard.
+As discussed in [Token standard architecture](/reference/marmalade/token-standard-architecture), the Marmalade ledger contract provides the core functionality to create, manage, and transfer tokens minted using the Marmalade token standard.
 The ledger contract records and manages all token-related activity to ensure every transaction is accurate, every policy is enforced, and every account is up-to-date.
 
 This part of the documentation describes the functions and capabilities defined in the Marmalade ledger contract in the `marmalade-v2` namespace.
@@ -246,10 +246,10 @@ Required capabilities and parameters for the `transfer-create` function:
 
 ## sale
 
-Use `sale` to execute a two-step transaction using the offer and buy steps with an escrow account as described in [Token sales and trustless-escrow](/build/nft-marmalade#token-sales-and-trustless-escrowh1493505976).
+Use `sale` to execute a two-step transaction using the offer and buy steps with an escrow account as described in [Token sales and trustless-escrow](/reference/marmalade#token-sales-and-trustless-escrow).
 
 Because a sale requires two steps that must be completed in a specific order, the transaction is defined using a pact.
-For information about the syntax used to define a pact, see [defpact](/reference/syntax#defpacth1545231271).
+For information about the syntax used to define a pact, see [defpact](/reference/syntax#defpact).
 
 ### Arguments
 

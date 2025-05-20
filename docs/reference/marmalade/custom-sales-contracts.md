@@ -1,13 +1,13 @@
 ---
-title: Sales-specific contracts
+title: Custom sales contracts
 description: "Provides a technical overview of how to create a custom sales type contract or call an existing sales contract."
 id: custom-sale
 sidebar_position: 9
 ---
 
-# Create a sale contract
+# Custom sales contracts
 
-As discussed in [Contract architecture](/build/nft-marmalade/architecture), you can use a sales-specific contract to manage how tokens are sold—for example, by offering tokens for sale in a [conventional auction sale contract](/reference/nft-ref/sale-contracts/conventional-auction) or a [dutch auction sale contract](/reference/nft-ref/sale-contracts/dutch-auction).
+As discussed in [Contract architecture](/reference/marmalade/token-standard-architecture), you can use a sales-specific contract to manage how tokens are sold—for example, by offering tokens for sale in a [conventional auction sale contract](/reference/marmalade/conventional-sale) or a [dutch auction sale contract](/reference/marmalade/dutch-sale).
 
 Although this is a flexible system for managing sales, sales-specific contracts must be registered in the policy manager to ensure that the policy manager can enforce the proper collection and distribution of tokens and funds. 
 Before you can register a sales-specific contract, the contract must be reviewed by an auditor to ensure that the contract logic is safe to use.

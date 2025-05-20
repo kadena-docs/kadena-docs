@@ -7,7 +7,7 @@ sidebar_position: 2
 
 # Policy manager contract
 
-As discussed in [Contract architecture](/build/nft-marmalade/architecture), the policy manager provides a standard for collecting and distributing fungibles and ensures that all of the policies applied to tokens are enforced.
+As discussed in [Token standard architecture](/reference/marmalade/token-standard-architecture), the policy manager provides a standard for collecting and distributing fungibles and ensures that all of the policies applied to tokens are enforced.
 The policy manager provides the following key features:
 
 - The ability to customize and manage token behavior and attributes by enforcing built-in and custom policies.
