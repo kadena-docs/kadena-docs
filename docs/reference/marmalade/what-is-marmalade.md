@@ -1,7 +1,7 @@
 ---
 title: What is Marmalade?
 description: "Use the Kadena Marmalade token standard and policy contracts to build non-fungible or poly-fungible token marketplaces."
-id:  marmalade
+id: marmalade
 sidebar_position: 1
 ---
 

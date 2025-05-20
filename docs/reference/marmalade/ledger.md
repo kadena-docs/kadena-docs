@@ -314,8 +314,7 @@ step: 0
 rollback: true
 ```
 
-For more information about formatting continuation commands, see 
-[Formatting API requests in YAML](/reference/rest-api#formatting-api-requests-in-yamlh-1442205183).
+For more information about formatting continuation commands, see [Transaction formats](/smart-contracts/transactions#transaction-formats).
 
 The `policy-manager.enforce-withdraw` function calls the `policy:enforce-withdraw` function in the stored token policies and the function is executed at step 0-rollback of `sale`.
 
