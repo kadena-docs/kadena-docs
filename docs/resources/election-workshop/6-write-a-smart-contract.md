@@ -9,7 +9,7 @@ sidebar_position: 7
 
 # Write a smart contract
 
-Now that you have a unique principal  namespace controlled by your administrative keyset, you're ready to start building the backend for the election application. 
+Now that you have a unique principal namespace controlled by your administrative keyset, you're ready to start building the backend for the election application. 
 In this tutorial, you'll learn the basics of how to write a **smart contract** that can be deployed on the blockchain as the backend code for the election application.
 
 A smart contract is a special type of application runs automatically when the conditions specified in the contract logic are met. 
@@ -38,7 +38,7 @@ Before you start this tutorial, verify the following basic requirements:
 ## Define a minimal Pact module
 
 To get started writing Pact modules, you must have a file that contains the bare minimum of code required to deploy. 
-You can create and test this starter code for a Pact module using the Pact REPL. 
+You can create and test this starter code for a Pact module using the Pact command-line interpreter REPL and `.repl` files. 
 After you have a minimal working deployment, you can add and refactor the code to add functionality to the Pact
 module.
 
@@ -48,9 +48,9 @@ To create the starter code for a Pact module:
 
 2. Create a new file named `module.repl` in the `pact` folder.
 
-3. Add a transaction that uses the `module` keyword to define a new module named `election` and a module owner to protect access to the module's functions. 
+3. Add a transaction that uses the `module` keyword to define a new module named `election` and a module owner to protect access to the functions you'll define for the module. 
    
-  All modules require either a keyset, like the `admin-keyset`, or a [capability](/resources/glossary#capability) to control who can deploy or update the module, and, potentially, who can execute protected operations. 
+  All modules require either a keyset, like the `admin-keyset` you've seen previously, or a [capability](/resources/glossary#capability) to control who can deploy or update the module, and, potentially, who can execute protected operations. 
   
   You must specify the governance keyset or capability immediately after the module name.
   Although keysets—like the `admin-keyset` you've used in previous tutorials—are valid module owners, most modules define a governance capability as a more flexible solution.
@@ -441,7 +441,7 @@ To test updating the module with a guarded capability:
    Load successful
    ```
 
-## Deploy the Pact module locally
+## Deploy the Pact module
 
 Now that you've seen how to define and update a Pact module, you're ready to deploy the module on the local development network with the administrative account you created previously.
 
@@ -504,13 +504,13 @@ To deploy the Pact module on the development network:
 ## Next steps
 
 Congratulations! 
-You now have a smart contract with one `election` module governed by the `election-admin` deployed in your principal namespace on your local development network.
+You now have a smart contract with one `election` module governed by the `election-admin` deployed in your principal namespace on the local development network.
 In this tutorial, you learned how to:
 
 - Define a minimal Pact module.
 - Test a Pact module using the Pact REPL.
-- Deploy a Pact module on the local development network.
 - Implement governance for a module by using a capability.
+- Deploy a Pact module on the local development network.
 - Update a deployed module governed by your keyset.
 
 So far, your `election` module only contains one simple function. 

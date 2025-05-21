@@ -544,13 +544,13 @@ After you deploy the module on the local development network, you can use your a
 
 To add a candidate to the `election` module you have deployed on the development network:
 
-1.  Create a new reusable transaction template named `add-election-candidate.ktpl` in the `~/.kadena/transaction-templates` folder.
+1. Create a new reusable transaction template named `add-election-candidate.ktpl` in the `~/.kadena/transaction-templates` folder.
 
 2. Open the `add-election-candidate.ktpl` file and create a YAML transaction request similar to the following.
    
    ```pact
    code: |-
-   (n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate  { "key": "1", "name": "Maya Garcia" })
+      (n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate  { "key": "1", "name": "Maya Garcia" })
    data:
       election-admin:
         keys: ["{{public-key}}"]
@@ -582,19 +582,27 @@ To add a candidate to the `election` module you have deployed on the development
    
    ```pact
    code: |-
+   (n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate  { "key": "2", "name": "Tai Xi" })
+   ```
+
+   You could also use this template to add proposals instead of the candidates to election by providing a new unique index key and a proposal title.
+   For example:
+   
+   ```pact
+   code: |-
    (n_d5ff15d933b83c1ef691dce3dabacfdfeaeade80.election.add-candidate  { "key": "2a", "name": "Approve the budget for the new library." })
    ```
 
 ## Connect the frontend
 
 You now have the election backend defined in a Pact module running on the development network. 
-To make the functions in the smart contract available to the election application website, you need to modify the frontend to exchange data with the development network.
+To make the functions in the module available to the election application website, you need to modify the frontend to exchange data with the development network.
 
 The frontend, written in TypeScript, uses repositories to exchange data with the backend. 
 The interfaces for these repositories are defined in the `frontend/src/types.ts` file. 
 By default, the frontend uses the in-memory implementations of the repositories. 
 By making changes to the implementation of the `interface ICandidateRepository` in `frontend/src/repositories/candidate/DevnetCandidateRepository.ts`, you can configure the frontend to use the `devnet` backend instead of the `in-memory` backend. 
-After making these changes, you can use the frontend to view candidates from the `candidates` table managed by your `election` module running on the development network blockchain.
+After making these changes, you can use the frontend to view candidates from the `candidates` table that are managed by your `election` module running on the development network blockchain.
 
 To modify the frontend to list candidates from the development network:
 
@@ -614,6 +622,7 @@ To modify the frontend to list candidates from the development network:
    ```typescript
    const listCandidates = async (): Promise<ICandidate[]> => {
      const transaction = Pact.builder
+       // @ts-ignore
        .execution(Pact.modules[`${NAMESPACE}.election`]['list-candidates']())
        .setMeta({
          chainId: CHAIN_ID,
@@ -647,12 +656,10 @@ To modify the frontend to list candidates from the development network:
 
    - Sets the chain identifier, gas limit, and network identifier before creating the transaction.
    - Creates a `client` connection to the blockchain.
-   - Uses the `dirtyRead` method form the `@kadena/client` library to return a raw response for the transaction result without sending a transaction to the blockchain.
+   - Uses the `dirtyRead` method from the `@kadena/client` library to return a raw response for the transaction result without sending a transaction to the blockchain.
    - Processes the response from the development network and returns a list of candidates or an empty list.
 
-5. Change to the terminal where the `election-workshop/frontend` directory is your current working directory.
-
-6. Install the frontend dependencies by running the following command:
+5. In the terminal where the `election-workshop/frontend` directory is your current working directory, install the frontend dependencies by running the following command:
 
    ```bash
    npm install

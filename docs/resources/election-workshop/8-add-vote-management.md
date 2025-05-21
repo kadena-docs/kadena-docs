@@ -7,13 +7,13 @@ sidebar_position: 9
 
 # Add vote management
 
-In the previous tutorial, you built and deployed an `election` on the local development network. 
+In the previous tutorial, you built and deployed an `election` module on the local development network. 
 You then connected the frontend built with the `@kadena/client` library to the development network backend.
 After connecting the frontend to the development network backend, you were able to view the candidate you added to the `candidates` database table.
 
-In this tutorial, you'll update the `election` module to allow anyone with a Kadena account to cast a vote on a candidate. 
+In this tutorial, you'll update the `election` module to allow anyone with a Kadena single-key account to cast a vote on a candidate. 
 After you update the backend functionality, you'll modify the vote functionality for the frontend to use the development network.
-After making these changes, Kadena account holders can vote using the `election` module  and have their votes recorded on the blockchain, ensuring the security and transparency of the election process.
+After making these changes, Kadena account holders can vote using the `election` module and have their votes recorded on the blockchain, ensuring the security and transparency of the election process.
 
 ## Before you begin
 
@@ -71,7 +71,7 @@ To organize tests into separate files:
 
 ## Implement and test a vote function
 
-When an account holder clicks **Vote Now** in the election application, it triggers a call to the `vote` function in the `frontend/src/repositories/vote/DevnetVoteRepository.ts` file, passing the account name and the name of the candidate corresponding to the table row that was clicked. 
+When an account holder clicks **Vote Now** in the election application, it triggers a call to the `vote` function in the `frontend/src/repositories/vote/DevnetVoteRepository.ts` file, passing the current account name and the name of the candidate corresponding to the table row that was clicked. 
 The `vote` function in the frontend uses the Kadena client to execute the `vote` function defined in the `election` module. 
 
 To implement the `vote` function in the `election` Pact module, you can test your code as you go using the Pact REPL as you did in previous tutorials.
@@ -104,9 +104,9 @@ To test incrementing votes for a candidate:
    
    - The `vote` function takes one argument—`candidateKey`—with a type of string.
    - The `candidateKey` specifies the key for the row in the `candidates` table to read using the `with-read`  built-in function. 
-   - The database column named  `"votes"` is assigned a value from the  `numberOfVotes` variable. 
+   - The database column named `"votes"` is assigned a value from the `numberOfVotes` variable. 
    
-   The `vote` function then calls the `update`  built-in function with three arguments to specify:
+   The `vote` function then calls the `update` built-in function with three arguments to specify:
      
    - The table to update (`candidates`).
    - The key for the row to update (`candidateKey`).
@@ -222,8 +222,8 @@ To test casting a vote for a candidate that doesn't exist:
 In its current implementation, the `vote` function doesn't provide any specific checks or error handling.
 As you iterate and improve the `vote` function to check for specific error conditions, you should return error messages with specific information about why the call to the function failed.
 
-In the previous example, the expect-failure function didn't include an expected outcome message.
-If you update the invalid candidate transaction to specify an expected error message and that message wasn't returned by the vote function, the transaction would fail.
+In the previous example, the `expect-failure` function didn't include an expected outcome message.
+If you update the invalid candidate transaction to specify an expected error message and that message isn't returned by the `vote` function, the transaction would fail.
 
 For example, you could modify the transaction to include `"Candidate does not exist"` as the expected outcome like this:
    
@@ -254,9 +254,9 @@ The `with-default-read` function enables you to return a default object with def
 
 To add a specific error message to the `vote` function:
 
-1.  Open the `election-workshop/pact/election.pact` file in your code editor.
+1. Open the `election-workshop/pact/election.pact` file in your code editor.
 
-2.  Update the `vote` function to use the `with-default-read` function:
+2. Update the `vote` function to use the `with-default-read` function:
 
 
    ```pact
@@ -273,7 +273,7 @@ To add a specific error message to the `vote` function:
    With this code, a successful read operation assigns the value of the `"name"` column to a `name` variable and the value of the `"votes"` column to the `numberOfVotes` variable. 
    The function also checks that the candidate `name` associated with the `candidateKey` is not an empty string, and returns a specific error if it is. 
 
-6. Execute the code in the `voting.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
+3. Execute the code in the `voting.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
    
    ```pact
    pact voting.repl --trace
@@ -474,7 +474,7 @@ To test that an account can only vote once:
      (expect-failure
        "Cannot vote more than once"
        "Multiple voting not allowed"
-       (vote "election-admin" "1")
+       (vote "k:d0aa32802596b8e31f7e35d1f4995524f11ed9c7683450b561e01fb3a36c18ae" "1")
      )
    (commit-tx)
    ```
@@ -532,8 +532,9 @@ To demonstrate voting on behalf of another account:
    - Creates the `coin.coin-table` and `coin.allocation-table` required to create the `voter` account.
    - Creates the `voter` account and your administrative account in the `coin` module database. 
    
-   In this example, the `election-admin` is the administrative account name and keyset defined in previous tutorials.Remember to replace this information with the administrative account name that you funded on one or more chains.
-   For signel-key accounts, the default convention is a `k:` prefix and public key.
+   In this example, the `election-admin` is the administrative account name and keyset defined in previous tutorials.
+   Remember to replace this information with the administrative account name that you funded on one or more chains.
+   For single-key accounts, the default convention is a `k:` prefix and public key.
 
 4. Open the `election-workshop/pact/voting.repl` file in the code editor.
 5. Add a transaction at the end of the file to cast a vote on behalf of the `voter` account signed by the `election-admin`.
@@ -587,6 +588,8 @@ To demonstrate voting on behalf of another account:
    This code imports the `details` function from the `coin` module, then uses the `coin.details` function to get the guard for an account by account name. 
    In this case, `voter-keyset` is the guard for the account. 
    By enforcing this guard, you can ensure that the keyset used to sign the `vote` transaction belongs to the account name passed to the function.
+   For simplicity, the frontend code in the workshop assumes that account names always use the `k:` prefix followed by a public key convention.
+   Frontend code changes are required to differentiate between account names and public keys if you want to use arbitrary account names that don't follow this convention.
 
 9. Apply the capability by wrapping the `update` and `insert` statements in the `vote` function inside a `with-capability` statement as follows:
 
@@ -607,7 +610,7 @@ To demonstrate voting on behalf of another account:
    )
    ```
 
-6. Execute the code in the `voting.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
+10. Execute the code in the `voting.repl` file using the Pact command-line interpreter and the `--trace` command-line option.
    
    ```pact
    pact voting.repl --trace
@@ -675,7 +678,7 @@ Impressive!
 You now have a simple smart contract with the basic functionality for conducting an election that allows Kadena account holders to vote on the candidate of their choice.
 With these changes, you're ready to upgrade the `election` module on the development network.
 
-## Update the development network
+## Update the deployed module
 
 Now that you've updated and tested your `election` module using the Pact REPL, you can update the module deployed on the local development network.
 
@@ -683,9 +686,11 @@ To update the `election` module on the development network:
 
 1. Verify the development network is currently running on your local computer.
 
-2. Open the `election-module-devnet.ktpl` file, replace the `"init-candidates": true` with `"init-votes": true` and add `"upgrade": true` properties to the transaction data, and save the file.
+2. Open the `election-module-devnet.ktpl` file, replace the `"init-candidates": true` with `"init-votes": true` and add the `"upgrade": true` property to the transaction data, and save the file.
+   
+   For example:
 
-```yaml
+   ```yaml
    data:
      election-admin:
        keys: ["{{public-key}}"]
@@ -695,7 +700,7 @@ To update the `election` module on the development network:
    ```
 
    Because you created in the `candidates` table in the previous tutorial, you must remove the `"init-candidates": true` property from the transaction data.
-   You must include `"init-votes": true` in the transaction data to create the `votes` table using the `(create-table votes)` statement when you update your `election` module.
+   You must include `"init-votes": true` in the transaction data to create the `votes` table using the `(create-table votes)` statement when you update the `election` module.
    Because you are redeploying your module on the same network and chain, you also must include `"upgrade": true` in the transaction data. 
 
 1. Create a transaction that uses the `election-module-devnet.ktpl` template by running the `kadena tx add` command and following the prompts displayed.
@@ -764,14 +769,13 @@ To update the frontend to use the `election` module:
 
 6. Review the `vote` function, remove the `@ts-ignore` comment, and save your changes to the `DevnetVoteRepository.ts` file.
 
-7. Open the `election-workshop/frontend` folder in a terminal shell on your computer.
-8. Install the frontend dependencies by running the following command:
+7. In the terminal where `election-workshop/frontend` is your current working directory, install the frontend dependencies by running the following command:
    
    ```bash
    npm install
    ```
 
-9. Start the frontend application configured to use the development network running locally by running the following command: 
+8. Start the frontend application configured to use the development network running locally by running the following command: 
 
    ```bash
    npm run start-devnet
@@ -785,17 +789,19 @@ To cast a vote using the election website:
 
 1. Verify the development network is currently running on your local computer.
 
-2. Open and unlock the Chainweaver desktop or web application and verify that:
+2. Open and unlock the Chainweaver desktop application and verify that:
    
-   - You're connected to **development network (devnet)** from the network list.
-   - Your administrative account name with the **k:** prefix exists on chain 1.
-   - Your administrative account name is funded with KDA on chain 1. 
+   - You're connected to **development** network from the network list.
+   - Your administrative account name with the **k:** prefix exists on the chain where you've deployed the `election` module.
+   - Your administrative account name has funds on the chain where you've deployed the `election` module.
    
-   You're going to use Chainweaver to sign the voting transaction. 
+   For simplicity, the frontend uses the `createSignWithChainweaver` method to sign the transaction that calls the `vote` function. 
+   The code for this call uses the default URL for the Chainweaver desktop application, 127.0.0.1:9467.
+   To sign the transaction with the key you generated for the administrative account using kadena-cli, you can add your account to Chainweaver or replace the call to the `createSignWithChainweaver` method with `createSignWithKeypair`.
 
 3. Open `http://localhost:5173` in your browser, then click **Set Account**.
 
-4. Paste your administrative account, then click **Save**.
+4. Paste your administrative account, then click **Set**.
 
 5. Click **Add Candidate** to add candidates, if necessary.
 
@@ -807,7 +813,7 @@ To cast a vote using the election website:
    
    After you vote, the Vote Now button is disabled because the frontend checks if your account has already voted by making a `local` request to the `account-voted` function of the `election` Pact module.
 
-   ![View the result after voting](/img/election-workshop/election-after-voting.png)
+   ![View the result after voting](/img/election-workshop/election-after-voting.jpg)
 
 ## Next steps
 
@@ -819,7 +825,7 @@ In this tutorial, you learned how to:
 - Add a `votes` database table to store the vote cast by each account holder. 
 - Connect the voting functionality from the frontend to the development network as a backend. 
   
-With this tutorial, you completed the functional requirements for the `election` Pact module, deployed it as a smart contract on your local development network, and interacted with the blockchain backend through the frontend of the election application website.
+With this tutorial, you completed the functional requirements for the `election` Pact module, deployed the module on your local development network, and interacted with the blockchain backend through the frontend of the election application website.
 
 However, you might have noticed that your administrative account had to pay for gas to cast a vote. 
 
