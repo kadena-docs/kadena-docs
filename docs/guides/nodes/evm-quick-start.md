@@ -1,5 +1,5 @@
 ---
-title: Chainweb EVM preview
+title: Get started
 description: "Deploy a private Chainweb EVM development network locally."
 id: evm-devnet
 sidebar_position: 2

@@ -93,7 +93,14 @@ const sidebars: SidebarsConfig = {
                               'guides/nodes/configure',
                               'guides/nodes/monitor',
                               'guides/nodes/manage-databases',
-                              //'guides/nodes/howto-evm',
+                         ],
+                    },
+                    {
+                         type: 'category',
+                         label: 'Chainweb EVM',
+                         items: [
+                              'guides/nodes/evm-devnet',
+                              'guides/nodes/howto-evm',
                          ],
                     },
                     'guides/dev-kadena-cli',

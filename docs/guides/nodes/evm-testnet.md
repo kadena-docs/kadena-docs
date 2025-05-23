@@ -1,5 +1,5 @@
 ---
-title: Chainweb EVM testnet deployment guide
+title: Testnet deployment guide
 description: "Deploy your Solidity and EVM-compatible smart contract the Kadena Chainweb EVM test network."
 id: howto-evm
 sidebar_position: 2
