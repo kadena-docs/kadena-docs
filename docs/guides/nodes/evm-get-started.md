@@ -1,7 +1,7 @@
 ---
-title: Chainweb EVM preview
-description: "Become a Chainweb node operator to support the Kadena network infrastructure."
-id: howto-evm
+title: Get started with Chainweb EVM
+description: "Deploy a private Chainweb EVM node to set up a local development network for testing."
+id: evm-devnet
 sidebar_position: 2
 tags: [pact, chainweb, network, node operator]
 ---
