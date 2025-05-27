@@ -1,0 +1,72 @@
+---
+title: Real world asset management
+id: real-world-assets
+description: "Introduces the Kadena real world asset token standard that is comparable to ERC-3643 in the Ethereum ecosystem."
+sidebar_position: 1
+---
+
+# Real world asset management
+
+Increasingly, blockchain technology is used to record and track the ownership of assets that are deemed to have _real world_ value.
+
+Real world assets can include physical assets—like real estate, works of art, precious metals, gemstones, or commodities—or financial instruments—like stocks, bonds, and securities—that are broadly accepted as valuable.
+With real world asset—or RWA—management, blockchain tokens represent these assets to enable transactions between owners and investors to be faster, more efficient, more transparent, and more secure. 
+
+In addition, the tokenization of real world assets enables more people to participate in the marketplace through fractional ownership of an asset that wouldn't be possible in traditional marketplaces.
+
+In the Ethereum ecosystem, the ERC-3643 token standard defines interfaces for managing and transferring assets that require regulatory compliance or more stringent permissioned tracking for institutional investors.
+The Kadena RWA token standard provides a similar set of interfaces for the Kadena blockchain network written in the Pact smart contract language. 
+The Kadena WA token standard includes several open-source smart contracts that define the interfaces to issue, manage, and transfer permissioned tokens on the Kadena blockchain network.
+
+As a scalable, layer-1 blockchain with low transaction fees, the Kadena network is a strong foundation for delivering real world asset management on-chain.
+With the Kadena RWA token standard, builders and development partners can drive adoption into more traditional marketplaces
+
+## Initial and future implementation
+
+The initial (`real-world-asset-v1`) implementation of the Kadena RWA token standard focuses on the functions required for an **issuer** or **owner** to bring assets on-chain. 
+The implementation includes functions and capabilities for:
+- Identifying participants and roles as token issuers, token owners, and token investors.
+- Issuing tokens that conform to compliance rules.
+- Transferring tokens in compliance with the token standard.
+
+This initial implementation also includes a pre-configured frontend to demonstrate the functionality of current contracts and their functions and a simplified approach to off-chain identity management using a `KadenaID` to make it easier to deploy and manage contracts during the initial rollout.
+
+An external audit of the Kadena RWA token standard has been completed prior to the release the initial implementation.
+As the standard evolves, future implementations will focus on delivering features that are comparable to the ERC-3643 standard, extending compliance contracts, enhancing security, and strengthening identity management.
+
+## Core functionality
+
+The `real-world-asset-v1` token standard provides interfaces that are similar to the ERC-3643 token standard.
+The main interfaces in this implementation enable the tokenization of real-world assets with built-in compliance features.
+The implementation provides the core functionality for the following:
+
+- **Real world asset management** operations to perform agent-managed actions such as pause, freeze users, forced-transfer, mint, and burn.
+- **Agent role** operations to define and enforce roles for agents and owners.
+- **Identity registry** operations to track and manage investor identities.
+- **Compliance** operations to define compliance standards to add rules for minting, burning, and transferring assets.
+
+### Identity registry
+
+For the initial implementation of the Kadena RWA token standard, identity registry only supports registering and deleting identities.
+
+In addition, the Kadena RWA token standard implements the identity registry and the identity storage features in a single module. 
+Because of this implementation difference, the Kadena RWA token standard differs from the ERC-3643 standard in the following ways:
+
+- The Kadena RWA `identity-registry-storage-v1` interface omits the ERC-3643 `IdentityRegistryBound` and `IdentityRegistryUnbound` events.
+  The other events defined in the ERC-3643 Identity Registry Storage are implemented in the Kadena RWA `identity-registry-storage-v1` interface.
+- All of the functions defined in the ERC-3643 Identity Registry Storage interface are implemented in the Kadena RWA `identity-registry-v1` interface.
+- The Kadena RWA `identity-registry-v1` interface omits the ERC-3643 `IdentityStorageSet` event and the `setIdentityRegistryStorage` and `identityStorage` functions.
+
+## Get started
+
+To get started with the Kadena RWA token standard:
+
+1. Clone the repository.
+   
+   ```bash
+   git clone https://github.com/kadena-io/RWA-token && cd RWA-token
+   ```
+
+1. Review the directory structure.
+2. Review the documentation.
+
