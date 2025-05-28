@@ -25,7 +25,7 @@ The MVP sample implementation also provides the following sample compliance cont
 
 ## Governance
 
-The mvp-token contract defines two types of owners:
+The `mvp-token` contract defines two types of owners:
 
 | Type | Defined as | Description |
 | :--- | :--------- | :---------- |
@@ -53,11 +53,12 @@ The **signer** for an `init` transaction must be the `GOV-KEYSET` governance cap
 Use the following input parameters:
 
 | Parameter | Type | Description |
+| :-------- | :--- | :---------- |
 | name | string | Name of the token being initialized.|
 | symbol | string | Symbol to use for the token being initialized.|
 | decimals | integer | Decimal precision for the token being initialized.|
 | kadenaID | string | Kadena account name for the owner of the token being initialized.|
-| compliance | [module{RWA.compliance-v1}] | Compliance rules to apply for the token being initialized. |
+| compliance | `[module{RWA.compliance-v1}]` | Compliance rules to apply for the token being initialized. |
 | paused | bool | Initial state for the token being initialized. |
 | owner-guard | guard | Guard for the Kadena account that owns the token being initialized. |
 
