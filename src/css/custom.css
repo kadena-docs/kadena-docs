@@ -78,6 +78,42 @@
           cursor: pointer;
           font-size: 13px; }
 
+   [class*="kimg-"] {
+      display: block !important;
+      margin: 0 auto !important;
+      height: auto !important;
+   }
+
+   .kimg-xl-100 { max-width: 100%; }
+   .kimg-xl-80 { max-width: 80%; }
+   .kimg-xl-60 { max-width: 60%; }
+   .kimg-xl-50 { max-width: 50%; }
+   .kimg-xl-40 { max-width: 40%; }
+
+   @media screen and (max-width: 1370px) {
+      .kimg-l-100 { max-width: 100%; }
+      .kimg-l-80 { max-width: 80%; }
+      .kimg-l-60 { max-width: 60%; }
+      .kimg-l-50 { max-width: 50%; }
+      .kimg-l-40 { max-width: 40%; }
+   }
+
+   @media screen and (max-width: 996px) {
+      .kimg-m-100 { max-width: 100%; }
+      .kimg-m-80 { max-width: 80%; }
+      .kimg-m-60 { max-width: 60%; }
+      .kimg-m-50 { max-width: 50%; }
+      .kimg-m-40 { max-width: 40%; }
+   }
+
+   @media screen and (max-width: 600px) {
+      .kimg-s-100 { max-width: 100%; }
+      .kimg-s-80 { max-width: 80%; }
+      .kimg-s-60 { max-width: 60%; }
+      .kimg-s-50 { max-width: 50%; }
+      .kimg-s-40 { max-width: 40%; }
+   }
+
   nav.navbar .github-link-icon {
      height: 24px; width: 24px;
      margin-right: 15px; }
