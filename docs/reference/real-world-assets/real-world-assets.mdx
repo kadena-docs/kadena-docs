@@ -23,9 +23,9 @@ With the Kadena RWA token standard, builders and development partners can drive 
 
 ## Initial and future implementation
 
-The initial (`real-world-asset-v1`) implementation of the Kadena RWA token standard focuses on the functions required for an **issuer** or **owner** to bring assets on-chain. 
+The initial (`real-world-asset-v1`) implementation of the Kadena RWA token standard focuses on the functions required for an issuing **agent** or **owner** to bring assets on-chain. 
 The implementation includes functions and capabilities for:
-- Identifying participants and roles as token issuers, token owners, and token investors.
+- Assigning participant roles as token issuing agents, token owners, and token investors.
 - Issuing tokens that conform to compliance rules.
 - Transferring tokens in compliance with the token standard.
 
@@ -47,15 +47,9 @@ The implementation provides the core functionality for the following:
 
 ### Identity registry
 
-For the initial implementation of the Kadena RWA token standard, identity registry only supports registering and deleting identities.
-
-In addition, the Kadena RWA token standard implements the identity registry and the identity storage features in a single module. 
-Because of this implementation difference, the Kadena RWA token standard differs from the ERC-3643 standard in the following ways:
-
-- The Kadena RWA `identity-registry-storage-v1` interface omits the ERC-3643 `IdentityRegistryBound` and `IdentityRegistryUnbound` events.
-  The other events defined in the ERC-3643 Identity Registry Storage are implemented in the Kadena RWA `identity-registry-storage-v1` interface.
-- All of the functions defined in the ERC-3643 Identity Registry Storage interface are implemented in the Kadena RWA `identity-registry-v1` interface.
-- The Kadena RWA `identity-registry-v1` interface omits the ERC-3643 `IdentityStorageSet` event and the `setIdentityRegistryStorage` and `identityStorage` functions.
+For the initial implementation of the Kadena RWA token standard, the identity registry only supports registering and deleting identities without performing identity verification.
+Because of this simplified implementation, the Kadena RWA token standard implements the identity registry and the identity storage features in a single module. 
+The functions defined in the ERC-3643 Identity Registry Storage interface are implemented in the Kadena RWA `identity-registry-v1` interface.
 
 ### Compliance
 
