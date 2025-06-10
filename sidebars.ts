@@ -473,6 +473,7 @@ const sidebars: SidebarsConfig = {
                     'reference/bootstrap',
                     'reference/latency',
                     'reference/guard-json',
+                    'reference/dex-integration',
                ],
           },
           {
