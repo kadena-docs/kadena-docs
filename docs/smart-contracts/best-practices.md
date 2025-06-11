@@ -86,6 +86,43 @@ The following list summarizes patterns, practices, and strategies for writing Pa
   Managed capabilities allow contracts to keep track of how a capability that's been granted in a transaction can be used, either by setting a limit on a protected resource or by preventing the capability from being granted more than once in a transaction.
   For functions involving assets transfers, you should use managed capabilities to prevent replay attacks within a transaction.
 
+## Basic auditing for Pact
+
+If you're writing smart contracts that handle assets and transferring of ownership, you'll want to ensure that all of the functions involved in those activities are secure.
+For example, you'll want to ensure that functions don't leak sensitive information like account keys or identifying information that should be kept private.
+You'll also want to protect functions from unauthorized access and prevent functions from being appropriated and used to drain assets.
+
+As a first line of defense against unexpected or malicious behavior, you should review contract code with a few basic auditing principles in mind.
+
+In particular, you should pay close attention to the following in your code reviews:
+
+- Governance capability, keyset, and enforcement.
+
+- All table `insert`, `update`, and `write` operations.
+  
+- All capability definitions and use cases.
+  Be sure that capabilities are named appropriately and are only brought into scope where they are needed.
+  You should also remove any capabilities you aren't using unless they are required by an `interface` that you're implementing.
+
+- Managed capability use cases.
+  For example, you should verify that the `@managed` keyword is used for capabilities that should only be allowed once in a transaction. 
+  If a capability can be used more than once, you should verify that you have defined an appropriate resource and management function (`@managed amount TRANSFER-mgr`) and the code for the management function (`defun TRANSFER-mgr:decimal`).
+  
+- All external module reference (`modref`) calls.
+  For example, you should be able to verify whether a capability looks for the correct guard stat's stored in a database table.
+
+- All cases where you define, store, and enforce a guard or verifier application.
+  For example, you should be able to verify that a call to an external module doesn't grant any capability that's shouldn't be in scope for the call.
+
+- All warning and error messages. 
+  For example, you should verify that you check for valid input values and provide clear error messages for invalid values.
+
+- Any nested `let` expressions and cascading `if` statements.
+  In many cases, complex conditions can be difficult to evaluate and can lead to expressions that are never triggered.
+  Where possible, you should replace complex conditions with concise and specific functions that are easier to evaluate and test.
+
+- All `defpact` steps.
+
 ## Enforcing access controls
 
 As discussed in [Capabilities](/smart-contracts/capabilities), basic and managed capabilities are critical components for controlling how permissions are granted to users of smart contracts.
