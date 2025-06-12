@@ -22,6 +22,8 @@ This guide also assumes the following:
 
 - You host one or more Chainweb nodes that you control and monitor.
 - You have one or more Chainweb nodes that connect to the Kadena test network or main production network.
+- You are familiar with Kadena single-key and multi-key [accounts](/resources/glossary#account), account naming conventions, and the use of [keysets](/resources/glossary#keyset).
+  For more information about working with accounts and keys, see [Accounts, keys, and principals](/smart-contracts/accounts).
 - You want to use the Kadena client libraries to write scripts that perform common tasks, like creating transactions and listening for events.
 
 This guide includes code examples written in TypeScript for all of the common exchange-related activity.
