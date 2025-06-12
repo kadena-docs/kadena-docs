@@ -8,7 +8,8 @@ tags: [pact, chainweb, network, node operator]
 
 # Get started with Kadena Chainweb EVM
 
-The Kadena network relies on the Chainweb consensus protocol that enables multiple independent chains to share a common view of state beyond a certain block depth. 
+The Kadena network relies on nodes that run the Chainweb consensus protocol.
+The Chainweb consensus protocol enables multiple independent chains to share a common view of state beyond a certain block depth. 
 This common view of state enables any chain in the network to verify whether historical events beyond the required block depth occurred on any other chain. 
 For example, if a transaction occurs on chain 3, chain 3 can produce a [simple payment verification (SPV) proof](https://wiki.bitcoinsv.io/index.php/Simplified_Payment_Verification) that chain 6 can verify by checking the shared history. 
 The only requirement for verifying the transaction is that the proof must be conveyed from the original chain, in this example, chain 3—to the target chain, in this example, chain 6.
@@ -18,6 +19,9 @@ There are no relayers, oracles, validators, archives, or third-party coordinator
 
 The chains in the Kadena Chainweb EVM network run in parallel, but independently, allowing for concurrent transaction processing without the risk of collisions or delays.
 Because Chainweb provides a single common view of state, global security, and concurrent payload processing, Kadena Chainweb EVM enables cross-chain transactions to be executed more efficiently and at a lower cost than traditional bridging techniques.
+
+When Ethereum transitioned from a Proof-of-Work consensus model to a Proof-of-Stake consensus model, it effectively split the blockchain into separate consensus and execution layers, with the Ethereum Virtual Machine (EVM) becoming the execution environment and agnostic about the underlying consensus.
+This change enables Chainweb nodes to provide the same EVM execution environment while maintaining its Proof-of-Work consensus, security, and decentralization over a multi-chain network. 
 
 ## How it works
 
