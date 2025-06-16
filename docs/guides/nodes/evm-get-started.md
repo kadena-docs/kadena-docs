@@ -9,6 +9,12 @@ tags: [pact, chainweb, network, node operator]
 # Get started with Kadena Chainweb EVM
 
 The Kadena network relies on nodes that run the Chainweb consensus protocol.
+When Ethereum transitioned from a Proof-of-Work consensus model to a Proof-of-Stake consensus model, it effectively split the blockchain into separate consensus and execution layers.
+This change to the architecture enabled the Ethereum Virtual Machine (EVM) to provide an execution environment that is agnostic about the underlying consensus.
+Because the execution layer operates independently, Chainweb nodes can provide the same EVM execution environment running in parallel with Pact while maintaining the Chainweb Proof-of-Work consensus, security, and decentralization over a multi-chain network. 
+
+## How it works
+
 The Chainweb consensus protocol enables multiple independent chains to share a common view of state beyond a certain block depth. 
 This common view of state enables any chain in the network to verify whether historical events beyond the required block depth occurred on any other chain. 
 For example, if a transaction occurs on chain 3, chain 3 can produce a [simple payment verification (SPV) proof](https://wiki.bitcoinsv.io/index.php/Simplified_Payment_Verification) that chain 6 can verify by checking the shared history. 
@@ -20,44 +26,37 @@ There are no relayers, oracles, validators, archives, or third-party coordinator
 The chains in the Kadena Chainweb EVM network run in parallel, but independently, allowing for concurrent transaction processing without the risk of collisions or delays.
 Because Chainweb provides a single common view of state, global security, and concurrent payload processing, Kadena Chainweb EVM enables cross-chain transactions to be executed more efficiently and at a lower cost than traditional bridging techniques.
 
-When Ethereum transitioned from a Proof-of-Work consensus model to a Proof-of-Stake consensus model, it effectively split the blockchain into separate consensus and execution layers, with the Ethereum Virtual Machine (EVM) becoming the execution environment and agnostic about the underlying consensus.
-This change enables Chainweb nodes to provide the same EVM execution environment while maintaining its Proof-of-Work consensus, security, and decentralization over a multi-chain network. 
+At a high level, Kadena Chainweb EVM supports cross-chain activity in three main steps:
 
-## How it works
-
-At a high level, Kadena Chainweb EVM bridging involves three main steps:
-
-- An event occurs on a source chain
+- An event occurs on a source chain.
 
   For a cross-chain transfer, a user *initiates* a transaction to transfer tokens from a source chain using a smart contract.
   The smart contract emits a well-defined cross-chain event.
 
-- An off-chain endpoint generates proof of a specific event
+- An off-chain endpoint generates proof of a specific event.
   
   For a cross-chain transfer, a user *queries* an endpoint that generates a simple payment verification proof or another type of proof that can be validated.
   The proof must encode all of the information required to uniquely identify the event on the source chain and the contract on the target chain.
 
-- The event is observed on the target chain
+- The event is observed on the target chain.
   
   For a cross-chain transfer, a user *relays* the proof to the target chain, where it is verified against the history shared by the source and target chains. 
   By checking the shared history, the contract on the target chain validates that the transfer event claimed by the user occurred on the source chain.
   The smart contract on the target chain completes the transaction, for example, by minting the number of tokens transferred from the source chain.
 
-## Chainweb EVM preview
+## Chainweb EVM development sandbox
 
-The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository presents a preview of the support for the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes](https://kadena.io/chainweb) in the
-[Kadena](https://kadena.io) blockchain.
-This preview demonstrates how to set up EVM-compatible nodes and execute cross-chain transactions to transfer assets from one chain to another.
-In the preview, there are two EVM-compatible chains and a Solidity contract that demonstrates transferring tokens between the two EVM chains.
-The preview is the first step toward an integrated and feature-rich multi-chain proof-of-work consensus network for Solidity and Pact developers to deploy smart contracts.
+The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository provides tools and configuration files for developers interested in setting up a local development environment for testing the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes](https://kadena.io/chainweb) that provide the infrastructure for the [Kadena](https://kadena.io) blockchain network.
 
-## What's included in the preview
+The repository includes a default configuration for a `docker compose` image that is optimized for basic frontend development with an EVM-compatible node as the backend.
+The default configuration includes chains 0 through 19 for Pact smart contracts and chains 20 though 24 for Solidity contracts.
 
-With the preview, you can set up a local Kadena **development network** that runs a single **Chainweb node** and a single **mining client**.
-The development network consists of twenty (20) chains with two chains that use EVM as the payload provider for processing transactions.
-Because the development network is intended for demonstration purposes, proof-of-work consensus is disabled and blocks are produced at a constant rate of two seconds per chain, or ten blocks per second across the whole network.
+## What's included in the sandbox
 
-The repository for the preview includes the following directories and components:
+The `kadena-evm-sandbox` repository provides everything you need to set up a local Kadena **development network** that runs a single **Chainweb node** with a single **mining client**.
+The default configuration for the development network provides five chains that use EVM as the payload provider for processing transactions.
+
+The repository includes the following directories and components:
 
 | Name | What it provides
 | ---- | ----------------
@@ -89,19 +88,13 @@ To download and install the Chainweb EVM preview:
 
 1. Open a terminal shell on your computer.
 
-1. Clone the [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository by running the following command:
+1. Clone the [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository and change to the `kadena-evm-sandbox` directory by running the following command:
 
    ```sh
-   git clone https://github.com/kadena-io/kadena-evm-sandbox
+   git clone https://github.com/kadena-io/kadena-evm-sandbox && cd kadena-evm-sandbox
    ```
 
-1. Change to the `kadena-evm-sandbox` directory by running the following command:
-   
-   ```sh
-   cd kadena-evm-sandbox
-   ```
-
-   The kadena-evm-sandbox directory includes the `network` command-line program that you can use to perform common tasks to manage and monitor the development network.
+   The `kadena-evm-sandbox` directory includes the `network` command-line program that you can use to perform common tasks to manage and monitor the development network.
    The `network` program supports many commands that are similar to Docker commands.
    You can explore all of the commands available by running the following command:
 
@@ -124,7 +117,8 @@ To download and install the Chainweb EVM preview:
    ./network devnet start
    ```
 
-   This command starts the development blockchain and allocates the test account addresses. You should see output similar to the following excerpt:
+   This command starts the development blockchain and allocates the test account addresses. 
+   You should see output similar to the following excerpt:
 
    ```sh
    [+] Building 0.0s (0/0)                                    docker:desktop-linux
@@ -201,7 +195,7 @@ To test the simple token contract:
    ./network solidity test
    ```
    
-   This command executes a set of tests that deploy the ERC-20 token contract and check that token transfer operations succeed or revert as expected when tokens are transferred between addresses on the two Chainweb EVM chains.
+   This command executes a set of tests that deploy the ERC-20 token contract and check that token transfer operations succeed or revert as expected when tokens are transferred between addresses on two Chainweb EVM chains.
    For example, you should see output similar to the following excerpt:
 
    ```sh
@@ -231,7 +225,7 @@ To test the simple token contract:
 
 ### Restarting the development network
 
-If the development network stops producing blocks or seems stuck, you can restart the chainweb-node service without stopping or restarting other network components.
+If the development network stops producing blocks or seems stuck, you can restart the `chainweb-node` service without stopping or restarting other network components.
 
 To restart the development network:
 
@@ -247,6 +241,22 @@ To shut down the network and remove containers:
 
 ```sh
 ./network devnet stop
+```
+
+## Modifying the network configuration
+
+The `devnet` folder in the `kadena-evm-sandbox` repository includes a Python script, `compose.py`, that generates the `docker-compose.yaml` file for the Chainweb EVM `docker compose` project.
+The `compose.py` script automates the creation of the `docker-compose.yaml` file with different configuration setting for the following predefined use cases:
+
+- `minimal` to generate a single node development environment.
+- `kadena-dev` to simulate a production environment with four nodes with different roles.
+- `app-dev`
+
+To generate a docker-compose.yaml for one of the predefined use cases, add the `--project` command-line option and the use case to the `compose.py` script.
+For example, run the following command to generate a `docker-compose.yaml` file that simulates a production environment and start the network using that configuration:
+
+```bash
+python3.13 compose.py --project kadena-dev > docker-compose.yaml && docker compose up -d
 ```
 
 ## Integrating with other Hardhat projects
