@@ -105,9 +105,13 @@ For example, you can create keys and accounts by using any of the following wall
    ![Chainweaver network selection](/img/chainweaver-your-assets.jpg)
 
 2. Click **+ Account**, then select **Create Multi-Sig**.
-3. Type an account alias name, select or enter the public keys for the account and a predicate, then click **Create account**.
+3. Type an account alias name, select or enter the public keys for the account, and select a predicate, then click **Create account**.
    
-   ![Select the keys and predicate for the account](/img/multi-sig-account.png)
+   - **Fungible Contract**: Select KDA (coin).
+   - **Alias**: Type an alias for the `w:` account name.
+   - **Key**: Select or enter each public key for the multi-signature account.
+   - **Predicate**: Select one of the built-in predicates to use for the multi-signature account.
+   <!--![Select the keys and predicate for the account](/img/multi-sig-account.png)-->
 
 4. Verify the new account is listed with a `w:` prefix in the list of assets.
    
