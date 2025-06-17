@@ -26,10 +26,13 @@ Before you can deploy any smart contracts, you must have a **wallet** that suppo
 You can add the Kadena Chainweb EVM network to any EVM-compatible wallet, such as MetaMask, Ledger, or Coinbase Wallet.
 
 Note that you must use an EVM-compatible wallet to deploy on Chainweb EVM.
-Wallets that are used for traditional Kadena development—such as Chainweaver, Koala, Ecko, or Linx—only support **Pact** smart contracts at this time.
+Wallets that are used for traditional Kadena development—such as Chainweaver, eckoWALLET,Enkrypt, Koala Wallet, or LinxWallet—only support **Pact** smart contracts at this time.
+
+### Add the Kadena network
 
 Most EVM-compatible wallets provide an **Add Network** or a **Connect** option where you can specify details about the network you want to add or connect to.
 However, navigating to the network settings will vary depending on the specific wallet and version you use.
+
 For example, if you use MetaMask:
 
 1. Expand **Ethereum Mainnet** to display the list of networks:
@@ -47,33 +50,43 @@ For example, if you use MetaMask:
    Use the following information to add Kadena Chainweb EVM Testnet to your wallet:    
 
    - Network Name: Kadena
-   - RPC: https://testnet.kadena.io (placeholder)
-   - Chain ID: 4269 (placeholder)
+   - RPC: https://evm-testnet.kadena.io (placeholder)
+   - Chain ID: 5920 to deploy contracts on Chainweb EVM chain 20
    - Currency Symbol: KDA
-   - Block Explorer URL:  https://kadenascan.io (placeholder)
+   - Block Explorer URL: https://kadena-blockscout.io (placeholder)
 
-After you connect your wallet account to the Kadena Chainweb EVM Testnet, you need to fund the account with **testnet KDA** token to deploy contracts and pay transaction fees.
-Testnet KDA tokens or **tKDA** have no _monetary value_ but they are required to execute transactions on the network. 
+### Fund the wallet account
 
-To get tokens for Chainweb EVM Testnet:
+After you connect your wallet account to the Kadena Chainweb EVM Testnet, you need to fund the account with **testnet KDA** tokens to deploy contracts and pay transaction fees.
+Testnet KDA tokens have no _monetary value_ but they are required to execute transactions on the network. 
 
-- Official Kadena faucet: Kadena provides a public faucet interface for testnet KDA. 
-  Open [faucet.evmtestnet.chainweb.com](https://faucet.evmtestnet.chainweb.com) in a browser, enter your account address, and select **Testnet**. The faucet contract will transfer 20 tKDA to the account you specify. 
-    
-- Alternate faucet: You can opt to use third-party faucet services—such as [Tatum](https://tatum.io/)—to obtain tKDA tokens for Kadena Chainweb EVM Testnet.
-  The Tatum faucet can transfer up to 100 tKDA tokens to your wallet address.
+You have two options for funding wallet accounts that interact with Chainweb EVM Testnet:
+
+- Official Kadena faucet: Kadena provides a public faucet interface for testnet KDA.     
+- Alternate faucet: You can opt to use third-party faucet services—such as [Tatum](https://tatum.io/)—to obtain KDA tokens for Kadena Chainweb EVM Testnet.
+  The Tatum faucet can transfer up to 100 KDA tokens to your wallet address.
   However, you might be required to sign up for services to access the Tatum Dashboard. 
 
 The official faucet should be sufficient for most testing scenarios, but an alternate faucet can be a useful resource if the official faucet rate-limits your usage.
+
+To fund your wallet account using the official Chainweb EVM faucet:
+
+1. Open [Developer Tools EVM faucet](https://tools.kadena.io/faucet/evm) in a browser.
+2. Select **Testnet** from the network menu, if it isn't already selected.
+3. Enter your Ethereum account name or account address (0x...).
+4. Click **Fund 20 Coins**. 
+  
+   The faucet contract will transfer 20 KDA to the account you specify. 
     
-**Important:** Your Chainweb EVM testnet account is on EVM _chain 0_ in the network. 
+**Important** The Ethereum wallet account you use to connect to Chainweb EVM Testnet is on **chain 20** in the Chainweb EVM network.
+The Ethereum chain identifier for this chain is 5920. 
 By default, all smart contract will be deployed on a single chain during the initial phase of deployment to Chainweb EVM. 
 For more information about the Kadena multi-chain ecosystem, see [Multi-chain support](#multi-chain-support).
 
 ## Configure the development environment
 
 After you have a Chainweb EVM testnet account with funds, the next step is to configure your development environment to use the Kadena Chainweb EVM Testnet network. 
-These steps assume you are on using Hardhat, which a popular Ethereum development framework, and the Kadena Hardhat plugin [@kadena/hardhat-chainweb](https://github.com/kadena-io/hardhat-kadena-plugin) for multi-chain support.
+These steps assume you are on using Hardhat, which is a popular Ethereum development framework, and the Kadena Hardhat plugin [@kadena/hardhat-chainweb](https://github.com/kadena-io/hardhat-kadena-plugin) for multi-chain support.
 
 ### Before you begin
 
@@ -103,13 +116,13 @@ To configure the development environment to deploy to one chain:
    
    Follow the prompts displayed to generate a default `hardhat.config.js` file and a sample project structure.
 
-3. Modify the default `hardhat.config.js` file to configure Hardhat to connect to Kadena Chainweb EVM testnet chain 0:
+3. Modify the default `hardhat.config.js` file to configure Hardhat to connect to Kadena Chainweb EVM testnet chain 20:
    
    ```javascript
-    const activeChain = "0";
+    const activeChain = "20";
     
-    const RPC_URL_CHAIN0 =
-      "https://evm-devnet.kadena.network/chainweb/0.0/evm-development/chain/0/evm/rpc";
+    const RPC_URL_CHAIN20 =
+      "https://evm-testnet.kadena.network/chainweb/0.0/evm-testnet/chain/20/evm/rpc";
     
     const config: HardhatUserConfig = {
       solidity: {
@@ -125,19 +138,22 @@ To configure the development environment to deploy to one chain:
           },
         ],
       },
-      defaultNetwork: `kadenaDevnet${activeChain}`,
+      defaultNetwork: `kadenaTestnet${activeChain}`,
       namedAccounts: {
         deployer: {
           default: 0,
-          kadenaDevnet0: 0,
-          kadenaDevnet1: 0,
+          kadenaTestnet20: 0,
+          kadenaTestnet21: 0,
+          kadenaTestnet22: 0,
+          kadenaTestnet23: 0,
+          kadenaTestnet24: 0,          
         },
       },
       networks: {
-        // Kadena Devnet Chain 0
-        kadenaDevnet0: {
-          url: RPC_URL_CHAIN0,
-          chainId: 1789,
+        // Kadena Testnet Chain 20
+        kadenaTestnet20: {
+          url: RPC_URL_CHAIN20,
+          chainId: 5920,
           accounts: [deployerPrivateKey],
           timeout: 60000,
           gas: 8000000,
@@ -150,7 +166,7 @@ To configure the development environment to deploy to one chain:
    ```
    
    When you connect to Chainweb EVM Testnet to deploy, use the account you funded with testnet KDA. 
-   Consider using environment variables for private keys—for example, use the `dotenv` package and `process.env.PRIVATE_KEY`—so to avoid hardcoding secret keys in your configuration file. 
+   Consider using environment variables for private keys—for example, use the `dotenv` package and `process.env.PRIVATE_KEY`—to avoid hardcoding secret keys in your configuration file. 
    If you prefer not to expose your private keys, you can configure Hardhat to use a wallet provider and enter your keys manually when you deploy.
    However, using Hardhat scripts is more automation-friendly.
   
@@ -163,10 +179,10 @@ To deploy using Hardhat:
 1. Run the deployment script and specify the `--chainweb` and `--network` command-line options: 
    
    ```bash
-   npx hardhat run scripts/deploy.js --chainweb testnet --network chainweb_testnet0
+   npx hardhat run scripts/deploy.js --chainweb evm-testnet --network chainweb_testnet20
    ```
     
-    With this command, Hardhat attempts to connect to the `testnet` RPC endpoint for chain 0 and send the transaction from your account. 
+    With this command, Hardhat attempts to connect to the `testnet` RPC endpoint for chain 20 and send the transaction from your account. 
     If the contract is deployed successfully, the console will display the contract address and the transaction hash.
     
 1. Wait for confirmation that the transaction has been mined into a block.
@@ -193,3 +209,7 @@ Congrats – you have deployed a Solidity smart contract on Kadena’s testnet! 
 
 ## Multi-chain support
 
+During the initial rollout of Chainweb EVM on the EVM Testnet, there will be twenty Pact chains—chains 0 through 19—and five EVM chains—chains 20 through 24.
+However, Kadena recommends that you only deploy contracts and test transaction execution on a single chain to ensure operations work as expected without any significant changes to your contracts of development environment.
+
+Limiting deployments to a single chain is intended to be a temporary constraint so that network stability and data persistence can be evaluated and, potentially, improved before rolling out the additional complexities involved in multi-chain contract deployments. 
