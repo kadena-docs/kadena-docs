@@ -46,12 +46,12 @@ At a high level, Kadena Chainweb EVM supports cross-chain activity in three main
 
 ## Chainweb EVM development sandbox
 
-The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository provides tools and configuration files for developers interested in setting up a local development environment for testing the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes](https://kadena.io/chainweb) that provide the infrastructure for the [Kadena](https://kadena.io) blockchain network.
+The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository provides tools and configuration files for developers interested in setting up a private local development environment for testing the Ethereum Virtual Machine (EVM) execution environment running on [Chainweb nodes](https://kadena.io/chainweb) that provide the infrastructure for the [Kadena](https://kadena.io) blockchain network.
 
 The repository includes a default configuration for a `docker compose` image that is optimized for basic frontend development with an EVM-compatible node as the backend.
 The default configuration includes chains 0 through 19 for Pact smart contracts and chains 20 though 24 for Solidity contracts.
 
-## What's included in the sandbox
+## What's included in the repository
 
 The `kadena-evm-sandbox` repository provides everything you need to set up a local Kadena **development network** that runs a single **Chainweb node** with a single **mining client**.
 The default configuration for the development network provides five chains that use EVM as the payload provider for processing transactions.
@@ -63,15 +63,15 @@ The repository includes the following directories and components:
 | allocations | Files to set up an ethers project that describes a set of BIP-44 wallets and allocations to be created in the genesis block for the development network.
 | apps | Files to set up the contract, server, and frontend application that demonstrates cross-chain transactions.
 | blockscout | Files to set up an optional block explorer for the EVM chains in the development network. [Blockscout](https://www.blockscout.com/) instances provide an explorer interface and API similar to [Etherscan](https://etherscan.io).
-| devnet | A Docker compose project and files to set up the Chainweb node for the development network.  
+| devnet | A Docker compose project and files to set up the Chainweb node services for the development network.  
 | docker&#8209;bake.hcl | A script to build multi-platform images for the development network Docker compose project.
 | docs | Technical documentation about the functions and events proposed for the Kadena Chainweb EVM cross-chain bridging protocol in draft form.
-| network | An optional command-line program for managing and monitoring the development network in the Kadena Chainweb EVM sandbox.
+| network | An optional command-line program for starting, stopping, and monitoring the Kadena Chainweb EVM development network.
 | solidity | A Hardhat project that demonstrates the implementation of a simple ERC-20 token with support for burn and mint style transfers between the two EVM chains in the network.
 
 ## Prerequisites and system requirements
 
-Before you set up the preview development environment, verify that your local computer has the required tools installed and meets the following basic requirements:
+Before you set up the Kadena Chainweb EVM development environment, verify that your local computer has the required tools installed and meets the following basic requirements:
 
 - You must have [Docker](https://www.docker.com) and [Docker Compose](https://docs.docker.com/compose/) or an Open Container Initiative (OCI) compliant alternative.
 - You must have at least 4 CPU cores and 8 GB of memory available for Docker. 
@@ -80,11 +80,11 @@ Before you set up the preview development environment, verify that your local co
 - You must have a POSIX-compliant terminal shell for running command-line programs and scripts.
 - You should have `bash` and [jq](https://jqlang.org) programs installed.
 - You must have JavaScript tooling installed, including [Node.js](https://nodejs.org) version `v22`, the [npm](https://www.npmjs.com) or [yarn](https://yarnpkg.com/) package manager, and [npx](https://docs.npmjs.com/cli/v8/commands/npx) to deploy Solidity contracts with Hardhat.
-- You must have at least 6 CPU cores and 12 GB of memory available for Docker to run the Blockscout block explorer:.
+- You must have at least 6 CPU cores and 12 GB of memory available for Docker to run the Blockscout block explorer.
 
 ## Quick start
 
-To download and install the Chainweb EVM preview:
+To download and install the Chainweb EVM development network:
 
 1. Open a terminal shell on your computer.
 
@@ -95,14 +95,14 @@ To download and install the Chainweb EVM preview:
    ```
 
    The `kadena-evm-sandbox` directory includes the `network` command-line program that you can use to perform common tasks to manage and monitor the development network.
-   The `network` program supports many commands that are similar to Docker commands.
+   The `network` program supports commands that are similar to Docker commands.
    You can explore all of the commands available by running the following command:
 
    ```sh
    ./network help
    ```
 
-1. Pull the latest container images using the `network` command-line program by running the following command:
+2. Pull the latest container images using the `network` command-line program by running the following command:
 
    ```sh
    ./network devnet pull
@@ -110,8 +110,27 @@ To download and install the Chainweb EVM preview:
 
    You can execute `network` commands for convenience or use `docker` commands directly.
    Pulling the latest container images isn't strictly required, but it's recommended before you start the development network for the first time.
+   
+   You should see output similar to the following:
 
-2. Start the network by running the following command:
+   ```sh
+   [+] Pulling 10/10
+    ✔ bootnode-evm-22 Skipped - Image is already being pulled by bootnode-evm-21               0.0s
+    ✔ bootnode-evm-20 Skipped - Image is already being pulled by bootnode-evm-21               0.0s 
+    ✔ bootnode-evm-24 Skipped - Image is already being pulled by bootnode-evm-21               0.0s 
+    ✔ bootnode-evm-23 Skipped - Image is already being pulled by bootnode-evm-21               0.0s 
+    ✔ bootnode-mining-client Pulled                                                            1.7s
+    ✔ allocations Pulled                                                                       1.7s
+    ✔ bootnode-frontend Pulled                                                                 1.7s
+    ✔ bootnode-mining-trigger Pulled                                                           1.8s
+    ✔ bootnode-evm-21 Pulled                                                                   1.7s
+    ✔ bootnode-consensus Pulled                                                                1.8s
+      ✔ 63467be34da6 Pull complete                                                            34.9s 
+      ✔ 036ac59a35be Pull complete                                                             6.4s 
+      ✔ 4a057fff0021 Pull complete                                                             6.3s 
+   ```
+
+3. Start the network by running the following command:
 
    ```sh
    ./network devnet start
@@ -121,38 +140,33 @@ To download and install the Chainweb EVM preview:
    You should see output similar to the following excerpt:
 
    ```sh
-   [+] Building 0.0s (0/0)                                    docker:desktop-linux
-   WARN[0000] config `uid`, `gid` and `mode` are not supported, they will be ignored 
-   WARN[0000] config `uid`, `gid` and `mode` are not supported, they will be ignored 
-   [+] Running 7/0
-    ✔ Network evm-devnet_default                    Created                   0.0s 
-   [+] Running 10/10vnet_chainweb-evm-chain1_data"  Created                   0.0s 
-    ✔ Network evm-devnet_default                    Created                   0.0s 
-    ✔ Volume "evm-devnet_chainweb-evm-chain1_data"  Created                   0.0s 
-    ✔ Volume "evm-devnet_chainweb-node_data"        Created                   0.0s 
-    ✔ Volume "evm-devnet_chainweb-evm-chain0_data"  Created                   0.0s 
-    ✔ Volume "evm-devnet_logs"                      Created                   0.0s 
-    ✔ Container chainweb-evm-chain0                 Started                   0.0s 
-    ✔ Container chainweb-evm-chain1                 Started                   0.0s 
-    ✔ Container evm-devnet-allocations-1            Started                   0.0s  ✔ Container chainweb-node                       Healthy                   0.0s 
-    ✔ Container chainweb-miner                      Started                   0.0s 
-   [+] Building 0.0s (0/0)                                    docker:desktop-linux
-   [+] Creating 1/0
-    ✔ Container chainweb-evm-chain0  Runni...                                 0.0s 
-   [+] Building 0.0s (0/0)                                    docker:desktop-linux
+   [+] Running 3/4
+    ✔ Network chainweb-evm_bootnode-internal      Create...                                    0.1s 
+    ✔ Network chainweb-evm_p2p                    Created                                      0.0s 
+    ✔ Network chainweb-evm_bootnode-frontend      Create...                                    0.0s 
+    ⠋ Volume "chainweb-evm_bootnode-evm-22_data"  Cr...                                        0.0s
+   ...
+    ✔ Container bootnode-evm-23                   Started                                      1.2s
+    ✔ Container bootnode-evm-20                   Started                                      1.2s
+    ✔ Container bootnode-evm-22                   Started                                      1.3s 
+    ✔ Container bootnode-evm-24                   Started                                      1.7s 
+    ✔ Container bootnode-evm-21                   Started                                      1.2s 
+    ✔ Container bootnode-allocations              Started                                      1.5s 
+    ✔ Container bootnode-consensus                Healthy                                      9.3s 
+    ✔ Container bootnode-frontend                 Started                                      9.7s 
+    ✔ Container bootnode-mining-trigger           Started                                      9.5s 
+    ✔ Container bootnode-mining-client            Started                                      9.6s 
+   [+] Creating 1/1
+    ✔ Container bootnode-evm-20    Running                                                     0.0s 
    wallets created: {
      alloc0: {
        address: '0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6',
        privateKey: '0xe711c50150f500fdebec57e5c299518c2f7b36271c138c55759e5b4515dc7161'
      },
-     alloc1: {
-       address: '0xFB8Fb7f9bdc8951040a6D195764905138F7462Ed',
-       privateKey: '0xb332ddc4e0801582e154d10cad8b672665656cbf0097f2b47483c0cfe3261299'
-     },
    ...
    ```
 
-3. Check that blocks are being produced by running the following command:
+1. Check that blocks are being produced by running the following command:
 
    ```sh
    ./network devnet status
@@ -161,17 +175,21 @@ To download and install the Chainweb EVM preview:
    This command displays the current block height and cut height for the development network with output similar to the following excerpt:
 
    ```sh
-   chain        height  hash                                         type     provider_uri
-   0            419     M2dz1VGo57pBmz3uu6_UfSQzPKV-hNCof67DisKMP4U  evm      http://chainweb-evm-chain-0:8551
-   1            419     H90LOcK87or835VrvA117ASvVpCqPcbgKrazmdyK39I  evm      http://chainweb-evm-chain-1:8551
-   2            419     8NoDoY3XsxbmuB7f_gLPrAe6vx4oO3wqoLL3myFIUxA  default  --
-   3            419     gK8sEC-u5jhDcvZGoVXkvF4MYYm7FHNjI2znVxjIh5Y  default  --
+   Node: bootnode-consensus
+   chain        height  hash                                         type
+   0            36      G1BY2DprJ6ULTaPOt67XEDtjw03gVgu4IHXsYhHgUfs  default
+   1            35      Euw83eOfY1DTbQIHOnETvNYjAW6hvxMZ4RDeZWsmuzI  default
+   2            36      dPs3Tj6ug0c7NyG0v-XbyZdXh2QZh_WvyvZHu6uk4_I  default
+   3            36      OoC9hTEJmPVj3pMcjPwM0qofXS4wN4172aL5ffN2om4  default
+   4            36      GKNU8tzdtLNXudlvRv5orVQ8bFXN0F7pQ63MlavtE88  default
    ...
-   16           419     u_tlyaHhLMVUyKgMLT6pLxR6AEuXpdGSur45VEI7yRo  default  --
-   17           419     vj-YslrAQ6iEaMpDg-P_5CuFl8I6h14n5rtzhLGVEQc  default  --
-   18           418     B7AeeaCdNUpJPmsLV2KuSQU4nBeys598b4vJQKP_PX0  default  --
-   19           419     381L-CZK2CEaLrGLmaDjP3q8c2Q4eIue4kzuZTZghdE  default  --
-   cut-height:  8382
+   20           37      dsrjWRrIgsezR2InWb3EzMml28owAmIQLh20fdHVrqs  evm
+   21           36      j9fI_MQEYboaqx2qu2MtyBjKGTsJHb9FMq8ktVPq4zw  evm
+   22           36      _6quxrPShEpb0hyd3jB2VNdlQq2xmsPZFOgku4iA5SY  evm
+   23           37      Q_muuzU3TUZH0n1kP74tmW7VMIuelsrlGRW8TnYwqVE  evm
+   24           36      pUattWugcCjy_2_0ejgTx1SqaeHGvtV_nWA_Fc5PGnw  evm
+   ...
+   cut-height:  3529
    ```
    
    You can call the `./network devnet status` command repeatedly to verify that the block height and cut height values are increasing.
@@ -187,7 +205,7 @@ To test the simple token contract:
    ```
 
    If the `npm` package manager reports any issues, address them before continuing to the next step.
-   For example, you might be prompted to `run npm audit fix` to address issues.
+   For example, you might be prompted to run `npm audit fix` to address issues.
 
 1. Test the simple token contract by running the following command:
 
@@ -195,31 +213,23 @@ To test the simple token contract:
    ./network solidity test
    ```
    
-   This command executes a set of tests that deploy the ERC-20 token contract and check that token transfer operations succeed or revert as expected when tokens are transferred between addresses on two Chainweb EVM chains.
+   This command executes a set of tests that deploy the sample ERC-20 token contract and check that token transfer operations succeed or revert as expected when tokens are transferred between addresses on two Chainweb EVM chains.
    For example, you should see output similar to the following excerpt:
 
    ```sh
    ...
-   Found 2 Kadena devnet networks while deploying mocks: kadena_devnet0, kadena_devnet1
-   Deploying with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet0
-   Deploying with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet1
-   Authorizing 0:0xf094D31A7E0DeE4907f995551325296D511C7Eb6 for 0:0xf094D31A7E0DeE4907f995551325296D511C7Eb6
-   Authorizing 1:0x57D6A7144FD613BE8Cf2012f196B70ae00D39076 for 0:0xf094D31A7E0DeE4907f995551325296D511C7Eb6
-   Authorizing 0:0xf094D31A7E0DeE4907f995551325296D511C7Eb6 for 1:0x57D6A7144FD613BE8Cf2012f196B70ae00D39076
-   Authorizing 1:0x57D6A7144FD613BE8Cf2012f196B70ae00D39076 for 1:0x57D6A7144FD613BE8Cf2012f196B70ae00D39076
-           ✔ Should revert if redeeming for wrong operation type (2110ms)
-       getChainwebChainId
-         Success Test Cases
    Found 2 Kadena devnet networks: kadena_devnet0, kadena_devnet1
-   Deploying with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet0
-   Deploying with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet1
-           ✔ Should return the correct chainweb chain id
-       getCrossChainAddress
-         Success Test Cases
-   Found 2 Kadena devnet networks: kadena_devnet0, kadena_devnet1
-   Deploying with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet0
-   Deploying with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet1
-           ✔ Should return the correct cross chain address (5634ms)
+   Deployed to address 0x5c8B984DEb026110310f617c5DBa96Fd39704835 with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet0
+   Deployed to address 0x5c8B984DEb026110310f617c5DBa96Fd39704835 with signer: 0x8849BAbdDcfC1327Ad199877861B577cEBd8A7b6 on network kadena_devnet1
+   Authorizing 20:0x5c8B984DEb026110310f617c5DBa96Fd39704835 for 20:0x5c8B984DEb026110310f617c5DBa96Fd39704835
+   Authorizing 21:0x5c8B984DEb026110310f617c5DBa96Fd39704835 for 20:0x5c8B984DEb026110310f617c5DBa96Fd39704835
+   Authorizing 20:0x5c8B984DEb026110310f617c5DBa96Fd39704835 for 21:0x5c8B984DEb026110310f617c5DBa96Fd39704835
+   Authorizing 21:0x5c8B984DEb026110310f617c5DBa96Fd39704835 for 21:0x5c8B984DEb026110310f617c5DBa96Fd39704835
+   Transfering 500000000000000000000 tokens from 20:0x5c8B984DEb026110310f617c5DBa96Fd39704835:0xFB8Fb7f9bdc8951040a6D195764905138F7462Ed to 21:0x5c8B984DEb026110310f617c5DBa96Fd39704835:0xFB8Fb7f9bdc8951040a6D195764905138F7462Ed
+   Initiating cross-chain transfer from kadena_devnet0 to kadena_devnet1 : 21
+   transfer-crosschain status: 1, at block number 59 with hash 0x6d94c15d315dd5fa8d29abe3048835c8c7814cf367b1c2002c5a879642dc6ea6
+   found log at tx 0 and event 1
+   Redeeming tokens on chain kadena_devnet1
    ...
    ```
 
@@ -245,18 +255,26 @@ To shut down the network and remove containers:
 
 ## Modifying the network configuration
 
-The `devnet` folder in the `kadena-evm-sandbox` repository includes a Python script, `compose.py`, that generates the `docker-compose.yaml` file for the Chainweb EVM `docker compose` project.
-The `compose.py` script automates the creation of the `docker-compose.yaml` file with different configuration setting for the following predefined use cases:
+The `devnet` folder in the `kadena-evm-sandbox` repository includes a Python script, `compose.py`, that generates the `docker-compose.yaml` file for the Chainweb EVM Docker Compose project.
+The `compose.py` script automates the creation of the `docker-compose.yaml` file with different configuration settings for the following predefined `project` use cases:
 
-- `minimal` to generate a single node development environment.
-- `kadena-dev` to simulate a production environment with four nodes with different roles.
-- `app-dev`
+- The `app-dev` project generates a configuration file optimized for application development with a single full-service bootstrap node.
+  This configuration produces blocks at a fixed rate of two seconds per chain, has mining enabled, and exposes the Chainweb service API on the chains you specify as command-line arguments.
+- The `kadena-dev` project generates a configuration file that simulates a production environment with four node roles: one bootstrap node, one application development node, and two mining nodes.
+  This configuration is optimized for testing and debugging Chainweb node backend services, such as consensus and peer-to-peer networking.
+- The `minimal` project generates a configuration file for a minimal development environment with one bootstrap node and simulated mining.
 
-To generate a docker-compose.yaml for one of the predefined use cases, add the `--project` command-line option and the use case to the `compose.py` script.
-For example, run the following command to generate a `docker-compose.yaml` file that simulates a production environment and start the network using that configuration:
+To generate a `docker-compose.yaml` for one of the predefined project use cases, add the `--project` command-line option and the use case project name to the `compose.py` script.
+For example, you can run the following command to generate a `docker-compose.yaml` file that simulates a production environment and then starts the network using that configuration:
 
 ```bash
 python3.13 compose.py --project kadena-dev > docker-compose.yaml && docker compose up -d
+```
+
+To generate a `docker-compose.yaml` that's optimized for application development, you can run a command similar to the following:
+
+```bash
+python3.13 compose.py --project app-dev --exposed-chains "3, 20" > docker-compose.yaml && docker compose up -d
 ```
 
 ## Integrating with other Hardhat projects
