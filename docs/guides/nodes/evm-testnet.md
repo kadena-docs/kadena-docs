@@ -33,7 +33,9 @@ Wallets that are used for traditional Kadena development—such as Chainweaver, 
 Most EVM-compatible wallets provide an **Add Network** or a **Connect** option where you can specify details about the network you want to add or connect to.
 However, navigating to the network settings will vary depending on the specific wallet and version you use.
 
-For example, if you use MetaMask:
+To add network settings to a MetaMask wallet:
+
+1. Open the MetaMask extension in your browser.
 
 1. Expand **Ethereum Mainnet** to display the list of networks:
 
@@ -50,10 +52,15 @@ For example, if you use MetaMask:
    Use the following information to add Kadena Chainweb EVM Testnet to your wallet:    
 
    - Network Name: Kadena
-   - RPC: https://evm-testnet.kadena.io (placeholder)
+   - RPC: https://evm-testnet.kadena.network/chainweb/0.0/evm-testnet/chain/20/evm/rpc
    - Chain ID: 5920 to deploy contracts on Chainweb EVM chain 20
    - Currency Symbol: KDA
-   - Block Explorer URL: https://kadena-blockscout.io (placeholder)
+   - Block Explorer URL: http://chain-20.evm-testnet-blockscout.chainweb.com
+   
+   Alternatively, you can connect to an existing MetMask wallet from the Blockscout explorer by clicking **Add to MetaMask**.
+
+   Note that navigating to network settings will depend on the EVM-compatible wallet you choose. For example, if you choose Coinbase Wallet, you must click **Settings**, then **Networks** before you have the option to **Add or import a custom network**.
+   If you have trouble finding the option to connect to a custom network, consult the documentation for your specific wallet.
 
 ### Fund the wallet account
 
