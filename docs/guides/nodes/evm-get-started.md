@@ -417,9 +417,9 @@ To integrate with the Chainweb EVM development network:
     },
    ```
 
-   Be sure to include the `accounts` key with mapping for accounts to private keys in the Chainweb configuration settings.
+   Be sure to include the `accounts` key with mapping for accounts to private keys in the Chainweb EVM configuration settings.
    
-   You can also modify the configuration settings in the `hardhat.config.js` file to customize the development environment to suite your needs.
+   You can also modify the configuration settings in the `hardhat.config.js` file to customize the development environment to suit your needs.
    For example, if you want the `sandbox` configuration to have two EVM chains instead of five, modify the `chains` setting:
 
    ```javascript
@@ -432,7 +432,9 @@ To integrate with the Chainweb EVM development network:
    }  
    ```
 
-6. (Optional) Copy and paste the code to configure `etherscan` settings from the `solidity/hardhat.config.js` file to use Blockscout in the `hardhat.config.js` file for your project.
+6. (Optional) Copy and paste the code to configure `etherscan` settings from the `solidity/hardhat.config.js` file to use Blockscout into the `hardhat.config.js` file for your project.
+   
+   Note that you must configure these settings if you want Blockscout to verify your smart contract.
    
    For example:
 
@@ -462,7 +464,7 @@ To integrate with the Chainweb EVM development network:
    },
    ```
 
-1. Save your changes and close the `hardhat.config.js` file.
+7. Save your changes and close the `hardhat.config.js` file.
    
 
 ### Compiling and testing integration
@@ -559,9 +561,10 @@ Typically, if you wanted to call a smart contract function using a different sig
 const tx = await token0.connect(alice).transferCrossChain(receiver.address, amount, token1Info.chain);
 ```
 
-Typically, if you use Hardhat `ethers` in tests, the call creates a new contract instance using the new signer `alice` in the background. 
+In `ethers` tests, this call creates a new contract instance using the new signer `alice` in the background. 
 A signer always has a network context associated with it. 
-If you want to call a contract running in Chainweb EVM, you must be aware of the Chainweb chain you are on to get the correct signing address.
+
+However, if you want to call a contract with a specific signer in Chainweb EVM, you must be aware of the Chainweb chain identifier where the contract is deployed to get the correct signing address.
 For example, you must call `await chainweb.switchChain(chainId);` to switch to the correct chain so that you get signers with the correct network context for that chain.
 
 If you use the `@kadena/hardhat-chainweb` plugin, the `runOverChains` function does the chain switching for you.
@@ -569,18 +572,34 @@ You can find examples of switching chains in the `solidity/test/SimpleToken.test
 
 ## Blockscout
 
-You can explore the Chainweb EVM development network chains using the optional [Blockscout](https://blockscout.com). Blockscout is a blockchain monitor that provides a user experience that is similar to [Etherscan](https://etherscan.io). 
+You can explore the Chainweb EVM development network chains using the optional [Blockscout](https://blockscout.com) application. 
+Blockscout is a blockchain monitoring service that provides a user experience that is similar to [Etherscan](https://etherscan.io). 
+
 For additional information, see the [Blockscout README](https://github.com/blockscout/blockscout).
 
 To use Blockscout:
 
-1. Open a terminal shell and change to the `kadena-evm-sandbox` directory, if needed:
+1. Open a terminal shell and change to the `kadena-evm-sandbox` directory, if needed.
 
 1. Pull the latest images by running the following command:
 
    ```sh
    ./network blockscout pull
    ```
+
+2. Add blockscout domains to the `/etc/hosts` file by running the following command:
+
+   ```sh
+   ./network blockscout add-domains
+   ```
+
+   This command adds the following records to the `/etc/hosts` file:
+
+   - 127.0.0.1       chain-20.evm.kadena.local
+   - 127.0.0.1       chain-21.evm.kadena.local
+   - 127.0.0.1       chain-22.evm.kadena.local
+   - 127.0.0.1       chain-23.evm.kadena.local
+   - 127.0.0.1       chain-24.evm.kadena.local
 
 1. Start a Blockscout instance by running the following command:
 
@@ -590,36 +609,23 @@ To use Blockscout:
    
    After running this command, it can take several minutes before you can open Blockscout in a browser.
 
-1. Open the appropriate URL for the chain you want to explore:
-   
+4. Open the appropriate URL for the chain you want to explore:
+
    ```sh
-   chain 0: http://localhost:8000
-   chain 1: http://localhost:8001
+   chain 20: http://chain-20.evm.kadena.local:8000
+   chain 21: http://chain-21.evm.kadena.local:8000
+   chain 22: http://chain-22.evm.kadena.local:8000
+   chain 23: http://chain-23.evm.kadena.local:8000
+   chain 24: http://chain-24.evm.kadena.local:8000
    ```
-   The Blockscout UIs for the EVM chains are available at the following URLs.
-   - [Chainweb EVM chain 0](http://localhost:8000)
-   - [Chainweb EVM chain 1](http://localhost:8001)
+   
+   You can view transactions executed on Chainweb EVM chains using Blockscout and the following URLs.
 
-## Network components and chain specifications
-
--   `chainweb-node`
-    -   software: [chainweb-node](https://github.com/kadena-io/chainweb-node/tree/lars/pp/evm)
-    -   exported ports: 1848 (Chainweb service API)
--   `chainweb-miner`
-    -   software: [chainweb-mining-client][https://github.com/kadena-io/chainweb-mining-client)
-    -   worker: constant-delay with a 2s rate per chain
--   `chainweb-evm-chain0`
-    -   software: [kadena-reth](https://github.com/kadena-io/kadena-reth)
-    -   exported ports: 8545 (HTTP ETH RPC), 8546 (Websocket ETH RPC)
-    -   Chainweb chain-id: 0
-    -   Ethereum chain-id: 1789
-    -   chain specification: `./devnet/config/chainweb-chain0-spec.json`
--   `chainweb-evm-chain1`
-    -   software: [kadena-reth](https://github.com/kadena-io/kadena-reth)
-    -   exported ports: 8555 (HTTP ETH RPC), 8556 (Websocket ETH RPC)
-    -   Chainweb chain-id: 1
-    -   Ethereum chain-id: 1790
-    -   chain specification: `./devnet/config/chainweb-chain1-spec.json`
+   - [Chainweb EVM chain 20](http://chain-20.evm.kadena.local:8000)
+   - [Chainweb EVM chain 21](http://chain-21.evm.kadena.local:8000)
+   - [Chainweb EVM chain 22](http://chain-22.evm.kadena.local:8000)
+   - [Chainweb EVM chain 23](http://chain-23.evm.kadena.local:8000)
+   - [Chainweb EVM chain 24](http://chain-24.evm.kadena.local:8000)
 
 ## Account allocations in the development network
 
@@ -661,166 +667,3 @@ The mining accounts are:
 - `m/44'/1'/1'/0/0` (address: 0xd42d71cdc2A0a78fE7fBE7236c19925f62C442bA)
 - `m/44'/1'/1'/0/1` (address: 0x38a6BD13CC381c68751BE2cef97BD79EBcb2Bb31)
 
-## Running the frontend application demo
-
-The [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) repository includes an `apps` folder with the files for an application that demonstrates deploying contracts, funding accounts, and transferring assets between the two Chainweb EVM chains in the development network.
-
-The demonstration requires the `pnpm` package manager to install dependencies.
-If you don't have `pnpm` installed in your local environment, follow the steps in [Prepare your workspace](#prepare-your-workspace) to get started.
-If you have `pnpm` installed and defined in your shell profile, you can continue to [Start the application server](#start-the-application-server).
-
-### Prepare your workspace
-
-1. Open a new terminal shell and change to the `kadena-evm-sandbox` directory created when you cloned the `kadena-evm-sandbox` repository:
-    
-   ```sh
-   cd kadena-evm-sandbox
-   ```
-   
-   If necessary, you can pull the latest files for the directory by running the following command:
-   
-   ```sh
-   git pull
-   ```
-
-2. Install `pnpm` by running the following command: 
-   
-   ```sh
-   npm install --global pnpm
-   ```
-
-2. Set up your workspace for `pnpm` by running the following command, then following the instructions displayed in the terminal: 
-
-   ```sh
-   pnpm setup
-   ```
-
-### Start the application server
-
-1. In the current terminal shell, check that the Kadena development network is up and producing blocks by running the following command:
-    
-   ```sh
-   ./network devnet status
-   ```
-
-2. In the current terminal shell, change to the `apps/kethamp-server` directory:
-    
-   ```sh
-   cd apps/kethamp-server
-   ```
-
-3. Install dependencies and generate types for the `kethamp-server` by running the following command:
-   
-   ```sh
-   pnpm install
-   ```
-
-4. Start the `kethamp-server` by running the following command:
-   
-   ```sh
-   pnpm start
-   ```
-
-   After you run this command, the server must continue to run in the terminal, so you need to open a new terminal shell in the next step.
-
-### Start the transfer demonstration application
-
-The sample application includes a set of playlists that demonstrate common transactions executing on the Kadena Chainweb EVM development network.
-
-The playlists include transactions that demonstrate the following activities:
-
-- Deploy contracts 
-- Fund accounts
-- Transfer assets between accounts on the same chain
-- Transfer assets between account on different chains
-
-The details of the transactions—including the chains, accounts, and amounts transferred—are defined in the `kadena-evm-sandbox/apps/kethamp-server/src/playlists.ts` file.
-
-To start the application:
-
-1. Open a new terminal shell and change to the `apps/kethamp` directory.
-   
-   For example, if you open a new terminal in your home directory, change to the` kadena-evm-sandbox/apps/kethamp` directory:
-    
-   ```sh
-   cd kadena-evm-sandbox/apps/kethamp
-   ```
-
-2. Install frontend dependencies for the `kethamp` application by running the following command:
-   
-   ```sh
-   pnpm install
-   ```
-
-3. Start the application in the terminal by running the following command:
-   
-   ```sh
-   pnpm dev
-   ```
-
-4. Open a browser and navigate to the application URL displayed in the terminal.
-   
-   By default, the application runs on the localhost and port 3000, so the default address in [http://localhost:3000/](http://localhost:3000/).
-
-   You should see that the application displays a message that indicates no contracts are deployed and a control panel similar to the following:
-
-   ![Chainweb EVM application](/img/evm-demo-app.jpg)
-
-5. Click the **Eject** control in the application to deploy the initial contract with playlists for chain0 and chain1.
-   
-   In the terminal where the application server runs, you should see messages similar to the following to indicate that contracts are successfully deployed on `kadena_devnet0` and `kadena_devnet1` and the accounts for Alice and Bob are funded with an initial balance:
-
-   ```sh
-   DEBUGPRINT[97]: playlist.ts:169: track= deploy
-   DEBUGPRINT[97]: playlist.ts:169: track= deploy
-   DEBUGPRINT[97]: playlist.ts:169: track= register-cross-chain
-   DEBUGPRINT[97]: playlist.ts:169: track= fund
-   DEBUGPRINT[97]: playlist.ts:169: track= fund
-   ```
-
-1. Click the **Play** control in the application to start running the selected playlist of transactions.
-   
-   In the terminal where the application server runs, you should see messages similar to the following to indicate
-   
-   You can click on different playlists, tracks, and operations to explore additional transaction details.
-
-   ![Transaction details for a single cross-chain transfer](/img/evm-single-xchain.jpg)
-
-2. Click the **Stop** control in the application to reset and restart the playlist at the current block height.
-   
-   ![Reset the playlist](/img/evm-reset.jpg)
-   
-### Stop the transfer demonstration
-
-To stop the transfer demonstration:
-
-1. Switch to the terminal where the `kethamp` application frontend runs, then press Control-c to stop the application process.
-
-2. Switch to the terminal where the `kethamp-server` application server runs, then press Control-c to stop the application server process.
-
-3. Navigate back to the `kadena-evm-sandbox` directory, then shut down the Kadena Chainweb EVM development network by running the following command:
-   
-   ```sh
-   ./network devnet stop
-   ```
-
-## Related resources
-
-For additional information about Kadena Chainweb EVM, see the following resources:
-
-- [Kadena Chainweb EVM repository](https://github.com/kadena-io/kadena-evm-sandbox)
-- [Proposal: Cross-Chain Bridging Protocol (Draft)](https://github.com/kadena-io/kadena-evm-sandbox/docs/bridging-protocol.md)
-- [Cross-chain bridging (draft summary)](#cross-chain-bridging-draft-summary)
-
-### Cross-chain bridging (draft summary)
-
-This Kadena Improvement Proposal (KIP) defines an interface and conventions for performing **cross-chain** bridging for Kadena Chainweb EVM-compatible chains. 
-The proposal introduces a protocol to standardize how transactions are initiated, verified, and completed across chains in an EVM-based network where information about event history is known to both the source and target chain.
-
-The protocol describes the smart contract functions and events required to perform the following steps for secure cross-chain bridging:
-
-- Initiate a cross-chain **burn** transaction on a source chain that emits a well-defined event with expected metadata.
-- Transmit proof that the transaction initiated on the source chain completed to be verified by the target chain.
-- Validate the proof that the event occurred—guaranteeing the provenance and uniqueness of transferred data—using a precompile function on the target chain.
-- Complete the cross-chain transfer with a **mint** transaction on the target chain.
-  
