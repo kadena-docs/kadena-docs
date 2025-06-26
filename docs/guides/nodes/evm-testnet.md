@@ -8,17 +8,17 @@ tags: [evm, chainweb, network, node operator]
 
 # Kadena Chainweb EVM deployment 
 
-If you are a smart contract developer used to building decentralized applications for Ethereum and EVM-compatible chains, deploying on the Kadena **Chainweb EVM Testnet** is no different that deploying on any other EVM-based chain.
+If you are a smart contract developer who is used to building decentralized applications for Ethereum and EVM-compatible chains, deploying on the Kadena **Chainweb EVM Testnet** is largely the same as deploying on any other EVM-based chain.
 
 At a high level, there are three basic steps:
 
-- Get an EVM-compatible wallet and fund it with test KDA from the Chainweb EVM Testnet **faucet** application.
-- Configure your development environment and wallet to use one or more Chainweb EVM Testnet chains.
+- Get an EVM-compatible wallet for your development account and fund it with test KDA from the Chainweb EVM Testnet **faucet** application.
+- Configure your development environment and wallet to use Chainweb EVM Testnet.
 - Deploy your application the way you would on any other chain.
 
 This guide provides detailed instructions for each step.
-Because Hardhat is one of the most common development environment for Ethereum, this guide focuses on configuring and deploying Solidity smart contracts on the Chainweb EVM testnet using the Hardhat development environment and the `@kadena/hardhat-chainweb` plugin. 
-Additional guides that focus on other development tools might be provided later, if there's sufficient interest from the broader community.
+Because Hardhat is one of the most common development environment for Ethereum, this guide focuses on configuring and deploying Solidity smart contracts on Chainweb EVM Testnet using the Hardhat development environment and the `@kadena/hardhat-chainweb` plugin. 
+Additional guides that focus on other development tools—such as Foundry and Remix—might be available separately, if there's sufficient interest from the broader community.
 
 ## Get a wallet and tokens
 
@@ -27,7 +27,7 @@ You can add Kadena Chainweb EVM to any EVM-compatible wallet that supports addin
 For example, you can add custom networks in MetaMask, Ledger, Trust Wallet, or Coinbase Wallet.
 
 Note that wallets currently used for traditional Kadena development—such as Chainweaver, eckoWALLET, Enkrypt, Koala Wallet, or LinxWallet—only support **Pact** smart contracts at this time.
-Chainweb EVM Testnet supports Pact smart contract on chains 0 through 19 and EVM-compatible smart contracts on chains 20 through 24.
+Chainweb EVM Testnet supports Pact smart contracts on chains 0 through 19 and EVM-compatible smart contracts on chains 20 through 24.
 You must have an EVM-compatible wallet to interact with chains 20 through 24.
 
 ### Add the Kadena network
@@ -43,23 +43,19 @@ To add network settings to a MetaMask wallet:
 
    ![Click Ethereum Mainnet to display the list of networks](/img/chainweb-evm/metamask-home.jpg)
 
-3. Click **Add a custom network**.
+3. Click **Add a custom network** at the bottom of the Enabled networks list.
 
-   ![Search, select, or add a network in MetaMask](/img/chainweb-evm/select-network-metamask.png)
-
-4. Add the network settings for Kadena Chainweb EVM.
-
-   ![Add network details](/img/chainweb-evm/add-network-metamask.jpg)
-
-   Use the following information to add Kadena Chainweb EVM Testnet **chain 20** to your wallet:    
+4. Add the following network settings to add Kadena Chainweb EVM Testnet **chain 20** to your wallet:    
 
    - Network Name: Kadena Chainweb EVM Testnet 20
    - RPC: https://evm-testnet.chainweb.com/chainweb/0.0/evm-testnet/chain/20/evm/rpc
-   - Chain ID: 5920 to deploy contracts on Chainweb EVM chain 20
+   - Chain ID: 5920
    - Currency Symbol: KDA
    - Block Explorer URL: http://chain-20.evm-testnet-blockscout.chainweb.com
    
-   Alternatively, you can connect to an existing MetMask wallet from the Blockscout explorer by clicking **Add to MetaMask**.
+   Alternatively, you can connect to an existing MetaMask wallet from [Blockscout](http://chain-20.evm-testnet-blockscout.chainweb.com) by clicking **Add testnet@chain20**.
+
+   ![Add to MetaMask from Blockscout](/img/chainweb-evm/metamask-from-blockscout.jpg)
 
    Note that navigating to network settings will depend on the EVM-compatible wallet you choose. For example, if you choose Coinbase Wallet, you must click **Settings**, then **Networks** before you have the option to **Add or import a custom network**.
    If you have trouble finding the option to connect to a custom network, consult the documentation for your specific wallet.
@@ -97,7 +93,7 @@ The Ethereum chain identifier for this Chainweb EVM chain is 5920.
 You should only deploy smart contracts on this chain during the initial phase of testing using Chainweb EVM Testnet. 
 Most applications only need to be deployed on a single chain for testing purposes.
 However, if you need access to other chains, you must provide different network details to connect to those chains.
-For more information, see [Multi-chain support](#multi-chain-support).
+For more information about working with other chains, see [Multi-chain support](#multi-chain-support).
 
 ## Configure the development environment
 
@@ -110,6 +106,9 @@ Verify that your development environment meets the following basic requirements:
 
 - You have the [Node.js](https://nodejs.org) runtime environment, [npm](https://www.npmjs.com) or [yarn](https://yarnpkg.com/) package manager, and [npx](https://docs.npmjs.com/cli/v8/commands/npx) installed.
 - You have [Git](https://git-scm.com/downloads) installed for managing your project.
+- You have the private key for the wallet account holding the testnet KDA funds.
+- You have cloned the [kadena-evm-sandbox](https://github.com/kadena-io/kadena-evm-sandbox) so you have access to the files in the sample `solidity` Hardhat project.
+  You can model testing and deployment for your own Hardhat projects based on the configuration of the `solidity` project.
 
 ### Configure Hardhat settings
 
@@ -121,7 +120,7 @@ To configure the development environment using Hardhat:
 1. Create a new project directory by running a command similar to the following:
    
    ```bash
-   mkdir kadena-testnet && cd kadena-testnet
+   mkdir kadena-hardhat-project && cd kadena-hardhat-project
    ```
 
 2. Initialize the Hardhat project in the directory by running the following commands:
@@ -148,7 +147,22 @@ To configure the development environment using Hardhat:
    npm install
    ```
 
-5. Open the `hardhat.config.js` or `hardhat.config.ts` file in your code editor and import the `@kadena/hardhat-chainweb` plugin.
+1. Create a local environment (`.env`) file for the private key that will deploy your contract.
+   
+   You can copy the `.env.example` from the `solidity` project to create the `.env` file and replace the placeholder key with your private key.
+
+	 ```sh
+   cp ~/kadena-evm-sandbox/solidity/.env.example .env
+   ```
+
+   After you create the `.env` file in your Hardhat project, open the `.env` file and replace the placeholder key with your private key.
+   
+   ```sh
+   # PK of the deployer account
+   DEPLOYER_PRIVATE_KEY=0x0000000000000000000000000000000000000000000000000000000000000000
+   ```
+
+2. Open the `hardhat.config.js` or `hardhat.config.ts` file in your code editor and import the `@kadena/hardhat-chainweb` plugin.
    
    For example:
 
@@ -160,44 +174,75 @@ To configure the development environment using Hardhat:
    import "dotenv/config";
    import { HardhatUserConfig } from "hardhat/config";
 
-7. Add Chainweb EVM network settings provided by the `@kadena/hardhat-chainweb` plugin.
+3. Add Chainweb EVM network settings provided by the `@kadena/hardhat-chainweb` plugin.
    
-   For example, the following settings configure `testnet20` network settings:
+   For example, the following settings configure the `testnet` network settings to only deploy to chain 20, where you have an account with testnet KDA, and use the deployer private key from the `.env` file:
 
    ```javascript
-     defaultChainweb: "testnet20",
+     defaultChainweb: "testnet",
 
      chainweb: {
        hardhat: { chains: 2 },
        
-       testnet20: {
-         type: "external",
-         chains: 2,
-         accounts,
-         chainIdOffset: 5920,
-         chainwebChainIdOffset: 20,
-         externalHostUrl: "https://evm-testnet.chainweb.com/chainweb/0.0/evm-testnet",
-         etherscan: {
-           apiKey: "abc",
-           apiURLTemplate: "http://chain-{cid}.evm-testnet-blockscout.chainweb.com/api/",
-           browserURLTemplate: "http://chain-{cid}.evm-testnet-blockscout.chainweb.com",
-         },
-       },
-     },
+           testnet: {
+      type: 'external',
+      chains: 1,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+      chainIdOffset: 5920,
+      chainwebChainIdOffset: 20,
+      externalHostUrl:
+        "https://evm-testnet.chainweb.com/chainweb/0.0/evm-testnet",
+      etherscan: {
+        apiKey: 'abc', // Any non-empty string works for Blockscout
+        apiURLTemplate: "http://chain-{cid}.evm-testnet-blockscout.chainweb.com/api/",
+        browserURLTemplate: "http://chain-{cid}.evm-testnet-blockscout.chainweb.com"
+      },
+    },
+   },
    ```
    
-   For a complete example of the Hardhat configuration file, see [scaffold-kadena](https://github.com/0xTrip/scaffold-kadena/blob/main/packages/hardhat/hardhat.config.ts).
-   The repository also provides sample scripts for performing many common tasks that simplify project deployment and interacting with a contract after its deployed.
+   If you're deploying the `SimpleToken` contract using the sample `deploy` script, you can use `npm` to deploy with the following command:
+   
+   ```sh
+   npm run deploy testnet
+   ```
+
+   This script provides output similar to the following excerpt:
+
+   ```sh
+   > deploy
+   > hardhat compile && npx hardhat run scripts/deploy.js --chainweb testnet
+   
+   DEPLOYER_PRIVATE_KEY in hardhat config: 0xabec8b26...17f75241
+   ...
+   Chainweb:  testnet  Chains:  1  
+   Switched to chainweb_testnet20
+   Deploying with signer: 0x93A2d568...4e5d4E1d on network 20
+   Contracts deployed
+   0x9D024a48A4011e632b1492f014Eb459c894041Ac on 20
+   Switched to chainweb_testnet20
+   Waiting 10 seconds before verification...
+   Attempting to verify contract 0x9D024a48A4011e632b1492f014Eb459c894041Ac on chain 20...
+   The contract 0x9D024a48A4011e632b1492f014Eb459c894041Ac has already been verified on the block explorer. If you're trying to verify a partially verified contract, please use the --force flag.
+   http://chain-20.evm-testnet-blockscout.chainweb.com/address/0x9D024a48A4011e632b1492f014Eb459c894041Ac#code
+   
+   ✅ Contract successfully verified on chain 20
+   SimpleToken deployment process completed
+   ```
+
+   For a complete example of the Hardhat configuration file, see the [`solidity`](https://github.com/kadena-io/kadena-evm-sandbox/blob/main/solidity/hardhat.config.js) project or [`scaffold-kadena`](https://github.com/0xTrip/scaffold-kadena/blob/main/packages/hardhat/hardhat.config.ts).
+   The `scaffold-kadena` repository also provides sample scripts for performing many common tasks that simplify project deployment and interacting with a contract after its deployed.
 
    For more information about the configuration settings and options provided by the Hardhat Chainweb plugin, see [hardhat-kadena-plugin](https://github.com/kadena-io/hardhat-kadena-plugin/blob/main/packages/hardhat-kadena/README.md) or [@kadena/hardhat-chainweb](https://www.npmjs.com/package/@kadena/hardhat-chainweb).
 
-   ### Deployer account
+### Deployer account
 
-   When you connect to Chainweb EVM Testnet to deploy, use the account you funded with testnet KDA. 
-   Consider using environment variables for private keys—for example, use the `dotenv` package and `process.env.PRIVATE_KEY`—to avoid hardcoding secret keys in your configuration file. 
+When you connect to Chainweb EVM Testnet to deploy, use the private key for the account you funded with testnet KDA. 
    
-   If you prefer not to expose your private keys, you can configure Hardhat to use a wallet provider and enter your keys manually when you deploy.
-   However, using Hardhat scripts is more automation-friendly.
+Consider using environment variables for private keys—for example, use the `dotenv` package and `process.env.PRIVATE_KEY` as illustrated in the sample Hardhat configuration—to avoid hardcoding secret keys in your configuration file. 
+   
+If you prefer not to expose your private keys at all, you can configure Hardhat to use a wallet provider and enter your keys manually when you deploy.
+However, using Hardhat scripts is more automation-friendly.
   
 ## Deploy a smart contract using Hardhat
 
@@ -205,16 +250,21 @@ After you configure your development environment to connect to Chainweb EVM Test
 
 To deploy using Hardhat:
 
-1. Run the deployment script and specify the `--chainweb` command-line option: 
+1. Run the deployment script you've created for the smart contract and specify the `--chainweb` command-line option with the name you are using for the Chainweb configuration settings in the Hardhat configuration file.
+   
+   For example, if you are using the `evm-testnet` configuration settings in the Hardhat configuration file: 
    
    ```bash
    npx hardhat run scripts/deploy.js --chainweb evm-testnet
    ```
     
-    With this command, Hardhat attempts to connect to the `evm-testnet` RPC endpoint for chain 20 and send the transaction from your account. 
-    If the contract is deployed successfully, the console will display the contract address and the transaction hash.
+  For examples of Hardhat deployment scripts, see the following project files:
+
+  - [`solidity/scripts/deploy.js`](https://github.com/kadena-io/kadena-evm-sandbox/blob/main/solidity/scripts/deploy.js)
+  - [`solidity/scripts/deploy-using-create2.js`](https://github.com/kadena-io/kadena-evm-sandbox/blob/main/solidity/scripts/deploy-using-create2.js)
+  - [`scaffold-kadena`](https://github.com/0xTrip/scaffold-kadena/blob/main/packages/hardhat).
     
-2. Wait for confirmation that the transaction has been mined into a block.
+1. Wait for confirmation that the transaction has been mined into a block.
    
    As a proof-of-work network, it takes 30 seconds on average to produce a block.
    You should allow time for the transaction to be mined into a block and for the block to be confirmed by consensus and added to the chain.
@@ -232,11 +282,18 @@ If you see an **insufficient funds** error, make sure the account you are using 
 For example, verify that you've configured the network settings for chain 20, funded the account on chain 20, and are attempting to deploy your contact on chain 20. 
 The transaction fee for deploying a simple contract typically costs less than 0.001 KDA, so you should have enough funds from the official faucet to deploy multiple contracts. 
 
-If you see a nonce or chainId error, check that the chainId in the Hardhat configuration file matches the network you are deploying to.
+If you see a nonce or chainId error, check that the chain identifier you set in the Hardhat configuration file matches the network you are deploying to.
+
+If you specify more than one chain in a Chainweb EVM configuration, Hardhat will attempt to deploy your contract on all of the chains.
+If you haven't added network settings for the additional chains, you'll see deployment fail with provider and insufficient funds errors.
+For more information about deploying to more than one chain, see [Multi-chain support](#multi-chain-support).
 
 ### Contract verification
 
-You can use Blockscout or the `@kadena/hardhat-chainweb` plugin to verify contracts on the Kadena Chainweb EVM Testnet.    
+You can use Blockscout or the `@kadena/hardhat-chainweb` plugin to verify contracts on the Kadena Chainweb EVM Testnet.
+You can find examples of how to perform contract verification in the [deploy](https://github.com/kadena-io/kadena-evm-sandbox/blob/bc01d299637d806af3df30518f52f2359ba554b8/solidity/scripts/deploy.js#L52) and [deploy-create2](https://github.com/kadena-io/kadena-evm-sandbox/blob/bc01d299637d806af3df30518f52f2359ba554b8/solidity/scripts/deploy-using-create2.js#L87) scripts for the sample `solidity` project.
+
+Note that you must configure the `etherscan` settings in the Hardhat configuration file for contract verification to work.
 
 ## Multi-chain support
 
@@ -291,3 +348,5 @@ Use the following information when adding this chain as a custom network:
 
 If you attempt to add the network settings for Chainweb EVM to MetaMask from Blockscout, the Block Explorer URL isn't automatically populated. 
 You should add the URL to the network settings manually in MetaMask to ensure that the links to the transactions that are displayed in Blockscout work as expected.
+
+The `@kadena/hardhat-chainweb` plugin is compatible with Hardhat version 2.24.3.
