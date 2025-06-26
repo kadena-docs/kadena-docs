@@ -118,7 +118,7 @@ In particular, you should pay close attention to the following in your code revi
   For example, you should verify that you check for valid input values and provide clear error messages for invalid values.
 
 - Any nested `let` expressions and cascading `if` statements.
-  In many cases, complex conditions can be difficult to evaluate and can lead to expressions that are never triggered.
+  In many cases, complex conditions can be difficult to fully comprehend and can result in the execution of unintended code blocks or code blocks that are never executed.
   Where possible, you should replace complex conditions with concise and specific functions that are easier to evaluate and test.
 
 - All `defpact` steps.
