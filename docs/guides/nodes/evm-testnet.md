@@ -349,4 +349,5 @@ Use the following information when adding this chain as a custom network:
 If you attempt to add the network settings for Chainweb EVM to MetaMask from Blockscout, the Block Explorer URL isn't automatically populated. 
 You should add the URL to the network settings manually in MetaMask to ensure that the links to the transactions that are displayed in Blockscout work as expected.
 
-The `@kadena/hardhat-chainweb` plugin is compatible with Hardhat version 2.24.3.
+The `@kadena/hardhat-chainweb` plugin is compatible with Hardhat versions v2.22.18 through 2.24.3.
+The plugin isn't compatible with the most recently released of Hardhat, version 2.25.0. 
