@@ -253,6 +253,74 @@ transfer(senderAccount, senderPublicKey, receiverAccount, {
 }).catch(console.error);
 ```
 
+The following code illustrates signing with a known public and secret keypair:
+
+```typescript
+import { Pact, createClient, isSignedTransaction, createSignWithKeypair } from '@kadena/client';
+import { IKeyPair } from '@kadena/client';
+
+async function transfer(
+  sender: string,
+  senderAPublicKey: string,
+  senderBPublicKey: string,
+  receiver: string,
+  amount: IPactDecimal,
+): Promise<void> {
+  const unsignedTransaction = Pact.builder
+    .execution(
+      // pact expression
+      Pact.modules.coin.transfer(sender, receiver, amount),
+    )
+    // add signers
+    .addSigner(senderPublicKey, (signFor) => [
+      // add capabilities
+      signFor('coin.GAS'),
+      signFor('coin.TRANSFER', sender, receiver, amount),
+    ])
+    
+    // set chainId and sender
+    .setMeta({ chainId: '0', senderAccount: sender })
+    .setNetworkId('mainnet01')
+    // will create a IUnsignedTransaction { cmd, hash, sigs }
+    .createTransaction();
+
+    const knownKeyPair:IKeyPair = {
+      publicKey:
+        "02b055c8be0eeaa659d0927f3e2399080c91f3fdf94d079498b04d6987acbd46",
+      secretKey:
+        '5a02489796c9ec2ec74edf15b63140224d0516ce6cd8f62303ac63b56a45c336',
+    };
+
+    // create client
+    const client = createClient(customHostGeneratorFunction, {
+      confirmationDepth: 10,
+    });
+
+    const signWithKeypair = createSignWithKeypair([knownKeyPair]);
+    const signedTx = await signWithKeypair(unsignedTransaction);
+
+    const preflightResponse = await client.preflight(signedTx);
+
+  if (preflightResponse.result.status === 'failure') {
+    throw preflightResponse.result.error;
+  }
+
+  if (isSignedTransaction(signedTx)) {
+    const transactionDescriptor = await client.submit(signedTx);
+    const response = await client.listen(transactionDescriptor);
+    if (response.result.status === 'failure') {
+      throw response.result.error;
+    } else {
+      console.log(response.result);
+    }
+  }
+};
+```
+
+Note that you can also use transaction templates and [@kadena/kadena-cli](https://www.npmjs.com/package/@kadena/kadena-cli) to create, sign, and send transactions. 
+You can automate the flow by using command-line options to execute transactions without interactive prompts.
+For more information about using [@kadena/kadena-cli](https://www.npmjs.com/package/@kadena/kadena-cli) to automate transaction processing, see [Kadena-cli commands](/reference/kadena-cli-ref).
+
 ## Check the status of a transaction
 
 There are two primary ways to check the status of a transaction programmatically:
@@ -311,3 +379,11 @@ For example, you can listen for `coin.TRANSFER` events in the following ways:
 
 - Implement a custom listener using the [`@kadena/chainwebjs`](https://www.npmjs.com/package/@kadena/chainwebjs)
 package.
+
+## Monitoring and incident management
+
+As an exchange, it is particularly important for you to monitor node operations and network activity.
+If you notice suspicious transactions or are informed about unusual transaction activity, you should work with mining node operators and pool node operators to determine if the transaction is preventing other transactions from being processed, consuming excessive resources, or causing any nodes to fail.
+Often, adjusting transaction fees can mitigate transaction processing delays and minimize the affect for end users who are submitting transactions.
+
+If the network experiences an incident affecting transaction processing, you should pause all deposit and withdrawal activity until normal operations resume.
