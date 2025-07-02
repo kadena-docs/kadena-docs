@@ -566,6 +566,47 @@ pact> (do (enforce false "boom") (+ 1 2))
    |     ^^^^^^^^^^^^^^^^^^^^^^
 ```
 
+## error
+
+Use the `error` keyword to throw a recoverable error for a specified string expression.
+This special form enables you to throw an error with a string return value that can be caught with a `try` expression.
+The `error` form is particularly useful for typechecking expressions where an `(enforce false) ` expression would not suffice because the return type for an `(enforce false)` expression is a boolean value.
+
+The `error` special form is essentially ⊥-elimination for Pact and is supported in Pact 5.3, and later.
+ 
+### Basic syntax
+
+To throw an error for the specified string `expression`, use the following syntax model:
+
+```pact
+(error expression)
+```
+
+### Examples
+
+The following example illustrates using the `error` special form to test for an expected error in a `.repl` file:
+
+```pact
+(begin-tx)
+  (interface foo
+    (defun f:integer (x:integer))
+  )
+
+  (module uses-error g
+    (defcap g:bool () (error "not upgradable"))
+
+    (defun f:integer (x:integer)
+      (error "not-callable"))
+    )
+  
+    (expect-failure "uses-error typechecks" "not-callable" (uses-error.f 1))
+(commit-tx)
+
+(begin-tx)
+  (expect-failure "uses-error cannot acquire admin" "not upgradable" (acquire-module-admin uses-error))
+(commit-tx)
+```
+
 ## implements
 
 Use the `implements` keyword to specify that a module _implements_ the specified `interface`.
@@ -578,7 +619,6 @@ A module that implements an interface can be used as a [module reference](/smart
 ### Basic syntax
 
 To implement an interface in a module, use the following syntax model:
-
 
 ```pact
 (implements interface)
@@ -768,6 +808,14 @@ The following example illustrates a defining the `accounts` module with a keyset
       (update accounts to { "balance": (+ tbal amount) }))))
 )
 ```
+
+## pure
+
+Use the `pure` keyword to 
+
+### Basic syntax
+
+### Examples
 
 ## step
 
