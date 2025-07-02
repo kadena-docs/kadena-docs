@@ -10,7 +10,7 @@ sidebar_position: 4
 At this point, you have a wallet and an account that can connect to the development network and sign transactions using at least one chain where funds are available. 
 In this tutorial, you'll create an administrative account to take ownership of the election application, with permission to deploy and update Pact modules and to execute protected operations.
 
-As discussed in [Accounts, keys, and principals](/smart-contracts/accoounts), Kadena accounts aren't simply public keys.
+As discussed in [Accounts, keys, and principals](/smart-contracts/accounts), Kadena accounts aren't simply public keys.
 Instead, Kadena accounts consist of four parts:
 
 - An account name.

@@ -626,7 +626,7 @@ To update the smart contract and complete the workshop:
    npm run deploy-gas-station:devnet -- k:<your-public-key> upgrade
    ```
 
-   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/add-admin-account). You can copy this account name from Chainweaver when viewing the account watch list. When you run the script, you should see Chainweaver display a QuickSign Request.
+   Remember that `k:<your-public-key>` is the default **account name** for the administrative account that you funded in [Add an administrator account](/resources/election-workshop/workshop-admin). You can copy this account name from Chainweaver when viewing the account watch list. When you run the script, you should see Chainweaver display a QuickSign Request.
 
 1. Click **Sign All** to sign the request.
 
@@ -645,7 +645,7 @@ In this tutorial, you learned how to:
 - Restrict access to the gas station account based on conditions you specify in the Pact module.
 - Deploy the gas station module on the development network.
 
-In this workshop, you configured an election application to use the Kadena client to interact with a smart contract deployed on the Kadena blockchain as its backend. The workshop demonstrates the basic functionality for conducting an election online that uses a blockchain to provide more efficient, transparent, and tamper-proof results. However, as you saw in [Add vote management](/resources/election-workshop/add-vote-management), it's possible for individuals to vote more than once by simply creating additional Kadena accounts. That might be a challenge you want to explore.
+In this workshop, you configured an election application to use the Kadena client to interact with a smart contract deployed on the Kadena blockchain as its backend. The workshop demonstrates the basic functionality for conducting an election online that uses a blockchain to provide more efficient, transparent, and tamper-proof results. However, as you saw in [Add vote management](/resources/election-workshop/wworkshop-vote), it's possible for individuals to vote more than once by simply creating additional Kadena accounts. That might be a challenge you want to explore.
 
 As an alternative, you might want to deploy the election application and smart contract on the Kadena test network, making it available to community members.
 
