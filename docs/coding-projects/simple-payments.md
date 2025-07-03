@@ -30,7 +30,8 @@ Before starting this project, verify your environment meets the following basic 
 - You have installed the [Pact](/smart-contracts/install) programming language and command-line interpreter.
 - You have installed the [`kadena-cli`](/smart-contracts/install/tooling#kadena-command-line-interface) package and have a working directory with initial configuration settings.
 - You have a [local development](/smart-contracts/install/local-dev-node) node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
-- You should be familiar with defining [modules](/smart-contracts/modules) and using keysets.
+- You must have at least one [account](/guides/accounts/howto-fund-accounts) that's funded with KDA on at least one chain for deployment on the local development network or the Kadena test network.
+- You should be familiar with the basics for defining [modules](/smart-contracts/modules) and using keysets.
   
 ## Get the starter code
 
@@ -63,41 +64,57 @@ To get started:
    You can follow the instructions embedded in the file to try to tackle this coding project on your own
    without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
 
-## Define a module and module owner
+## Define a namespace, keyset, and module
 
 The module declaration is a core part of any Pact smart contract.
-To define a module, you must also specify the administrative keyset or governance capability that owns the module. 
-For this coding project, you need to define one module—the `payments` module—and the administrative keyset for the `payments` module.
+To define a module, you must also specify the administrative keyset or governance capability that owns the module.
+
+For local development, you can define a module without using the context of a [namespace](/resources/glossary#namespace).
+However, if you want to deploy modules, you should learn how to work with namespaces and namespace keysets. 
+
+For this coding project, you'll define a custom namespace to serve as context for one Pact module—the `payments` module—and the administrative keyset for namespace and the `payments` module.
 
 To start the module declaration:
 
 1. Open the `starter-simple-payment.pact` file in your code editor and save it as `simple-payment.pact`.
 
-2. Define and read an administrative keyset with the name `admin-keyset` to own the `payments` module.
+2. Define a custom local namespace that can only be controlled and accessed by the `admin-keyset` you define.
    
    ```pact
-   (define-keyset "admin-keyset" (read-keyset "admin-keyset"))
+   (define-namespace "dev" (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
+   ```
+
+3. Set the namespace you defined to be the active namespace.
+   
+   ```pact
+   (namespace "dev")
+   ```
+
+4. Define namespace administrative keyset by reading the `admin-keyset`.
+   
+   ```pact
+   (define-keyset "dev.admin-keyset" (read-keyset "admin-keyset"))
    ```
    
-   In essence, this line creates an administrative keyset using the keyset name of `admin-keyset` that will have one or more public keys and a predicate function read from a message or as environment data.
-   The `admin-keyset` data that needs to be passed into the environment looks similar to the following:
+   In essence, this line creates an administrative keyset by reading the `admin-keyset` data—one or more public keys and a predicate function—from a message payload or passed in as environment data.
+   The `admin-keyset` data looks similar to the following:
 
    ```pact
    {"admin-keyset":{ "keys": ["fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7"], "pred": "keys-all" } }
    ```
    
-   Note that you can use the standard string notation with double quotation marks or symbol notation with a single quotation mark ('admin-keyset) for identifiers. 
+   Note that you can use the standard string notation with double quotation marks(`"admin-keyset"`) or symbol notation with a single quotation mark (`'admin-keyset`) for identifiers. 
    For more information about string literals used as identifiers, see [Symbols](/reference/syntax#symbols).
 
-3. Create a module named `payments` that is governed by the `admin-keyset`.
+5. Create a module named `payments` that is governed by the `dev.admin-keyset`.
    
    ```pact
-   (module payments "admin-keyset"
+   (module payments "dev.admin-keyset"
      ;; Module declaration
    )
    ```
 
-1. Save your changes.
+6. Save your changes.
    
    Now that you have a module, you need to add the code for this module inside of the `payments` declaration—that is, before the closing parenthesis that marks the end of the module declaration. 
    
@@ -105,7 +122,7 @@ To start the module declaration:
 
 ## Define a schema and table
 
-The `payments` modules stores information about accounts and balances in the `payments-table` database table.
+The `payments` module stores information about accounts and balances in the `payments-table` database table.
 This table keeps track of the balance of the accounts that are associated with the `Sarah` and `James` account keysets.
 The schema for the `payments-table` looks like this:
 
@@ -139,9 +156,12 @@ To define the schema and table:
    Without comments, your code should look similar to the following:
    
    ```pact
-   (define-keyset "admin-keyset" (read-keyset "admin-keyset"))
-
-   (module payments "admin-keyset"
+   (define-namespace "dev" (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
+     (namespace "dev")
+   
+     (define-keyset "dev.admin-keyset" (read-keyset "admin-keyset"))
+ 
+   (module payments "dev.admin-keyset"
    
      (defschema payments
        balance:decimal
@@ -151,7 +171,7 @@ To define the schema and table:
    )
    ```
 
-5. Save your changes.
+1. Save your changes.
    
    You now have a schema and table definition inside of the `payments` declaration.
 
@@ -167,7 +187,7 @@ For this coding project, the `payments` module provides three functions:
 
 ### Define the create-account function
 
-The `create-account` function allows the `payments` module administrator—identified by the `admin-keyset` keyset—to create any number of accounts. 
+The `create-account` function allows the `payments` module administrator—identified by the `dev.admin-keyset` keyset—to create any number of accounts. 
 
 To define the `create-account` function:
 
@@ -181,10 +201,10 @@ To define the `create-account` function:
    )
    ```
 
-2. Within the function, use `enforce-keyset` to ensure that all accounts are created by the `admin-keyset` administrator.
+2. Within the function, use `enforce-guard` to ensure that all accounts are created by the `dev.admin-keyset` administrator.
    
    ```pact
-     (enforce-keyset "admin-keyset")
+     (enforce-guard "dev.admin-keyset")
    ```
 
 3. Within the function, use `enforce` to ensure the `initial-balance` is greater than or equal to zero and include an optional documentation string.
@@ -206,18 +226,21 @@ To define the `create-account` function:
    Without comments, your code should look similar to the following:
    
    ```pact
-   (define-keyset "admin-keyset" (read-keyset "admin-keyset"))
+   (define-namespace "dev" (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
+     (namespace "dev")
    
-   (module payments "admin-keyset"
-   
+     (define-keyset "dev.admin-keyset" (read-keyset "admin-keyset"))
+ 
+   (module payments "dev.admin-keyset"
+
      (defschema payments
        balance:decimal
-       keyset:keyset)
+       keyset:guard)
    
      (deftable payments-table:{payments})
 
      (defun create-account:string (id:string initial-balance:decimal keyset:guard)
-        (enforce-keyset "admin-keyset")
+        (enforce-guard "dev.admin-keyset")
         (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
         (insert payments-table id
             { "balance": initial-balance,
@@ -247,12 +270,12 @@ To define the `get-balance` function:
        (with-read payments-table id   
    ```
 
-3. Within the function, use `enforce-one` to check that the keyset calling the function is either the `admin-keyset` or the `id` keyset.
+3. Within the function, use `enforce-one` to check that the keyset calling the function is either the `dev.admin-keyset` or the `id` keyset.
    
    ```pact
         (enforce-one "Access denied"
-          [(enforce-keyset keyset)
-           (enforce-keyset "admin-keyset")])
+          [(enforce-guard keyset)
+           (enforce-guard "dev.admin-keyset")])
    ```
 
 4. Within the function, return the `balance` for the specified `id` keyset.
@@ -266,30 +289,31 @@ To define the `get-balance` function:
    Without comments, your code should look similar to the following:
 
    ```pact
-   (define-keyset "admin-keyset" (read-keyset "admin-keyset"))
-   
-   (module payments "admin-keyset"
-   
+   (define-namespace "dev" (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
+     (namespace "dev")
+     (define-keyset "dev.admin-keyset" (read-keyset "admin-keyset"))
+
+   (module payments "dev.admin-keyset"
      (defschema payments
        balance:decimal
-       keyset:keyset)
-   
+       keyset:guard)
      (deftable payments-table:{payments})
 
-     (defun create-account (id initial-balance keyset)
-        (enforce-keyset "admin-keyset")
-        (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
-        (insert payments-table id
-          { "balance": initial-balance,
-            "keyset": keyset })
+     (defun create-account:string (id:string initial-balance:decimal keyset:guard)
+       (enforce-guard "dev.admin-keyset")
+       (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+       (insert payments-table id
+         { "balance": initial-balance,
+           "keyset": keyset })
      )
-    
-     (defun get-balance (id:string)
+
+     (defun get-balance:decimal (id:string)
         (with-read payments-table id
-          { "balance":= balance, "keyset":= keyset }
+         { "balance":= balance, "keyset":= keyset }
+
         (enforce-one "Access denied"
-          [(enforce-keyset keyset)
-           (enforce-keyset "admin-keyset")])
+          [(enforce-guard keyset)
+           (enforce-guard "dev.admin-keyset")])
         balance)
      )
    )
@@ -304,7 +328,7 @@ To define the `pay` function:
 1. Start the `pay` function definition with the keyword `defun` and specify the parameters as `from`, `to`, and `amount`.
    
    ```pact
-     (defun pay (from:string to:string amount:decimal)
+     (defun pay:string (from:string to:string amount:decimal)
      
      )
    ```
@@ -318,7 +342,7 @@ To define the `pay` function:
 1. Within the function, enforce that the `keyset` is the keyset of the account.
    
    ```pact
-         (enforce-keyset keyset)
+         (enforce-guard keyset)
    ```
 
 2. Within the function, use `with-read` to get the balance of the `to` account, and bind this balance to the `to-bal` variable. 
@@ -364,36 +388,37 @@ To define the `pay` function:
    Without comments, your code should look similar to the following:
 
    ```pact
-   (define-keyset "admin-keyset" (read-keyset "admin-keyset"))
+   (define-namespace "dev" (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
+     (namespace "dev")
+     (define-keyset "dev.admin-keyset" (read-keyset "admin-keyset"))
 
-   (module payments "admin-keyset"
-   
+   (module payments "dev.admin-keyset"
      (defschema payments
-        balance:decimal
-        keyset:keyset)
-   
+       balance:decimal
+       keyset:guard)
      (deftable payments-table:{payments})
 
-     (defun create-account (id initial-balance keyset)
-        (enforce-keyset "admin-keyset")
-        (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
-        (insert payments-table id
-           { "balance": initial-balance,
-             "keyset": keyset })
+     (defun create-account:string (id:string initial-balance:decimal keyset:guard)
+       (enforce-guard "dev.admin-keyset")
+       (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+       (insert payments-table id
+         { "balance": initial-balance,
+           "keyset": keyset })
      )
 
-     (defun get-balance (id)
+     (defun get-balance:decimal (id:string)
         (with-read payments-table id
-           { "balance":= balance, "keyset":= keyset }
+         { "balance":= balance, "keyset":= keyset }
+
         (enforce-one "Access denied"
-           [(enforce-keyset keyset)
-            (enforce-keyset "admin-keyset")])
+          [(enforce-guard keyset)
+           (enforce-guard "dev.admin-keyset")])
         balance)
      )
 
-     (defun pay (from:string to:string amount:decimal)
+     (defun pay:string (from:string to:string amount:decimal)
         (with-read payments-table from { "balance":= from-bal, "keyset":= keyset }
-           (enforce-keyset keyset)
+           (enforce-guard keyset)
            (with-read payments-table to { "balance":= to-bal }
              (enforce (> amount 0.0) "Negative transaction amount")
              (enforce (>= from-bal amount) "Insufficient funds")
@@ -414,8 +439,8 @@ To define the `pay` function:
 
 ## Create the table
 
-Although you defined a schema and a table inside of the `payments` module, tables are created outside of the module code.
-This distinction between what you define inside of the module and outside of the module is important because the module acts as a guard to protect access to database functions and records. 
+Although you defined a schema and a table inside of the `payments` module, tables are created **outside** of the module code.
+This distinction between what you define inside of the module and outside of the module is important because the module acts as a guard to protect access to database functions and database records. 
 This separation also allows module code to be potentially updated without replacing the table in Pact state. 
 
 To create the table:
@@ -435,12 +460,12 @@ To create the table:
 At this point, you have completed all of the essential code for the `simple-payment.pact` contract. 
 However, you can't test or deploy the code in its current state.
 Because keysets are defined outside of contract code, the most common way to test a module locally is to create a test file that makes use of REPL-only built-in functions to simulate data that must be provided by the environment, like keysets and signatures.
-In this part of the project, you'll see how to create a test file—the `local-simple-payment.repl` file—to call REPL-only functions and test the functions you've defined in the `payments` module.
+In this part of the project, you'll see how to create a test file—the `simple-payment.repl` file—to call REPL-only functions to test the functions you've defined in the `payments` module.
 
 To create the test file:
 
-1. Copy the `simple-payment.pact` file and rename the file as `local-simple-payment.repl`.
-2. Open the `local-simple-payment.repl` file in your code editor.
+1. Copy the `simple-payment.pact` file and rename the file as `test-simple-payment.repl`.
+2. Open the `test-simple-payment.repl` file in your code editor.
 3. Add the `env-data` built-in function to set environment data to simulate keyset information.
    
    ```pact
@@ -454,20 +479,7 @@ To create the test file:
    )
    ```
 
-1. Add a transaction using the `begin-tx` and `commit-tx` functions to define a namespace for your module.
-   
-   ```pact
-   ;; Define a namespace
-   (begin-tx)
-     (define-namespace 'ns-dev-local (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
-   (commit-tx)
-   ```
-
-   Namespaces are required to define a context for modules when they are deployed on a network.
-   For local testing, you must define a namespace before you can define a keyset.
-   Keysets must be defined inside of a namespace.
-
-2. Add a signature using the `env-sigs` function for signing transactions to your environment.
+4. Add the `env-sigs` built-in function to set the key for signing transactions in your environment.
    
    ```pact
    ;; Add a signature for signing transactions
@@ -478,242 +490,427 @@ To create the test file:
    )
    ```
 
-3. Add a transaction to define a keyset inside of the namespace.
+5. Add a transaction using the `begin-tx` and `commit-tx` built-in functions to define a namespace and keyset for your module.
    
    ```pact
-   ;; Enter the namespace and define a keyset
-   (begin-tx
-     "Define a new keyset"
-   )
-   (namespace 'ns-dev-local)
-   (expect
-     "A keyset can be defined"
-     "Keyset defined"
-   (define-keyset "ns-dev-local.admin-keyset" (read-keyset "admin-keyset")))
+   (begin-tx "Define a namespace and keyset")
+
+     (define-namespace "dev" (read-keyset "admin-keyset") (read-keyset "admin-keyset"))
+     (namespace "dev")
+     (expect
+        "A keyset can be defined"
+        "Keyset write success"
+       (define-keyset "dev.admin-keyset" (read-keyset "admin-keyset")))
    (commit-tx)
    ```
 
-   This example uses the `expect` built-in function to test the assertion that the keyset can be defined.
+   Namespaces are required to define a context for modules when they are deployed on a network.
 
-4. Add the `begin-tx` function before the module declaration and modify the governing entity to be the `ns-dev-local.admin-keyset` defined in this namespace.
+   This example also uses the `expect` built-in function to test the assertion that the keyset can be defined.
+
+6. Add the `begin-tx` function before the module declaration, ans scroll to the bottom of the file and add the closing `commit-tx` function.
    
    ```pact
-   (begin-tx
-     "Update the module"
-   )
-     (module payments "ns-dev-local.admin-keyset"
-      ...
+   (begin-tx "Crete module")
+     (module payments "dev.admin-keyset"
+   
+       (defschema payments
+         balance:decimal
+         keyset:guard)
+   
+       (deftable payments-table:{payments})
+   
+       (defun create-account:string (id:string initial-balance:decimal keyset:guard)
+         (enforce-guard "dev.admin-keyset")
+         (enforce (>= initial-balance 0.0) "Initial balances must be >= 0.")
+         (insert payments-table id
+           { "balance": initial-balance,
+             "keyset": keyset })
+       )
+   
+       (defun get-balance:decimal (id:string)
+         (with-read payments-table id
+           { "balance":= balance, "keyset":= keyset }
+           (enforce-one "Access denied"
+           [(enforce-guard keyset)
+            (enforce-guard "dev.admin-keyset")])
+         balance)
+       )
+   
+       (defun pay:string (from:string to:string amount:decimal)
+         (with-read payments-table from { "balance":= from-bal, "keyset":= keyset }  
+           (enforce-guard keyset)
+           (with-read payments-table to { "balance":= to-bal }
+             (enforce (> amount 0.0) "Negative transaction amount")
+             (enforce (>= from-bal amount) "Insufficient funds")
+             (update payments-table from
+                { "balance": (- from-bal amount) })
+                (update payments-table to
+                { "balance": (+ to-bal amount) })
+             (format "{} paid {} {}" [from to amount])
+           )
+         )
+       )
      )
-   ```
-
-5. Scroll to the bottom of the file and add the closing `commit-tx` function.
-   
-   ```pact
-   ;; ===================================================================
-   ;;  4-Create-table
-   ;; ===================================================================
-   
-   ;; Create the payments-table.
    (create-table payments-table)
    (commit-tx)
    ```
 
-6. Save your changes.
+7. Add a transaction for testing that only the administrator can create accounts.
+   
+   ```pact
+   (begin-tx "Test creating account")   
+   ;; Call the payments module into scope for this transaction.
+     (use payments)
+     ;; Clear keys from the environment.
+     (env-keys [""])
+     ;; Define the keysets for Sarah and James.
+     (env-data { 
+       "sarah-keyset": {"keys": ["sarah-key"]},
+       "james-keyset": {"keys": ["james-key"]}})
+   
+     ;; Try creating the Sarah account without the admin keyset defined.
+     (expect-failure "Admin Keyset is missing" "Keyset failure (keys-all): [admin-pu...]" (create-account "Sarah" 100.25 (read-keyset "sarah-keyset")))
+   
+     (env-keys ["admin-public-key"])
+     
+     ;; Create the Sarah account the proper admin keyset defined.
+      (expect "Admin Keyset is present" "Write succeeded" (create-account "Sarah" 100.25 (read-keyset "sarah-keyset")))
+   
+      ;; Create the James account with initial value of 250.0.
+      (create-account "James" 250.0 (read-keyset "james-keyset"))
+   
+   (commit-tx)
+   ```
 
-7. Open a terminal shell on your computer and test execution by running the following command:
+7. Add a transaction for testing that one account can pay another account.
+   
+   ```pact
+   (begin-tx "Test making a payment")
+     (use payments)
+     (env-keys ["sarah-key"])
+     (pay "Sarah" "James" 25.0)
+   (commit-tx)
+   ```
+
+7. Add a transaction for testing that an account owner can view the account balance.
+
+   ```pact
+   (begin-tx "Test reading balances")
+     (use payments)
+     (env-keys ["sarah-key"])
+     ;; Read Sarah's balance as Sarah.
+     (format "Sarah's balance is {}" [(get-balance "Sarah")])
+   
+     (env-keys ["james-key"])
+     ;; Read James' balance as James.
+     (format "James's balance is {}" [(get-balance "James")])
+   (commit-tx)
+   ```
+
+8.  Open a terminal shell on your computer and test execution by running the following command:
    
    ```bash
-   pact local-simple-payment.repl --trace
+   pact test-simple-payment.repl --trace
    ```
 
    You should see output similar to the following:
 
    ```bash
-   local-simple-payment.repl:2:0:Trace: Setting transaction data
-   local-simple-payment.repl:11:0:Trace: Begin Tx 0
-   local-simple-payment.repl:12:2:Trace: Namespace defined: ns-dev-local
-   local-simple-payment.repl:13:0:Trace: Commit Tx 0
-   local-simple-payment.repl:16:0:Trace: Setting transaction signatures/caps
-   local-simple-payment.repl:23:0:Trace: Begin Tx 1: Define a new keyset
-   local-simple-payment.repl:26:0:Trace: Namespace set to ns-dev-local
-   local-simple-payment.repl:27:0:Trace: Expect: success: A keyset can be defined
-   local-simple-payment.repl:31:0:Trace: Commit Tx 1: Define a new keyset
-   local-simple-payment.repl:33:0:Trace: Begin Tx 2: Update the module
-   local-simple-payment.repl:36:2:Trace: Loaded module payments, hash J9JQQ3Gi3fpgXTHm4j3wlbC2PFVVXifOXj6_lWicReM
-   local-simple-payment.repl:122:0:Trace: TableCreated
-   local-simple-payment.repl:124:0:Trace: Commit Tx 2: Update the module
+   test-simple-payment.repl:1:0-7:1:Trace: "Setting transaction data"
+   test-simple-payment.repl:9:0-13:1:Trace: "Setting transaction signatures/caps"
+   test-simple-payment.repl:15:0-15:42:Trace: "Begin Tx 0 Define a namespace and keyset"
+   test-simple-payment.repl:17:2-17:84:Trace: "Namespace defined: dev"
+   test-simple-payment.repl:18:2-18:19:Trace: "Namespace set to dev"
+   test-simple-payment.repl:19:2-22:68:Trace: "Expect: success A keyset can be defined"
+   test-simple-payment.repl:23:0-23:11:Trace: "Commit Tx 0 Define a namespace and keyset"
+   test-simple-payment.repl:25:0-25:25:Trace: "Begin Tx 1 Crete module"
+   test-simple-payment.repl:26:2-65:3:Trace: Loaded module payments, hash Y5S8S1dbBPRER7kbAWxXnowfOjQ7pwPywwwmIidAPTE
+   test-simple-payment.repl:66:0-66:29:Trace: "TableCreated"
+   test-simple-payment.repl:67:0-67:11:Trace: "Commit Tx 1 Crete module"
+   test-simple-payment.repl:69:0-69:34:Trace: "Begin Tx 2 Test creating account"
+   test-simple-payment.repl:71:2-71:16:Trace: Loaded imports from payments
+   test-simple-payment.repl:73:2-73:17:Trace: "Setting transaction keys"
+   test-simple-payment.repl:75:2-77:45:Trace: "Setting transaction data"
+   test-simple-payment.repl:80:0-80:146:Trace: "Expect failure: Success: Admin Keyset is missing"
+   test-simple-payment.repl:82:0-82:31:Trace: "Setting transaction keys"
+   test-simple-payment.repl:85:0-85:113:Trace: "Expect: success Admin Keyset is present"
+   test-simple-payment.repl:88:0-88:59:Trace: "Write succeeded"
+   test-simple-payment.repl:90:0-90:11:Trace: "Commit Tx 2 Test creating account"
+   test-simple-payment.repl:92:0-92:34:Trace: "Begin Tx 3 Test making a payment"
+   test-simple-payment.repl:93:2-93:16:Trace: Loaded imports from payments
+   test-simple-payment.repl:94:2-94:26:Trace: "Setting transaction keys"
+   test-simple-payment.repl:95:2-95:28:Trace: "Sarah paid James 25.0"
+   test-simple-payment.repl:96:0-96:11:Trace: "Commit Tx 3 Test making a payment"
+   test-simple-payment.repl:98:0-98:34:Trace: "Begin Tx 4 Test reading balances"
+   test-simple-payment.repl:99:2-99:16:Trace: Loaded imports from payments
+   test-simple-payment.repl:100:2-100:26:Trace: "Setting transaction keys"
+   test-simple-payment.repl:102:2-102:58:Trace: "Sarah's balance is 75.25"
+   test-simple-payment.repl:104:2-104:26:Trace: "Setting transaction keys"
+   test-simple-payment.repl:106:2-106:58:Trace: "James's balance is 275.0"
+   test-simple-payment.repl:107:0-107:11:Trace: "Commit Tx 4 Test reading balances"
    Load successful
    ```
 
-   This sample test file only covers the most minimal steps for testing your module locally.
-   For a more complete set of tests for the `simple-payment.pact` contract, including function calls, see the `simple-payment.repl` file.
+   This sample test file demonstrates adding REPL built-in functions around the Pact code. 
+   A more common approach to testing Pact modules involves separating environment data into an `init.repl` file and then loading the `init.repl` file and the Pact `.pact` module file for more streamlined testing.
+   For examples of other ways to test the `simple-payment.pact` module, see: 
+   
+   - [`simple-payment.repl`](https://github.com/kadena-docs/pact-coding-projects/blob/main/01-simple-payment/simple-payment.repl) demonstrates _loading_ a Pact module to test its functions rather than including the module in the `.repl` file.
+   - [init.repl](https://github.com/kadena-docs/pact-coding-projects/blob/main/init.repl) demonstrates creating a separate `.repl` file for setting up environment data outside of the module.
+   - [use-init-simple-payment.repl](https://github.com/kadena-docs/pact-coding-projects/blob/main/01-simple-payment/use-init-simple-payment.repl) demonstrates a `.repl` file that uses the `init.repl` file.
 
 ## Deploy the contract
 
 After testing the contract using the Pact interpreter and the REPL file, you can deploy the contract on your local development network or the Kadena test network.
-Note that you can only define namespaces in the local development environment.
-You must deploy to an existing namespace—such as the `free` namespace—or register a principal namespace to deploy on the Kadena test network or on a public production network.
-To deploy in an existing namespace, you must also ensure that your module name and keyset name are unique across all of the modules that exist in that namespace.
 
-For this coding project, you can deploy the `simple-payment.pact` contract using the Chainweaver desktop or web-based application and its integrated development environment. 
+However, you must deploy to an existing namespace—such as the `free` namespace—or a registered [principal namespace](/guides/transactions/howto-namespace-tx) to deploy on any Kadena network.
+If you want to deploy in an existing namespace, you must also ensure that your module name and keyset name are unique across all of the modules that exist in that namespace.
 
 ### Prepare to deploy
 
-Because you're going to deploy the contract on the Kadena test network, you can update the contract code to use the `free` namespace, a unique keyset name, and a unique module name before you deploy the contract.
+To deploy to the `free` namespace:
 
-To prepare to deploy on the Kadena test network:
+- Remove the `define-namespace` function.
+- Replace all occurrences of the custom `"dev"` namespace with `"free"`.
+- Modify the module and keyset names to make them unique in the `free` namespace.
+  
+  ```pact
+  (namespace 'free)
+  (define-keyset "free.pistolas-project" (read-keyset "pistolas-project"))
+  (module pistolas-payments "free.pistolas-project" ...)
+  ```
 
-1. Open the contract you want to deploy in your code editor.
+To deploy to a private namespace:
 
-   For example, open the `simple-payment.pact` file in your code editor.
+- Modify the `define-namespace` function to use the `ns.create-principal-namespace` function to define a unique principal namespace for your public key.
+- Replace all occurrences of the custom `"dev"` namespace with a principal namespace similar to the following `"n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e"`.
 
-2. Add the `free` namespace before the module definition, define an administrative keyset inside of the namespace, and update the module name and governing keyset.
+In general, the best practice is to create a principal namespace for all of your modules and keysets.
+
+### Verify network, chain, and account information
+
+Before you deploy onthe local development network, verify the following:
+
+- The development network is currently running on your local computer.
+
+- You have at least one **account** with **funds** on at least one **chain** in the development network. 
+   
+  If you don't have keys and at least one account on any chain on the network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
+
+- You have the public key for the account on the chain where you have funds.
+
+### Create a principal namespace
+
+For this coding project, you can define a principal namespace by executing a transaction using the following `simple-define-namespace.ktpl` transaction template.
+
+```yaml
+code: |-
+  (define-namespace (ns.create-principal-namespace (read-keyset "k")) (read-keyset "k") (read-keyset "k"))
+data:
+  {
+    "k": [
+        "{{public-key}}"
+    ]
+  }
+meta:
+  chainId: "{{chain-id}}"
+  sender: "{{{sender-account}}}"
+  gasLimit: 80300
+  gasPrice: 0.000001
+  ttl: 600
+signers:
+  - public: "{{public-key}}"
+    caps:
+      - name: "coin.GAS"
+        args: []
+networkId: "{{network-id}}"
+```
+
+You can use `kadena tx add` to replace the variables in the template with the values for your public key, sender account, chain, and network.
+
+```sh
+? Which template do you want to use: simple-define-namespace.ktpl
+? File path of data to use for template .json or .yaml (optional):
+? Template value public-key:
+a6731ce787ece3941fcf28ce6ccf58150b55a23310e242f4bcb0498c93119689
+? Template value chain-id: 3
+? Template value sender-account:
+k:a6731ce787ece3941fcf28ce6ccf58150b55a23310e242f4bcb0498c93119689
+? Template value network-id: development
+? Where do you want to save the output: myNamespace
+```
+
+After you save the transaction to a file, you can use `kadena tx sign` to sign the transaction with your wallet password or public and secret keys.
+
+After signing the transaction, you can use `kadena tx send` to send the transaction to the blockchain network.
+
+After the transaction is complete, copy the principal namespace from the transaction results and use it to replace all occurrences of the original `"dev"` namespace.
+
+```pact
+(namespace "n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e")
+(define-keyset "n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.admin-keyset" (read-keyset "admin-keyset"))
+(module payments "n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.admin-keyset" ...)
+```
+
+### Create a deployment transaction
+
+You can deploy the `simple-payment.pact` module on the local development network using the same workflow of `kadena tx add`, `sign`, and `send` commands that you used to execute the `define-namespace` transaction.
+
+To deploy the module:
+
+1. Create a new transaction template named `simple-payment.ktpl` in the `~/.kadena/transaction-templates` folder.
+   
+   ```sh
+   cd ~/.kadena/transaction-templates
+   touch simple-payment.ktpl
+   ```
+
+2. Open the `simple-payment.ktpl` file in a code editor and create a reusable transaction request in YAML format similar to the following to specify the path to the `simple-payment.pact` file that contains your Pact module code.
+   
+   ```pact
+   codeFile: "../../simple-payment.pact"
+   data:
+     admin-keyset:
+       keys: ["{{public-key}}"]
+       pred: "keys-all"
+   meta:
+     chainId: "{{chain-id}}"
+     sender: "{{{sender-account}}}"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 600
+   signers:
+     - public: "{{public-key}}"
+       caps: []
+   networkId: "{{network-id}}"
+   ```
+
+3. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
 
    For example:
 
-   ```pact
-   (namespace "free")
-   (define-keyset "free.pistolas" (read-keyset 'pistolas))
-
-   (module pistolas-simple-payment "free.pistolas"
-      ...
-   )
+   ```sh
+   ? Which template do you want to use: simple-payment.ktpl
+   ? File path of data to use for template .json or .yaml (optional):
+   ? Template value public-key: a6731ce7...93119689
+   ? Template value chain-id: 3
+   ? Template value sender-account: k:a6731ce7...93119689
+   ? Template value network-id: development
+   ? Where do you want to save the output: deploy-simple-payment
    ```
 
-3. Update the other references to the `admin-keyset` to use the keyset you are defining for the namespace.
-   
-   For example, update the `enforce-keyset` lines in the `create-account` and `get-balance` functions:
+   In this example, the unsigned transaction is saved in a `deploy-simple-payment.json` file.
 
-   ```pact
-       (enforce-keyset "free.pistolas")
+4. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed to sign with a wallet account or a public and secret key pair.
+   
+   For example:
+
+   ```sh
+   ? Select an action: Sign with wallet
+   ? Select a transaction file: Transaction: deploy-simple-payment.json
+   ? 1 wallets found containing the keys for signing this transaction, please select a wallet to sign this transaction with first: Wallet: pistolas
+   ? Enter the wallet password: ********
    ```
 
-4. Save the changes in the code editor.
-
-### Load the module using Chainweaver
-
-Because you must define the keyset keys and predicate function for your contract in the environment outside of the contract code, the Chainweaver integrated development environment provides the most convenient way to add the required keysets.
-
-To load the contract using Chainweaver:
-
-1. Open and unlock the Chainweaver desktop and web-based application, then select the **testnet** network.
-
-2. Click **Accounts** in the Chainweaver navigation pane and verify that you have at least one account with funds on at least one chain in the test network. 
+5. Send the transaction by running the `kadena tx send` command and following the prompts displayed.
    
-   If you don't have keys and at least one account on any chain on the test network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
-   You'll use the public key for this account and the chain where you have funds in the account to deploy the contract and identify the contract owner.
+   After the transaction is complete, you should see the message `TableCreated` in the transaction results.
 
-3. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the `simple-payment.pact` contract that you want to deploy.
+### Create additional transactions
 
-   After you select the contract and click **Open**, the contract is displayed in the editor panel on the left with contract navigation on the right.
-   You'll also notice that the line where you define the keyset indicates an error, and the error message is `No such key in message` because your administrative keyset doesn't exist in the environment.
+After you deploy the module, you can create additional transactions to verify contract functions running on the development network.
+For example, you can create a transaction template for the `payments.create-account` function similar to the following:
 
-4. Under Data on the **Keysets** tab, type the name of your administrative keyset, click **Create**, then select the public key and predicate function for the administrative keyset.
+```yaml
+code: |-
+   (n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.payments.create-account "{{{new-account-name}}}" {{balance}} (read-keyset "account-guard"))
+data:
+   account-guard:
+      keys:
+      - {{{publicKey}}}
+      pred: "keys-all"
+meta:
+   chainId: "{{chain-id}}"
+   sender: "k:a6731ce787ece3941fcf28ce6ccf58150b55a23310e242f4bcb0498c93119689"
+   gasLimit: 2000
+   gasPrice: 0.00000001
+   ttl: 7200
+signers:
+   - public: "a6731ce787ece3941fcf28ce6ccf58150b55a23310e242f4bcb0498c93119689"
+      caps: []
+networkId: "{{network:networkId}}"
+type: exec
+```
    
-   You'll see that adding the keyset dismisses the error message.
+With this template, you can create an account for Sarah with an initial balance of 100.25 and an account for James with an initial balance of 250.0, equivalent to executing calls like the following in the Pact REPL:
 
-   ![Add your administrative keyset to the environment data](/img/simple-payment-admin.jpg)
-
-5. Click **Load into REPL** to load the contract into the interactive Pact interpreter for testing its functions.
-   
-   You should see the following message:
-
-   ```pact
-   "TableCreated"
-   ```
-
-6. Click the **ENV** tab to add keysets for the test accounts Sarah and James.
-   
-   - Type `sarah-keyset`, click **Create**, then select a public key and predicate function for the Sarah account keyset.
-   - Type `james-keyset`, click **Create**, then select a public key and predicate function for the James account keyset.
+```pact
+(dev.payments.create-account "Sarah" 100.25 (read-keyset "sarah-keyset"))
+"Write succeeded"
      
-     ![Three keysets for testing your contract](/img/simple-payment-keysets.jpg)
+(dev.payments.create-account "James" 250.0 (read-keyset "james-keyset"))
+"Write succeeded"
+```
 
-7. Click the **REPL** tab to return to the loaded module to test its functions:
-   
-   - Call the `create-account` function to create test accounts in your uniquely-named module in the `free` namespace.
-     For example, to create the accounts for Sarah and James:
+You can also create transaction templates for the `pay` and `get-balance` functions.
+For example, you can create a transaction for the `pay` function with a template similar to the following:
+
+```yaml
+code: |-
+  (n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.payments.pay "{{sender-id}}" "{{receiver-id}}" {{amount}})
+data:
+meta:
+  chainId: "{{chain-id}}"
+  sender: "{{sender-k-account}}"
+  gasLimit: 2000
+  gasPrice: 0.00000001
+  ttl: 7200
+signers:
+  - public: "{{sender-publicKey}}"
+    caps: []
+networkId: "{{network:networkId}}"
+type: exec
+```
+
+With this template, you can create an transaction for Sarah to pay James 25.0, equivalent to executing the following call in the Pact REPL:
      
-     ```pact
-     (free.pistolas-simple-payment.create-account "Sarah" 100.25 (read-keyset "sarah-keyset"))
-     "Write succeeded"
+```pact
+(dev.payments.pay "Sarah" "James" 25.0)
+"Sarah paid James 25.0"
+```
+
+However, this transaction requires the account associated with Sarah to have an account and funds to pay for the transaction on the chain you specify.
+The account must also be associated with a wallet that you've created or imported into the Kadena CLI local development environment.
+
+Similarly, you can create a transaction for the `get-balance` function with a template similar to the following:
+
+```yaml
+code: |-
+  (format "Sarah's balance is {}" [(n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.payments.get-balance "{{simple-payments-id}}")])
+data:
+meta:
+  chainId: "{{chain-id}}"
+  sender: "{{sender-k-account}}"
+  gasLimit: 2000
+  gasPrice: 0.00000001
+  ttl: 7200
+signers:
+  - public: "{{sender-publicKey}}"
+    caps: []
+networkId: "{{network:networkId}}"
+type: exec
+```
+
+With this template, you can create separate transactions for getting the balance for Sarah and getting the balance for James, equivalent to executing the following calls in the Pact REPL:
+
+```pact
+(format "Sarah's balance is {}" [(dev.payments.get-balance "Sarah")])
+"Sarah's balance is 75.25"
      
-     (free.pistolas-simple-payment.create-account "James" 250.0 (read-keyset "james-keyset"))
-     "Write succeeded"
-     ```
-
-   - Call the `pay` function to pay 25.0 from Sarah to James:
-     
-     ```pact
-     (free.pistolas-simple-payment.pay "Sarah" "James" 25.0)
-     "Sarah paid James 25.0"
-     ```
-
-   - Call the `get-balance` function as Sarah and James:
-     
-     ```pact
-     (format "Sarah's balance is {}" [(free.pistolas-simple-payment.get-balance "Sarah")])
-     "Sarah's balance is 75.25"
-     
-     (format "James's balance is {}" [(free.pistolas-simple-payment.get-balance "James")])
-     "James's balance is 275.0"
-     ```
-
-### Deploy using Chainweaver
-
-Now that you've tested that the contract functions work as expected, you can use Chainweaver to deploy the contract on the test network in the `free` namespace.
-
-To deploy the contract using Chainweaver:
-
-1. Click **Deploy** to display the Configuration tab.
-2. On the Configuration tab, update General and Advanced settings like this:
-   
-   - Select the **Chain identifier** for the chain where you want to deploy the contract.
-   - Select a **Transaction Sender**.
-   - Click **Advanced** and add the `free` namespace keyset to the environment.
-     Because this transaction includes multiple keysets for the administrative and test accounts, select the administrative public key and the `keys-any` predicate function.
-
-     ![Add namespace keyset to the transaction](/img/free-keyset-any.jpg)
-   - Click **Next**.
-
-3. On the Sign tab, select the public key for the administrative keyset as an **Unrestricted Signing Key**, then click **Next**.
-   
-
-3. On the Preview tab, scroll to see the Raw Response is "TableCreated", then click **Submit** to deploy the contract.
-
-## View the deployed module
-
-After you deploy a contract, you can view its details and call its functions using Chainweaver.
-
-To view and call your contract:
-
-1. Click **Contracts** in the Chainweaver navigation pane, then click **Module Explorer**.
-2. Under Deployed Contracts, search for your module name in the **free** namespace and chain where you deployed, then click **Refresh** to update the list of deployed contracts to display only your just-deployed contract.
-   
-   In this example, the unique module name is **free.pistolas-simple-payment** and the contract was deployed on the testnet chain **1**. 
-   
-   ![Search for and view your deployed contract](/img/free-deployed-module.jpg)
-
-3. Click **View** to display the functions and capabilities defined in your contract.
-
-4. Click **Call** for the **create-account** function to display the function parameters.
-   
-   On the **Parameters** tab, set the parameters like this, then click **Next**:
-  
-   - For **id**, type "ben" in quotes.
-   - For **initial-balance**, type 4.0.
-   - For **keyset**, type (read-keyset "ben-keyset").
-  
-   On the **Configuration** tab, review and update the General settings, then click **Advanced**.
-   
-   - Under Data and Keysets, type `ben-keyset`, then click **Create**.
-   - Select a public key and predicate, then click **Next**.
-
-   On the **Sign** tab, select the public key for the contract owner you used to deploy the contract as an **Unrestricted Signing Key** , then click **Next**.
-
-   On the **Preview** tab, scroll to see the **Raw Response** is "Write succeeded" for function.
-   
-   You can click **Submit** if you want to submit the transaction to the blockchain or close the function call without submitting the transaction.
+(format "James's balance is {}" [(dev.payments.get-balance "James")])
+"James's balance is 275.0"
+```
 
 ## Next steps
 
