@@ -327,7 +327,7 @@ To define the `enforce-user-auth` function:
    )
    ```
 
-For more information, see the descriptions for the [enforce-guard](/pact-5/keysets/enforce-guard) and [with-read](/pact-5/database/with-read) functions.
+For more information, see the descriptions for the [enforce-guard](/pact-5/general/enforce-guard) and [with-read](/pact-5/database/with-read) functions.
 
 ### Define the change-nickname function
 
