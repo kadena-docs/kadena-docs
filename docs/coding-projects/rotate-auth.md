@@ -246,7 +246,7 @@ To define the `create-user` function:
    )
    ```
 
-For more information, see the descriptions for the [enforce-guard](/pact-5/keysets/enforce-guard) and [insert](/pact-5/database/insert) functions.
+For more information, see the descriptions for the [enforce-guard](/pact-5/general/enforce-guard) and [insert](/pact-5/database/insert) functions.
 
 ### Define the enforce-user-auth function
 
