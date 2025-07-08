@@ -55,7 +55,7 @@ To get started:
 
    - `starter-simple-payment.pact` provides a starting point with the framework for the project code and comments for every challenge.
    - `simple-payment.pact` contains the final solution code that can be deployed.
-   - `local-simple-payment.repl` provides a simplified example of a test file that illustrates using REPL-only functions for testing contracts locally.
+   - `test-simple-payment.repl` provides a simplified example of a test file that illustrates using REPL-only functions for testing contracts locally.
    - `simple-payment.repl` provides a complete test file for testing the final `simple-payment.pact` contract.
 
 4. Open and review the `starter-simple-payment.pact` file.
@@ -72,7 +72,7 @@ To define a module, you must also specify the administrative keyset or governanc
 For local development, you can define a module without using the context of a [namespace](/resources/glossary#namespace).
 However, if you want to deploy modules, you should learn how to work with namespaces and namespace keysets. 
 
-For this coding project, you'll define a custom namespace to serve as context for one Pact module—the `payments` module—and the administrative keyset for namespace and the `payments` module.
+For this coding project, you'll define a custom namespace to serve as context for one Pact module—the `payments` module—and the administrative keyset to use in the namespace as the owner of the `payments` module.
 
 To start the module declaration:
 
@@ -608,7 +608,7 @@ To create the test file:
    (commit-tx)
    ```
 
-8.  Open a terminal shell on your computer and test execution by running the following command:
+8. Open a terminal shell on your computer and test execution by running the following command:
    
    ```bash
    pact test-simple-payment.repl --trace
@@ -676,7 +676,7 @@ To deploy to the `free` namespace:
 - Modify the module and keyset names to make them unique in the `free` namespace.
   
   ```pact
-  (namespace 'free)
+  (namespace "free")
   (define-keyset "free.pistolas-project" (read-keyset "pistolas-project"))
   (module pistolas-payments "free.pistolas-project" ...)
   ```
@@ -690,7 +690,7 @@ In general, the best practice is to create a principal namespace for all of your
 
 ### Verify network, chain, and account information
 
-Before you deploy onthe local development network, verify the following:
+Before you deploy on the local development network, verify the following:
 
 - The development network is currently running on your local computer.
 
@@ -728,6 +728,7 @@ networkId: "{{network-id}}"
 ```
 
 You can use `kadena tx add` to replace the variables in the template with the values for your public key, sender account, chain, and network.
+For example:
 
 ```sh
 ? Which template do you want to use: simple-define-namespace.ktpl
