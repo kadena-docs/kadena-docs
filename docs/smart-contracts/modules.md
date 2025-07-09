@@ -7,34 +7,32 @@ sidebar_position: 7
 
 # Modules and references
 
-The fundamental building blocks for all Pact smart contracts are defined as Pact **modules**.
+The fundamental building blocks for all Pact smart contracts are defined in Pact **modules**.
 For simple contracts, a module often acts as a mostly self-contained logical unit with all of the code necessary to create an application or a service.
 All of the functions and data definitions required to complete business operations are defined within the context of a module.
 
-Although you can use modules as composable and callable units that interoperate in a smart contract, modules typically include the following
-components:
+Although you can use modules as composable and callable units that interoperate, Pact modules typically include some or all of the following components:
 
+- Capability definitions
 - Schema definitions
 - Table definitions
-- Functions definitions
+- Function definitions
 - Multi-step defpact definitions
 - Constant values
 
-Some elements of smart contracts are defined in modules but aren't contained withing the module itself.
-For example, modules don't contain the following elements in the code that's included in the module itself:
+Some elements that are required by smart contracts aren't included in the module declaration, but are defined outside of the module code.
+For example, the code related to the following elements is considered to be outside of and separate from the module declaration:
 
 - Namespace definition
 - Keyset definitions
 - Table creation
 - Function calls
 
-The code related to these elements is considered to be outside of and separate from the module definition.
-
 ## Modules and smart contracts
 
 When you start working with Pact, you typically create single modules that contain the full functionality of your smart contract, much like most of the examples in the [coding projects](/coding-projects/coding-projects).
 Using a single module to define a contract keeps your codebase simple and straightforward because there's only one file to keep track of.
-However, as you begin writing more complex or sophisticated programs, you'll find it more convenient to split the smart contract logic into multiple modules that work together to compose the complete application.
+However, as you begin writing more complex or sophisticated programs, you might find it more convenient to split the smart contract logic into multiple modules that work together to compose the complete application.
 In a typical smart contract—the full application—each individual module can provide a focused set of functionality with clear organizational logic.
 
 Because a smart contract can be defined using one module or many modules, the logic in individual Pact files (`.pact`) is always referred to as a module.
@@ -76,7 +74,8 @@ For example, you enter a namespace and define a keyset for a module before start
 
 With keyset governance like the previous example, the `admin-keyset` is defined outside of the module and checked and enforced at the module level.
 Any attempt to upgrade the module, write to module tables, or access table functions directly requires the `admin-keyset` to sign the transaction.
-As an alternative to strict keyset enforcement, you can specify a _module governance_ capability in the module declaration to support a more generalized form of module governance.
+
+As an alternative to strict keyset enforcement, you can specify a _governance capability_ in the module declaration to support a more generalized form of module governance.
 By using a governance capability that references a `defcap` declaration in the module body, you can define more flexible models for enforcing access to Pact modules, tables, and functions.
 
 For example, you can implement the same governance for the **example** module using a governance capability named **GOVERNANCE** like this:
@@ -85,7 +84,7 @@ For example, you can implement the same governance for the **example** module us
 (module example GOVERNANCE
   ...
   (defcap GOVERNANCE ()
-    (enforce-keyset "admin-keyset"))
+    (enforce-guard "admin-keyset"))
   ...
 )
 ```
@@ -96,22 +95,18 @@ Its placement at the beginning of the module declaration is what identifies this
 It's worth noting that, when you initially deploy a module, the module governance capability is not invoked.
 This behavior is different than when you use a keyset.
 With a keyset, the keyset must always be defined and evaluated to ensure that the keyset exists before a module can be deployed.
-Therefore, you might consider module governance using a capability to be more risky than using a keyset.
-You should test modules thoroughly when implementing module governance capabilities to ensure that you don't introduce bugs that might prevent a module from being upgraded.
+The module governance capability is enforces after a module is deployed, when it's accessed or upgraded.
 
 ### Invoking governance
 
-Because the module governance capability is defined using the `defcap` keyword, its administrative function cannot be called directly.
-It is automatically invoked in the following circumstances:
+Because the module governance capability is defined using the `defcap` keyword, its elevated administrative function cannot be called directly.
+The **module administrator** elevated permissions are only automatically invoked in the following situations:
 
-- Module upgrade is attempted.
-- Module tables are directly accessed from outside of the module code.
+- When a module upgrade is attempted.
+- When module tables are directly accessed from outside of the module code.
 
-Under these circumstances, the transaction is tested for elevated access to the **module administrator**, defined as the grant of the **module administrator capability**.
-This capability cannot be expressed in user code, so it cannot be installed, acquired, required, or composed.
-
-However, the capability that implements the module administrator capability—in this example, the `GOVERNANCE` capability—can be installed, acquired, required, or composed.
-If the `GOVERNANCE` capability is installed or granted, it's scoped like any other capability over the code that only the module administrator can run.
+Transactions that attempt to upgrade a module or access module tables can only be executed by the module owner specified by the **module administrator capability**—in this example, the `GOVERNANCE` capability.
+If the conditions specified for the `GOVERNANCE` capability are met, full administrative rights are granted.
 
 ### Module administrator scope
 
@@ -171,7 +166,7 @@ Module names must be unique within a namespace.
 You can define custom namespaces for local development.
 However, you must deploy modules to a registered namespace in the Kadena test or production networks.
 
-[Module declarations](/reference/syntax#module) use the following keywords to define the following module components:
+[Module declarations](/reference/syntax#module) use the following keywords to define module components:
 
 - [defun](/reference/syntax#defun) to define module functions.
 - [defschema](/reference/syntax#defschema) to define schemas for module tables.
@@ -217,9 +212,9 @@ However, if you implement interfaces with conflicting function names, you must r
 
 You can declare an interface using the `interface` keyword followed by the name for the interface.
 Interface names must be unique within a namespace.
-Interfaces can't be upgraded and aren't governed by keysets or governance capability.
+Interfaces can't be upgraded and aren't governed by keysets or a governance capability.
 
-Interfaces can import definitions from other modules with [`use`](/reference/syntax#use) statement to construct new constant definitions, or make use of types or functions defined in the imported module.
+Interfaces can import definitions from other modules with [`use`](/reference/syntax#use) statements to construct new constant definitions, or make use of types or functions defined in the imported module.
 
 Modules can implement interfaces that include the following components:
 
@@ -339,7 +334,7 @@ For more information about the syntax for using these keywords, see the [impleme
 Pact **module references** enable you to support use-cases that require polymorphism.
 For example, a Uniswap-like exchange allows users to specify pairs of tokens to allow trading between them.
 The Pact `fungible-v2` interface allows tokens to offer identical operations such as `transfer-create`.
-However, without a way to abstract over different `fungible-v2` implementations, an exchange smart contract would have to be upgraded for each pair with custom code for every operation.
+However, without a way to abstract over different `fungible-v2` implementations, an exchange smart contract would have to be upgraded for each token pair with custom code for every operation.
 
 For example:
 
@@ -431,11 +426,11 @@ Module references can specify any defined interface and accept any module that i
 
 The Pact module reference polymorphism is similar to generics in Java or traits in Rust, and should not be confused with more object-oriented polymorphism like that found with Java classes or TypeScript types.
 Modules cannot extend one another.
-They can only offer operations that match some interface specification, and interfaces themselves cannot extend some other interface.
+They can only offer operations that match some interface specification, and interfaces themselves cannot extend other interface.
 
 You should note that module references introduce indirection and, therefore, can increase the overall complexity of Pact smart contracts, making contract logic harder to understand and reason about.
-You should only use module references when you need to provide flexible interoperation with other smart contracts.
-If all of the modules are your own code, you should use direct references whenever possible.
+You should only use module references when you need to provide flexible interoperation between smart contracts.
+If all of the modules are your own code, you should use direct references instead of external module references whenever possible.
 
 ### Reference value binding
 
@@ -552,3 +547,38 @@ Using a module reference in a function is accomplished by specifying the type of
 
 (foo impl) ;; 'impl' references the module defined above, of type 'module{baz}'
 ```
+
+You should use module reference calls in use cases that require dynamic evaluation of a function or interface or when an interface requires multiple implementations.
+For example, decentralized exchanges and liquidity pools typically require module references.
+You should avoid using use module reference calls where you have a capability that you are using to guard resources could be brought into scope in an external module.
+
+For example, if you are using the INTERNAL_FUNDS_CAP to guard account funds in the `mymodule` module, you shouldn't bring that capability into scope before calling the external module:
+
+```pact
+(module mymodule GOVERNANCE
+  ...
+  (defcap INTERNAL_FUNDS_CAP true) ; my capability for funds owned by this module
+  (defconst MODULE_ACCOUNT_GUARD (create-capability-guard (INTERNAL_FUNDS_CAP))
+  (defconst MODULE_ACCOUNT (create-principal MODULE_ACCOUNT_GUARD))
+  
+  (defun withdraw (person:string amount:decimal mref:module{fungible-v2}) 
+    (with-capability (INTERNAL_FUNDS_CAP)
+      (mref::transfer person MODULE_ACCOUNT amount)
+      (coin.transfer MODULE_ACCOUNT person amount))))
+```
+
+In this example, the INTERNAL_FUNDS_CAP capability—which should only be brought into scope for the `coin.transfer` call—is in scope for both the external `mref::transfer` call and the `coin.transfer` call.
+With this vulnerability, a malicious user could write a module that satisfies the `fungible-v2` interface that drains all of the funds from `mymodule` because the INTERNAL_FUNDS_CAP is in scope.
+
+To fix the issue, you need to change where the call that grants the INTERNAL_FUNDS_CAP capability is brought into scope:
+
+```pact
+(defun withdraw (person:string amount:decimal mref:module{fungible-v2}) 
+    (mref::transfer person MODULE_ACCOUNT amount)
+    (with-capability (INTERNAL_FUNDS_CAP)
+       (coin.transfer MODULE_ACCOUNT person amount))))
+```
+
+## Read-only module reference calls
+
+With Pact 5.3, any module reference function call that calls back into the originating module are enforced as read-only calls to prevent database modification and re-entrancy attacks.
