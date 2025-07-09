@@ -607,6 +607,26 @@ The following example illustrates using the `error` special form to test for an 
 (commit-tx)
 ```
 
+You can execute the `error` test cases by running the following command:
+
+```sh
+pact error-special-form.repl --trace
+```
+
+The tests produce the following output:
+
+```sh
+error-special-form.repl:0:0-0:10:Trace: "Begin Tx 0"
+error-special-form.repl:1:2-3:3:Trace: Loaded interface foo, hash oYo76TzdQMOX1LiyHOYqJRxBsVq4iq7PPXIUEoMj-Kg
+error-special-form.repl:5:2-10:5:Trace: Loaded module uses-error, hash flArwZWZKnv3fGIF5JcnRv2AiQ8vz92n0LZ18Y_cQuU
+error-special-form.repl:12:4-12:76:Trace: "Expect failure: Success: uses-error typechecks"
+error-special-form.repl:13:0-13:11:Trace: "Commit Tx 0"
+error-special-form.repl:15:0-15:10:Trace: "Begin Tx 1"
+error-special-form.repl:16:2-16:103:Trace: "Expect failure: Success: uses-error cannot acquire admin"
+error-special-form.repl:17:0-17:11:Trace: "Commit Tx 1"
+Load successful
+```
+
 ## implements
 
 Use the `implements` keyword to specify that a module _implements_ the specified `interface`.
@@ -782,7 +802,6 @@ A module can include the following types of declarations:
 
 To define a module, use the following syntax model:
 
-
 ```pact
 (module name keyset-or-governance [doc-or-metadata] body...)
 ```
@@ -811,11 +830,73 @@ The following example illustrates a defining the `accounts` module with a keyset
 
 ## pure
 
-Use the `pure` keyword to 
+Use the `pure` keyword to evaluate a specified `expression` in read-only mode. 
+With this special form, the evaluation of the expression cannot write to the database.
 
 ### Basic syntax
 
+To evaluate a specified `expression` without allowing database writes, use the following syntax model:
+
+```pact
+(pure expression)
+```
+
 ### Examples
+
+The following example demonstrates that the `pure` special form can be used to evaluate an expression, but can't be used to write to a database table:
+
+```pact
+(begin-tx)
+(module read-only-test g
+  (defcap g () true)
+
+  (defschema sc a:integer b:string)
+  (deftable tbl:{sc})
+
+  (defcap ENFORCE_ME (a:integer) true)
+
+  (defun write-entry (key:string a:integer b:string)
+    (write tbl key {"a":a, "b":b})
+  )
+
+  (defun read-entry (key:string)
+    (read tbl key)
+  )
+
+  (defun write-then-read (key:string a:integer b:string)
+    (write-entry key a b)
+    (read-entry key)
+  )
+
+  (defun errors-on-write (key:string a:integer b:string)
+    (pure (write-then-read key a b))
+    )
+  )
+
+(typecheck "read-only-test")
+
+(create-table tbl)
+
+(expect "Writes and reads work" {"a":1, "b":"v"} (write-then-read "key" 1 "v") )
+(expect-failure "Writes do not work in read-only mode" (errors-on-write "key" 1 "v"))
+(expect "Only reads work in read-only mode" {"a":1, "b":"v"} (pure (read-entry "key")))
+
+(commit-tx)
+```
+
+You can execute the `pure` test cases by running `pact pure-special-form.repl --trace` to produce the following output:
+
+```sh
+pure-special-form.repl:0:0-0:10:Trace: "Begin Tx 0"
+pure-special-form.repl:1:0-25:3:Trace: Loaded module read-only-test, hash 32oanTfcea9Wp4Haq5yj0Wk_rcGxzNbuHXOUkmJnVNE
+pure-special-form.repl:27:0-27:28:Trace: Typechecking successful for module read-only-test
+pure-special-form.repl:29:0-29:18:Trace: "TableCreated"
+pure-special-form.repl:31:0-31:80:Trace: "Expect: success Writes and reads work"
+pure-special-form.repl:32:0-32:85:Trace: "Expect failure: Success: Writes do not work in read-only mode"
+pure-special-form.repl:33:0-33:87:Trace: "Expect: success Only reads work in read-only mode"
+pure-special-form.repl:34:0-34:11:Trace: "Commit Tx 0"
+Load successful
+```
 
 ## step
 
