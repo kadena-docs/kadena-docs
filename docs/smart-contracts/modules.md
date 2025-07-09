@@ -1,11 +1,11 @@
 ---
-title: Modules and references
+title: Modules and interfaces
 description: "Modules define the business logic and essential functions for blockchain applications and provide the basic foundation for all Pact smart contracts."
 id: modules
 sidebar_position: 7
 ---
 
-# Modules and references
+# Modules and interfaces
 
 The fundamental building blocks for all Pact smart contracts are defined in Pact **modules**.
 For simple contracts, a module often acts as a mostly self-contained logical unit with all of the code necessary to create an application or a service.
