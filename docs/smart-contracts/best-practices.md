@@ -358,3 +358,16 @@ If any other account or arbitrary string is used, the operation fails:
 (n_d5ff15.YODA7.hello-world "Robot" "k:9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99")
 Error: <interactive>:9:4: Invalid account
 ```
+
+## Module references
+
+As discussed in [Modules and interfaces](/smart-contracts/modules), writing external module reference calls can be an important approach for certain use cases. 
+However, it's also important to prevent capabilities used to protect resources from being brought into scope when calling external modules, functions, or interfaces.
+
+- Do use module references when your project requires abstraction, for example, to call into an common interface that requires multiple implementations like tokens in a decentralized exchange.
+
+- Don't use module reference calls when your project has a capability that could be acquired outside of its intended scope. 
+
+- Don't use module references when there's only one implementor of your interface. This just causes indirection for little reason
+
+In general, you should scope capabilities that protect resources to `coin.transfer` operations rather than use `fungible::transfer` external references.
