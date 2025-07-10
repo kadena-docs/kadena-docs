@@ -16,7 +16,7 @@ For this project, you'll create two Pact modules:
 - An `auth` module for authorizing operations based on the `id` stored for the user in a table.
 - A `payments` module for managing account balances and transferring value between accounts.
 
-To demonstrate contract interoperation, you create test accounts for an administrator and two users, `Sarah` and `James`.
+To demonstrate contract interoperation, you'll also create test accounts for an administrator and two users, `Sarah` and `James`.
 
 <img src="/img/docs-contract-interactions.png" alt="Contract interactions project overview" height="550" width="900"/>
 
@@ -84,8 +84,6 @@ You’ll work with three main files:
 - **payments.repl** - Coordinates interactions between the modules.
 
 ## Define the auth module
-
-## Define a namespace, keyset, and module
 
 As you might have seen in other coding projects, modules are defined in a **namespace** and are governed by either an administrative keyset or a governance capability.
 
