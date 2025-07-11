@@ -16,9 +16,11 @@ For this project, you'll create two Pact modules:
 - An `auth` module for authorizing operations based on the `id` stored for the user in a table.
 - A `payments` module for managing account balances and transferring value between accounts.
 
-To demonstrate contract interoperation, you'll also create test accounts for an administrator and two users, `Sarah` and `James`.
+The following diagram provides an overview of the interaction between the modules.
 
-<img src="/img/docs-contract-interactions.png" alt="Contract interactions project overview" height="550" width="900"/>
+![Contract interaction overview](/img/coding-projects/contract-interaction-overview.png)
+
+To demonstrate contract interoperation, you'll also create test accounts for an administrator and two users, `Sarah` and `James`.
 
 In this tutorial, you'll learn about the following topics:
 
