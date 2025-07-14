@@ -69,10 +69,11 @@ In the next step, you'll implement the `gas-payer-v1` interface to add a `GAS_PA
 Before starting this project, verify your environment meets the following basic requirements:
 
 - You have a GitHub account and can run `git` commands.
-- You have installed the Pact programming language and command-line interpreter.
-- You have installed the `kadena-cli` package and have a working directory with initial configuration settings.
-- You have a local development node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
-- You should be familiar with defining modules and using keysets.
+- You have installed the [Pact](/smart-contracts/install) programming language and command-line interpreter.
+- You have installed the [`kadena-cli`](/smart-contracts/install/tooling#kadena-command-line-interface) package and have a working directory with initial configuration settings.
+- You have a [local development](/smart-contracts/install/local-dev-node) node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
+- You must have at least one [account](/guides/accounts/howto-fund-accounts) that's funded with KDA on at least one chain for deployment on the local development network or the Kadena test network.
+- You should be familiar with the basics for defining [modules](/smart-contracts/modules) and using keysets.
 
 ## Get the starter code
 
@@ -222,14 +223,14 @@ To prepare a test file:
    ```pact
    (env-data
       { "dev-account":
-          { 'keys : [ "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c" ]
-          , 'pred : 'keys-all
+          { "keys" : [ "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c" ]
+          , "pred" : "keys-all"
           }
       }
    )
       (env-sigs
-          [{ 'key  : "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c"
-           , 'caps : []
+          [{ "key"  : "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c"
+           , "caps" : []
           }]
      )
    
@@ -330,7 +331,7 @@ To create a capability-guarded account:
 4. Add an expression **after** the module declaration that calls the `init` function if the module is deployed with `{ "init": true }` in the environment data:
 
    ```pact
-   (if (read-msg 'init)
+   (if (read-msg "init")
      [(init)]
      ["Not creating the gas station account"]
    )
@@ -344,7 +345,7 @@ To create a capability-guarded account:
 
    ```pact
    (env-data
-     { 'init: true }
+     { "init": true }
    )
    ```
 
@@ -459,7 +460,7 @@ To add a function that displays the account information:
 2. Add the `display` function to call the `coin.details` function for the `GAS_ACCOUNT`:
    
    ```pact
-   (defun display ()
+   (defun display:object ()
      (coin.details free.test-gas.GAS_ACCOUNT)
    )
    ```
@@ -467,7 +468,7 @@ To add a function that displays the account information:
 3. Add a call to the `display` function to the end of the smart contract:
    
    ```pact
-   (if (read-msg 'init)
+   (if (read-msg "init")
      [(init)]
      ["Not creating the gas station account"]
    )
@@ -500,54 +501,91 @@ To add a function that displays the account information:
 
 ## Deploy the contract
 
-After you've updated and tested the module, you can deploy it on a chain in the development network using Chainweaver.
-For this example, the administrative account has funds on chain 3 in the development network.
+After you've updated and tested the module, you can deploy it on a chain on your local development network or the Kadena test network.
+
+For this example, the contract is deployed in the `free` namespace using an administrative account that has funds on chain 3 in the development network. 
+To deploy in the `free` namespace, the module name and keyset name must be unique across all of the modules that exist in the `free` namespace.
 
 ### Prepare to deploy
 
 To prepare to deploy the gas station module on the development network:
 
-1. Verify the development network is currently running on your local computer.
+- The development network is currently running on your local computer.
 
-2. Open and unlock the Chainweaver desktop or web application.
-
-3. Verify that you're connected to **development network (devnet)** from the network list.
-
-1. Verify that your administrative account name with the **k:** prefix exists on the target chain.
-
-1. Verify that your administrative account name is funded with coins on the target chain.
-
-### Load the module using Chainweaver
-
-Because you must define the keyset keys and predicate for your contract in the environment outside of the contract code, the Chainweaver integrated development environment provides the most convenient way to add the required keysets.
-
-To load the contract using Chainweaver:
-
-1. Click **Contracts** in the Chainweaver navigation pane.
-2. Click **Open File** to select the `gas-account.pact` contract that you want to deploy.
-
-   After you select the contract and click **Open**, the contract is displayed in the editor panel on the left with contract navigation on the right.
-   You'll also notice that the line where you define the keyset indicates an error, and the error message is `No such key in message` because your administrative keyset doesn't exist in the environment.
-
-3. Under Data on the **Keysets** tab, type the name of your administrative keyset, click **Create**, then select the public key and predicate function for the administrative keyset.
-
-### Deploy using Chainweaver
-
-To deploy the contract using Chainweaver:
-
-1. Click **Deploy** to display the Configuration tab.
-2. On the Configuration tab, update General and Advanced settings like this:
+- You have at least one **account** with **funds** on at least one **chain** in the development network. 
    
-   - Select the **Chain identifier** for the chain where you want to deploy the contract.
-   - Select a **Transaction Sender**.
-   - Click **Advanced** and add the administrative account keyset to the environment.
-   - Click **Next**.
+  If you don't have keys and at least one account on any chain on the network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
 
-3. On the Sign tab, select the public key for the administrative keyset for the **coin.GAS** capability, then click **Next**.
+- You have the public key for the account on the chain where you have funds.
 
-4. On the Preview tab, scroll to see the Raw Response displays the account details for the gas station account, then click **Submit** to deploy the contract.
+### Create a deployment transaction
+
+You can deploy the `gas-account.pact` module on the local development network using a transaction template.
+
+To deploy the module:
+
+1. Create a new transaction template named `deploy-contract.ktpl` in the `~/.kadena/transaction-templates` folder.
    
-   After you deploy the contract, you can use the request key to view the transaction results in the block explorer.
+   ```sh
+   cd ~/.kadena/transaction-templates
+   touch deploy-contract.ktpl
+   ```
+
+2. Open the `deploy-contract.ktpl` file in a code editor and create a reusable transaction request in YAML format similar to the following to specify the path to the `gas-account.pact` file that contains your Pact module code.
+   
+   ```pact
+   codeFile: "{{path-to-pact-code}}"
+   data:
+     admin-keyset:
+       keys: ["{{public-key}}"]
+       pred: "keys-all"
+     init: true
+   meta:
+     chainId: "{{chain-id}}"
+     sender: "{{{sender-account}}}"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 600
+   signers:
+     - public: "{{public-key}}"
+       caps: []
+   networkId: "{{network-id}}"
+   ```
+
+3. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
+
+   For example:
+
+   ```sh
+   ? Which template do you want to use: deploy-contract.ktpl
+   ? File path of data to use for template .json or .yaml (optional):
+   ? Template value path-to-pact-code: ../../gas-account.pact
+   ? Template value public-key: 58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c
+   ? Template value chain-id: 3
+   ? Template value sender-account: k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c
+   ? Template value network-id: development
+   ? Where do you want to save the output: GasStationAccount
+   ```
+
+   In this example, the unsigned transaction is saved in a `GasStationAccount.json` file.
+
+4. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed to sign with a wallet account or a public and secret key pair.
+   
+   For example:
+
+   ```sh
+   ? Select an action: Sign with wallet
+   ? Select a transaction file: Transaction: GasStationAccount.json
+   ? 1 wallets found containing the keys for signing this transaction, please select a wallet to sign this transaction with first: Wallet: chainweaver-web-legacy
+   ? Enter the wallet password: ********
+   ```
+
+5. Send the transaction by running the `kadena tx send` command and following the prompts displayed.
+   
+   After the transaction is complete, you should see the account created in the transaction results.
+   For example:
+
+   ![Gas station account](/img/coding-projects/gas-station-account.jpg)
 
 ## Fund the gas station account
 
@@ -564,7 +602,7 @@ To fund the gas station account:
      In this example, it's the Chainweaver wallet account `k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c`.
    - For the `account:to` template value, specify the gas station principal account that you created with the capability guard.
      In this example, it's the principal account `c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I`.
-   - For the decimal:amount template value, specify the number of coins to transfer as a decimal value.
+   - For the `decimal:amount` template value, specify the number of coins to transfer as a decimal value.
      In this example, the transfer amount is `2.0`.
    
    For example, the prompts and output for creating the transaction look similar to the following:
@@ -574,27 +612,15 @@ To fund the gas station account:
    ? Which template do you want to use: transfer.ktpl
    ? File path of data to use for template .json or .yaml (optional):
    ? Select account alias for template value account:from: k-58705e        
-   k:58705e....14ca963c coin 58705....ca963c keys-all
    > Using account name k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c
    ? Select account alias for template value account:to: Enter account manually
-   ? Manual entry for account for template value account:to:
-   c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I
+   ? Manual entry for account for template value account:to: c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I
    ? Template value decimal:amount: 2.0
    ? Template value chain-id: 3
-   ? Template key "key:from" matches account "account:from". Use public account's 
-   key? Account public key: 
+   ? Template key "key:from" matches account "account:from". Use public account's key? Account public key: 
    58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c
-   ? Select network id for template value networkId: devnet
+   ? Select network id for template value networkId: development
    ? Where do you want to save the output: fund-gas
-   {
-     "cmd": "{\"payload\":{\"exec\":{\"code\":\"(coin.transfer \\\"k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c\\\" \\\"c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I\\\" 2.0)\",\"data\":{}}},\"nonce\":\"\",\"networkId\":\"development\",\"meta\":{\"sender\":\"k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c\",\"chainId\":\"3\",\"creationTime\":1733249112,\"gasLimit\":2300,\"gasPrice\":0.000001,\"ttl\":600},\"signers\":[{\"pubKey\":\"58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c\",\"clist\":[{\"name\":\"coin.TRANSFER\",\"args\":[\"k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c\",\"c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I\",2]},{\"name\":\"coin.GAS\",\"args\":[]}]}]}",
-     "hash": "6DWOi5enStLe6WjaUOMJfv-RTm3TSrfe_0m1IAH4yac",
-     "sigs": [
-       null
-     ]
-   }
-   
-   transaction saved to: ./fund-gas.json
    ```
 
 3. Sign the unsigned transaction using the `kadena tx sign` command and the transaction file name generated by the `kadena tx add` command.
@@ -606,16 +632,8 @@ To fund the gas station account:
    ? Select an action: Sign with wallet
    ? Select a transaction file: Transaction: fund-gas.json
    ? 1 wallets found containing the keys for signing this transaction, please 
-   select a wallet to sign this transaction with first: Wallet: chainweaver-web
+   select a wallet to sign this transaction with first: Wallet: chainweaver-web-legacy
    ? Enter the wallet password: ********
-   Command 1 (hash: 6DWOi5enStLe6WjaUOMJfv-RTm3TSrfe_0m1IAH4yac) will now be signed with the following signers:
-   Public Key                                                                                                  Capabilities
-   58705e86...14ca963c coin.TRANSFER(k:58705e86...14ca963c, c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I, 2)  coin.GAS()
-   Transaction executed code: 
-   "(coin.transfer \"k:58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c\" \"c:J1yaCWrdEbhKekMRhF5WjOgvzUayxTD24q7UWHwaa9I\" 2.0)"
-
-   Transaction with hash: 6DWOi5enStLe6WjaUOMJfv-RTm3TSrfe_0m1IAH4yac was successfully signed.
-   Signed transaction saved to /Users/lisagunn/transaction-6DWOi5enSt-signed.json
    ```
 
 4. Send the signed transaction using the `kadena tx send` command and the signed transaction file name generated by the `kadena tx sign` command.
