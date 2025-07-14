@@ -118,7 +118,7 @@ To create the gas station module:
 
 3. Add the minimal Pact code required to define a module.
 
-   Remember that a module definition requires the following information: 
+   Remember that a module requires the following information: 
 
    - namespace
    - governing keyset or capability
@@ -129,17 +129,19 @@ To create the gas station module:
 
    ```pact
    (namespace "free")
+     (define-keyset "free.dev-account" (read-keyset "dev-account" ))
 
    (module test-gas GOVERNANCE
-      (defcap GOVERNANCE () true)
+     (defcap GOVERNANCE () 
+       (enforce-guard "free.pistolas-dev-account"))
    
 
-      (implements gas-payer-v1)
+     (implements gas-payer-v1)
 
    )
    ```
  
-   To deploy the gas station module, you must use an existing namespace such as the `"free"` namespace.
+   To deploy the gas station module, you must use an existing namespace such as your principal namespace or the `"free"` namespace.
    For local testing, you can create the `test-gas` module in a custom namespace that you define for the local development network.
 
    After you issue the `implements gas-payer-v1` statement, you must implement the capabilities, types, and functions that are defined in the `gas-payer-v1.pact` file in the `test-gas` module.
