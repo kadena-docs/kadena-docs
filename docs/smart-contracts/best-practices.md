@@ -374,4 +374,4 @@ In general, you should scope capabilities that protect resources to `coin.transf
 
 As a security enhancement, Pact 5.3 introduces module reference calls that are ready-only by default.
 With Pact 5.3, any module reference function call that reenters the originating module is treated as a read-only call to prevent database modification and code re-entry attacks.
-For more information about read-only module references, see [Read-only module reference calls](/smart-contracts/modules#read-only-module-reference-calls).
+For more information about read-only module references, see [Securing module reference calls](/smart-contracts/modules#securing-module-reference-calls).
