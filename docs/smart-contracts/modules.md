@@ -591,7 +591,7 @@ To fix the issue, you need to change where the call that grants the INTERNAL_FUN
        (coin.transfer MODULE_ACCOUNT person amount))))
 ```
 
-## Read-only module reference calls
+## Securing module reference calls
 
 Pact has always relied on restricting loops and preventing recursion to provide security guarantees.
 These security measure ensure that your program can never enter into an infinite loop and functions can't call into themselves.
@@ -602,7 +602,7 @@ If the virtual call then calls a separate credit or debit function, that call is
 For applications that rely on module references to provide the function interfaces they use, this behavior— combined with the importance of controlling capability scope—has made it difficult for contract authors to write secure contract code.
 
 As a security enhancement, Pact 5.3 introduces module reference calls that are ready-only by default.
-With Pact 5.3, any module reference function call that reenters the originating module is treated as a read-only call to prevent database modification and code re-entry attacks.
+With Pact 5.3, any module reference function call that reenters the originating module is treated as a read-only call to prevent database modification and code reentry attacks.
 For example, assume you have a `my-token` module with the module reference `fungible::transfer-create`. 
 If the `fungible` module tries to call back into the `my-token` module to execute a `withdraw-funds` or `deposit-funds` function, the operation isn't allowed because all calls from the `fungible` module reference  are read-only by default. 
 
@@ -624,6 +624,6 @@ If the `fungible` module tries to call back into the `my-token` module to execut
  )
  ```
 
-If the `fungible::transfer-create` function were written to call back into `my-token`, calls back into `my-token` from the `fungible` module reference would be allowed to retrieve information, such as account details, but not modify balances or any database entries that are part of the `my-token` module.
+If the `fungible::transfer-create` function were written to call back into `my-token`, calls back into `my-token` from the `fungible` module reference would be allowed to **retrieve** information, such as account details, but not **modify** balances or any database entries that are part of the `my-token` module.
 
 For projects like decentralized exchanges (DEX) and bridges that require virtual calls, this enhancement enables Pact to provide module-level security guarantees against reentry attacks.
