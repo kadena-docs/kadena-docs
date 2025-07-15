@@ -17,7 +17,7 @@ Specifically, this project demonstrates the following:
 
 To implement these features, you'll create an `auth` module with four functions, one table, and two keysets:
 
-![Rotate authorized keys overview](/img/docs-rotate-authorized-keys.png)
+![Rotate authorized keys overview](/img/coding-projects/auth-overview.png)
 
 ## Before you begin
 
