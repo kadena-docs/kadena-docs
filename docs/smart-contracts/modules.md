@@ -7,26 +7,38 @@ sidebar_position: 7
 
 # Modules and interfaces
 
-The fundamental building blocks for all Pact smart contracts are defined in Pact **modules**.
-For simple contracts, a module often acts as a mostly self-contained logical unit with all of the code necessary to create an application or a service.
-All of the functions and data definitions required to complete business operations are defined within the context of a module.
+The fundamental building blocks for all Pact smart contracts are defined in Pact **modules** and **interfaces**.
+As Pact code, modules and interfaces have some similarities, but they are used differently have different usage rules.
 
-Although you can use modules as composable and callable units that interoperate, Pact modules typically include some or all of the following components:
+A a high level:
+
+- Module are typically self-contained logical units with all of the code necessary to create an application or a service—including schemas and tables—and can be upgraded after they are deployed.
+- Interfaces enable modules to interact by defining constant values and typed function signatures for common operations that can't be changed except by defining a new interface.
+
+## Module declaration
+
+All of the functions and data definitions required to complete business operations are defined within the context of a module.
+For simple contracts, all of the business logic might be defined in a single module.
+You can also use modules as composable units that interoperate if iit makes complex logic easier to navigate.
+Whether you are building a contract as a single, self-contained Pact module or using multiple modules, **module declarations** typically include the following components:
 
 - Capability definitions
 - Schema definitions
 - Table definitions
 - Function definitions
 - Multi-step defpact definitions
-- Constant values
+- Constant value definitions
 
-Some elements that are required by smart contracts aren't included in the module declaration, but are defined outside of the module code.
-For example, the code related to the following elements is considered to be outside of and separate from the module declaration:
+There are also components that are required by smart contracts that aren't part of the module declaration, but are defined outside of the module code.
+For example, the code related to the following components is considered to be outside of and separate from the module declaration:
 
 - Namespace definition
 - Keyset definitions
 - Table creation
 - Function calls
+
+In addition to the module declaration and the components that aren't included in the module declaration, modules often require information passed in as message data, separate from the Pact code, but part of the transaction payload.
+For example, a module might require keys or environment data that's referenced in Pact code, but provided as part of the JSON object to be executed as a transaction.
 
 ## Modules and smart contracts
 
@@ -35,11 +47,11 @@ Using a single module to define a contract keeps your codebase simple and straig
 However, as you begin writing more complex or sophisticated programs, you might find it more convenient to split the smart contract logic into multiple modules that work together to compose the complete application.
 In a typical smart contract—the full application—each individual module can provide a focused set of functionality with clear organizational logic.
 
-Because a smart contract can be defined using one module or many modules, the logic in individual Pact files (`.pact`) is always referred to as a module.
+Because a smart contract can be defined using one module or many modules and interfaces, the logic in individual Pact file—with the `.pact` file extension—is always referred to as a module or an interface.
 
-## Module declaration
+## Module keyword and owner
 
-You can create a module by typing the `module` keyword, followed by the module name and the keyset or governance capability that owns the module.
+You can start a module declaration by typing the [`module`](/reference/syntax#module) keyword, followed by the module name and the keyset or governance capability that owns the module.
 The following example illustrates a module named **example** that is governed by the **admin-keyset** referenced in the first line of the module declaration:
 
 ```pact
@@ -581,4 +593,37 @@ To fix the issue, you need to change where the call that grants the INTERNAL_FUN
 
 ## Read-only module reference calls
 
-With Pact 5.3, any module reference function call that calls back into the originating module are enforced as read-only calls to prevent database modification and re-entrancy attacks.
+Pact has always relied on restricting loops and preventing recursion to provide security guarantees.
+These security measure ensure that your program can never enter into an infinite loop and functions can't call into themselves.
+However, module references introduced a potential vulnerability that Turing incompleteness alone didn't address.
+In particular, virtual calls to module code that were not controlled by the module caller have been difficult for module authors to make secure.
+While functions are not allowed to recurse, module references don't prevent virtual calls from reentering the calling module.
+If the virtual call then calls a separate credit or debit function, that call isn't considered recursion down the call stack.
+For applications that rely on module references to provide the function interfaces they use, this behavior— combined with the importance of controlling capability scope—has made it difficult for contract authors to write secure contract code.
+
+As a security enhancement, Pact 5.3 introduces module reference calls that are ready-only by default.
+With Pact 5.3, any module reference function call that reenters the originating module is treated as a read-only call to prevent database modification and code re-entry attacks.
+For example, assume you have a `my-token` module with the module reference `fungible::transfer-create`. 
+If the `fungible` module tries to call back into the `my-token` module to execute a `withdraw-funds` or `deposit-funds` function, the operation isn't allowed because all calls from the `fungible` module reference  are read-only by default. 
+
+```pact
+(module my-token GOVERNANCE
+  ...
+  (defconst MODULE_GUARD (create-capability-guard (SOME-SECURE-CAP)))
+  (defconst MODULE_OWNED_ACCOUNT:string (create-principal ...))
+
+(defun withdraw-funds (account:string destination:module{fungible-v2})
+  (require-capability (SOME-SECURE-CAP))
+   # Code withdraws funds and transfers them to a particular account
+  )
+
+  (defun deposit-funds (account:string amount:decimal fung:module{fungible-v2})
+    (with-capability (SOME-SECURE-CAP)
+      (fungible::transfer-create account MODULE_OWNED_ACCOUNT MODULE_GUARD amount)))
+
+ )
+ ```
+
+If the `fungible::transfer-create` function were written to call back into `my-token`, calls back into `my-token` from the `fungible` module reference would be allowed to retrieve information, such as account details, but not modify balances or any database entries that are part of the `my-token` module.
+
+For projects like decentralized exchanges (DEX) and bridges that require virtual calls, this enhancement enables Pact to provide module-level security guarantees against reentry attacks.
