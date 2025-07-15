@@ -373,5 +373,5 @@ However, it's also important to prevent capabilities used to protect resources f
 In general, you should scope capabilities that protect resources to `coin.transfer` operations rather than use `fungible::transfer` external references.
 
 As a security enhancement, Pact 5.3 introduces module reference calls that are ready-only by default.
-With Pact 5.3, any module reference function call that reenters the originating module is treated as a read-only call to prevent database modification and code re-entry attacks.
+With Pact 5.3, any module reference function call that reenters the originating module is treated as a read-only call to prevent database modification and code reentry attacks.
 For more information about read-only module references, see [Securing module reference calls](/smart-contracts/modules#securing-module-reference-calls).
