@@ -16,7 +16,7 @@ For this project, you'll create three tables in the `loans` module:
 - A `loan-history` table for tracking loan history.
 - A `loan-inventory` table for holding the loan inventory balance.
 
-![Loans project overview](/img/docs-loans.png)
+![Loans project overview](/img/coding-projects/loans-overview.jpg)
 
 ## Before you begin
 
