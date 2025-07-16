@@ -570,7 +570,28 @@ pact> (do (enforce false "boom") (+ 1 2))
 
 Use the `error` keyword to throw a recoverable error for a specified string expression.
 This special form enables you to throw an error with a string return value that can be caught with a `try` expression.
-The `error` form is particularly useful for typechecking expressions where an `(enforce false) ` expression would not suffice because the return type for an `(enforce false)` expression is a boolean value.
+The `error` form is particularly useful for typechecking expressions where an `(enforce false)` expression would not suffice because the return type for an `(enforce false)` expression is always boolean value.
+With the `error` special form, you can force an error that satisfies any type signature. 
+The `error` special form is also useful when you only want to implement specific parts of an interface.
+For example, assume you have an interface defined as follows:
+
+```pact
+(interface implement-me
+  (defun foo:integer ())
+  (defun bar:decimal ())
+)
+```
+
+If you only want to implement the `foo` function in your module, you can use the `error` special form like this:
+
+```
+(module implementor GOV
+  (defcap GOV:unit () (error “non-upgradable”)
+  (implements implement-me)
+  (defun foo:integer () 123)
+  (defun bar:decimal () (error “I do not want to implement this”)))
+)
+```
 
 The `error` special form is essentially ⊥-elimination for Pact and is supported in Pact 5.3, and later.
  
@@ -584,7 +605,7 @@ To throw an error for the specified string `expression`, use the following synta
 
 ### Examples
 
-The following example illustrates using the `error` special form to test for an expected error in a `.repl` file:
+The following example illustrates using the `error` special form to force errors in a `.repl` file:
 
 ```pact
 (begin-tx)
@@ -831,7 +852,28 @@ The following example illustrates a defining the `accounts` module with a keyset
 ## pure
 
 Use the `pure` keyword to evaluate a specified `expression` in read-only mode. 
-With this special form, the evaluation of the expression cannot write to the database.
+With this special form, the `expression` being evaluated cannot write to the database.
+
+For example, the following code defines a function that calls a function in a downstream module to get account details:
+
+```pact
+  (defun details(account:string)
+    @doc "Call the downstream module dependency to get account info"
+    (my-dependency.get-account-details account)
+  )
+```
+
+If this `my-dependency.get-account-details` function includes code that modifies its own database or calls back into the calling module, the function call could make the `details` function vulnerable to unexpected behavior or a reentry attack. 
+However, if you modify the `details` function to use the `pure` special form, you can ensure that the `my-dependency.get-account-details account` call can't modify the Pact database:
+
+```pact
+  (defun details(account:string)
+    @doc "Call the downstream module dependency to get account info"
+    (pure (my-dependency.get-account-details account))
+  )
+```
+With this code, the call to the downstream module expression—enclosed in (pure ..) statement—can't update any data in the calling module. 
+If the downstream module function attempts to perform an operation that's not allowed, the operation will fail with a transaction-ending error.
 
 ### Basic syntax
 
