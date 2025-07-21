@@ -2,6 +2,8 @@
 
 Use `create-user-guard` to define a custom guard `closure` whose arguments are strictly evaluated at definition time and supplied to the indicated function at enforcement time.
 
+Beginning with Pact5.3, the `create-user-guard` function can access user tables in read-only mode.
+
 ## Basic syntax
 
 To define a custom guard `closure` for use in Pact, use the following syntax:
