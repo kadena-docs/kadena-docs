@@ -23,10 +23,11 @@ For this project, you'll create three tables in the `loans` module:
 Before starting this project, verify your environment meets the following basic requirements:
 
 - You have a GitHub account and can run `git` commands.
-- You have installed the Pact programming language and command-line interpreter.
-- You have installed the `kadena-cli` package and have a working directory with initial configuration settings.
-- You have a local development node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
-- You should be familiar with defining modules and using keysets.
+- You have installed the [Pact](/smart-contracts/install) programming language and command-line interpreter.
+- You have installed the [`kadena-cli`](/smart-contracts/install/tooling#kadena-command-line-interface) package and have a working directory with initial configuration settings.
+- You have a [local development](/smart-contracts/install/local-dev-node) node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
+- You must have at least one [account](/guides/accounts/howto-fund-accounts) that's funded with KDA on at least one chain for deployment on the local development network or the Kadena test network.
+- You should be familiar with the basics for defining [modules](/smart-contracts/modules) and using keysets.
 
 ## Get the starter code
 
@@ -182,7 +183,7 @@ To define the `inventory-key` function:
 2. Start the `inventory-key` function definition with the keyword `defun` and add the parameters `loanId:string` `owner:string`.
 
    ```pact
-   (defun inventory-key (loanId:string owner:string)
+   (defun inventory-key:string (loanId:string owner:string)
 
    )
    ```
@@ -190,7 +191,7 @@ To define the `inventory-key` function:
 3. Create a composite key from the `owner` and `loanId` in the format `loanId:owner`.
 
    ```pact
-   (defun inventory-key (loanId:string owner:string)
+   (defun inventory-key:string (loanId:string owner:string)
       (format "{}:{}" [loanId owner])
    )
    ```
@@ -206,7 +207,7 @@ To define the `create-a-loan` function:
 3. Insert the values for the new loan `loanId` into the `loans` table.
 
    ```pact
-   (defun create-a-loan (loanId:string loanName:string entityName:string loanAmount:integer)
+   (defun create-a-loan:string (loanId:string loanName:string entityName:string loanAmount:integer)
      (insert loans loanId {
        "loanName":loanName,
        "entityName":entityName,
@@ -219,7 +220,7 @@ To define the `create-a-loan` function:
 4. Insert the values for a new loan into the `loan-inventory` table.
 
    ```pact
-   (defun create-a-loan (loanId:string loanName:string entityName:string loanAmount:integer)
+   (defun create-a-loan:string (loanId:string loanName:string entityName:string loanAmount:integer)
      (insert loans loanId {
         "loanName":loanName,
         "entityName":entityName,
@@ -244,7 +245,7 @@ To define the `assign-a-loan` function:
 3. Read from the `loans` table using `loanId` and bind variables to the column values.
 
    ```pact
-   (defun assign-a-loan (txid loanId buyer amount)
+   (defun assign-a-loan:string (txid loanId buyer amount)
      (with-read loans loanId {
        "entityName":= entityName,
        "loanAmount":= issuerBalance
@@ -260,7 +261,7 @@ To define the `assign-a-loan` function:
        "loanId":loanId,
        "buyer":buyer,
        "seller":entityName,
-       "amount": amount}
+       "amount":amount}
      )
    ```
 
@@ -301,7 +302,7 @@ To define the `sell-a-loan` function:
 3. Read from the `loan-inventory-table` table using the parameters `inventory-key`, `loanId`, and `seller` and bind `balance` to value of `prev-seller-balance`.
 
    ```pact
-     (defun sell-a-loan (txid loanId buyer seller amount)
+     (defun sell-a-loan:string (txid loanId buyer seller amount)
        (with-read loan-inventory-table (inventory-key loanId seller)
          {"balance":= prev-seller-balance}
 1. Read from the `loan-inventory-table` using the  parameters `inventory-key`, `loanId`, and `buyer`, assign balance to 0, and bind `balance` to value of `prev-buyer-balance`.
@@ -350,7 +351,7 @@ To define the `read-a-loan` function:
 3. Read all of the values from the `loans` table at the given `loanId`.
 
    ```pact
-     (defun read-a-loan (loanId:string)
+     (defun read-a-loan:object (loanId:string)
        (read loans loanId))
    ```
 
@@ -365,7 +366,7 @@ To define the `read-all-loans` function:
 1. Select all values from the `loans` table that have `constantly` set to true.
 
    ```pact
-     (defun read-all-loans ()
+     (defun read-all-loans:list ()
        (select loans (constantly true)))
    ```
 
@@ -382,7 +383,7 @@ To define the `read-inventory-pair` function:
 4. Set the `balance` value of the balance in the `loan-inventory-table` to the value of the `key`.
 
    ```pact
-     (defun read-inventory-pair (key)
+     (defun read-inventory-pair:object (key)
        {"inventory-key":key,
         "balance": (at 'balance (read loan-inventory-table key))}
      )
@@ -399,7 +400,7 @@ To define the `read-loan-inventory` function:
 3. Map the value of the `read-inventory-pair` to the `keys` in the `loan-inventory-table`.
 
    ```pact
-   (defun read-loan-inventory ()
+   (defun read-loan-inventory:list ()
      (map (read-inventory-pair) (keys loan-inventory-table)))
    ```
 
@@ -414,7 +415,7 @@ To define the `read-loans-with-status` function:
 3. Select all values from the `loans` table where the status equals the `status` parameter.
 
    ```pact
-   (defun read-loans-with-status (status)
+   (defun read-loans-with-status:list (status)
      (select loans-table (where "status" (= status)))
    ```
 
