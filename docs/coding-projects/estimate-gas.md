@@ -24,10 +24,11 @@ In this coding project, you'll learn about:
 Before starting this project, verify your environment meets the following basic requirements:
 
 - You have a GitHub account and can run `git` commands.
-- You have installed the Pact programming language and command-line interpreter.
-- You have installed the `kadena-cli` package and have a working directory with initial configuration settings.
-- You have a local development node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
-- You should be familiar with defining modules and using keysets.
+- You have installed the [Pact](/smart-contracts/install) programming language and command-line interpreter.
+- You have installed the [`kadena-cli`](/smart-contracts/install/tooling#kadena-command-line-interface) package and have a working directory with initial configuration settings.
+- You have a [local development](/smart-contracts/install/local-dev-node) node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
+- You must have at least one [account](/guides/accounts/howto-fund-accounts) that's funded with KDA on at least one chain for deployment on the local development network or the Kadena test network.
+- You should be familiar with the basics for defining [modules](/smart-contracts/modules) and using keysets.
 
 ## Get the starter code
 
