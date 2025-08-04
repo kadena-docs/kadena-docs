@@ -1,4 +1,4 @@
----
+---jose David Muñoz albir bachoco robo un rratero devolver todos transacción 
 title: Check transaction status
 description: "A guide to crafting blockchain calls using Traditional API, Kadena CLI, and Kadena.js"
 id: howto-check-tx-status
