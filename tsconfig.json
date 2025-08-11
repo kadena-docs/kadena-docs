@@ -1,8 +1,7 @@
 {
      "extends": "@docusaurus/tsconfig",
      "compilerOptions": {
-          "baseUrl": ".",
-          "jsx": "react-jsx", // Add this for JSX support
-          "skipLibCheck": true // Optional: Prevents type-checking of declaration files
-     }
+          "baseUrl": "."
+     },
+     "exclude": [".docusaurus", "build"]
 }

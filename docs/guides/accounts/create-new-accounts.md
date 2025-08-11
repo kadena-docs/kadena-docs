@@ -13,7 +13,7 @@ This guide provides instructions and examples for creating an on-chain account w
 If you want to create a new account without transferring any digital assets (KDA) into it, you can create the account with a zero balance by using an API call, the Kadena CLI, or the Kadena client TypeScript library.
 
 These examples illustrate how you can construct calls to the blockchain to create new accounts—an important operation if you're building a wallet, exchange, game, or other application where you need to register before creating transactions or interacting with your application.
-If you're using Chainweaver or another wallet or front-end application, this information is typically available directly through the user interface, with the application performing an operation similar to these examples behind the scenes.
+If you're using Chainweaver or another wallet or frontend application, this information is typically available directly through the user interface, with the application performing an operation similar to these examples behind the scenes.
 
 Note that regardless of the method you use to create new accounts, accounts must be funded on at least one network chain before you can do more than list account names and keys.
 

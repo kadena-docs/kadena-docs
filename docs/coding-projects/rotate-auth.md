@@ -17,17 +17,18 @@ Specifically, this project demonstrates the following:
 
 To implement these features, you'll create an `auth` module with four functions, one table, and two keysets:
 
-![Rotate authorized keys overview](/img/auth-overview.png)
+![Rotate authorized keys overview](/img/coding-projects/auth-overview.png)
 
 ## Before you begin
 
 Before starting this project, verify your environment meets the following basic requirements:
 
 - You have a GitHub account and can run `git` commands.
-- You have installed the Pact programming language and command-line interpreter.
-- You have installed the `kadena-cli` package and have a working directory with initial configuration settings.
-- You have a local development node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
-- You should be familiar with defining modules and using keysets.
+- You have installed the [Pact](/smart-contracts/install) programming language and command-line interpreter.
+- You have installed the [`kadena-cli`](/smart-contracts/install/tooling#kadena-command-line-interface) package and have a working directory with initial configuration settings.
+- You have a [local development](/smart-contracts/install/local-dev-node) node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
+- You must have at least one [account](/guides/accounts/howto-fund-accounts) that's funded with KDA on at least one chain for deployment on the local development network or the Kadena test network.
+- You should be familiar with the basics for defining [modules](/smart-contracts/modules) and using keysets.
 
 ## Get the starter code
 
@@ -49,68 +50,70 @@ To get started:
 
    If you list the contents of this directory, you'll see the following files:
 
-   - `starter-rotate-wallet.pact` provides a starting point with the framework for the project code and comments for every challenge.
-   - `rotate-wallet.pact` contains the final solution code that can be deployed.
-   - `rotate-wallet.repl` provides a complete test file for testing the final `simple-payment.pact` contract.
+   - `starter-auth.pact` provides a starting point with the framework for the project code and comments for every challenge.
+   - `auth.pact` contains the final solution code that can be deployed.
+   - `auth.repl` provides a complete test file for testing the final `auth.pact` contract.
 
-4. Open and review the `starter-rotate-wallet.pact` file.
+4. Open and review the `starter-auth.pact` file.
 
-   This file describes all of the tasks that you need to complete for the _Rotate wallet keys_ coding project.
-   You can follow the instructions embedded in the file to try to tackle this coding project on your own
-   without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
+   This file describes all of the tasks that you need to complete for the _Rotate authorized keys_ coding project.
+   You can follow the instructions embedded in the file to try to tackle this coding project on your own without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
 
-## Define the module keysets
+## Define a namespace, keyset, and module
 
-As you might have seen in other coding projects, modules are defined in a namespace and are governed by either an administrative keyset or a governance capability.
-Like namespaces, keysets are also defined outside of module code and passed into the module through the namespace from message data that is outside of the module code.
+As you might have seen in other coding projects, modules are defined in a **namespace** and are governed by either an administrative keyset or a governance capability.
+
+To simplify the initial code required, this coding project assumes you are defining a custom `dev` namespace for local development.
+As an alternative, you could use the `free` namespace.
+The `free` namespace is a publicly-available namespace that you can use to deploy smart contracts on the Kadena test network.
+However, the best practice is to create a unique **principal namespace** where you can deploy all of your modules. 
+Creating a principal namespace is covered later.
+
+Like namespaces, keysets are defined outside of module code and passed into the module from message data that you provide separate from module code.
 
 This coding project requires two keysets:
 
 - The **module-admin** keyset allows authorized users to define and update modules.
 - The **operate-admin** keyset allows authorized users to create user accounts.
 
-To define the module keysets:
+To define the namespace, keysets, and module for this coding project:
 
 1. Open the `starter-auth.pact` file in your code editor and save it as `auth.pact`.
 
 2. Enter the `free` namespace as the workspace for the keysets and module.
 
     ```pact
-   (namespace "free")
+   (namespace "dev")
    ```
 
-   You can define custom namespaces in the local development environment.
-   The `free` namespace is a public namespace that you can use to deploy smart contracts on the Kadena test network.
-
-3. Define and read the module administrative keyset with the name `module-admin` to own the `auth` module.
+3. Define and read the `module-admin` administrative keyset in the `free` namespace as the owner of the `auth` module.
 
    ```pact
-   (define-keyset "free.module-admin"
+   (define-keyset "dev.module-admin"
      (read-keyset "module-admin-keyset"))
    ```
 
-4. Define and read the operator keyset with the name `operate-admin` to control who can create new user accounts.
+4. Define and read the `operate-admin` operator keyset to control who can create new user accounts.
 
    ```pact
-   (define-keyset "free.operate-admin"
+   (define-keyset "dev.operate-admin"
      (read-keyset "module-operate-keyset"))
    ```
-
-5. Save your changes.
-
-For more information about defining and reading keysets, see [define-keyset](/pact-5/keysets/define-keyset)
-
-## Define the module
-
-The next step is to create the module that will contain the logic for your smart contract.
-
-1. Create a module named `auth` that is governed by the `free.module-admin` keyset.
+5. Create a module named `auth` that is governed by an `AUTH` capability that enforces the administrative keyset.
 
    ```pact
-   (module auth "free.module-admin"
+   (module auth AUTH
+    (defcap AUTH ()
+     (enforce-guard "dev.module-admin"))
+
       ;; Module declaration
    )
    ```
+
+6. Save your changes.
+
+For more information about defining and reading keysets, see [define-keyset](/pact-5/keysets/define-keyset).
+For more information about defining governance capabilities, see [Module governance](/smart-contracts/modules#module-governance).
 
 ## Define the schema and table
 
@@ -146,22 +149,24 @@ To define the schema and table:
    Without comments, your code should look similar to the following:
 
    ```pact
-   (namespace "free")
+   (define-namespace "dev" (read-keyset "module-admin-keyset") (read-keyset "module-admin-keyset"))
+   (namespace "dev")
 
-   (define-keyset "free.module-admin"
+   (define-keyset "dev.module-admin" 
       (read-keyset "module-admin-keyset"))
-
-   (define-keyset "free.operate-admin"
+   (define-keyset "dev.operate-admin"
       (read-keyset "module-operate-keyset"))
-
-   (module auth "free.module-admin"
-      (defschema user
-          nickname:string
-          keyset:guard
-      )
-
-      (deftable users-table:{user})
-   )
+   
+   (module auth AUTH
+     (defcap AUTH ()
+       (enforce-guard "dev.module-admin"))
+   
+     (defschema user
+        nickname:string
+        keyset:guard)
+  
+     (deftable users-table:{user})
+   )  
    ```
 
 For more information about creating schemas and tables, see the descriptions for the [defschema](/reference/syntax#defschema) and [deftable](/reference/syntax#deftable) keywords.
@@ -188,7 +193,7 @@ To define the `create-user` function:
 1. Start the `create-user` function definition with the keyword `defun` and add the parameters `id`, `nickname`, and `keyset`.
 
    ```pact
-   (defun create-user (id:string nickname:string keyset:guard)
+   (defun create-user:string (id:string nickname:string keyset:guard)
 
    )
    ```
@@ -196,7 +201,7 @@ To define the `create-user` function:
 2. Within the function, use `enforce-keyset` to restrict access to this function, so that new users can only be created by the `operate-admin` keyset.
 
    ```pact
-     (enforce-keyset "free.operate-admin")
+     (enforce-guard "dev.operate-admin")
    ```
 
 3. Within the function, insert a row into the `users-table` with the specified `nickname` and `keyset`.
@@ -212,25 +217,26 @@ To define the `create-user` function:
    Without comments, your code should look similar to the following:
 
    ```pact
-   (namespace "free")
+   (define-namespace "dev" (read-keyset "module-admin-keyset") (read-keyset "module-admin-keyset"))
+   (namespace "dev")
 
-   (define-keyset "free.module-admin"
+   (define-keyset "dev.module-admin" 
       (read-keyset "module-admin-keyset"))
-
-   (define-keyset "free.operate-admin"
+   (define-keyset "dev.operate-admin"
       (read-keyset "module-operate-keyset"))
+   
+   (module auth AUTH
+     (defcap AUTH ()
+       (enforce-guard "dev.module-admin"))
+   
+     (defschema user
+        nickname:string
+        keyset:guard)
+  
+     (deftable users-table:{user})
 
-   (module auth "free.module-admin"
-
-      (defschema user
-          nickname:string
-          keyset:keyset
-      )
-
-      (deftable users-table:{user})
-
-      (defun create-user (id:string nickname:string keyset:keyset)
-         (enforce-keyset "free.operate-admin")
+     (defun create-user:string (id:string nickname:string keyset:keyset)
+         (enforce-keyset "dev.operate-admin")
          (insert users-table id {
              "keyset": keyset,
              "nickname": nickname
@@ -240,7 +246,7 @@ To define the `create-user` function:
    )
    ```
 
-For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [insert](/pact-5/database/insert) functions.
+For more information, see the descriptions for the [enforce-guard](/pact-5/general/enforce-guard) and [insert](/pact-5/database/insert) functions.
 
 ### Define the enforce-user-auth function
 
@@ -254,7 +260,7 @@ The following example demonstrates reading a keyset for a specified `id` key-row
 ```pact
 (defun enforce-keyset-of-id (id)
   (with-read table id { "keyset" := keyset }
-  (enforce-keyset keyset)
+  (enforce-guard keyset)
   keyset)
 )
 ```
@@ -279,32 +285,33 @@ To define the `enforce-user-auth` function:
 
    ```pact
    (with-read users-table id { "keyset":= k }
-      (enforce-keyset k)
+      (enforce-guard k)
       k)
    ```
 
    Without comments, your code should look similar to the following:
 
    ```pact
-   (namespace "free")
+   (define-namespace "dev" (read-keyset "module-admin-keyset") (read-keyset "module-admin-keyset"))
+   (namespace "dev")
 
-   (define-keyset "free.module-admin"
+   (define-keyset "dev.module-admin" 
       (read-keyset "module-admin-keyset"))
-
-   (define-keyset "free.operate-admin"
+   (define-keyset "dev.operate-admin"
       (read-keyset "module-operate-keyset"))
+   
+   (module auth AUTH
+     (defcap AUTH ()
+       (enforce-guard "dev.module-admin"))
+   
+     (defschema user
+        nickname:string
+        keyset:guard)
+  
+     (deftable users-table:{user})
 
-   (module auth "free.module-admin"
-
-      (defschema user
-          nickname:string
-          keyset:keyset
-      )
-
-      (deftable users-table:{user})
-
-      (defun create-user (id:string nickname:string keyset:keyset)
-         (enforce-keyset "free.operate-admin")
+     (defun create-user:string (id:string nickname:string keyset:keyset)
+         (enforce-keyset "dev.operate-admin")
          (insert users-table id {
              "keyset": keyset,
              "nickname": nickname
@@ -312,16 +319,15 @@ To define the `enforce-user-auth` function:
          )
       )
 
-
-      (defun enforce-user-auth (id:string)
+      (defun enforce-user-auth:guard (id:string)
           (with-read users-table id { "keyset":= k }
-          (enforce-keyset k)
+          (enforce-guard k)
           k)
        )
    )
    ```
 
-For more information, see the descriptions for the [enforce-keyset](/pact-5/keysets/enforce-keyset) and [with-read](/pact-5/database/with-read) functions.
+For more information, see the descriptions for the [enforce-guard](/pact-5/general/enforce-guard) and [with-read](/pact-5/database/with-read) functions.
 
 ### Define the change-nickname function
 
@@ -347,7 +353,7 @@ To define the `change-nickname` function:
 2. Start the `change-nickname` function definition that takes the parameters `id` and `new-name`.
 
    ```pact
-  (defun change-nickname (id:string new-name:string)
+  (defun change-nickname:string (id:string new-name:string)
   )
   ```
 
@@ -372,25 +378,26 @@ To define the `change-nickname` function:
    Without comments, your code should look similar to the following:
 
    ```pact
-   (namespace "free")
+   (define-namespace "dev" (read-keyset "module-admin-keyset") (read-keyset "module-admin-keyset"))
+   (namespace "dev")
 
-   (define-keyset "free.module-admin"
+   (define-keyset "dev.module-admin" 
       (read-keyset "module-admin-keyset"))
-
-   (define-keyset "free.operate-admin"
+   (define-keyset "dev.operate-admin"
       (read-keyset "module-operate-keyset"))
+   
+   (module auth AUTH
+     (defcap AUTH ()
+       (enforce-guard "dev.module-admin"))
+   
+     (defschema user
+        nickname:string
+        keyset:guard)
+  
+     (deftable users-table:{user})
 
-   (module auth "free.module-admin"
-
-      (defschema user
-          nickname:string
-          keyset:keyset
-      )
-
-      (deftable users-table:{user})
-
-      (defun create-user (id:string nickname:string keyset:keyset)
-         (enforce-keyset "free.operate-admin")
+     (defun create-user:string (id:string nickname:string keyset:keyset)
+         (enforce-keyset "dev.operate-admin")
          (insert users-table id {
              "keyset": keyset,
              "nickname": nickname
@@ -398,17 +405,17 @@ To define the `change-nickname` function:
          )
       )
 
-      (defun enforce-user-auth (id:string)
-          (with-read users-table id { "keyset":= k }
-          (enforce-keyset k)
-          k)
-       )
+      (defun enforce-user-auth:guard (id:string)
+         (with-read users-table id { "keyset":= k }
+         (enforce-guard k)
+         k)
+      )
 
-       (defun change-nickname (id:string new-name:string)
-          (enforce-user-auth id)
-          (update users-table id { "nickname": new-name })
-          (format "Updated name for user {} to {}" [id new-name])
-       )
+      (defun change-nickname:string (id:string new-name:string)
+         (enforce-user-auth id)
+         (update users-table id { "nickname": new-name })
+         (format "Updated name for user {} to {}" [id new-name])
+      )
    )
    ```
 
@@ -429,7 +436,7 @@ To define the `rotate-keyset` function:
 2. Start the `rotate-keyset` function definition that takes the parameters `id` and `new-keyset`.
 
    ```pact
-  (defun rotate-keyset (id:string new-keyset:string)
+  (defun rotate-keyset:string (id:string new-keyset:string)
   )
   ```
 
@@ -454,25 +461,26 @@ To define the `rotate-keyset` function:
    Without comments, your code should look similar to the following:
 
    ```pact
-   (namespace "free")
+   (define-namespace "dev" (read-keyset "module-admin-keyset") (read-keyset "module-admin-keyset"))
+   (namespace "dev")
 
-   (define-keyset "free.module-admin"
+   (define-keyset "dev.module-admin" 
       (read-keyset "module-admin-keyset"))
-
-   (define-keyset "free.operate-admin"
+   (define-keyset "dev.operate-admin"
       (read-keyset "module-operate-keyset"))
+   
+   (module auth AUTH
+     (defcap AUTH ()
+       (enforce-guard "dev.module-admin"))
+   
+     (defschema user
+        nickname:string
+        keyset:guard)
+  
+     (deftable users-table:{user})
 
-   (module auth "free.module-admin"
-
-      (defschema user
-          nickname:string
-          keyset:keyset
-      )
-
-      (deftable users-table:{user})
-
-      (defun create-user (id:string nickname:string keyset:keyset)
-         (enforce-keyset "free.operate-admin")
+     (defun create-user:string (id:string nickname:string keyset:keyset)
+         (enforce-keyset "dev.operate-admin")
          (insert users-table id {
              "keyset": keyset,
              "nickname": nickname
@@ -480,23 +488,23 @@ To define the `rotate-keyset` function:
          )
       )
 
-      (defun enforce-user-auth (id:string)
-          (with-read users-table id { "keyset":= k }
-          (enforce-keyset k)
-          k)
-       )
+      (defun enforce-user-auth:guard (id:string)
+         (with-read users-table id { "keyset":= k }
+         (enforce-guard k)
+         k)
+      )
 
-       (defun change-nickname (id:string new-name:string)
-          (enforce-user-auth id)
-          (update users-table id { "nickname": new-name })
-          (format "Updated name for user {} to {}" [id new-name])
-       )
+      (defun change-nickname:string (id:string new-name:string)
+         (enforce-user-auth id)
+         (update users-table id { "nickname": new-name })
+         (format "Updated name for user {} to {}" [id new-name])
+      )
 
-       (defun rotate-keyset (id:string new-keyset:guard)
-          (enforce-user-auth id)
-          (update users-table id { "keyset": new-keyset})
-          (format "Updated keyset for user {}" [id])
-       )
+      (defun rotate-keyset:string (id:string new-keyset:guard)
+         (enforce-user-auth id)
+         (update users-table id { "keyset": new-keyset})
+         (format "Updated keyset for user {}" [id])
+      )
    )
    ```
 
@@ -504,7 +512,7 @@ For more information about updating a table, see [Update](/smart-contracts/datab
 
 ## Create table
 
-Although you defined a schema and a tables inside of the `auth` module, tables are created outside of the module code.
+Although you defined a schema and a table inside of the `auth` module, tables are created outside of the module code.
 This distinction between what you define inside of the module and outside of the module is important because the module acts as a guard to protect access to database functions and records.
 This separation also allows module code to be potentially updated without replacing the table in Pact state.
 
@@ -523,112 +531,365 @@ To create the table:
 The code for the _Rotate authorized keys_ smart contract is now complete.
 From here, the next steps involve testing module functions, adding features, and deploying the contract in your local development environment or the Kadena public test network.
 
-## Test the module using Chainweaver
+## Create a file for local testing
 
-Because you must define the keyset keys and predicate for your contract in the environment outside of the contract code, the Chainweaver integrated development environment provides the most convenient way to add the required keysets and test contract functions in the `free` public namespace on the Kadena test network.
+The most common way to test Pact modules is to create a `<module-name>.repl` file that uses REPL-only built-in functions to simulate data that must be provided by the environment, like keysets and signatures.
+In this part of the project, you'll see how to create a test file—the `auth.repl` file—to call REPL-only functions to test the functions you've defined in the `auth` module.
 
-To load the contract using Chainweaver:
+To create the test file:
 
-1. Open and unlock the Chainweaver desktop and web-based application, then select the **testnet** network.
+1. Create a new `auth.repl` file in your code editor.
 
-2. Click **Accounts** in the Chainweaver navigation pane and verify that you have at least one account with funds on at least one chain in the test network.
-
-   If you don't have keys and at least one account on any chain on the test network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
-   You'll use the public key for this account and the chain where you have funds in the account to deploy the contract and identify the contract owner.
-
-3. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the `auth.pact` contract that you want to deploy.
-
-   After you select the contract and click **Open**, the contract is displayed in the editor panel on the left with contract navigation on the right.
-   You'll also notice that the line where you define the keyset indicates an error, and the **Env** tab indicates that the error message is `No such key in message` because your `module-admin-keyset` doesn't exist in the environment yet.
-
-   In the Chainweaver integrated development environment, you can add keysets on the **Env** tab, under the **Data** section.
-
-4. Under **Keysets**, type the name of your administrative keyset—in this example, type `module-admin-keyset` as the keyset name—click **Create**, then select the public key and predicate function for the administrative keyset.
-
-   You'll see that adding the keyset replaces the first error message with a second error message for the missing `module-operate-keyset` keyset.
-
-   Add the `module-operate-keyset` name, key, and predicate function to the environment to dismiss the second error message.
-
-5. Click **Load into REPL** to load the contract into the interactive Pact interpreter for testing its functions.
-
-   You should see the following message:
-
+1. Add a transaction that loads the `auth` module using the `begin-tx` and `commit-tx` built-in functions.
+   
    ```pact
-   "TableCreated"
+   (begin-tx)
+     (load "auth.pact")
+   (commit-tx)
    ```
 
-6. Click the **ENV** tab to add a keyset for the test user account.
+2. Add a transaction that imports the `auth` module, sets environment data to simulate keyset information, and creates three test user accounts.
 
-   - Type `sarah-keyset`, click **Create**, then select a public key and predicate function for the Sarah account keyset.
-   - Remove the `module-admin-keyset` keyset from the environment to test that the `module-operate-keyset` keyset can add users.
+   ```pact
+   ;; Import the "auth" module and set basic environment data.
+   (begin-tx)
+     (use auth)
+     (env-data 
+       {
+         "admin-keyset" : ["admin"],
+         "sarah-keyset": ["sarah"],
+         "james-keyset": ["james"]
+       }
+     )
+   ;; Use the create-user function to create three accounts.
+     (create-user "admin" "Administrator" (read-keyset "admin-keyset"))
+     (create-user "Sarah" "Sarah" (read-keyset "sarah-keyset"))
+     (create-user "James" "James" (read-keyset "james-keyset"))
+   
+   (commit-tx)
+   ```
+   
+3. Add a transaction to test the `enforce-user-auth` function with failure and successful scenarios.
 
-7. Click the **REPL** tab to return to the loaded `auth` module to test its functions:
+   ```pact
+   ;; Test an expected failure
+   (begin-tx "Test enforce user authentication")
+     (use dev.auth)
 
-   - Call the `create-user` function to create the test user in the `free` namespace.
-     For example, to create the `sarah` user:
+     (expect-failure "Keyset not in scope" "Keyset failure (keys-all)" (enforce-user-auth "Sarah"))
+   
+   ;; Specify the keyset and expect the operation to succeed
+     (env-keys ["sarah"])
+     (enforce-user-auth "Sarah")
+   
+   (commit-tx)
+   ```   
 
-     ```pact
-     (free.auth.create-user "sarah" "Sarah Rae Fitzpatrick" (read-keyset "sarah-keyset"))
-     "Write succeeded"
-     ```
+3. Add a transaction to test the `change-nickname` function with failure and successful scenarios.
 
-   - Remove the `module-operate-keyset` keyset from the environment to test that the `sarah-keyset` keyset can change the user `nickname` field.
+   ```pact
+   (begin-tx "Test change nickname")
+     (use dev.auth)
+     (env-keys [""])
+     (expect-failure "Keyset not in scope" "Keyset failure (keys-all)" (change-nickname "Sarah" "Sarah"))
+   
+     ;; Specify the keyset and expect the operation to succeed
+     (env-keys ["sarah", "james"])
+     (change-nickname "Sarah" "Sarah")
+     (change-nickname "James" "James")
+     (env-keys [""])
+   (commit-tx)
+   ```
 
-   - Call the `change-nickname` function to change the `nickname` field for the `sarah` key-row, for example, to "S. R. Fitzpatrick-Perez":
+3. Add a transaction to test the `rotate-keyset` function with failure and successful scenarios.
 
-     ```pact
-     (free.auth.change-nickname "sarah" "S. R. Fitzpatrick-Perez")
-     "Updated name for user sarah to S. R. Fitzpatrick-Perez"
-     ```
-   - Read information from the `users-table` for the `sarah` key-row:
+   ```pact
+   (begin-tx "Test rotate keyset")
+     (use dev.auth)
+     (env-data 
+       {
+         "sarah-keyset": ["sarah"],
+         "james-keyset": ["james"]
+       }
+      )
 
-     ```pact
-     (with-read free.auth.users-table "sarah" {"nickname" := n, "keyset" := k} (format "User Nickname: {} Keyset: {}" [n,k]))
-     "User Nickname: S. R. Fitzpatrick-Perez Keyset: KeySet {keys: [58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c],pred: keys-all}"
-     ```
+     (expect-failure "Keyset not in scope" 
+       "Keyset failure (keys-all)" (rotate-keyset "Sarah" (read-keyset "sarah-keyset")))
+     (expect-failure "Keyset not in scope" 
+       "Keyset failure (keys-all)" (rotate-keyset "James" (read-keyset "james-keyset")))
 
-   - Call the `rotate-keyset` function for the `sarah` key-row, then read the information from the `users-table`:
+     ;; Specify the keyset and expect the operation to succeed
+     (env-keys ["sarah", "james"])
+     (rotate-keyset "Sarah" (read-keyset "james-keyset"))
+     (rotate-keyset "James" (read-keyset "sarah-keyset"))
+   (commit-tx)
+   ```
 
-     ```pact
-     (free.auth.rotate-keyset "sarah" (read-keyset "new-sarah-keyset")) "Updated keyset for user sarah"
+8. Open a terminal shell on your computer and test execution by running the following command:
+   
+   ```bash
+   pact auth.repl --trace
+   ```
 
-     (with-read free.auth.users-table "sarah" {"nickname" := n, "keyset" := k} (format "User Nickname: {} Keyset: {}" [n,k]))
-     "User Nickname: S. R. Fitzpatrick-Perez Keyset: KeySet {keys: [9a23bf6a61f753d3ffa45c02b33c65b9dc80b8fb63857debcfe21fdb170fcd99],pred: keys-any}"
-     ```
+   You should see output similar to the following:
 
-## Deploy using Chainweaver
+   ```bash
+   auth.repl:1:0-1:51:Trace: "Setting transaction keys"
+   auth.repl:2:0-5:47:Trace: "Setting transaction data"
+   auth.repl:11:0-11:10:Trace: "Begin Tx 0"
+   auth.repl:12:2-12:20:Trace: "Loading    auth.pact..."
+   auth.pact:5:0-5:96:Trace: "Namespace defined: dev"
+   auth.pact:6:0-6:17:Trace: "Namespace set to dev"
+   auth.pact:9:0-10:39:Trace: "Keyset write success"
+   auth.pact:13:0-14:41:Trace: "Keyset write success"
+   auth.pact:18:0-85:1:Trace: Loaded module dev.auth, hash Wbu3gTpE0umJ5F_yNTzBq-puX0Ts78aUrYMA4-548y4
+   auth.pact:90:0-90:26:Trace: "TableCreated"
+   auth.repl:13:0-13:11:Trace: "Commit Tx 0"
+   auth.repl:16:0-16:10:Trace: "Begin Tx 1"
+   auth.repl:17:2-17:19:Trace: "Namespace set to dev"
+   auth.repl:18:2-18:12:Trace: Loaded imports from auth
+   auth.repl:19:2-25:3:Trace: "Setting transaction data"
+   auth.repl:28:2-28:68:Trace: "Write succeeded"
+   auth.repl:29:2-29:60:Trace: "Write succeeded"
+   auth.repl:30:2-30:61:Trace: "Write succeeded"
+   auth.repl:32:0-32:11:Trace: "Commit Tx 1"
+   auth.repl:35:0-35:45:Trace: "Begin Tx 2 Test enforce user authentication"
+   auth.repl:36:2-36:16:Trace: Loaded imports from dev.auth
+   auth.repl:38:2-38:96:Trace: "Expect failure: Success: Keyset not in scope"
+   auth.repl:41:2-41:22:Trace: "Setting transaction keys"
+   auth.repl:42:2-42:29:Trace: KeySet {keys: [sarah],pred: keys-all}
+   auth.repl:44:0-44:11:Trace: "Commit Tx 2 Test enforce user authentication"
+   auth.repl:47:0-47:33:Trace: "Begin Tx 3 Test change nickname"
+   auth.repl:48:2-48:16:Trace: Loaded imports from dev.auth
+   auth.repl:49:2-49:17:Trace: "Setting transaction keys"
+   auth.repl:50:2-50:102:Trace: "Expect failure: Success: Keyset not in scope"
+   auth.repl:53:2-53:31:Trace: "Setting transaction keys"
+   auth.repl:54:2-54:34:Trace: "Updated name for user Sarah to Sara"
+   auth.repl:55:2-55:33:Trace: "Updated name for user James to Jim"
+   auth.repl:56:2-56:17:Trace: "Setting transaction keys"
+   auth.repl:58:0-58:11:Trace: "Commit Tx 3 Test change nickname"
+   auth.repl:61:0-61:31:Trace: "Begin Tx 4 Test rotate keyset"
+   auth.repl:62:2-62:16:Trace: Loaded imports from dev.auth
+   auth.repl:63:2-68:3:Trace: "Setting transaction data"
+   auth.repl:70:2-71:85:Trace: "Expect failure: Success: Keyset not in scope"
+   auth.repl:72:2-73:85:Trace: "Expect failure: Success: Keyset not in scope"
+   auth.repl:76:2-76:31:Trace: "Setting transaction keys"
+   auth.repl:77:2-77:53:Trace: "Updated keyset for user Sarah"
+   auth.repl:78:2-78:53:Trace: "Updated keyset for user James"
+   auth.repl:80:0-80:11:Trace: "Commit Tx 4 Test rotate keyset"
+   Load successful
+   ```
 
-After testing that the contract functions work as expected in the interactive REPL, you can use Chainweaver to deploy the contract on the test network in the `free` namespace.
-To deploy in an existing namespace, you must also ensure that your module name and keyset name are unique across all of the modules that exist in that namespace.
+   You can also test functions interactively by loading the file into the Pact REPL.
+   Type `pact` in a terminal shell to open the Pact REPL environment.
 
-To deploy the contract using Chainweaver:
+   ```bash
+   pact> (env-keys ["admin", "moduleadmin", "operateadmin"])
+   "Setting transaction keys"
+   pact> (env-data{"module-admin-keyset": ["moduleadmin"],"module-operate-keyset": ["operateadmin"]})
+   "Setting transaction data"
+   pact> (load "auth.pact")
+   "Loading auth.pact..."
+   "Namespace defined: dev"
+   "Namespace set to dev"
+   "Keyset write success"
+   "Keyset write success"
+   Loaded module dev.auth, hash Wbu3gTpE0umJ5F_yNTzBq-puX0Ts78aUrYMA4-548y4
+   "TableCreated"
+   ```
+   
+   You can then set environment data and call functions interactively.
+   For example, to create the `sarah` user:
 
-1. Update the module name and keysets to make them unique in the namespace.
+   ```pact
+   pact> (env-data{"sarah-keyset":["sarah-keyset"]})
+   "Setting transaction data"
+   pact> (dev.auth.create-user "sarah" "Sarah Rae Fitzpatrick" (read-keyset "sarah-keyset"))
+   "Write succeeded"
+   ```
+   
+## Deploy the contract
+
+After testing the contract using the Pact interpreter and the REPL file, you can deploy the contract on your local development network or the Kadena test network.
+
+However, you must deploy to an existing namespace—such as the `free` namespace—or a registered [principal namespace](/guides/transactions/howto-namespace-tx) to deploy on any Kadena network.
+If you want to deploy in an existing namespace, you must also ensure that your module name and keyset name are unique across all of the modules that exist in that namespace.
+
+In general, the best practice is to create a principal namespace for deploying your modules.
+
+### Verify network, chain, and account information
+
+Before you deploy on the local development network, verify the following:
+
+- The development network is currently running on your local computer.
+
+- You have at least one **account** with **funds** on at least one **chain** in the development network. 
+   
+  If you don't have keys and at least one account on any chain on the network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
+
+- You have the public key for the account on the chain where you have funds.
+
+### Create a principal namespace
+
+For this coding project, you can define a principal namespace by executing a transaction using the following `simple-define-namespace.ktpl` transaction template.
+
+```yaml
+code: |-
+  (define-namespace (ns.create-principal-namespace (read-keyset "k")) (read-keyset "k") (read-keyset "k"))
+data:
+  {
+    "k": [
+        "{{public-key}}"
+    ]
+  }
+meta:
+  chainId: "{{chain-id}}"
+  sender: "{{{sender-account}}}"
+  gasLimit: 80300
+  gasPrice: 0.000001
+  ttl: 600
+signers:
+  - public: "{{public-key}}"
+    caps:
+      - name: "coin.GAS"
+        args: []
+networkId: "{{network-id}}"
+```
+
+You can use `kadena tx add` to replace the variables in the template with the values for your public key, sender account, chain, and network.
+For example:
+
+```sh
+? Which template do you want to use: simple-define-namespace.ktpl
+? File path of data to use for template .json or .yaml (optional):
+? Template value public-key: a6731ce7...93119689
+? Template value chain-id: 3
+? Template value sender-account: k:a6731ce7...93119689
+? Template value network-id: development
+? Where do you want to save the output: myNamespace
+```
+
+After you save the transaction to a file, you can use `kadena tx sign` to sign the transaction with your wallet password or public and secret keys.
+
+After signing the transaction, you can use `kadena tx send` to send the transaction to the blockchain network.
+
+After the transaction is complete, copy the principal namespace from the transaction results and use it to replace all occurrences of the original `"dev"` namespace.
+
+```pact
+(namespace "n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e")
+(define-keyset "n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.admin-keyset" (read-keyset "admin-keyset"))
+(module payments "n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.admin-keyset" ...)
+```
+
+### Create a deployment transaction
+
+You can deploy the `auth.pact` module on the local development network using the same workflow of `kadena tx add`, `sign`, and `send` commands that you used to execute the `define-namespace` transaction.
+
+To deploy the module:
+
+1. Create a new transaction template named `coding-project.ktpl` in the `~/.kadena/transaction-templates` folder.
+   
+   ```sh
+   cd ~/.kadena/transaction-templates
+   touch coding-project.ktpl
+   ```
+
+2. Open the `coding-project.ktpl` file in a code editor and create a reusable transaction request in YAML format similar to the following to specify the path to the `auth.pact` file that contains your Pact module code.
+   
+   ```pact
+   codeFile: "../../auth.pact"
+   data:
+     module-admin-keyset:
+       keys: ["{{admin-public-key}}"]
+       pred: "keys-all"
+     module-operate-keyset:
+       keys: ["{{operate-public-key}}"]
+       pred: "keys-all"
+   meta:
+     chainId: "{{chain-id}}"
+     sender: "{{{sender-account}}}"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 600
+   signers:
+     - public: "{{public-key}}"
+       caps: []
+   networkId: "{{network-id}}"
+   ```
+
+3. Create a transaction that uses the template by running the `kadena tx add` command and following the prompts displayed.
 
    For example:
 
-   ```pact
-   (namespace "free")
-
-   (define-keyset "free.pistolas-module-admin"
-      (read-keyset "module-admin-keyset"))
-
-   (define-keyset "free.pistolas-operate-admin"
-      (read-keyset "module-operate-keyset"))
-
-   (module pistolas-auth-project "free.pistolas-module-admin"
-   ...
-   )
+   ```sh
+   ? Which template do you want to use: coding-project.ktpl
+   ? File path of data to use for template .json or .yaml (optional):
+   ? Template value admin-public-key: a6731ce7...93119689
+   ? Template value operate-public-key: 1d5a5e10...0b242ed4
+   ? Template value chain-id: 3
+   ? Template value sender-account: k:a6731ce7...93119689
+   ? Template value public-key: a6731ce7...93119689
+   ? Template value network-id: development
+   ? Where do you want to save the output: auth-deploy
    ```
 
-2. Click **Deploy** to display the Configuration tab.
-3. On the Configuration tab, update General and Advanced settings like this:
+   In this example, the unsigned transaction is saved in a `auth-deploy.json` file.
 
-   - Select the **Chain identifier** for the chain where you want to deploy the contract.
-   - Select the **Transaction Sender**.
-   - Click **Advanced** and add the updated ` module-admin` keyset to the environment.
-   - Click **Next**.
+4. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed to sign with a wallet account or a public and secret key pair.
+   
+   For example:
 
-4. On the Sign tab, select the public key for the administrative keyset as an **Unrestricted Signing Key**, then click **Next**.
+   ```sh
+   ? Select an action: Sign with wallet
+   ? Select a transaction file: Transaction: auth-deploy.json
+   ? 1 wallets found containing the keys for signing this transaction, please select a wallet to sign this transaction with first: Wallet: pistolas
+   ? Enter the wallet password: ********
+   ```
 
-3. On the Preview tab, scroll to see the Raw Response is "TableCreated", then click **Submit** to deploy the contract.
+5. Send the transaction by running the `kadena tx send` command and following the prompts displayed.
+   
+   After the transaction is complete, you should see the message `TableCreated` in the transaction results.
+
+### Create additional transactions
+
+After you deploy the module, you can create additional transactions to verify contract functions running on the development network.
+For example, you can create a transaction template for the `auth.create-user` function similar to the following:
+
+```yaml
+code: |-
+  (n_1cc1f83c56f53b8865cc23a61e36d4b17e73ce9e.auth.create-user "{{user-id}}" "{{user-nickname}}" (read-keyset "{{user-guard}}"))
+data:
+  {{user-guard}}:
+    keys:
+      - "{{user-publicKey}}"
+    pred: "{{user-predicate}}"
+meta:
+  chainId: "{{chain-id}}"
+  sender: "{{sender-account}}"
+  gasLimit: 2000
+  gasPrice: 0.00000001
+  ttl: 7200
+signers:
+  - public: "{{signer-public-key}}"
+    caps: []
+networkId: "{{networkId}}"
+type: exec
+```
+   
+With this template, you can create a transaction that adds the specified user `id`, `nickname`, and `guard` to the `users-table`.
+For example, this template prompts you to provide the user details when you run `kadena tx add`:
+
+```sh
+Which template do you want to use: create-user.ktpl
+? File path of data to use for template .json or .yaml (optional):
+? Template value user-id: sarah
+? Template value user-nickname: Sarah Rae Foster
+? Template value user-guard: sarah-keyset
+? Template value user-publicKey: 1d5a5e10...0b242ed4
+? Template value user-predicate: keys-all
+? Template value chain-id: 3
+? Template value sender-account: k:1d5a5e10...0b242ed4
+? Template value signer-public-key: 1d5a5e10...0b242ed4
+? Template value networkId: development
+? Where do you want to save the output: SARAH
+```

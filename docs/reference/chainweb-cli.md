@@ -185,11 +185,3 @@ not exceed the value you set for the _max_ argument.|
 | --log-filter-rule KEY\:VALUE\:LOGLEVEL[\:RATE]| Define a log filter rule. Log messages that match the filter rule are discarded if they don't meet the log level threshold you specify.|
 | --log-filter-default LOGLEVEL:RATE | Define a default log filter. This filter is applied to all messages that don't match any other log filter rule.|
 | --queue-size _max_ | Set the maximum size of the internal logger queue.|
-
-## Rosetta options
-
-| Use this option | To do this |
-| --------------- | ---------- |
-| --rosetta | Enable the Rosetta integration endpoints in the service API.|
-| --no-rosetta | Disable the Rosetta integration.|
- 

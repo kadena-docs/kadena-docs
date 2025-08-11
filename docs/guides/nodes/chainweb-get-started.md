@@ -35,7 +35,7 @@ Most `chainweb-node` software runs on Linux or macOS with AMD64 architectures.
 If you want to run a Chainweb node on Linux or macOS with ARM64 architecture, you'll need to build the binaries yourself from the source code.
 You might experience some unexpected behavior when running a node on ARM64 architecture.
 Note that you should not configure **mining** for nodes on ARM64 architecture.
-RUnning a mining node on ARM64 architecture could cause your node to fork from the network.
+Running a mining node on ARM64 architecture could cause your node to fork from the network.
 
 If you want to run a Chainweb node on Microsoft Windows, you should note that this isn't a supported configuration and requires you to install the latest Windows Services for Linux (WSL) software.
 If you choose to proceed after installing WSL, you can install the `chainweb-node` software in the WSL virtual environment rather than using the native Windows operating system. 
@@ -89,18 +89,26 @@ To install from a release archive:
    chainweb-<version>.ghc-<version>.ubuntu-<version>.<revision>.tar.gz
    ```
    
-   For example, the `chainweb-node` archive file for Ubuntu 22.04 looks like this:
+   For example, the `chainweb-node` archive file for Ubuntu 22.04 and `chainweb-node` version 2.26.1 looks like this:
    
    ```text
-   chainweb-2.24.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
+   chainweb-2.26.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
    ```
+
+   Keep in mind that if you attempt to run a version of the `chainweb-node` that's out-of-date, the program displays an error message similar to the following:
+   
+   ```bash
+   Shutting down. This version of chainweb was only valid until2024-08-21 00:00:00 UTC. Please upgrade to a new version.
+   ```
+
+   Be sure to check the [chainweb-node](https://github.com/kadena-io/chainweb-node/) repository for the latest release.
 
 5. Change to the directory that contains the downloaded file—typically, the Downloads folder—or move the file to a new location.
 
 6. Unzip and extract the compressed archive by running a command similar to the following:
    
    ```bash
-   tar -xvzf chainweb-2.24.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
+   tar -xvzf chainweb-2.26.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
    ```
 
 7. Verify the binary is ready to use and review command-line configuration options by running the following command:
@@ -190,7 +198,7 @@ To download tagged source code:
 3. Unzip and extract the compressed archive by double-clicking or by running a command similar to the following:
 
    ```bash
-   tar -xvzf chainweb-node-2.24.1.tar.gz
+   tar -xvzf chainweb-node-2.26.1.tar.gz
    ```
 
 1. Change to the `chainweb-node` source code directory. 
@@ -333,7 +341,7 @@ To build with the Nix package manager:
    sudo systemctl restart nix-daemon.service
    ```
    
-3. Build `chainweb-node` by running a command similar to the following for a specific release `tag`, such as 2.24.1:
+3. Build `chainweb-node` by running a command similar to the following for a specific release `tag`, such as 2.26.1:
 
    ```bash
    nix build github:kadena-io/chainweb-node/<tag>
@@ -425,7 +433,7 @@ For example, you can edit the configuration file to make the following types of 
 - Enable the backup API and specify the directory for backup files.
 - Connect the node to the Kadena test network instead of the Kadena main network.
 - Specify a directory for blockchain database files.
-- Ignore or connect to a subset of [bootstrap nodes](/).
+- Ignore or connect to a subset of [bootstrap nodes](https://github.com/kadena-io/chainweb-node?tab=readme-ov-file#bootstrap-nodes).
 
 To edit the node configuration:
 

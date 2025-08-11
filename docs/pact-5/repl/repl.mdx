@@ -13,7 +13,7 @@ REPL-only functions are used to control environment settings and expected behavi
 | [continue&#8209;pact](/pact-5/repl/continue-pact) | Continue a previously-initiated multi-step transaction.|
 | [env&#8209;chain&#8209;data](/pact-5/repl/env-chain-data) | Define chain information for transactions in the testing environment.|
 | [env&#8209;data](/pact-5/repl/env-data) | Set transaction data for the testing environment |
-| [env&#8209;enable#8209;repl#8209;natives](/pact-5/repl/env-enable-repl-natives) | Control whether REPL native functions are allowed in module code. |
+| [env&#8209;enable&#8209;repl&#8209;natives](/pact-5/repl/env-enable-repl-natives) | Control whether REPL native functions are allowed in module code. |
 | [env&#8209;events](/pact-5/repl/env-events) | Retrieve any accumulated events.|
 | [env&#8209;exec&#8209;config](/pact-5/repl/env-exec-config) | Query or set execution configuration information for the testing environment. |
 | [env&#8209;gas](/pact-5/repl/env-gas) | Query the current gas state or set it to a specific value. |
@@ -22,9 +22,20 @@ REPL-only functions are used to control environment settings and expected behavi
 | [env&#8209;gasmodel](/pact-5/repl/env-gasmodel) | Query or update the current gas model. |
 | [env&#8209;hash](/pact-5/repl/env-hash) | Set the current transaction hash. |
 | [env&#8209;keys](/pact-5/repl/env-keys) | Set the transaction signer keys (deprecated). |
+| [env&#8209;milligas](/pact-5/repl/env-milligas) | Query the current gas state in units of one one thousandth of a gas unit. |
+| [env&#8209;module&#8209;admin](/pact-5/repl/env-module-admin) | Acquire the module administrative rights for any module loaded in the REPL.|
 | [env&#8209;namespace&#8209;policy](/pact-5/repl/env-namespace-policy) | Install a managed namespace policy. |
+| [env&#8209;set&#8209;debug&#8209;flag](/pact-5/repl/env-set-debug-flag) | Set the Pact interpreter debug flags.|
+| [env&#8209;set&#8209;milligas](/pact-5/repl/env-set-milligas) | Set the current gas state to a specific value in units of one one thousandth of a gas unit.|
 | [env&#8209;sigs](/pact-5/repl/env-sigs) | Set signature keys for signing transactions and granting capabilities.|
+| [env&#8209;verifiers](/pact-5/repl/env-verifiers) | Set transaction verifier names and capabilities. |
 | [expect&#8209;failure](/pact-5/repl/expect-failure) | Evaluate an expression and succeed only if the expressions results in an error.|
 | [expect&#8209;that](/pact-5/repl/expect-that) |Evaluate an expression and succeed if the resulting value passes a predicate function. |
 | [expect](/pact-5/repl/expect) | Evaluate an expression and verify that the result equals an expected value. |
-
+| [load](/pact-5/repl/load) | Load and evaluate a specified `.pact` or `.repl` file. |
+| [pact&#8209;state](/pact-5/repl/pact-state) | Inspect state from most recent `defpact` execution.|
+| [print](/pact-5/repl/print) | Convert a value into a string and print it to the REPL output.|
+| [rollback&#8209;tx](/pact-5/repl/rollback-tx) | Roll back the current transaction.|
+| [sig-keyset](/pact-5/repl/sig-keyset) | Build a keyset guard from keys present in message signatures.|
+| [test&#8209;capability](/pact-5/repl/test-capability) | Acquire or install the `capability` specified.|
+| [typecheck](/pact-5/repl/typecheck) | Run the Pact static type checker on a module.

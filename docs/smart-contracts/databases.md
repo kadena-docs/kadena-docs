@@ -22,7 +22,7 @@ Each node also hosts a set of SQLite database files that store information about
 
 The following diagram presents a simplified view of this separation of concerns.
 
-![Data store overview](/img/database-overview.png)
+![Data store overview](/img/docs-database-model.png)
 
 As a smart contract developer, you're primarily interested in writing to and reading from the Pact state, but it's helpful to know how data is organized and optimized for different execution modes and to perform different tasks.
 The RocksDb database—sometimes referred to as the chain database—is optimized for efficient network communication and resiliency.

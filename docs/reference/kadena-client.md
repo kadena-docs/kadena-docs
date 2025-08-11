@@ -1,5 +1,5 @@
 ---
-title: Kadena client
+title: Kadena TypeScript client
 description: The @kadena/client library provides a TypeScript-based API for interacting with Pact smart contracts and Chainweb nodes using frontend frameworks.
 if: kadena-client
 order: 3
@@ -8,7 +8,7 @@ layout: full
 tags: ['TypeScript', 'Kadena', 'Kadena client', 'frontend']
 ---
 
-# Kadena client
+# Kadena TypeScript client
 
 The `@kadena/client` library provides a TypeScript-based API for interacting with smart contracts and Chainweb nodes on the Kadena network. The library includes modules to help you perform the following types of common tasks:
 
@@ -921,6 +921,16 @@ To sign with one key pair:
 
 ```typescript
 const signWithKeypair = createSignWithKeypair({ publicKey, secretKey });
+
+const tx = Pact.builder
+  .execution(Pact.modules.coin.transfer(senderAccount, receiverAccount, amount))
+  .addSigner(senderKey, (signFor) => [
+    signFor('coin.GAS'),
+    signFor('coin.TRANSFER', senderAccount, receiverAccount, amount),
+  ])
+  .setMeta({ chainId: '0', senderAccount })
+  .setNetworkId(NETWORK_ID)
+  .createTransaction();
 
 const signedTx = signWithKeypair(tx);
 ```

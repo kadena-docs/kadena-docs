@@ -122,7 +122,7 @@ Bindings are used in the following functions to assign variables to named column
 
 Lambda expressions are code blocks that create anonymous functions that can be applied in a local scope, rather than at the top level of a program with the `defun` keyword.
 
-Lambdas are supported in `let` and `let*` expression, and can be as inline arguments for built-in function applications.
+Lambdas are supported in `let` expressions, and can be as inline arguments for built-in function applications.
 
 ```pact
 ; identity function
@@ -262,7 +262,9 @@ For example, if the first condition evaluated passes, then branch-1 is executed.
 If the first condition isn't met, the second condition is evaluated and if that condition passes, then branch-2 is executed.
 The `else-branch` is only evaluated if all other conditions fail.
 
-`cond` is syntactically expanded such that:
+The `cond` special form allows you to evaluate a series of `if` expressions in a more concise manner.
+
+Syntactically, the `cond` form accepts a sequence of conditions:
 
 ```pact
 (cond
@@ -272,7 +274,7 @@ The `else-branch` is only evaluated if all other conditions fail.
    g)
 ```
 
-is expanded to:
+When the conditions are evaluated, the statements are expanded to a series of `if` statements:
 
 ```pact
 (if a b (if c d (if e f g)))
@@ -284,6 +286,34 @@ To evaluate a series of conditions, use the following syntax model:
 
 ```pact
 (cond (condition-1 branch-1) [(condition-2 branch-2) [...]] else-branch)
+```
+
+### Examples
+
+The following example demonstrates how to use `cond` to evaluate multiple branching conditional expressions. 
+
+```pact
+(module medals GOV
+    (defcap GOV () true)
+    (defun award:string (score:integer)
+      (cond ((< score 10) "Bronze")
+            ((< score 20) "Silver")
+            ((< score 30) "Gold")
+            "Platinum"))
+)
+```
+
+If you load this module, you can call the `award` function to see the conditions evaluated:
+
+```pact
+pact> (m.award 100)
+"Platinum"
+
+pact> (m.award 23)
+"Gold"
+
+pact> (m.award 3)
+"Bronze"
 ```
 
 ## defcap
@@ -446,7 +476,7 @@ The following example shows a well-formed `defpact` with an equal number of step
 )
 ```
 
-### defschema
+## defschema
 
 Use the `defschema` keyword to define a _schema_ of table `fields` with the specified `name`.
 Each field in the schema takes the form of `fieldname[:fieldtype]`.
@@ -472,7 +502,7 @@ The following example illustrates defining the `accounts` schema and an `account
   data)
 ```
 
-### deftable
+## deftable
 
 Use the `deftable` keyword to define a database _table_ with the specified `name`.
 The name you specify is used in database functions to identify the table you want to work with.
@@ -503,6 +533,37 @@ The following example illustrates defining a schema and an `accounts` table:
 
   (deftable accounts:{account}
     "Main table for accounts module.")
+```
+
+## do
+
+Use the `do` keyword to evaluate a sequence of expressions and return the last one as the result.
+
+### Basic syntax
+
+To evaluate a sequence of expressions and return the last result, use the following syntax model:
+
+```pact
+(do (my-expression1) (my-expression2) (my-return-expression))
+```
+
+### Examples
+
+```pact
+pact> (do (print "hello world!") (+ 1 2) (+ 121 299))
+"hello world!"
+420
+```
+
+Notice how the return value is the last addition of `(+ 121 299)`.
+The `do` keyword evaluates every expression supplied, so if any expression errors along the way, the subsequent expressions will never be evaluated.
+For example:
+
+```pact
+pact> (do (enforce false "boom") (+ 1 2))
+(interactive):1:4: boom
+ 1 | (do (enforce false "boom") (+ 1 2))
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 ```
 
 ## implements
@@ -578,8 +639,9 @@ The following example illustrates defining the `coin-sig` interface with documen
 ## let
 
 Use the `let` keyword to bind variables in pairs to over the scope of the code body.
-Variables within bind-pairs cannot refer to previously-declared variables in the same `let` declaration.
-For this, use [let\*](/reference/syntax#let).
+In Pact 4, `let` declarations didn't allow variables within bind-pairs to refer to previously-declared variables in the same declaration.
+In Pact 4, you could use the `let*` form to enable variables to reference previously-declared variables in the same `let` declaration.
+In Pact 5, the  `let*` keyword is deprecated and you can replace all `let*` declarations with `let` declarations.
 
 ### Basic syntax
 
@@ -598,12 +660,19 @@ pact > (let ((x 2) (y 5)) (* x y))
 10
 ```
 
+The following example illustrates referencing a previously-declared variable in the same `let` declaration in Pact 5:
+
+```pact
+(let ((x 2) (y (* x 10)))
+(+ x y))
+22
+```
+
 ## let\*
 
-Use the `let*` keyword to bind variables in pairs to over the scope of the code `body`.
-Variables can reference previously-declared variables in the same `let` declaration.
-The `let*` keyword is expanded at compile-time to nested `let` calls for each `bind-pair`.
-Therefore, you should use `let` statements where possible.
+Use the `let*` keyword to bind variables in pairs over the scope of the code `body`.
+In Pact 4, this form of the keyword enables variables to reference previously-declared variables in the same `let` declaration.
+In Pact 5, this form is deprecated and you can replace all let* declarations with `let` declarations.
 
 ### Basic syntax
 

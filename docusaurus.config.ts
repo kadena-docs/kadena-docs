@@ -3,129 +3,114 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-   title: 'Kadena Docs',
-   url: 'https://enterprise-docs.kadena.io',
-   baseUrl: '/',
+     title: 'Kadena Docs',
+     tagline: 'The Blockchain for Business',
+     favicon: 'img/kadena-favicon.png',
+     url: 'https://docs.kadena.io',
+     baseUrl: '/',
+     trailingSlash: false,
 
-   favicon: 'img/kadena-favicon.png',
-   trailingSlash: false,
-   i18n: {
-      defaultLocale: 'en',
-      locales: ['en'],
-   },
+     organizationName: 'kadena-docs',
+     projectName: 'kadena-docs',
 
-   onBrokenLinks: 'throw',
-   onBrokenAnchors: 'throw',
-   onBrokenMarkdownLinks: 'throw',
+     i18n: {
+          defaultLocale: 'en',
+          locales: ['en'],
+     },
 
-   tagline: 'The Blockchain for Business',
-   organizationName: 'kadena-docs',
-   projectName: 'kadena-docs',
+     onBrokenLinks: 'throw',
+     onBrokenAnchors: 'throw',
+     onBrokenMarkdownLinks: 'throw',
 
-   themeConfig: {
-      colorMode: {
-         defaultMode: 'light',
-         disableSwitch: false,
-         respectPrefersColorScheme: true
-      },
-      image: 'img/kadena-opengraph.png',
-      metadata: [
-         {name: 'keywords', content: 'kadena, kda, developer, docs, documentation, enterprise, institutional'},
-         {name: 'twitter:card', content: 'summary_large_image'},
-      ],
-      announcementBar: {
-         id: "announcement-bar_1",
-         content: `<strong>This docs site is a work in progress, please visit our <a target="_blank" href="https://docs.kadena.io">live docs site</a>.</strong>`,
-         backgroundColor: "#469279",
-         textColor: "#FFFFFF",
-         isCloseable: false,
-      },
-      docs: {
-         sidebar: {
-            hideable: true,
-            autoCollapseCategories: true,
-         },
-      },
-      navbar: {
-         title: '',
-         logo: {
-            alt: 'Kadena Documentation',
-            src: 'img/kadena-docs-light.png',
-            srcDark: 'img/kadena-docs-dark.png',
-            width: 196,
-            height: 32,
-         },
-         items: [
-            {
-               type: 'docSidebar',
-               label: 'Get Started',
-               sidebarId: 'default',
-               position: 'left',
-            },
-            {
-               label: 'Academy',
-               href: 'https://academy.kadena.io',
-               position: 'left',
-            },
-            {
-               label: 'Support',
-               href: 'https://discord.com/invite/kadena',
-               position: 'left'
-            },
-            {
-               href: 'https://github.com/kadena-io',
-               position: 'right',
-               className: 'github-link-icon'
-            }
-         ],
-         hideOnScroll: false,
-         style: 'primary',
-      },
-      prism: {
-         additionalLanguages: ['lisp'],
-         theme: prismThemes.github,
-         darkTheme: prismThemes.dracula,
-      },
-      footer: {
-         style: 'dark',
-         copyright: `Copyright © ${new Date().getFullYear()} - <a href="https://kadena.io" target="_blank">Kadena LLC</a>`,
-      },
-      tableOfContents: {
-         minHeadingLevel: 2,
-         maxHeadingLevel: 2
-      },
-      algolia: {
-         appId: '6UVWQF4IS8',
-         apiKey: 'b89b66367ee8fd13c34fb502b67609be',
-         indexName: 'enterprise-kadena',
+     presets: [
+          [
+               'classic',
+               {
+                    docs: {
+                         routeBasePath: '/',
+                         sidebarPath: './sidebars.ts',
+                         editUrl: 'https://github.com/kadena-docs/kadena-docs/blob/master/',
+                    },
+                    theme: {
+                         customCss: './src/css/custom.css',
+                    },
+               } satisfies Preset.Options,
+          ],
+     ],
 
-         contextualSearch: true,
-         externalUrlRegex: 'external\\.com|domain\\.com',
-         searchParameters: {},
-         searchPagePath: 'search',
-         insights: false,
-       },
-   } satisfies Preset.ThemeConfig,
+     themeConfig: {
+          colorMode: {
+               defaultMode: 'light',
+               disableSwitch: false,
+               respectPrefersColorScheme: true
+          },
+          image: 'img/kadena-opengraph.png',
+          tableOfContents: {
+               minHeadingLevel: 2,
+               maxHeadingLevel: 2
+          },
+          docs: {
+               sidebar: {
+                    hideable: true,
+                    autoCollapseCategories: true,
+               },
+          },
+          algolia: {
+               appId: '6UVWQF4IS8',
+               apiKey: 'b89b66367ee8fd13c34fb502b67609be',
+               indexName: 'enterprise-kadena',
 
-   presets: [
-      [
-         'classic',
-         {
-            docs: {
-               routeBasePath: '/',
-               sidebarPath: './sidebars.ts',
-               editUrl: 'https://github.com/kadena-docs/kadena-docs/blob/master/',
-            },
-            theme: {
-               customCss: './src/css/custom.css',
-            },
-            gtag: {
-               trackingID: 'G-J507K728FR',
-               anonymizeIP: true,
-             },
-         } satisfies Preset.Options,
-      ],
-   ],
+               contextualSearch: true,
+               externalUrlRegex: 'external\\.com|domain\\.com',
+               searchParameters: {},
+               searchPagePath: 'search',
+               insights: false,
+          },
+          navbar: {
+               title: '',
+               logo: {
+                    alt: 'Kadena Documentation',
+                    src: 'img/kadena-docs-light.png',
+                    srcDark: 'img/kadena-docs-dark.png',
+                    width: 196,
+                    height: 32,
+               },
+               items: [
+                    {
+                         type: 'docSidebar',
+                         label: 'Get Started',
+                         sidebarId: 'default',
+                         position: 'left',
+                    },
+                    {
+                         label: 'Academy',
+                         href: 'https://academy.kadena.io',
+                         position: 'left',
+                    },
+                    {
+                         label: 'Support',
+                         href: 'https://discord.com/invite/kadena',
+                         position: 'left'
+                    },
+                    {
+                         href: 'https://github.com/kadena-io',
+                         position: 'right',
+                         className: 'github-link-icon'
+                    },
+               ],
+               hideOnScroll: false,
+               style: 'primary',
+          },
+          footer: {
+               style: 'dark',
+               copyright: `Copyright © ${new Date().getFullYear()} - Kadena LLC (<a href="https://www.kadena.io/privacy-policy" target="_blank">Privacy</a>)`,
+          },
+          prism: {
+               additionalLanguages: ['lisp'],
+               theme: prismThemes.github,
+               darkTheme: prismThemes.dracula,
+          },
+     } satisfies Preset.ThemeConfig,
 };
 
 export default config;

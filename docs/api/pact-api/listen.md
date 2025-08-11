@@ -15,13 +15,16 @@ Requests to the `/listen` endpoint keep the connection to the network open waiti
 
 ## Request format
 
-Use the `POST http://{baseURL}/chain/{chain}/pact/api/v1/listen` endpoint to submit a blocking request for the results of a single transaction.
+Use the `POST https://{baseURL}/chain/{chain}/pact/api/v1/listen` endpoint to submit a blocking request for the results of a single transaction.
+
+Note that service API endpoints don't strictly require you to use secure connections (HTTPS).
+However, node operators can require it and connecting over HTTPS is strongly recommended to protect data in transit and to prevent potential browser issues.
 
 ### Path parameters
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
-| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier of the chain you want to send the request to. Valid values are 0 to 19. For example, to submit the command on the first chain (0), the request is `POST http://{baseURL}/chain/0/pact/api/v1/listen`.
+| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier of the chain you want to send the request to. Valid values are 0 to 19. For example, to submit the command on the first chain (0), the request is `POST https://{baseURL}/chain/0/pact/api/v1/listen`.
 
 ### Request body schema
 
@@ -31,7 +34,7 @@ Use the `POST http://{baseURL}/chain/{chain}/pact/api/v1/listen` endpoint to sub
 
 ## Responses 
 
-Requests to `POST http://{baseURL}/chain/{chain}/pact/api/v1/listen` return the following response codes:
+Requests to `POST https://{baseURL}/chain/{chain}/pact/api/v1/listen` return the following response codes:
 
 - **200 OK** indicates that the request succeeded and the response body includes the transaction results.
 - **400 Bad Request** indicates that the request failed. The response returns `text/plain` content with information about why the request failed. For example, the response might indicate that the command wasn't executed because the request body specified an invalid gas payer, was missing required metadata, or there were other environment issues.
@@ -54,7 +57,7 @@ If the request is successful, the response returns `application/json` content wi
 You can send a request to the Kadena test network and chain 1 by calling the `/listen` endpoint like this:
 
 ```Postman
-POST http://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/listen
+POST https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/listen
 ```
 
 For this example, the request body specifies one request key to listen for:

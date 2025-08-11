@@ -94,7 +94,7 @@ The following functions are some of the most commonly used REPL-only functions:
 | [env-sigs](/pact-5/repl/env-sigs) | Set transaction signature keys. |
 | [expect](/pact-5/repl/expect) | Evaluate expression and verify that it equals what is expected. |
 | [expect-failure](/pact-5/repl/expect-failure) | Evaluate an expression and succeed only if the expression results in an error. |
-| load | Load and evaluate a file. |
+| [load](/pact-5/repl/load) | Load and evaluate a file. |
 
 ## Load environment data
 
@@ -117,8 +117,8 @@ Similarly, you can use the `env-sigs` function simulate a signing key and capabi
 
 ```pact
    (env-sigs [
-     { 'key: 'marmalade-admin
-      ,'caps: []
+     { "key": "marmalade-admin"
+      ,"caps": []
       }])
 ```
 
@@ -163,7 +163,7 @@ For example, type `load` then specify the file path as a string:
 (load "loans.pact")
 ```
 
-Typically, `.pact` and .repl file are located in the same folder, so you only need to specify the name of the `.pact` file.
+Typically, `.pact` and `.repl` file are located in the same folder, so you only need to specify the name of the `.pact` file.
 However, if you place the files in different file locations, you must provide an absolute or relative path to the `.pact` file you want to load.
 
 ## Call module functions
@@ -201,7 +201,7 @@ For example, edit the `.repl` file to call the following functions defined in th
 At this point, you have a completed `.repl` file that tests code defined in the `loans` module.
 The final step is to execute the tests by running the file from a terminal shell to view the output.
 
-To execute the .repl file tests:
+To execute the `.repl` file tests:
 
 1. Open a terminal shell and navigate to the directory that contains the `loans.repl` and `loans.pact `files.
 
@@ -217,7 +217,7 @@ To execute the .repl file tests:
    pact> (load "loans.repl")
    ```
 
-   You should see output for the tests you defined in the .repl file displayed in the terminal.
+   You should see output for the tests you defined in the `.repl` file displayed in the terminal.
    For example, you should see output similar to the following excerpt:
 
    ```bash
@@ -267,7 +267,7 @@ pact> (expect "Test that addition is correct" 4 (+ 3 2))
 "FAILURE: Test that addition is correct: expected 4:integer, received 5:integer"
 ```
 
-The following example demonstrates how to use the `expect-failure` function to evaluate whether an expression fails as expected result:
+The following example demonstrates how to use the `expect-failure` function to evaluate whether an expression fails as an expected result:
 
 ```pact
 pact> (expect-failure "Enforce fails on false" (enforce false "Expected error"))
@@ -277,11 +277,11 @@ pact> (expect-failure "Enforce fails on false" (enforce false "Expected error"))
 The following example demonstrates how to use the `expect-that` function to evaluate whether an expression returns the expected result:
 
 ```pact
-pact> (expect-that "addition" (< 2) (+ 1 2))
-"Expect-that: success: addition"
+pact> (expect-that "addition result is greater than 2" (< 2) (+ 1 2))
+"Expect-that: success: addition result is greater than 2"
 
-pact> (expect-that "addition" (> 2) (+ 1 2))
-"FAILURE: addition: did not satisfy (> 2) : 3:integer"
+pact> (expect-that "addition result is greater than 2" (> 2) (+ 1 2))
+"FAILURE: Expect-that: Did not satisfy condition: addition result is greater than 2"
 ```
 
 You can find additional examples of `.pact` and `.repl` test files in the [pact-examples](https://github.com/kadena-io/pact-examples.git) repository.
@@ -290,7 +290,7 @@ For example, the [keysets.repl](https://github.com/kadena-io/pact-examples/blob/
 
 ```pact
 (expect-failure "real keyset should fail"
-  (enforce-keyset 'keyset-real))
+  (enforce-keyset "keyset-real"))
 ```
 ### Review
 

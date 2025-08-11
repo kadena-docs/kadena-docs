@@ -39,9 +39,8 @@ To define a principal namespace:
    
    ```yaml
    code: |-
-     (let ((ns-name (ns.create-principal-namespace (read-keyset "dev-account" ))))
-         (define-namespace ns-name (read-keyset "dev-account" ) (read-keyset "dev-account" ))
-     )
+     (define-namespace (ns.create-principal-namespace (read-keyset "dev-account")) (read-keyset "dev-account") (read-keyset "dev-account"))
+     
    data:
      dev-account:
        keys: [fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7]

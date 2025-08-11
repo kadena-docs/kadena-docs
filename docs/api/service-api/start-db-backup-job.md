@@ -268,8 +268,8 @@ This request returns information similar to the following truncated excerpt:
       ],
     "nodeLatestBehaviorHeight": 4819247,
     "nodeNumberOfChains": 20,
-    "nodePackageVersion": "2.24.1",
-    "nodeServiceDate": "2024-08-21T00:00:00Z",
+    "nodePackageVersion": "2.26.1",
+    "nodeServiceDate": "2025-02-05T00:00:00Z",
     "nodeVersion": "mainnet01"
 }
 ```
@@ -319,9 +319,9 @@ GET http://api.chainweb.com/chainweb/0.0/mainnet01/header/updates
 
 This request returns a stream of events with the BlockHeader event property and a data property:
 
-<!-- ![BlockHeader event stream](/assets/docs/blockheader-event.png) -->
+![BlockHeader event stream](/img/blockheader-event.png)
 
-If you expand the data property for an event, the event includes details similar to the folloiwng:
+If you expand the data property for an event, the event includes details similar to the following:
 
 ```json
 {
