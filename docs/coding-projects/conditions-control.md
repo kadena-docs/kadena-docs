@@ -7,13 +7,13 @@ sidebar_position: 9
 
 # Conditions and control flow
 
-Most programming languages provide several ways you can control the order in which the lines in a program are executed or which parts of the code should be executed.
-For example, you can use conditional statements to execute a set of instructions only if a specific condition is met or iterate through a set of instructions zero or more times, until some condition is met.
+Most programming languages provide several ways you can control how operations are executed in a program.
+For example, you can use **conditional expressions** to execute a specific set of instructions only if a specific condition is met or to iterate through a set of instructions a given number of times, until some condition is met.
 The most common control structures include the following:
 
-- Conditional statements that use `if` to evaluate a condition and execute a set of instructions if the condition is true, and, optionally a different set of instructions if the condition is false.
+- Conditional statements that use `if` to evaluate a condition and execute one set of instructions if the condition is true, and, optionally, a different set of instructions if the condition is false.
 
-- Conditional statements that use `switch` to execute different sets of instructions based on the value of an expression.
+- Conditional statements that use `switch` to execute different sets of instructions based on the value of a variable or expression.
 
 - Loops that use `for` to execute a block of code a fixed number of times.
 
@@ -22,41 +22,88 @@ The most common control structures include the following:
 Many programming languages also support control flow keywords—such as the `break`, `continue`, and `return` keywords—that enable you to stop execution, skip program statements, or return a value to a calling function.
 However, conditional statements, loops, and other patterns that you can use to control the execution of a program's logic also often increase the complexity of the program and the additional complexity can result in unexpected consequences or programming errors.
 
-To make smart contracts simpler and safer to write, Pact only supports two types of control structures:
+To make smart contracts simpler and safer to write, Pact only supports bounded loops and a limited set of conditional control structures.
+In Pact, you can write conditional logic to control program execution using the following language features:
 
-- Conditional `if` statements.
-- Conditional `enforce` statements.
+- `if` expressions
+- `enforce` expressions
+- `cond` expressions 
 
-This coding project illustrates how to use these statements appropriately to write simpler and safer smart contracts.
+This coding project illustrates how to write simpler and safer smart contracts using these conditional expressions.
 
-## Using if statements
+## Before you begin
 
-In general, you should `if` statements when you want to invoke conditional branches depending on whether a certain condition is true or false.
+Before starting this project, verify your environment meets the following basic requirements:
+
+- You have a GitHub account and can run `git` commands.
+- You have installed the [Pact](/smart-contracts/install) programming language and command-line interpreter.
+- You have installed the [`kadena-cli`](/smart-contracts/install/tooling#kadena-command-line-interface) package and have a working directory with initial configuration settings.
+- You have a [local development](/smart-contracts/install/local-dev-node) node that you can connect to that runs the `chainweb-node` program, either in a Docker container or on a physical or virtual computer.
+- You should be familiar with defining [modules](/smart-contracts/modules) and using keysets.
+  
+## Get the starter code
+
+To get started:
+
+1. Open a terminal shell on your computer.
+
+2. Clone the `pact-coding-projects` repository by running the following command:
+
+   ```bash
+   git clone https://github.com/kadena-docs/pact-coding-projects.git
+   ```
+
+3. Change to the `08-control-flow` directory by running the following command:
+
+   ```bash
+   cd pact-coding-projects/08-control-flow
+   ```
+
+   If you list the contents of this directory, you'll see the following files:
+
+   - `starter-control-flow.pact` provides a starting point with the framework for the project code and comments for every challenge.
+   - `final-control-flow.pact` contains the final solubefore you betion code that can be deployed.
+   - `final-control-flow.repl` provides test cases for testing the functions defined in the control-flow module.
+
+4. Open and review the `starter-control-flow` file.
+   
+   This file describes all of the tasks that you need to complete for the _Conditions and control flow_ coding project.
+   You can follow the instructions embedded in the file to try to tackle this coding project on your own
+   without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
+
+## Using if expressions
+
+In general, you should only use `if` expressions when you want to invoke conditional branches depending on whether a certain condition is true or false.
 For example, you might have an application that allows users to collect points and unlock a VIP access code when they've collect a required number of points, that is, the required number of points evaluates to true. 
 For users who don't have the required number of points, you might want to display a message indicating the number of points still needed to unlock the VIP access code. 
 In this example, there are two possible code paths:
 
-- If `points => required_points` is `true`, display "Congratulations!" and the VIP access code.
-- If `points => required_points` is `false`, display "Sorry, you need" and the number of points still needed for VIP access.
+- If `points => required_points` is `true`, display a "Congratulations!" message if a user has unlocked the VIP access code.
+- If `points => required_points` is `false`, display a "Sorry, you need more points" message and the number of points still needed for VIP access.
 
 For this application, you don't want to stop execution because a condition is false.
 Instead, you want provide different messages and, potentially, different behaviors based on whether the `if` condition evaluates to true or false.
-The following code snippet illustrates hoe you might write a function that uses an `if` statement to provide similar behavior in Pact:
+The following code snippet illustrates how you might write a function that uses an `if` statement to provide similar behavior in Pact:
 
 ```pact
-(defun unlock-access-code:string (user:string contribution:decimal)
-  ; Check that the user is valid
-  (validate-account user)
-  ; Use the `contribute` function to add points to a user's total balance
-  (let* ((points (contribute user contribution)))
-  (if (>= points VIP_UNLOCK_THRESHOLD)  
-    (with-capability (UNLOCK user) (unlock-for user user)) ; Hooray! A user reached enough points to unlock
-    (format "Sorry, you need {} more points to unlock!" [points])))
+(defconst VIP_UNLOCK 10)
+  
+(defun unlock-access:string (user:string contribution:integer)
+  (with-read my-points-table user
+    { "balance" := access-points }
+    (update my-points-table user
+    { "balance" : (+ access-points contribution)})
+      (if (>= access-points VIP_UNLOCK)
+        (format "Congratulations! You have {} points and unlocked VIP access." [access-points])
+        (format "Sorry, you need {} more points to unlock!" [(- VIP_UNLOCK access-points)])
+      )
+  )
+)
 ```
 
-## Using enforce statements
+## Using enforce expressions
 
-You should use `enforce` statements when you want to ensure a specific condition is met and stop any further execution if the condition is false.
+You should use `enforce` statements when you want to ensure a specific condition is met and **stop any further execution** if the condition is false.
 Because `enforce` statements prevent transactions from continuing instead of providing a conditional branch, they can provide a safer alternative to `if` statements in smart contracts that execute business transactions.
 For example, if you're writing a `debit` function to subtract a specified `amount` from the `balance` for a specified `account`, you could use an `if` statement to check whether the `balance` is sufficient for the operation to continue.
 
@@ -64,29 +111,36 @@ For example, if you're writing a `debit` function to subtract a specified `amoun
    ;; Debit using if
   (defun debit:string (account:string amount:decimal)
     @doc "Debit amount from account balance"
+
     ;; Read the "balance" for the account and bind the value to a variable
       (with-read my-coin-table account
         { "balance" := balance }
-        ;;Check if "balance" is sufficient for the amount to debit
+
+        ;; Check if "balance" is sufficient for the amount to debit
         (if (> balance amount)
-          ;;If condition is true, update my-coin-table
+
+          ;; If condition is true, update my-coin-table
           (update my-coin-table account
             { "balance" : (- balance amount) })
-          ;;If condition is false, print message
+
+          ;; If condition is false, print message
           "Balance is not sufficient for transfer" )))
 ```
 
 You can simplify this code by refactoring with an `enforce` statement.
 By using `enforce`, you no longer need to create branching logic dependent on the outcome of the `if` statement.
+For example:
 
 ```pact
-  ;; refactor with enforce
+  ;; Refactor with enforce
   (defun debit:string (account:string amount:decimal)
-    @doc "Debit AMOUNT from ACCOUNT balance"
+    @doc "Debit amount from account balance"
       (with-read my-coin-table account
         { "balance" := balance }
+
         ;; Use enforce to exit the transaction if the condition isn't met.
         (enforce (> balance amount) "Balance is not sufficient for transfer")
+
         ;; Update the balance if the condition is met.
         (update my-coin-table account
           { "balance" : (- balance amount) })))
@@ -95,239 +149,125 @@ By using `enforce`, you no longer need to create branching logic dependent on th
 The advantage to using `enforce` is that the transaction execution ends immediately if the required condition isn't met.
 The code doesn't require a conditional branch to handle the enforcement failure.
 
+## Using cond expressions
 
-
-Demonstration #2: Unsafe
-Next, I’ll walk through another demonstration showing the difference between if and enforce. This is another situation where it may be tempting to use if. Though it is a similar idea, there are a few subtle differences in this demonstration that will be valuable to understand.
-
-Here is a look at the starting code.
+You can use `cond` expressions to evaluate a series of expressions one after another.
+With `cond` expressions, you specify a series of conditions to evaluate and operations to perform in the order you want them executed.
 
 ```pact
-  ;;TEMPTING USE of "IF" (type 2)
+  (defun check-condition:string (user:string)
+     (with-read my-points-table user
+       { "balance" := points }
+         (cond ((= 0 points) "New user") ((< points 10) "Play again") (do (+ 1 points) "Bonus points"))
+     )
+  )
+```
+
+If the first condition evaluated is true, then first code branch is executed.
+In this simplified example, if the `(= 0 points)` condition is true, then the `"New user"` string is returned. 
+If the first condition isn't met, the second condition is evaluated and, if that condition is true, then the second code branch is executed.
+
+The final `else-branch` is only evaluated if all other conditions fail.
+For example:
+
+```pact
+pact> (cond ((= "a" "b") "strings test") ((= 1 2) "numbers test") ((= true false) "boolean test") "no conditions are met")
+"no conditions are met"
+```
+
+## Comparing if and enforce expressions
+
+There are often subtle differences between using `if` and `enforce` expressions that can make smart contract code unsafe. 
+In the following example, the code uses `if` statements to do the following:
+
+- Check whether a specified account exists.
+- Update the account balance if the row exists and the keyset matches the account keyset.
+- Insert a new row if the account doesn't exist. 
+
+```pact
+  ;; TEMPTING USE of "IF"
   (defun credit-if:string (account:string keyset:keyset amount:decimal)
-    @doc "Credit AMOUNT to ACCOUNT balance"
  
-   ;;STEP 1: Fetch all keys in my-coin-table and see if account exists.
+  ;; STEP 1: Fetch all keys in "my-coin-table" and see if "account" exists.
+     (if (contains account (keys my-coin-table))
+  
+  ;; STEP 2: if the row exists, check the keyset
+     (with-read my-coin-table account 
+       { "balance":= balance,
+         "keyset":= retk }
+       
+  ;; STEP 3: If the keysets match, update the balance.
+  ;; Otherwise, print an error message.
+        (if (= retk keyset)
+          (update my-coin-table account {
+            "balance": (+ amount balance)})
+          "The keysets do not match" ))
  
- 
-    ;;STEP 2: if the row exists, check keyset and update the balance
- 
- 
-       ;;STEP 3: If the keysets do match, update the balance.
-       ;;Otherwise, print error message.
- 
- 
- 
- 
- 
-    ;;STEP 4: if the row does not exist, insert a row into the table.
- 
- 
- 
-      ))
+  ;; STEP 4: if the row doesn't exist, insert a row into the table.
+     (insert my-coin-table account{
+        "balance": amount,
+        "keyset": keyset}
+     )
+   )
+ )
 ```
 
-As you can see, you’ll need to check that an account exists, update its balance if the row exists or if the keysets match, or insert a row if it does not exist. Each of these cases make it tempting to use if. For that reason, I’ll walk through now coding each line using if statements.
+As you can see, the nested `if` statements make this code more difficult to follow and more complicated than necessary.
 
-Step 1: Check that Account Exists
-
-First, fetch all keys in my-coin-table to see if the account exists.
-
-```pact
-;;STEP 1: Fetch all keys in my-coin-table and see if account exists.If true, go to step 2, or else go to step 4
-(if (contains account (keys my-coin-table))
-```
-
-Step 2: Update Balance if Row Exists
-
-Within the if statement, check the keyset and update the balance if it is found that the row exists.
+You can simplify this code by refactoring to use `with-default-read`, `write`, and `enforce` expressions instead of the `if` statements.
+To simplify the code, you can start by setting the default row balance to 0.0 and taking the keyset as an input value. 
+If the row exists, you can then bind the `balance` and `keyset` value from the table.
 
 ```pact
-    ;;STEP 2: if the row exists, bind variables
-    (with-read my-coin-table account { "balance":= balance,
-                                       "keyset":= retk }
-```
-
-Step 3: Update Balance if Keysets Match
-
-Then, if the keysets match update the balance.
-
-```pact
-       ;;STEP 3: If the keysets do match, update the balance.
-       ;;Otherwise, print error message.
-       (if (= retk keyset)
-         (update my-coin-table account {
-           "balance": (+ amount balance)})
-         "The keysets do not match" ))
-```
-
-Step 4: Insert Row if it Does not Exist
-
-Next, if the row does not exist, insert the balance and keyset into the account on my-coin-table.
-
-```pact
-    ;;STEP 4: if the row does not exist, insert a row into the table.
-    (insert my-coin-table account{
-       "balance": amount,
-       "keyset": keyset
-      }))
-```
-
-Final Unsafe Code Using If
-
-Looking back at the final code, we can see that it is working, but that it is using an unsafe if statement. This is causing logic that is more complicated than necessary and is something that would be better written using enforce.
-
-```pact
-  ;;TEMPTING USE of "IF" (type 2)
-  (defun credit-if:string (account:string keyset:keyset amount:decimal)
-    @doc "Credit AMOUNT to ACCOUNT balance recording DATE and DATA"
+  (defun credit:string (account:string keyset:guard amount:decimal)
  
-   ;;STEP 1: Fetch all keys in my-coin-table and see if account exists.
-   (if (contains account (keys my-coin-table))
- 
-    ;;STEP 2: if the row exists, check keyset and update the balance
-    (with-read my-coin-table account { "balance":= balance,
-                                       "keyset":= retk }
-       ;;STEP 3: If the keysets do match, update the balance.
-       ;;Otherwise, print error message.
-       (if (= retk keyset)
-         (update my-coin-table account {
-           "balance": (+ amount balance)})
-         "The keysets do not match" ))
- 
-    ;;STEP 4: if the row does not exist, insert a row into the table.
-    (insert my-coin-table account{
-       "balance": amount,
-       "keyset": keyset
-      })))
-```
-
-This code can be refactored using enforce.
-
-Demonstration #2: Safe
-Take some time now to reconsider the code you wrote previously. Read through the new comments and decide how you may be able to approach writing this same logic with enforce rather than if.
-
-```pact
-  ;;refactor with with-default-read & write & enforce
-  (defun credit:string (account:string keyset:keyset amount:decimal)
-    @doc "Credit AMOUNT to ACCOUNT balance recording DATE and DATA"
- 
-    ;;STEP 1: Default the row to balance at 0.0 and keyset at input keyset
-    ;;If row exists, then bind balance and keyset value from the table.
-    ;;This allows one time key lookup - increases efficiency.
- 
- 
- 
-      ;;STEP 2: Check that the input keyset is the same as the row's keyset
- 
- 
-      ;;STEP 3: Writes the row to the table. (write adds the table with the key and the row.
- 
- 
- 
- 
-)
-```
-
-As you can see, you will again need to check that an account exists, update its balance if the row exists or if the keysets match, or insert a row if it does not exist. You can do all of this using enforce as shown below.
-
-Step 1: Create Efficient One Time Key Lookup
-
-To start, you will need to reorder the code slightly.
-
-You’ll start by setting the default row balance to 0.0 and a keyset at input keyset. If the row exists, then bind the balance and keyset value from the table.
-
-```pact
-    ;;STEP 1: Default the row to balance at 0.0 and keyset at input keyset
-    ;;If row exists, then bind balance and keyset value from the table.
-    ;;This allows one time key lookup - increases efficiency.
+    ;; STEP 1: Set the default balance to 0.0 and get the keyset as an input value.
+    ;; If row exists, then bind "balance" and "keyset" values from the table.
     (with-default-read my-coin-table account
       { "balance": 0.0, "keyset": keyset }
       { "balance":= balance, "keyset":= retg }
-```
-
-This is more efficient than the previous code and allows for a one time key lookup.
-
-Previous Code Using If
-
-As a comparison, look back at steps 2 and 4 from the earlier code you wrote. Take some time to understand how the code above is combining each of these steps by allowing for a single lookup.
-
-```pact
-    …code
  
-    ;;STEP 2: if the row exists, check keyset and update the balance
-    (with-read my-coin-table account { "balance":= balance,
-                                       "keyset":= retk }
  
-    …code
- 
-    ;;STEP 4: if the row does not exist, insert a row into the table.
-    (insert my-coin-table account{
-       "balance": amount,
-       "keyset": keyset
-    …code
-```
-
-Step 2: Check Input Key vs Row’s Keyset
-
-Next, use enforce to check that the input keyset is the same as the row’s keyset. If not, return that the account guards do not match.
-
-```pact
-      ;;STEP 2: Check that the input keyset is the same as the row's keyset
+      ;; STEP 2: Check that the input keyset is the same as the row's keyset
       (enforce (= retg keyset)
         "account guards do not match")
-```
-
-Step 3: Write Row to Table
-
-Finally, write the account balance and keyset to a row in the my-coin-table.
-
-```pact
-      ;;STEP 3: Writes the row to the table. (write adds the table with the key and the row.
+ 
+      ;; STEP 3: Write the row to the table.
       (write my-coin-table account
         { "balance" : (+ balance amount)
         , "keyset"   : retg
-        })))
+        }
+      )
+    )
+  )
 ```
 
-Final Enforce Statement
+As you can see from this example, the code now combines steps to look up the account and check its keyset. 
+By simplifying the logic to remove `if` statements, you can write functions that are more straightforward to read and safer to execute.
 
-Looking back at the final version of the code, you can see that we have completed the same logic without ever using an if statement. This again allows for simpler logic and can help you write safer code.
+## Testing contract functions
+
+The `final-control-flow.repl` file provides test cases for executing the functions defined in the `my-coin` Pact module. 
+The `final-control-flow.repl` file includes both successful and failing test cases for the `debit-if` and `credit-if` functions and for the `debit` and `credit` functions that use `enforce`.
+You should note that the `final-control-flow.repl` file uses the `expect-failure` function to check the expected failure messages for the `debit` and `credit` functions.
+
+Because the `debit` and `credit` functions use the `enforce` function, those functions fail transactions if the enforced condition isn't met.
+For example, the `expect-failure` tests return results for the refactored `debit` and `credit` functions that look like this:
 
 ```pact
-  ;;refactor with with-default-read & write & enforce
-  (defun credit:string (account:string keyset:keyset amount:decimal)
-    @doc "Credit AMOUNT to ACCOUNT balance recording DATE and DATA"
- 
-    ;;STEP 1: Default the row to balance at 0.0 and keyset at input keyset
-    ;;If row exists, then bind balance and keyset value from the table.
-    ;;This allows one time key lookup - increases efficiency.
-    (with-default-read my-coin-table account
-      { "balance": 0.0, "keyset": keyset }
-      { "balance":= balance, "keyset":= retg }
-      ;;STEP 2: Check that the input keyset is the same as the row's keyset
-      (enforce (= retg keyset)
-        "account guards do not match")
-      ;;STEP 3: Writes the row to the table. (write adds the table with the key and the row.
-      (write my-coin-table account
-        { "balance" : (+ balance amount)
-        , "keyset"   : retg
-        })))
-)
+"Expect failure: Success: Balance is not sufficient for transfer"
+"Expect failure: Success: Keysets do not match"
 ```
 
-Take a moment now to look back and compare both versions of this code. Ensure that you keep these patterns in mind as you write your own code.
+The `if` statements in the `debit-if` and `credit-if` functions don't fail the transaction when the condition evaluated is false. 
+Because those function return an error message without causing the transaction to fail, the `expect-failure` test is less predictable when the condition is evaluated.
 
-my-coin.repl
-In my-coin.repl file, you can check that the failing cases of debit-if and credit-if are tested with expect ... by checking if the output matches the expected failure message. The refactored code allows us to test with expect-failure ...to check if the function succeeds or not.
+If you test`debit-if` and `credit-if` functions, you'll see the expected error messages.
+However, if you use the `expect-failure` function with the `debit-if` and `credit-if` functions, you'll see that the test itself fails: 
 
-Note
-For more information on running .repl files from Atom, see the tutorial Contract Interaction > Run REPL File.
-
-Review
-That wraps up this tutorial on Pact safety using control flow.
-
-Throughout this tutorial, you learned that using enforce can help make your the control flow of your Pact smart contracts even simpler and safer. You went over a few demonstrations teaching you ways to avoid using if statements in favor of enforce.
-
-This is one of a few key patterns that you can use to improve the safety of your smart contracts. Coming up, we’ll go over a few more safety tips to keep in mind as you develop Pact smart contracts.
-
+```pact
+"Balance is not sufficient for transfer"
+"FAILURE: Balance is not sufficient for transfer: expected failure, got result"
+"Keysets do not match"
+"FAILURE: Keysets do not match: expected failure, got result"
+```
