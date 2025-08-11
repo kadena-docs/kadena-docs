@@ -304,7 +304,7 @@ To define a capability token that grants a permission or a privilege, use the fo
 
 ### Examples
 
-The following example illustrates defining the `USER_GURAD` capability:
+The following example illustrates defining the `USER_GUARD` capability:
 
 ```pact
 (defcap USER_GUARD (user)
