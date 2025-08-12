@@ -566,6 +566,88 @@ pact> (do (enforce false "boom") (+ 1 2))
    |     ^^^^^^^^^^^^^^^^^^^^^^
 ```
 
+## error
+
+Use the `error` keyword to throw a recoverable error for a specified string expression.
+This special form enables you to throw an error with a string return value that can be caught with a `try` expression.
+The `error` form is particularly useful for typechecking expressions where an `(enforce false)` expression would not suffice because the return type for an `(enforce false)` expression is always boolean value.
+With the `error` special form, you can force an error that satisfies any type signature. 
+The `error` special form is also useful when you only want to implement specific parts of an interface.
+For example, assume you have an interface defined as follows:
+
+```pact
+(interface implement-me
+  (defun foo:integer ())
+  (defun bar:decimal ())
+)
+```
+
+If you only want to implement the `foo` function in your module, you can use the `error` special form like this:
+
+```
+(module implementor GOV
+  (defcap GOV:unit () (error “non-upgradable”)
+  (implements implement-me)
+  (defun foo:integer () 123)
+  (defun bar:decimal () (error “I do not want to implement this”)))
+)
+```
+
+The `error` special form is essentially ⊥-elimination for Pact and is supported in Pact 5.3, and later.
+ 
+### Basic syntax
+
+To throw an error for the specified string `expression`, use the following syntax model:
+
+```pact
+(error expression)
+```
+
+### Examples
+
+The following example illustrates using the `error` special form to force errors in a `.repl` file:
+
+```pact
+(begin-tx)
+  (interface foo
+    (defun f:integer (x:integer))
+  )
+
+  (module uses-error g
+    (defcap g:bool () (error "not upgradable"))
+
+    (defun f:integer (x:integer)
+      (error "not-callable"))
+    )
+  
+    (expect-failure "uses-error typechecks" "not-callable" (uses-error.f 1))
+(commit-tx)
+
+(begin-tx)
+  (expect-failure "uses-error cannot acquire admin" "not upgradable" (acquire-module-admin uses-error))
+(commit-tx)
+```
+
+You can execute the `error` test cases by running the following command:
+
+```sh
+pact error-special-form.repl --trace
+```
+
+The tests produce the following output:
+
+```sh
+error-special-form.repl:0:0-0:10:Trace: "Begin Tx 0"
+error-special-form.repl:1:2-3:3:Trace: Loaded interface foo, hash oYo76TzdQMOX1LiyHOYqJRxBsVq4iq7PPXIUEoMj-Kg
+error-special-form.repl:5:2-10:5:Trace: Loaded module uses-error, hash flArwZWZKnv3fGIF5JcnRv2AiQ8vz92n0LZ18Y_cQuU
+error-special-form.repl:12:4-12:76:Trace: "Expect failure: Success: uses-error typechecks"
+error-special-form.repl:13:0-13:11:Trace: "Commit Tx 0"
+error-special-form.repl:15:0-15:10:Trace: "Begin Tx 1"
+error-special-form.repl:16:2-16:103:Trace: "Expect failure: Success: uses-error cannot acquire admin"
+error-special-form.repl:17:0-17:11:Trace: "Commit Tx 1"
+Load successful
+```
+
 ## implements
 
 Use the `implements` keyword to specify that a module _implements_ the specified `interface`.
@@ -578,7 +660,6 @@ A module that implements an interface can be used as a [module reference](/smart
 ### Basic syntax
 
 To implement an interface in a module, use the following syntax model:
-
 
 ```pact
 (implements interface)
@@ -742,7 +823,6 @@ A module can include the following types of declarations:
 
 To define a module, use the following syntax model:
 
-
 ```pact
 (module name keyset-or-governance [doc-or-metadata] body...)
 ```
@@ -767,6 +847,97 @@ The following example illustrates a defining the `accounts` module with a keyset
       (update accounts from { "balance": (- fbal amount) })
       (update accounts to { "balance": (+ tbal amount) }))))
 )
+```
+
+## pure
+
+Use the `pure` keyword to evaluate a specified `expression` in read-only mode. 
+With this special form, the `expression` being evaluated cannot write to the database.
+
+For example, the following code defines a function that calls a function in a downstream module to get account details:
+
+```pact
+  (defun details(account:string)
+    @doc "Call the downstream module dependency to get account info"
+    (my-dependency.get-account-details account)
+  )
+```
+
+If this `my-dependency.get-account-details` function includes code that modifies its own database or calls back into the calling module, the function call could make the `details` function vulnerable to unexpected behavior or a reentry attack. 
+However, if you modify the `details` function to use the `pure` special form, you can ensure that the `my-dependency.get-account-details account` call can't modify the Pact database:
+
+```pact
+  (defun details(account:string)
+    @doc "Call the downstream module dependency to get account info"
+    (pure (my-dependency.get-account-details account))
+  )
+```
+With this code, the call to the downstream module expression—enclosed in (pure ..) statement—can't update any data in the calling module. 
+If the downstream module function attempts to perform an operation that's not allowed, the operation will fail with a transaction-ending error.
+
+### Basic syntax
+
+To evaluate a specified `expression` without allowing database writes, use the following syntax model:
+
+```pact
+(pure expression)
+```
+
+### Examples
+
+The following example demonstrates that the `pure` special form can be used to evaluate an expression, but can't be used to write to a database table:
+
+```pact
+(begin-tx)
+(module read-only-test g
+  (defcap g () true)
+
+  (defschema sc a:integer b:string)
+  (deftable tbl:{sc})
+
+  (defcap ENFORCE_ME (a:integer) true)
+
+  (defun write-entry (key:string a:integer b:string)
+    (write tbl key {"a":a, "b":b})
+  )
+
+  (defun read-entry (key:string)
+    (read tbl key)
+  )
+
+  (defun write-then-read (key:string a:integer b:string)
+    (write-entry key a b)
+    (read-entry key)
+  )
+
+  (defun errors-on-write (key:string a:integer b:string)
+    (pure (write-then-read key a b))
+    )
+  )
+
+(typecheck "read-only-test")
+
+(create-table tbl)
+
+(expect "Writes and reads work" {"a":1, "b":"v"} (write-then-read "key" 1 "v") )
+(expect-failure "Writes do not work in read-only mode" (errors-on-write "key" 1 "v"))
+(expect "Only reads work in read-only mode" {"a":1, "b":"v"} (pure (read-entry "key")))
+
+(commit-tx)
+```
+
+You can execute the `pure` test cases by running `pact pure-special-form.repl --trace` to produce the following output:
+
+```sh
+pure-special-form.repl:0:0-0:10:Trace: "Begin Tx 0"
+pure-special-form.repl:1:0-25:3:Trace: Loaded module read-only-test, hash 32oanTfcea9Wp4Haq5yj0Wk_rcGxzNbuHXOUkmJnVNE
+pure-special-form.repl:27:0-27:28:Trace: Typechecking successful for module read-only-test
+pure-special-form.repl:29:0-29:18:Trace: "TableCreated"
+pure-special-form.repl:31:0-31:80:Trace: "Expect: success Writes and reads work"
+pure-special-form.repl:32:0-32:85:Trace: "Expect failure: Success: Writes do not work in read-only mode"
+pure-special-form.repl:33:0-33:87:Trace: "Expect: success Only reads work in read-only mode"
+pure-special-form.repl:34:0-34:11:Trace: "Commit Tx 0"
+Load successful
 ```
 
 ## step
