@@ -4,7 +4,7 @@ Use `enforce` to test whether a pure `expression` evaluates to true or false.
 If the specified `expression` evaluates to true, the function returns true.
 If the specified `expression` evaluates to false, the function fails the transaction and displays the specified error `message`.
 
-Prior to Pact 5.3, `enforce` restricted access to tables so that only system-level operations could access database tables and expressions that attempted to read user data would fail with an error.Beginning with Pact 5.3, the `expression` that is evaluated with the `enforce` statement can access the Pact database to read data.
+Prior to Pact 5.3, `enforce` restricted access to tables so that only system-level operations could access database tables and expressions that attempted to read user data would fail with an error. Beginning with Pact 5.3, the `expression` that is evaluated with the `enforce` statement can access the Pact database to read data.
 The `expression` can't modify any data in tables.
 If an expression attempts to modify data, the operation fails with an error.
 
