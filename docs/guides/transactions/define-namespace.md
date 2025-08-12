@@ -35,7 +35,14 @@ To define a principal namespace:
    
    For example, create a `namespace.ktpl` file in the `~/.kadena/transaction-templates` folder.
 
-1. Create a transaction request using the YAML API request format with content similar to the following:
+2. Create a transaction request to execute the [`define-namespace`](/pact-5/general/define-namespace) function with the `create-principal-namespace` function from the namespace (`ns`) module using the YAML API request format.
+   
+   The `define-namespace` function takes two arguments:
+   - `user-guard` that specifies who can use the namespace.
+   - `admin-guard` that specifies the owner and administrator who controls the namespace. 
+   
+   In the following example, a single keyset—the `dev-account` keyset—is used to generate the principal namespace hash and for both the `user-guard` and `admin-guard` arguments.
+   In this example, the `dev-account` keyset has one key and uses the `keys-all` predicate to define a principal namespace based on the `fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7` public key:
    
    ```yaml
    code: |-
@@ -59,24 +66,72 @@ To define a principal namespace:
    networkId: "development"
    ```
 
-1. Create a transaction that uses the template to define a namespace with a command similar to the following:
-   
-   ```bash
-   kadena tx add --template="namespace.ktpl" --out-file="namespace-sidebet"
+   If you want to define a principal namespace that requires any key from a mutli-signature account to sign transctions and uses separate keysets for the `user-guard` and `admin-guard` arguments, you can modify the `define-namespace` function and the keyset data accordingly.
+   For example:
+
+   ```yaml
+   code: |-
+     (define-namespace (ns.create-principal-namespace (read-keyset "ns-admin")) (read-keyset "ns-user") (read-keyset "ns-admin"))
+   data:
+     ns-admin:
+       keys: ["{{public-key-1}}","{{public-key-2}}","{{public-key-3}}"]
+       pred: "keys-any"
+     ns-user:
+       keys: ["{{public-key-1}}"]
+       pred: "keys-all"
+   meta:
+     chainId: "{{chain-id}}"
+     sender: "{{sender-account}}"
+     gasLimit: 80300
+     gasPrice: 0.000001
+     ttl: 600
+   signers:
+     - public: "{{public-key-1}}"
+       caps:
+         - name: "coin.GAS"
+           args: []
+   networkId: "{{network-id}}"
    ```
 
-1. Sign the transaction with a command similar to the following:
-   
-   ```bash
-   kadena tx sign --tx-sign-with="wallet" --tx-unsigned-transaction-files="namespace-sidebet.json" --wallet-name="pistolas-wallet" 
+   If you create a reusable template with variables, you can provide values for the template variables interactively or in a data file.
+   For example, you can add the values to a data file similar to the following:
+
+   ```yaml
+   public-key-1: "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c"
+   public-key-2: "1d5a5e10eb15355422ad66b6c12167bdbb23b1e1ef674ea032175d220b242ed4"
+   public-key-3: "4fe7981d36997c2a327d0d3ce961d3ae0b2d38185ac5e5cd98ad90140bc284d0"
+   chain-id: "4"
+   sender-account: "w:5HKwn7J9IqSwYU5ETqrDh7EgK43VQwMI0AQ11se7SLM:keys-any"
+   network-id: "development"
    ```
 
-1. Send the transaction to the blockchain with a command similar to the following:
+3. Create a transaction that uses the template by running `kadena tx add` and responding to the prompts interactively or using command-line options similar to the following:
    
    ```bash
-   kadena tx send --tx-signed-transaction-files="transaction-39LtH3PjVf-signed.json" --tx-transaction-network="devnet" 
+   kadena tx add --template="namespace-multisig.ktpl" --template-data="principal-namespace.yaml" --out-file="multisig.json" 
    ```
 
-1. Verify the transaction results in the block explorer:
+4. Sign the transaction by running `kadena tx sign` and responding to the prompts interactively or using command-line options similar to the following:
+   
+   ```bash
+   kadena tx sign --tx-sign-with="wallet" --tx-unsigned-transaction-files="multisig.json" --wallet-name="pistolas-wallet" 
+   ```
+
+5. Send the transaction to the blockchain by running `kadena tx sign` and responding to the prompts interactively or using command-line options similar to the following:
+   
+   ```bash
+   kadena tx send --tx-signed-transaction-files="transaction-39LtH3PjVf-signed.json" --tx-transaction-network="development" 
+   ```
+
+6. Verify the transaction results in the block explorer:
    
    ![Namespace definitiopn](/img/tx-namespace.jpg)
+
+   After you've defined a principal namespace on a specific network and chain, you can use the `namespace` function in your modules to deploy and update the modules in that namespace.
+
+   For example:
+
+   ```pact
+   (namespace "n_99a0c477edf4100bc22b65d679e5dbe6e2da4b70")
+   (define-keyset "n_99a0c477edf4100bc22b65d679e5dbe6e2da4b70.owner" (read-keyset "owner"))
+   ```
