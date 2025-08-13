@@ -62,14 +62,13 @@ To get started:
    If you list the contents of this directory, you'll see the following files:
 
    - `starter-control-flow.pact` provides a starting point with the framework for the project code and comments for every challenge.
-   - `final-control-flow.pact` contains the final solubefore you betion code that can be deployed.
-   - `final-control-flow.repl` provides test cases for testing the functions defined in the control-flow module.
+   - `final-control-flow.pact` contains the final solution code with examples of using `if`, `enforce`, and c`ond` expressions.
+   - `final-control-flow.repl` provides test cases for testing the functions defined in the my-coin module and for comparing the results from testing `if` expressions and `enforce` expressions.
 
 4. Open and review the `starter-control-flow` file.
    
    This file describes all of the tasks that you need to complete for the _Conditions and control flow_ coding project.
-   You can follow the instructions embedded in the file to try to tackle this coding project on your own
-   without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
+   You can follow the instructions embedded in the file to try to tackle this coding project on your own without looking at the solutions to each step, or follow the instructions in the next sections if you need additional guidance.
 
 ## Using if expressions
 
