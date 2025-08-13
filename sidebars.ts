@@ -500,6 +500,8 @@ const sidebars: SidebarsConfig = {
                     'coding-projects/local-testing',
                     'coding-projects/estimate-gas',
                     'coding-projects/pact-server-api',
+                    'coding-projects/conditions-control',
+
                ],
           },
           {
@@ -517,6 +519,7 @@ const sidebars: SidebarsConfig = {
                     'resources/contribute-dev',
                     'resources/legacy',
                ],
+
           },
      ],
 };
