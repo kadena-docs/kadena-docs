@@ -35,13 +35,21 @@ To define a principal namespace:
    
    For example, create a `namespace.ktpl` file in the `~/.kadena/transaction-templates` folder.
 
-2. Create a transaction request to execute the [`define-namespace`](/pact-5/general/define-namespace) function with the `create-principal-namespace` function from the namespace (`ns`) module using the YAML API request format.
+2. Create a transaction request that executes the [`define-namespace`](/pact-5/general/define-namespace) function using the output of the `create-principal-namespace` function from the namespace (`ns`) module in the YAML API request format.
    
-   The `define-namespace` function takes two arguments:
-   - `user-guard` that specifies who can use the namespace.
-   - `admin-guard` that specifies the owner and administrator who controls the namespace. 
+   The `define-namespace` function takes three arguments:
+
+   | Argument | Type | Description |
+   | -------- | ---- | ----------- |
+   | `namespace` | string | Specifies the name used to register your namespace.|
+   | `user-guard` | guard | Specifies who can use the namespace.|
+   | `admin-guard` | guard | Specifies the owner and administrator who controls the namespace.|
    
-   In the following example, a single keyset—the `dev-account` keyset—is used to generate the principal namespace hash and for both the `user-guard` and `admin-guard` arguments.
+   In the following example, a single keyset—the `dev-account` keyset—is used for all three arguments like this:
+   
+   - As input in the `(ns.create-principal-namespace (read-keyset "dev-account"))` expression to generate the principal namespace hash to be registered for the namespace.
+   - As input to define both the `user-guard` and the `admin-guard` arguments required to define the namespace on a specific network and chain.
+   
    In this example, the `dev-account` keyset has one key and uses the `keys-all` predicate to define a principal namespace based on the `fe4b6da332193cce4d3bd1ebdc716a0e4c3954f265c5fddd6574518827f608b7` public key:
    
    ```yaml
@@ -94,7 +102,7 @@ To define a principal namespace:
    ```
 
    If you create a reusable template with variables, you can provide values for the template variables interactively or in a data file.
-   For example, you can add the values to a data file similar to the following:
+   For example, you can add the values to a data file named `principal-namespace.yaml` with values similar to the following:
 
    ```yaml
    public-key-1: "58705e8699678bd15bbda2cf40fa236694895db614aafc82cf1c06c014ca963c"
@@ -117,7 +125,7 @@ To define a principal namespace:
    kadena tx sign --tx-sign-with="wallet" --tx-unsigned-transaction-files="multisig.json" --wallet-name="pistolas-wallet" 
    ```
 
-5. Send the transaction to the blockchain by running `kadena tx sign` and responding to the prompts interactively or using command-line options similar to the following:
+5. Send the transaction to the blockchain by running `kadena tx send` and responding to the prompts interactively or using command-line options similar to the following:
    
    ```bash
    kadena tx send --tx-signed-transaction-files="transaction-39LtH3PjVf-signed.json" --tx-transaction-network="development" 
