@@ -55,7 +55,7 @@ To configure the Pact extension settings:
 
    With this option enabled, code coverage is calculated for the `.repl` file and all of the `.pact` and `.repl` files that it loads every time you save a `.repl` file.
 
-   Covered lines aree highlighted in green in your editor and uncovered lines aree highlighted in red. To view a code coverage report in HTML format, right-click the `./coverage/html/index.html` file relative to the file that was run. Click **Show preview** to open the report.
+   Covered lines are highlighted in green in your editor and uncovered lines are highlighted in red. To view a code coverage report in HTML format, right-click the `./coverage/html/index.html` file relative to the file that was run. Click **Show preview** to open the report.
 
    To run code coverage for all your `.repl` files at once, create an entry point `.repl` file that loads all the other `.repl` files in your project. You can then open the entry point file and save it to run all of your tests.
 
