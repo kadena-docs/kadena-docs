@@ -35,13 +35,13 @@ The Kadena CLI is packaged in a TypeScript library that you can install using a 
 To install globally using `npm` package manager, run the following command:
 
 ```bash
-npm install -g @kadena/kadena-cli
+npm install --global @kadena/kadena-cli
 ```
 
 To install globally using `pnpm` package manager, run the following command:
 
 ```bash
-pnpm install -g @kadena/kadena-cli
+pnpm install --global @kadena/kadena-cli
 ```
 
 To verify the package is installed and display usage information, type `kadena` and press Return:
@@ -84,7 +84,7 @@ You don't need to specify any additional arguments or options.
 For example, if you want to add a new wallet but aren't sure of all the required flags and
 arguments, you can start by entering the following command:
 
-```
+```bash
 kadena wallet add
 ```
 
