@@ -128,7 +128,7 @@ To define a principal namespace:
 5. Send the transaction to the blockchain by running `kadena tx send` and responding to the prompts interactively or using command-line options similar to the following:
    
    ```bash
-   kadena tx send --tx-signed-transaction-files="transaction-39LtH3PjVf-signed.json" --tx-transaction-network="development" 
+   kadena tx send --tx-signed-transaction-files="transaction-39LtH3PjVf-signed.json" --tx-transaction-network="devnet" 
    ```
 
 6. Verify the transaction results in the block explorer:
