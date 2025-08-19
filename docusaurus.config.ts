@@ -83,6 +83,11 @@ const config: Config = {
                          position: 'left',
                     },
                     {
+                         label: 'EVM Portal',
+                         href: 'https://evm.kadena.io',
+                         position: 'left',
+                    },
+                    {
                          label: 'Academy',
                          href: 'https://academy.kadena.io',
                          position: 'left',
