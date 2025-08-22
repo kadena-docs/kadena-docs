@@ -31,7 +31,7 @@ The `enforce-guard` function returns a boolean value indicating whether the cond
 
 ## Examples
 
-The following example demonstrates using the keyset guard named `admin-keyset` to enforce specific signing requirements defined in the keyset predicate function, for example with the `keys-all` or `keys-2`predicate:
+The following example demonstrates using the keyset guard named `admin-keyset` to enforce specific signing requirements defined in the keyset predicate function, for example with the `keys-all` or `keys-2` predicate:
 
 ```pact
 (enforce-guard 'admin-keyset)

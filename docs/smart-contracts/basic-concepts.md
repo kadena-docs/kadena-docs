@@ -9,7 +9,7 @@ description: "Get familiar with important Kadena blockchain and Pact language co
 
 The main purpose of a blockchain is to record **transactions**.
 Typically, transactions are business events that transfer some form of digital asset from one owner or entity to another.
-Through the use of modern **cryptography**, a blockchain can provides guarantees about the authenticity and integrity of the transactions recorded without relying on any central authority or under the control of any government, corporation, or other institution.
+Through the use of modern **cryptography**, a blockchain can provide guarantees about the authenticity and integrity of the transactions recorded without relying on any central authority or under the control of any government, corporation, or other institution.
 
 The **decentralized** nature of the blockchain depends on having its computational resources distributed across many individual computers.
 The individual computers in the network—called **nodes**—run the blockchain software and communicate with each other as a peer-to-peer (P2P) network using the internet and publicly-accessible IP addresses. 
@@ -20,7 +20,7 @@ Nodes provide the bandwidth, processors, memory, and storage capacity to handle 
 The method that a blockchain uses to validate transactions, insert transactions into blocks, and submit blocks to continue the chain is called its **consensus model** or **consensus algorithm**. 
 For the Kadena blockchain, the method of adding new blocks to the blockchain is a variation of a **proof of work** consensus model used by Bitcoin.
 With the proof-of-work consensus model, the first node to solve a computational problem for a transaction adds the transaction to a block.
-As new transaction are added to blocks and new blocks are produced, all of the nodes in the network attempt to stay in synch with each other so that there's a consistent view of the blockchain state.
+As new transactions are added to blocks and new blocks are produced, all of the nodes in the network attempt to stay in sync with each other so that there's a consistent view of the blockchain state.
 
 The computers used to solve the mathematical problems that validate transactions typically run specialized hardware and are commonly referred to as **miners** because they earn rewards for the work they do to keep the chain going.
 The rewards take the form of KDA tokens that are deposited in accounts owned by the node operators.
@@ -33,7 +33,7 @@ Networks that rely on a proof-of-work consensus model provide security and decen
 - The number of transactions they can process.
 - The speed at which they can process transactions.
 - The energy consumption required to validate transactions.
-- The high cost of transaction fees when the network in busy.
+- The high cost of transaction fees when the network is busy.
   
 These factors have limited the effectiveness of blockchain networks to handle modern economic activity. 
 
@@ -80,7 +80,7 @@ Individual modules are often self-contained logical units that implement a relat
 Keysets define authorization rules for smart contracts. 
 They often determine who can access specific functions in a program and the keys required to sign specific transactions.
 Capabilities define specific privileges or permissions that must be granted or acquired to perform specific operations within a section of code.
-Guards provide to enforce specific conditions, including that required keyset is being used or a specific capability token has been granted.
+Guards provide a way to enforce specific conditions, including that a required keyset is being used or a specific capability token has been granted.
 A keyset is itself a type of guard.
 
 ## Cross chain and multi-step transactions 
@@ -105,7 +105,7 @@ As a general rule, the transaction that you use to deploy a contract on the bloc
 
 When contracts are initialized on the blockchain, they identify a [namespace](/resources/glossary#namespace) that provides context for the contract code and a unique prefix for modules and interfaces defined in the contract.
 Modules contain the main business logic for the application or service you want to deploy.
-Interfaces provide access to constant definitions and typed function signatures that are defined outside of a module to be implemented an used in a module.
+Interfaces provide access to constant definitions and typed function signatures that are defined outside of a module to be implemented and used in a module.
 Deploying a contract also requires you to define one or more authorization [keysets](/resources/glossary#keyset) that have administrative control over the contract modules and tables. 
 Keysets that are defined as data in the runtime environment are then stored in the global keyset database.
 
@@ -124,11 +124,11 @@ There's no difference in how the code itself is evaluated.
 
 In general, querying data that's stored on the blockchain isn't considered a business event where execution and performance are more critical.
 In addition, queries can often involve larger data payloads that could introduce overhead, bandwidth, and latency issues.
-To reduce the impact of queries on network operations, queries are handles as _local execution requests_ on the node receiving the message. 
+To reduce the impact of queries on network operations, queries are handled as _local execution requests_ on the node receiving the message. 
 Historical queries use a _transaction hash_ as a point of reference to avoid race conditions and to allow asynchronous query execution.
 
 Pact code doesn't distinguish between transactional execution and local execution.
 However, the Pact API provides separate endpoints to execute transactions on the blockchain and submit local execution requests.
-FOr more information about using the Pact API endpoints, see [Pact API](/api/pact-api).
+For more information about using the Pact API endpoints, see [Pact API](/api/pact-api).
 
 
