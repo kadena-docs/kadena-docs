@@ -34,7 +34,7 @@ If you have everything you need, you can set up your development environment and
 ## Install Pact
 
 The Pact smart contract programming language is specifically designed for writing [smart contracts](/resources/glossary) to run safely and efficiently on the Kadena blockchain network.
-Follow the appropriate instructions for your operating system to Pact.
+Follow the appropriate instructions for your operating system to install Pact.
 
 - [Install Pact on Linux](/smart-contracts/install/linux)
 - [Install Pact on macOS](/smart-contracts/install/macos)
@@ -81,13 +81,13 @@ For command-line reference information, see [kadena-cli command reference](/refe
 You can now write and execute a simple `greeting` smart contract using the Pact smart contract programming language and the Pact interactive interpreter.
 
 1. Open a terminal shell on your computer.
-3. Start the Pact interpreter that you installed in the first step by running the following command:
+2. Start the Pact interpreter that you installed in the first step by running the following command:
 
    ```bash
    pact
    ```
 
-2. Copy and paste the following simple `greeting` module code, then press return:
+3. Copy and paste the following simple `greeting` module code, then press return:
 
    ```pact
    (module greeting GOVERNANCE
@@ -104,7 +104,7 @@ You can now write and execute a simple `greeting` smart contract using the Pact 
    "Loaded module greeting, hash f1yyXqj5HstOni1QdZmuagUJXbu72VmYiwXua7Vp4-0"
    ```
 
-3. Call the `say-hello` function with a string similar to the following:
+4. Call the `say-hello` function with a string similar to the following:
 
    ```pact
    (say-hello "Pistolas")

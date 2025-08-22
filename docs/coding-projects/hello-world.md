@@ -335,7 +335,7 @@ To deploy the contract on the Kadena test network using Chainweaver:
 
    ![You must have an account with funds on a chain to continue](/img/deploy-testnet-account.png)
 
-   If you don't have keys and at least one account on any chain on the test network,you need to generate keys, create an account, and fund the account on at least one chain before continuing.
+   If you don't have keys and at least one account on any chain on the test network, you need to generate keys, create an account, and fund the account on at least one chain before continuing.
 
 6. Click **Contracts** in the Chainweaver navigation pane, then click **Open File** to select the contract you want to deploy.
 

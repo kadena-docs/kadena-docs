@@ -8,7 +8,7 @@ sidebar_position: 5
 # Exchange integration guide
 
 This guide provides a quick reference for how to perform the most common tasks when an exchange or a similar application needs to interact with the Kadena blockchain.
-The information is this guide is similar to topics covered elsewhere in the documentation.
+The information in this guide is similar to topics covered elsewhere in the documentation.
 For example, you can see similar information in the following topics:
 
 - [Common task quick reference](/guides/howto-quick-ref)
@@ -97,7 +97,7 @@ For example, you can create keys and accounts by using any of the following wall
 1. Open [Chainweaver v3](https://wallet.kadena.io) and click **Add new profile** to create a wallet or **Recover your wallet** to import information from a backup file or recovery phrase.
    
    If creating a new wallet, type a **Profile name** and select a security method.
-   If recovering a wallet, provide the backup file or recovery phase to import keys and accounts.
+   If recovering a wallet, provide the backup file or recovery phrase to import keys and accounts.
    
    After creating or importing the wallet, the list of your assets on the Kadena **Mainnet** network is displayed by default.
    You can change the current network to **Testnet** or add another network by clicking **Settings**.
@@ -367,7 +367,7 @@ if (response.result.status === 'failure') {
 const gasEstimation = response.gas;
 ```
 
-## Listens for events
+## Listen for events
 
 There are several ways you can listen for events emitted by transactions that are executed on the blockchain.
 For example, you can listen for `coin.TRANSFER` events in the following ways:
@@ -384,6 +384,6 @@ package.
 
 As an exchange, it is particularly important for you to monitor node operations and network activity.
 If you notice suspicious transactions or are informed about unusual transaction activity, you should work with mining node operators and pool node operators to determine if the transaction is preventing other transactions from being processed, consuming excessive resources, or causing any nodes to fail.
-Often, adjusting transaction fees can mitigate transaction processing delays and minimize the affect for end users who are submitting transactions.
+Often, adjusting transaction fees can mitigate transaction processing delays and minimize the effect for end users who are submitting transactions.
 
 If the network experiences an incident affecting transaction processing, you should pause all deposit and withdrawal activity until normal operations resume.

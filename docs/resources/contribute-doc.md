@@ -115,6 +115,7 @@ To create a working branch:
 
    ```code
    git switch -c lola-pistola/typo-reference-db-functions
+   ```
 
 4. Open the file you want to fix in a code editor and make the appropriate changes for the issue you are trying to address.
 
