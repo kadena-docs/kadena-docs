@@ -826,11 +826,11 @@ You can create the new project using templates for the following frontend framew
 To create a new project from a template:
 
 1. Open a terminal shell on the computer where you've installed the `kadena-cli` package.
-2. Enter `kadena dapp create <app-name>` on the command line to create a new project directory with the name you specify.
+2. Enter `kadena dapp add <app-name>` on the command line to create a new project directory with the name you specify.
    For example, to create a project named my-to-do:
 
    ```shell
-   kadena dapp create my-to-do
+   kadena dapp add my-to-do
    ```
 
    Because you're running the command interactively, you are prompted to select a template.
