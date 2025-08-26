@@ -104,6 +104,7 @@ const sidebars: SidebarsConfig = {
                          ],
                     },
                     'guides/dev-kadena-cli',
+                    'guides/kadena-client-quickstart',
                     'guides/chainweaver',
                     'guides/troubleshooting',
                ],
