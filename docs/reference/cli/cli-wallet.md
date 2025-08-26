@@ -133,6 +133,9 @@ kadena wallet add --wallet-name=sf-wallet --password-file=my-pwd --create-accoun
 
 Use `kadena wallet import` to import or restore a local wallet using an existing 12-word mnemonic phrase.
 
+If you want to import a wallet that you created using the Chainweaver web or desktop application, you must specify the `--legacy` command-line option to import keys from the Chainweaver wallet.
+If you import a Chainweaver wallet without using the `--legacy` command-line option, none of your existing keys will be recognized as valid keys because the encryption scheme used in Chainweaver is different from the encryption scheme for keys generated using the `kadena-cli` package.
+
 ### Basic usage
 
 The basic syntax for the `kadena wallet import` command is:
