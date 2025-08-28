@@ -479,3 +479,30 @@ To create a program that transfers assets between accounts:
    
    ![Successful transfer between accounts](/img/kadena-client-transfer.jpg)
 
+## Signatures and capabilities
+
+In the previous example, you learned that crafting a transaction is only part of the story when you want to interact with the blockchain, and this is especially true if you want to change the blockchain state, as you do when you transfer value between any two accounts.
+To execute transactions that change the blockchain state, you need to **sign** the transaction with cryptographic keys. 
+
+By signing a transaction, you authorize the operation to be executed.
+Your signature is ony valid if you are an owner of the account initiating the transaction and your keys ensure that no one can impersonate you or intercept and tampter with the transactions you authorize.
+
+### Capabilities
+
+Pact smart contracts provide an additional layer of access control—called capabilities—that enable you to authorize specific and concrete actions, like paying the transaction fee, or limiting a transfer to a specific amount.
+
+You authorize these specific actions by adding the capabilities that you appove of to the signature used to sign the transaction where the capabilities are called.
+You saw an example of this in the `build-transfer-tx` program where you added the `coin.GAS` and `coin.TRANSFER` capabilities to the `addSigners` property.
+
+### Transactions and gas
+
+If you're exploring other contracts on the Kadena test or production network, you'll notice that most smart contracts include the `coin.GAS` capability or a similar capability.
+
+Every transaction that takes place on a blockchain consumes resources, including computer time, bandwidth, memory, and storage.
+To compensate for the resources consumed and the services provided by network node operators, every transaction on the blockchain requires someone to pay the transaction fee, called gas. 
+Gas helps to prevent the misuse of network resources by making transactions that overburden the system more expensive to process.
+
+The `coin.GAS` capability allows smart contract users to explicitly approve the payment of transaction fees.
+It's possible to sign transactions with an unrestricted signature.
+However, if any capability is explicitly added to a signature, then all required capabilities must be included in the signature list.
+If a capabilitiy is missing, the transaction fails.
