@@ -79,8 +79,8 @@ To explore the sample `Counter` project:
 
 5. Review the sample project configuration files and contracts for an overview of changes before configuring your own projects:
    
-   - foundry-chainweb/chainweb.config.json
-   - foundry-chainweb/foundry.toml
+   - foundry-chainweb/examples/Counter/chainweb.config.json
+   - foundry-chainweb//examples/Counter/foundry.toml
    - foundry-chainweb/examples/Counter/script/Counter.s.sol
    - foundry-chainweb/examples/Counter/src/Counter.sol
    - foundry-chainweb/examples/Counter/test/Counter.t.sol
@@ -186,9 +186,32 @@ When running tests with `ChainwebTest`, the configuration parameters are passed 
 
 After you configure the settings for different deployment targets, you are ready to update the tests and scripts for your project to run on multiple chains.
 
+## Add a custome etup function
+
+To add custom setup logic to tests or scripts, you should use the optional `userSetUp` method instead of the default Foundry `setUp` method. 
+
+For example:
+
+```bash
+contract CounterTest is ChainwebTest(2, 0) {
+    function userSetUp() public override {
+        // Custom setup can be done here if needed
+        console.log("Setting up your test here");
+    }
+}
+```
 ## Add multi-chain tests
 
-To write tests that run on Chainweb EVM and support the multi-chain network, you should extend the `ChainwebTest` contract that's defined in the `lib/foundry-chainweb/src/Chainweb.sol` file instead of using the default Foundry `Test` base contract.
+To write tests that run on Chainweb EVM and support the multi-chain network, you should import the `ChainwebTest` contract that's defined in the `lib/foundry-chainweb/src/Chainweb.sol` file instead of using the default Foundry `Test` base contract.
+
+The `ChainwebTest` code extends the Foundry `Test` contract by adding a `chainweb` property that provides two additional methods—the `getChainIds` and `switchChain` methods—to support the multi-chain network.
+
+- `chainweb.getChainIds` returns a list of available Chainweb chain identifiers.
+- `chainweb.switchChain` switches from the current active chain to a specified chain identifier in the Chainweb network.
+
+For more information about these methods and other functions defined in the `Chainweb.sol` contract,see [Foundry Chainweb EVM - Chainweb.sol](/reference/foundry-integration/foundry-chainweb-sol). 
+
+### Parameters
 
 The `ChainwebTest` constructor takes the following parameters to set up multi-chain testing:
 
@@ -291,7 +314,7 @@ Ran 1 test suite in 233.24ms (230.62ms CPU time): 1 tests passed, 0 failed, 0 sk
 
 ## Write multi-chain scripts
 
-To write scripts that run on Chainweb EVM and support the multi-chain network, you should extend the `ChainwebScript` contract that's defined in the `lib/foundry-chainweb/src/Chainweb.sol` file instead of using the default Foundry `Script` contract. 
+To write scripts that run on Chainweb EVM and support the multi-chain network, you should import the `ChainwebScript` contract that's defined in the `lib/foundry-chainweb/src/Chainweb.sol` file instead of using the default Foundry `Script` contract. 
 
 The following example demonstrates using `ChainwebScript` with the `getChainIds` and `switchChain` methods to deploy the `Counter` contract on multiple chains:
 
@@ -400,7 +423,7 @@ CHAINWEB=sandbox forge script --multi script/Counter.s.sol:CounterScript \
 
 The `ChainwebScript` code extends the default Foundry `Script` contract by adding a `chainweb` property that provides two additional methods—the `getChainIds` and `switchChain` methods—to support the multi-chain network.
 
-- `chainweb.getChainIds` returns a list of available Chainweb chain identifiers
+- `chainweb.getChainIds` returns a list of available Chainweb chain identifiers.
 - `chainweb.switchChain` switches from the current active chain to a specified chain identifier in the Chainweb network.
 
 For more information about these methods and other functions defined in the Chainweb.sol contract,see [Foundry Chainweb EVM - Chainweb.sol](/reference/foundry-integration/foundry-chainweb-sol). 
@@ -533,3 +556,52 @@ Sensitive details saved to: /Users/pistolas/myKadenaCounte/cache/multi/Counter.s
 
 In the sample output for deploying the contract on multiple chains, you'll notice that the Foundry chain identifiers are computed using the default value from the `foundry.toml` file (`31337`) as a base value and incremented for each Chainweb EVM chain.
 As a result of the computation, Chainweb EVM chain 20 (index 0) maps to the Foundry chain identifier 31337, Chainweb EVM chain 21 (index 1) maps to the Foundry chain identifier 31338, and so on.
+
+## Verify multi-chain contracts
+
+You can verify contracts that run on Chainwebd EVM by running the standard `forge verify-contract` command. 
+The following example demonstrates verifying a contract like `Counter.sol` that has no constructor arguments:
+
+```bash
+forge verify-contract \
+  --chain 5920 \
+  --num-of-optimizations 200 \
+  --watch \
+  --verifier blockscout \
+  --verifier-url https://chain-20.evm-testnet-blockscout.chainweb.com/api/ \
+  --verifier-api-version v2 \
+  --compiler-version v0.8.28 \
+  0x3ee2edc5b2967093bf9b3058cf9803bee7595baf \
+  src/Counter.sol:Counter
+```
+
+If your contract has constructor arguments, you can pass them using the `--constructor-args` option.
+For example:
+
+```bash
+--constructor-args $(cast abi-encode "constructor(string,string,uint256,uint256)" "ForgeUSD" "FUSD" 18 1000000000000000000000)
+```
+
+You can run the following command to see all of the `verify-contract` command-line options:
+
+```bash
+forge verify-contract --help
+```
+
+For contracts that run on multiple Chainweb EVM chains, you must run the `verify-contract` command on each chain.
+However, the `verify-contract` command doesn't support verification if a contract with the same bytecode has been previously verified. 
+If you attempt to verify a contract with the same bytecode as a contract that has been previously verified, verification will fail with a message similar to the following:
+
+```bash
+[address] is already verified. Skipping verification.
+```
+
+To test contract verification on multiple chains, you must change the bytecode, redeploy, then run the `verify-contract` command on the redeployed contract.
+
+You can change the bytecode by adding a constant at the top of the contract like this:
+
+```solidity
+uint256 public constant DUMMY = 1;
+```
+
+Increase the value used for the constant in each contract you deploy to verify contracts that are deployed on multiple chains.
