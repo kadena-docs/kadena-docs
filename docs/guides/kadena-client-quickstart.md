@@ -100,7 +100,7 @@ To prepare a new project:
    mkdir my-kadena-app && cd my-kadena-app
    ```
    
-   This command creates a new folder called "my-kadena-app" and mmakes that folder your current working directory.
+   This command creates a new folder called "my-kadena-app" and makes that folder your current working directory.
 
 3. Initialize the new project by running the following command:
    
@@ -166,7 +166,7 @@ To create a program that checks an account balance:
 
 1. Create a new file called `check-balance.ts` in your code editor.
 
-2. Add the following code to the file and modify the network and chain, if necesary:
+2. Add the following code to the file and modify the network and chain, if necessary:
 
    ```javascript
    // Import the tools we need from the Kadena library.
@@ -219,7 +219,7 @@ To create a program that checks an account balance:
    checkBalance(exampleAccount);
    ```
 
-3. Open a terminal shell and enter the folowing command to execute the program:
+3. Open a terminal shell and enter the following command to execute the program:
    
    ```bash
    tsx check-balance.ts
@@ -275,7 +275,7 @@ To create a program that creates a new account:
 
 1. Create a new file called `create-kadena-account.ts` in your code editor.
 
-2. Add the following code to the file and modify the network and chain, if necesary:
+2. Add the following code to the file and modify the network and chain, if necessary:
 
    ```typescript
    // Import basic functions to interact with the blockchain from the Kadena client library.
@@ -370,17 +370,17 @@ To create a program that creates a new account:
 ## Example: Transfer between accounts
 
 The previous example demonstrated how to use the @kadena/client library to create a new account without transferring any funds to the account. 
-However, for the new account to be used, it must have a balance that's creater than 0.0 on at least one chain in a network.
+However, for the new account to be used, it must have a balance that's greater than 0.0 on at least one chain in a network.
 In this example, you'll create a transaction that transfers KDA coins from one account to another. 
 
 Note that sending the transaction to the blockchain requires a public and private keypair, wallet, or another method signing the transaction.
-However, you can build the transfer trnasaction using on-chain account information, then use the kadena tx sign and kadena tx send commands to send the transaction to the blockchain.
+However, you can build the transfer transaction using on-chain account information, then use the kadena tx sign and kadena tx send commands to send the transaction to the blockchain.
 
 To create a program that transfers assets between accounts:
 
 1. Create a new file called `build-transfer-tx.ts` in your code editor.
 
-2. Add the following code to the file and modify the network and chain, if necesary:
+2. Add the following code to the file and modify the network and chain, if necessary:
 
    ```typescript
    // Import basic functions to interact with the blockchain from the Kadena client library.
@@ -449,7 +449,7 @@ To create a program that transfers assets between accounts:
    }
    ```
 
-3. Copy and past the unsigned transaction JSON object into a new unsignedTx.json file.
+3. Copy and paste the unsigned transaction JSON object into a new unsignedTx.json file.
 
 4. Sign the transaction by running the `kadena tx sign` command and following the prompts displayed.
    
@@ -485,13 +485,13 @@ In the previous example, you learned that crafting a transaction is only part of
 To execute transactions that change the blockchain state, you need to **sign** the transaction with cryptographic keys. 
 
 By signing a transaction, you authorize the operation to be executed.
-Your signature is ony valid if you are an owner of the account initiating the transaction and your keys ensure that no one can impersonate you or intercept and tampter with the transactions you authorize.
+Your signature is ony valid if you are an owner of the account initiating the transaction and your keys ensure that no one can impersonate you or intercept and tamper with the transactions you authorize.
 
 ### Capabilities
 
 Pact smart contracts provide an additional layer of access control—called capabilities—that enable you to authorize specific and concrete actions, like paying the transaction fee, or limiting a transfer to a specific amount.
 
-You authorize these specific actions by adding the capabilities that you appove of to the signature used to sign the transaction where the capabilities are called.
+You authorize these specific actions by adding the capabilities that you approve of to the signature used to sign the transaction where the capabilities are called.
 You saw an example of this in the `build-transfer-tx` program where you added the `coin.GAS` and `coin.TRANSFER` capabilities to the `addSigners` property.
 
 ### Transactions and gas
@@ -505,4 +505,4 @@ Gas helps to prevent the misuse of network resources by making transactions that
 The `coin.GAS` capability allows smart contract users to explicitly approve the payment of transaction fees.
 It's possible to sign transactions with an unrestricted signature.
 However, if any capability is explicitly added to a signature, then all required capabilities must be included in the signature list.
-If a capabilitiy is missing, the transaction fails.
+If a capability is missing, the transaction fails.
