@@ -279,7 +279,7 @@ You have successfully deployed a Solidity smart contract on Kadena Chainweb EVM 
 If the deployment script times out or cannot connect to the network, check that the RPC URL is correct and verify internet connectivity.
 
 If you see an **insufficient funds** error, make sure the account you are using has enough testnet KDA tokens on the chain where you are deploying the contract.
-For example, verify that you've configured the network settings for chain 20, funded the account on chain 20, and are attempting to deploy your contact on chain 20. 
+For example, verify that you've configured the network settings for chain 20, funded the account on chain 20, and are attempting to deploy your contract on chain 20. 
 The transaction fee for deploying a simple contract typically costs less than 0.001 KDA, so you should have enough funds from the official faucet to deploy multiple contracts. 
 
 If you see a nonce or chainId error, check that the chain identifier you set in the Hardhat configuration file matches the network you are deploying to.
