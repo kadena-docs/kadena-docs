@@ -866,4 +866,3 @@ However, the state in the contract on the first chain fork is **overwritten** to
 The behavior can be observed by logging activity, but the root cause of the behavior isn't known at this time. 
 You can attempt to work around this behavior by using the `vm.revokePersistent` cheat code in the `deployChainWebChainIdContract` function to isolate contract addresses are when using the `--gas-report` command-line option. 
 However, the work around doesn't guarantee that the `test_setupChainsForScript` test case will succeed in all cases. 
-
