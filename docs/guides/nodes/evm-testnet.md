@@ -98,7 +98,11 @@ For more information about working with other chains, see [Multi-chain support](
 ## Configure the development environment
 
 After you have a Chainweb EVM testnet account with funds, the next step is to configure your development environment to use the Kadena Chainweb EVM Testnet network. 
-These steps assume you are on using Hardhat, which is a popular Ethereum development framework, and the Kadena Hardhat plugin [@kadena/hardhat-chainweb](https://github.com/kadena-io/hardhat-kadena-plugin) for multi-chain support.
+You should note that different smart contract development environments have different requirements and different configuration steps.
+The following steps steps assume you are on using Hardhat, which is a popular Ethereum development framework, and the Kadena Hardhat plugin [@kadena/hardhat-chainweb](https://github.com/kadena-io/hardhat-kadena-plugin) for multi-chain support.
+
+If you are using the Foundry smart contract development toolchain, see the following topics:
+
 
 ### Before you begin
 
