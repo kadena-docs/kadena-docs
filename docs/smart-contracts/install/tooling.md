@@ -138,7 +138,7 @@ To install the `kadena-cli` package:
 ## Chainweaver wallet and IDE
 
 Chainweaver is a combination wallet and integrated development environment that enables you to manage accounts and keys, sign transactions, and edit, call, and deploy smart contracts.
-Chainweaver is avaiable as a [desktop application](https://github.com/kadena-io/chainweaver/releases) or as a browser-based [web application](https://chainweaver.kadena.network/).
+Chainweaver is available as a [desktop application](https://github.com/kadena-io/chainweaver/releases) or as a browser-based [web application](https://chainweaver.kadena.network/).
 With Chainweaver, you can build, test, and iterate on your smart contracts before deploying them to your local development network, the Kadena test network, or the Kadena main network.
 
 As an integrated development environment (IDE), you can also use Chainweaver to:
