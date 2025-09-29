@@ -8,8 +8,8 @@ tags: [evm, foundry, Solidity, chainweb, network, node operator]
 
 # Foundry Chainweb EVM - Chainweb.sol
 
-The `Chainweb.sol` contract in the `foundry-chainweb` package provides the core features that enable you to test and deploy Solidity projects on the Kadena Chainweb EVM multi-chain network with minmal manual configuration. 
-The core components of `Chainweb.sol`  manage chain identifier mapping, switching between chains, fork creation, and testing multiple forks within a single testing environment.
+The `Chainweb.sol` contract in the `foundry-chainweb` package provides the core features that enable you to test and deploy Solidity projects on the Kadena Chainweb EVM multi-chain network with minimal manual configuration. 
+The core components of `Chainweb.sol` manage chain identifier mapping, switching between chains, fork creation, and testing multiple forks within a single testing environment.
 The features are provided through the following base contracts:
 
 - `Chainweb`
@@ -22,10 +22,21 @@ The features are provided through the following base contracts:
 The main `Chainweb` constructor initializes the core configuration parameters for chain management.
 The constructor parameters correspond with the configuration settings defined in the `chainweb.config.json` file:
 
-- `numberOfChains` (uint24): Number of chains to manage.
-- `chainIdOffset` (uint256): Starting offset for EVM network chain identifiers.
-- `chainwebChainIdOffset` (uint24): Starting offset for Chainweb-specific chain identifiers.  
+- `numberOfChains` (uint24): Number of chains to manage for a deployment target.
+- `chainIdOffset` (uint256): Starting offset value for incrementing EVM base network chain identifiers on a deployment target.
+- `chainwebChainIdOffset` (uint24): Starting offset value for Chainweb-specific chain identifiers on a deployment target.  
 - `hostUrl` (string): Custom RPC host URL (optional).
+
+These parameters are defined in the `ChainwebConfig` structure for each target deployment network specified in the `chainweb.config.json` file:
+
+```solidity
+struct ChainwebConfig {
+    uint256 numberOfChains;
+    uint256 chainIdOffset;
+    uint256 chainwebChainIdOffset;
+    string externalHostUrl;
+}
+```
 
 ### Key methods
 
@@ -36,9 +47,6 @@ The constructor parameters correspond with the configuration settings defined in
 **getChainIds()**
 - Returns an array of all configured chain identifiers.
 - Useful for iterating over available chains.
-
-**getHostUrl()**
-- Returns the host URL for the current chain identifier.
 
 **setupChainsForScript()**
 - Initializes chain forks for script execution.
@@ -53,31 +61,62 @@ The constructor parameters correspond with the configuration settings defined in
 **switchChain(uint256 chainId)**
 - Switches the active fork to the specified chain identifier.
 - Updates the VM's chain context.
-- Validates chain identifier against configured ranges.
+- Validates the chain identifier against configured ranges.
 
-### getChainIds
+### deployChainWebChainIdContract
 
-Use `getChainIds` to retrieve a list of the valid Chainweb chain identifiers for the current network context.
+Use `deployChainWebChainIdContract` to deploy the Chainweb chain identifier precompile contract for a given chain.
+
+| Parameter | Type      | Description                               |
+| --------- | --------- | ----------------------------------------- |
+| `chainId` | `uint256` | Specifies the Chainweb chain identifier to deploy the precompile contract to. |
+
+### getActiveChainId
+
+Use `getActiveChainId` to return the currently active **Chainweb chain identifiers** for the current network context.
 
 | Output     | Type        | Description                                  |
 | ---------- | ----------- | -------------------------------------------- |
-| `chainIds` | `uint256[]` | Returns an array containing all of the valid Chainweb chain identifiers. identifiers. |
+| `chainId` | `uint256[]` | Returns the Chainweb chain identifier for the currently active chain. |
 
-Keep in mind that the Chainweb `chainid` used in tests and scripts is computed from the `chain-id` specified in the `foundry.toml` file, by default `31337`, plus the Chainweb offset.
-Each test or script chain increments from this base value.
-For example, if the Foundry base chain is 31337 and the chainwebChainIdOffset is zero, the `chainid` is `31337`.
+### getChainIds
+
+Use `getChainIds` to retrieve a list of the valid **Chainweb chain identifiers** for the current network context.
+
+| Output     | Type        | Description                                  |
+| ---------- | ----------- | -------------------------------------------- |
+| `chainIds` | `uint256[]` | Returns an array containing all of the valid Chainweb chain identifiers. |
+
+You should note that Chainweb chain identifiers 0 through 19 are reserved for chains that support Pact, so Kadena public networks use the `chainwebChainIdOffset` to set the starting point for Chainweb-specific chain identifiers.
+For example, the Chainweb EVM testnet consists of five chains with the Chainweb chain identifiers 20, 21, 22, 23, and 24. 
+This starting point value is configured in the `chainweb.config.json` file for each project and for each deployment target. 
+In the sample `chainweb.config.json` file, the `anvil` deployment target is also configured to use 20 as the starting point for Chainweb EVM chain identifiers.
+However, if you spin up internal `anvil` instances for testing, you'll see Chainweb chain identifiers starting with 0. 
+
+The `chainIdOffset` in the `chainweb.config.json` file is the starting point for the **Ethereum network chain identifier**, similar to 1 for the Ethereum mainnet. 
+
+For Chainweb EVM testnet chains, the starting value for the Ethereum network chain identifier is 5920.
+The network chain identifier for the Chainweb EVM testnet chain 20 is 5920. 
+Chainweb EVM testnet chain 21 has network chain identifier 5921, and so on.
+
+### setupChainsForTest
+
+Use `setupChainsForTest` to initialize chain forks and deploy precompile contracts on each chain for use when running Foundry tests.
+
+### setupChainsForScript
+
+Use `setupChainsForScript` to initialize chain forks and RPC nodes for use when running Foundry scripts.
+This method also deploys precompile contracts if you are using the `anvil` deployment target.
 
 ### switchChain
 
 Use `switchChain` to switch from the current active chain to a specified chain identifier in the Chainweb EVM network.
+This method enables you to loop through a set of Chainweb chain identifiers when executing tests or running scripts.
+You can also use the method to explicitly set the active chain using its Chainweb-specific chain identifier.
 
 | Parameter | Type      | Description                               |
 | --------- | --------- | ----------------------------------------- |
 | `chainId` | `uint256` | Specifies the target Chainweb chain identifier to switch to. |
-
-Keep in mind that the Chainweb `chainid` in tests and scripts is computed from the `chain-id` specified in the `foundry.toml` file, by default `31337`, plus the Chainweb offset.
-Each test or script chain increments from this base value.
-For example, if the Foundry base chain is 31337 and the chainwebChainIdOffset is zero, the `chainid` is `31337`.
 
 ### Constants
 
@@ -85,36 +124,18 @@ For example, if the Foundry base chain is 31337 and the chainwebChainIdOffset is
 - Precompile contract that provides chain identifier functionality.
 - Address: `0x9b02c3e2dF42533e0FD166798B5A616f59DBd2cc`
 
-### ChainwebConfig structure
-
-Defines the configuration structure for environment-specific settings:
-
-```solidity
-struct ChainwebConfig {
-    uint256 numberOfChains;
-    uint256 chainIdOffset;
-    uint256 chainwebChainIdOffset;
-    string externalHostUrl;
-}
-```
-
 ## ChainwebConfigReader
 
 The `ChainwebConfigReader` contract reads the configuration settings from the `chainweb.config.json` file.
 
-### Methods
+### Key method
 
 **readChainwebConfig(string memory environment)**
-- Reads configuration for the specified environment.
-- Returns ChainwebConfig struct with parsed values.
-- Uses default values if configuration keys are missing.
 
-**readOptionalJsonString**
-- Parses JSON string values with fallback defaults.
-- Uses default values if configuration keys are missing.
-
-**readOptionalJsonUint/readOptionalJsonString**
-- Parses JSON integer values with fallback defaults.
+- Reads configuration settings for the target network specified by the environment parameter.
+- Uses the `readOptionalJsonUint` function to parse JSON integer values from the configuration file and define default values to use if configuration keys are missing.
+- Uses the `readOptionalJsonString` function to parse JSON string values from the configuration file and define default values to use if configuration keys are missing.
+- Returns `ChainwebConfig` structure with parsed values.
 - Uses default values if configuration keys are missing.
 
 ### Default values
@@ -126,11 +147,11 @@ The `ChainwebConfigReader` contract reads the configuration settings from the `c
 
 ## ChainwebTest
 
-The `ChainwebTest` constructor enables simplified multi-chain testing with automatic initialization by extending the forge `Test` contract, so that you can test cross-chain interactions within a single test environment.
+The `ChainwebTest` constructor enables simplified multi-chain testing with automatic initialization by extending the default Foundry `Test` contract, so that you can test cross-chain interactions within a single test environment.
 The following constructor parameters define the testing environment:
 
-- `numberOfChains` (uint24): Number of chains to create.
-- `chainwebChainIdOffset` (uint24): Starting offset for Chainweb-specific chain identifiers. 
+- `numberOfChains` (uint24): Number of chains to create for a target network.
+- `chainwebChainIdOffset` (uint24): Starting offset for Chainweb-specific chain identifiers in the target network. 
 
 The following example demonstrates using `ChainwebTest` and these parameters to specify a testing environment with three chains and an offset of zero for the Chainweb chain identifier:
 
@@ -144,20 +165,24 @@ contract CrossChainTest is ChainwebTest(3, 0) {
         // Test on chain 1
         chainweb.switchChain(1);
         // Verify state changes
+
+        // Test on chain 2
+        chainweb.switchChain(2);
+        // Verify state changes
     }
 }
 ```
 
 ## ChainwebScript
 
-The ChainwebScript constructor extends the forge Script contract to automatically handle environment-based configuration. 
-When you import this contract in a script, the script reads the CHAINWEB environment variable to determine which configuration settings to load from the `chainweb.config.json` file. 
+The `ChainwebScript` constructor extends the default Foundry Script contract to automatically handle environment-based configuration settings. 
+When you import this contract in a script, the script reads the `CHAINWEB` environment variable to determine which set of configuration settings to load from the `chainweb.config.json` file. 
 If you don't specify a target environment, the script uses the default `anvil` settings. 
 The constructor then creates and configures the Chainweb instance based on these settings.
 
 - Reads the value of the `CHAINWEB` environment variable to determine the target network.
-- Loads the configuration settings that correspond to the CHAINWEB environment variable from `chainweb.config.json` file.
-- Defaults to `anvil` settings if you don't specify the CHAINWEB environment variable.
+- Loads the configuration settings that correspond to the `CHAINWEB` environment variable from `chainweb.config.json` file.
+- Defaults to `anvil` settings if you don't specify the `CHAINWEB` environment variable.
 
 For example, the following `chainweb.config.json` defines the configuration settings for the `anvil` and `testnet` target networks:
 
@@ -203,7 +228,7 @@ contract DeployScript is ChainwebScript {
 
 ## Custom RPC configuration
 
-If you use a custom host for the RPC URL, you should note that RPC endpoints are expected to follow the following format:
+If you use a custom host for the RPC URL, you should note that RPC endpoints are expected to conform to the following format:
 
 ```bash
 {hostUrl}/chain/{chainwebChainId}/evm/rpc

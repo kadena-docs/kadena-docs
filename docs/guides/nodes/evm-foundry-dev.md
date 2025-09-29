@@ -644,12 +644,12 @@ Sensitive details saved to: /Users/pistolas/myKadenaCounter/cache/multi/Counter.
 ```
 
 In the sample output for deploying the contract on multiple chains, you'll notice that the Foundry chain identifiers are computed using the default value from the `chainIdOffset` property in `chainweb.config.json` file as a base value and incremented for each Chainweb EVM chain.
-As a result of the computation, Chainweb EVM chain 20 (index 0) maps to the chain identifier 62600 for the `anvil` network, `1789` for the `evm-local` network, or 5920 for the `evm-testnet` network.
+As a result of the computation, Chainweb EVM chain 20 (index 0) maps to the base chain identifier 62600 for the `anvil` network, `1789` for the `evm-local` network, or 5920 for the `evm-testnet` network.
 In this example with only two EVM chains, CChainweb EVM chain 20 (index 0) is mapped to the `chainIdOffset` 1789 (base)and Chainweb EVM chain 21 (index 1) is incremented to the chain identifier 1790.
 
 You should note that Chainweb chain identifiers 0 through 19 are reserved for chains that support Pact, so Kadena public networks use the `chainwebChainIdOffset` to set the starting point for Chainweb EVM chain identifiers.
 For example, the Chainweb EVM testnet consists of five chains with the chain identifiers 20, 21, 22, 23, and 24. 
-This value is configured in the `chainweb.config.json` file for your project. 
+This starting point value is configured in the `chainweb.config.json` file for each project and for each deployment target. 
 In the sample `chainweb.config.json` file, the `anvil` deployment target is also configured to use 20 as the starting point for Chainweb EVM chain identifiers.
 However, if you spin up internal `anvil` instances for testing, you'll see Chainweb chain identifiers starting with 0. 
 
