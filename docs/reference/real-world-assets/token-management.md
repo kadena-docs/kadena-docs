@@ -1,6 +1,6 @@
 ---
 title: Token management
-description: "Technical documentation for the token management interface used in the Kadena real world asset (RWA) token standard and demonstrated in the "mvp-token" sample contract."
+description: "Technical documentation for the token management interface used in the Kadena real world asset (RWA) token standard and demonstrated in the mvp-token sample contract."
 id: token-management
 sidebar_position: 5
 ---
