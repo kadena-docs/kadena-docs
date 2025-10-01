@@ -482,7 +482,8 @@ const sidebars: SidebarsConfig = {
                     'reference/latency',
                     'reference/guard-json',
                     'reference/dex-integration',
-               ],
+                    'reference/evm-integration/foundry-chainweb-ref', 
+                    ],
           },
           {
                type: 'category',
