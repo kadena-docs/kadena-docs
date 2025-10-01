@@ -1,7 +1,7 @@
 ---
 title: Compliance management
 description: "Technical documentation for the compliance management interface used in the Kadena real world asset (RWA) token standard and demonstrated in the "mvp-token" sample contract."
-id: token-management
+id: compliance
 sidebar_position: 5
 ---
 
