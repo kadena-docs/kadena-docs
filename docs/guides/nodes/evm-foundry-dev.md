@@ -207,7 +207,7 @@ The `ChainwebTest` code extends the Foundry `Test` contract by adding a `chainwe
 - `chainweb.getChainIds` returns a list of available Chainweb chain identifiers.
 - `chainweb.switchChain` switches from the current active chain to a specified chain identifier in the Chainweb network.
 
-For more information about these methods and other functions defined in the `Chainweb.sol` contract, see [Foundry Chainweb EVM - Chainweb.sol](/reference/foundry-integration/foundry-chainweb-sol). 
+For more information about these methods and other functions defined in the `Chainweb.sol` contract, see [Foundry Chainweb EVM - Chainweb.sol](/reference/evm-integration/foundry-chainweb-ref). 
 
 ### Input parameters
 
@@ -347,7 +347,7 @@ Like `ChainwebTest`, the `ChainwebScript` code extends the default Foundry `Scri
 - `chainweb.getChainIds` returns a list of available Chainweb chain identifiers.
 - `chainweb.switchChain` switches from the current active chain to a specified chain identifier in the Chainweb network.
 
-For more information about these methods and other functions defined in the `Chainweb.sol` contract, see [Foundry Chainweb EVM - Chainweb.sol](/reference/foundry-integration/foundry-chainweb-sol). 
+For more information about these methods and other functions defined in the `Chainweb.sol` contract, see [Foundry Chainweb EVM - Chainweb.sol](/reference/evm-integration/foundry-chainweb-ref). 
 
 ### Writing a multi-chain deployment script
 
