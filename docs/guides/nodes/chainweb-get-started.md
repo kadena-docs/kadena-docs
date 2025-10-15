@@ -16,18 +16,15 @@ You can also earn rewards if you choose to add resources to calculate proof-of-w
 
 ## Minimum system requirements
 
-Before installing Chainweb, you should verify that your computer meets the following minimum recommended hardware requirements for running a node:
+Before installing Chainweb, you should verify that your computer meets the following minimum system requirements for running a node:
 
-- CPU: Minimum of two (2) CPU cores.
-- RAM: Minimum of four (4) GB of RAM.
-- Storage: Minimum 250 GB using a solid state drive (SSD) or fast hard disk drive (HDD).
-- Network: Publicly-accessible IP address.
+- CPU: Minimum of eight (8) CPU cores.
+- RAM: Minimum of sixteen (16) GB of RAM.
+- Storage: Minimum 2 TB using a solid state drive (SSD) or fast hard disk drive (HDD).
+- Network: Publicly-accessible IP address and a port that allows incoming traffic from the internet.
 - Operating system: Linux AMD64 architecture.
 
-If you also plan to use the node for mining, to submit transactions, or to query blockchain data, you should verify that your computer meets the following minimum recommended hardware requirements: 
-
-- Four (4) CPU cores.
-- Eight (8) GB of RAM.
+If you plan to use the node for mining, to handle RPC requests, or to query historical blockchain data, you should consider upgrading the number of CPU cores, available RAM, and storage above the minimum system requirements.
 
 ### Operating system architecture
 
@@ -43,16 +40,20 @@ If you choose to proceed after installing WSL, you can install the `chainweb-nod
 ### Incoming and outgoing network rules
 
 In addition to a publicly-accessible IP address, nodes must be able to communicate with peers and accept incoming messages from other computers in the network.
-If your computer is behind a firewall or is a virtual guest connecting to the internet through a host computer, you should review your network configuration and open required ports to allow inbound and outbound traffic. 
-For example, you might need to configure port forwarding for port 1789 on your router or host computer to allow inbound connections from remote nodes.
+By default, Chainweb nodes use port 1789 for peer-to-peer communication and port 1848 to listen for service API requests.
+If your computer is behind a firewall or is a virtual guest connecting to the internet through a host computer, you should review your network configuration and open these two ports or identify other ports to allow inbound and outbound traffic. 
+For example, you might need to configure router settings or the host computer to enable port forwarding for port 1789 or another port to allow inbound connections from remote nodes.
 
 ## Installation options
 
-There are several options for setting up a Chainweb node in a physical or virtual environment.
-For example, you can run a Chainweb node image in a Docker container or build the binaries directly from the source code.
-You can install release binaries directly on a physical Linux server or run them using the infrastructure from a cloud services provider.
+There are several ways you can set up a Chainweb node in a physical or virtual environment.
+For example, you can choose to install by using one of the following installation options:
 
-For more information about your installation options, see the following topics:
+- Download and install Chainweb release binaries directly on a physical server or on infrastructure from a cloud services provider.
+- Run a Chainweb node image in a Docker container. 
+- Build Chainweb binaries yourself from the source code.
+
+For more information about each of these installation options, see the following topics:
 
 - [Install release binaries](#install-release-binaries)
 - [Run in a Docker container](#run-in-a-docker-container)
@@ -61,7 +62,7 @@ For more information about your installation options, see the following topics:
 ## Install release binaries
 
 You can download compressed archive files with `chainweb-node` release binaries for Ubuntu Linux directly from the [Releases](https://github.com/kadena-io/chainweb-node/releases) page in the [chainweb-node](https://github.com/kadena-io/chainweb-node/) repository.
-If you have Ubuntu 20.04 or Ubuntu 22.04 on a physical or virtual machine, downloading the binary is the most straightforward installation path.
+If you have a supported version of Ubuntu Linux or an equivalent operating system on a physical or virtual machine, downloading the compressed archive is the most straightforward installation path.
 
 To install from a release archive:
 
@@ -79,39 +80,30 @@ To install from a release archive:
    sudo apt-get install ca-certificates libgmp10 libssl3 libsnappy1v5 zlib1g liblz4-1 libbz2-1.0 libgflags2.2 zstd
    ```
 
-   If your computer uses the Ubuntu 20.04 operating system, install the `libssl1.1` package instead of the `libssl3` package. 
+4. Copy the URL for the latest release from the Release **Assets** by hovering over the compressed archive file name, right-click, then select **Copy Link Address**.
 
-4. Download the archive file from the [Releases](https://github.com/kadena-io/chainweb-node/releases) page.
+5. Download the Chainweb release from the URL by running a command similar to the following:
    
-   Note that the archive file naming convention includes the `chainweb-node` version, compiler version, Ubuntu version, and a commit hash identifier using the following format:
-   
-   ```text
-   chainweb-<version>.ghc-<version>.ubuntu-<version>.<revision>.tar.gz
+   ```shell
+   wget https://github.com/<path>/chainweb-<release>.tar.gz
    ```
    
-   For example, the `chainweb-node` archive file for Ubuntu 22.04 and `chainweb-node` version 2.26.1 looks like this:
+   Note that the archive file includes the `chainweb-node` version, compiler version, Ubuntu version, and a commit hash identifier.
+   For example, you would run the following command to download the `chainweb-node` archive file for Ubuntu 22.04 and `chainweb-node` version 2.30:
    
-   ```text
-   chainweb-2.26.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
+   ```shell
+   wget https://github.com/kadena-io/chainweb-node/releases/download/2.30/chainweb-2.30.ghc-9.8.2.ubuntu-22.04.e0acda0.tar.gz
    ```
 
-   Keep in mind that if you attempt to run a version of the `chainweb-node` that's out-of-date, the program displays an error message similar to the following:
-   
-   ```bash
-   Shutting down. This version of chainweb was only valid until2024-08-21 00:00:00 UTC. Please upgrade to a new version.
-   ```
+6. Change to the directory that contains the downloaded file—typically, the Downloads folder—or move the file to a new location.
 
-   Be sure to check the [chainweb-node](https://github.com/kadena-io/chainweb-node/) repository for the latest release.
-
-5. Change to the directory that contains the downloaded file—typically, the Downloads folder—or move the file to a new location.
-
-6. Unzip and extract the compressed archive by running a command similar to the following:
+7. Unzip and extract the compressed archive by running a command similar to the following:
    
    ```bash
    tar -xvzf chainweb-2.26.1.ghc-9.6.5.ubuntu-22.04.89b0ac3.tar.gz
    ```
 
-7. Verify the binary is ready to use and review command-line configuration options by running the following command:
+8. Verify the binary is ready to use and review command-line configuration options by running the following command:
    
    ```bash
    ./chainweb-node --help
@@ -132,8 +124,14 @@ To install from a release archive:
 
 ## Run in a Docker container
 
-If you have Docker installed, you can download a `chainweb-node` image and run a node in a Docker container.
-If you want to run the node in a Docker container but don't have Docker installed yet, see the instructions provided in [Install Docker Engine](https://docs.docker.com/engine/install/) to download and install Docker for your operating system.
+If you have Docker installed, you can run a Chainweb node by pulling the latest [kadena/chainweb-node](https://hub.docker.com/r/kadena/chainweb-node) image hosted on the [Docker Hub](https://hub.docker.com) or [chainweb-node/ubuntu](https://github.com/kadena-io/chainweb-node/pkgs/container/chainweb-node%2Fubuntu) image located in the `chainweb-node` repository.
+
+The [kadena/chainweb-node](https://hub.docker.com/r/kadena/chainweb-node) image includes a script to initialize the Chainweb database from a compressed backup file. 
+Initializing the Chainweb database from a database backup file is an optional step and is less secure than starting the node with a genesis state.
+If you start a node without initializing the database, the node will replay all of the transactions that have been executed until its state is synchronized with the other nodes in the network.
+The synchronization process can take a significant amount of time and system resources, but it's the most secure way to bring a node into consensus with its peers.
+
+If you want to run the node in a Docker container but don't have Docker installed, see the instructions provided in [Install Docker Engine](https://docs.docker.com/engine/install/) to download and install Docker for your operating system.
 After you have Docker installed, use the following instructions to pull the Docker image and run `chainweb-node` in a Docker container.
 
 To run `chainweb-node` in a Docker container:
@@ -146,10 +144,10 @@ To run `chainweb-node` in a Docker container:
    docker --version
    ```
 
-   This commands should return information similar to the following:
+   This command should return information similar to the following:
 
    ```bash
-   Docker version 24.0.6, build ed223bc
+   Docker version 27.1.2, build d01f264
    ```
 
 3. Pull the latest image by running the following command:
@@ -173,17 +171,17 @@ To run `chainweb-node` in a Docker container:
                         [--config-file FILE] 
    ```
 
-      From the usage information, you can see that there are a large number of configuration options that you can use to control and operation and behavior of the Chainweb node. 
-      Before you start the node, you should review the configuration options and the default values to determine whether you want to make any changes to the configuration of the node.
-      For information about this next step, see [Review the default configuration](#review-the-default-configuration).
+   From the usage information, you can see that there are a large number of configuration options that you can use to control the operation and behavior of the Chainweb node. 
+   Before you start the node, you should review the configuration options and the default values to determine whether you want to make any changes to the configuration of the node.
+   For information about this next step, see [Review the default configuration](#review-the-default-configuration).
 
 ## Build from source
 
 In most cases, you should run Chainweb nodes using officially released `chainweb-node` binaries or from the binary packaged in officially released Docker images that you can download from the [Releases](https://github.com/kadena-io/chainweb-node/releases) page. 
-However, if you choose to build the chainweb-node binary yourself, you should first ensure that you have an officially released and tagged version of the source code. 
+However, if you choose to build the `chainweb-node` binary yourself, you should first ensure that you have an officially released and **tagged** version of the source code. 
 Tagged versions of the source code are tested extensively to ensure that they are compatible with all nodes in the Chainweb network.
 
-You shouldn't build `chainweb-node` from the `master` branch if you plan to run the node as part of a Kadena public network.
+You should never build `chainweb-node` from the `master` branch if you plan to run the node as part of any Kadena public network.
 
 ### Download source code
 
@@ -205,8 +203,8 @@ To download tagged source code:
 
 After you have downloaded and unpacked the source code, you have two options for building the `chainweb-node` binary from the source:
 
-- You can build the binary using the native Haskell toolchain.
-- You can build the binary using the Nix package manager.
+- You can build `chainweb-node` using the native Haskell toolchain.
+- You can build `chainweb-node` using the Nix package manager.
 
 ### Build with Haskell
 
@@ -217,7 +215,7 @@ To build with the native Haskell toolchain:
    - [Glasgow Haskell Compiler (GHC)](https://www.haskell.org/ghc/), `ghc-9.6.5`, or later.
    - [Haskell build tool CABAL](https://www.haskell.org/cabal/), `cabal`, version 3.4, or later.
 
-   You can download, install and manage the Haskell toolchain using `ghcup`.
+   You can download, install, and manage the Haskell toolchain using `ghcup`.
    To install on Linux, macOS, FreeBSD, or WSL2, go to [GHCup](https://www.haskell.org/ghcup/) to download the main Haskell installer, then follow the installation instructions to install the toolchain.
 
 1. Install the development versions of the following required libraries: 
@@ -229,7 +227,7 @@ To build with the native Haskell toolchain:
    - bz2-dev
    - zstd-dev
 
-   If the host uses the advanced package tool (apt), you can install these libraries by running the following command:
+   If the host uses the advanced package tool (`apt`), you can install these libraries by running the following command:
    
    ```bash
    apt-get install ca-certificates libssl-dev libgmp-dev libsnappy-dev zlib1g-dev liblz4-dev libbz2-dev libgflags-dev libzstd-dev
@@ -247,7 +245,7 @@ To build with the native Haskell toolchain:
    cabal update
    ```
 
-3. Build a `chainweb-node` binary by running the following command:
+3. Build `chainweb-node` by running the following command:
    
    ```bash
    cabal build
@@ -274,24 +272,24 @@ To build with the native Haskell toolchain:
                         [--config-file FILE] 
    ```
 
-   From the usage information, you can see that there are a large number of configuration options that you can use to control and operation and behavior of the Chainweb node. 
+   From the usage information, you can see that there are a large number of configuration options that you can use to control the operation and behavior of the Chainweb node. 
    Before you start the node, you should review the configuration options and the default values to determine whether you want to make any changes to the configuration of the node.
    For information about this next step, see [Review the default configuration](#review-the-default-configuration).
 
 ### Build with Nix
 
-One advantage of using the Nix package manager to build and run the chainweb-node binary is that Nix caches binary dependencies, so you can download pre-built binaries for for the libraries and packages that Chainweb requires.
+One advantage of using the Nix package manager to build and run `chainweb-node` is that Nix caches binary dependencies, so you can download pre-built binaries for the libraries and packages that Chainweb requires.
 
 To build with the Nix package manager:
 
 1. Download and install [Nix](https://nixos.org/nix/) by clicking **Get Nix**, then follow the instructions.
 
-1. Open your shell startup profile file for the shell you use in a text editor.
+2. Open your shell startup profile file for the shell you use in a text editor.
    
    For example, if you are using the `bash` shell, open the `.bash_profile` file.
    If you are using the `zsh` shell, open the `.zsh_profile` file.
 
-1. Add the following line to the startup profile:
+3. Add the following line to the startup profile:
 
    ```text
    . $HOME/.nix-profile/etc/profile.d/nix.sh
@@ -305,7 +303,7 @@ To build with the Nix package manager:
    
    If you are using a different shell, change `.bash_profile` to the appropriate startup script for your shell.
 
-1. Open the `/etc/nix/nix.conf` file in a text editor and add the following lines to the file:
+4. Open the `/etc/nix/nix.conf` file in a text editor and add the following lines to the file:
 
    ```text
    substituters = https://nixcache.chainweb.com https://cache.nixos.org/
@@ -315,7 +313,7 @@ To build with the Nix package manager:
 
    If the `/etc/nix` directory doesn't exist, you should switch to the root user and create it, then add the `nix.conf` file to the directory.
 
-2. Restart the `nix-daemon` process.
+5. Restart the `nix-daemon` process.
    
    Most installations of Nix are multi-user and require you to restart the nix daemon to make your `nix.conf` changes take effect. 
    
@@ -326,7 +324,7 @@ To build with the Nix package manager:
    ```
    
    If you see only the `grep` command, then you are using single-user mode and you don't have to do anything else. 
-   If you see a `nix-daemon` process, then you are using multi-user mode and you need to restart the process
+   If you see a `nix-daemon` process, then you are using multi-user mode and you need to restart the process.
    
    On macOS, run the following commands:
    
@@ -341,7 +339,7 @@ To build with the Nix package manager:
    sudo systemctl restart nix-daemon.service
    ```
    
-3. Build `chainweb-node` by running a command similar to the following for a specific release `tag`, such as 2.26.1:
+6. Build `chainweb-node` by running a command similar to the following for a specific release `tag`, such as 2.30:
 
    ```bash
    nix build github:kadena-io/chainweb-node/<tag>
@@ -358,7 +356,7 @@ To build with the Nix package manager:
    
    When the build is finished, the directory with the `chainweb-node` source code contains a `result` subdirectory with a symbolic link to the Nix cache.
 
-4. Verify that `chainweb-node` is ready to use and review command-line configuration options by running the following command:
+7. Verify that `chainweb-node` is ready to use and review command-line configuration options by running the following command:
    
    ```bash
    ./result/bin/chainweb-node --help
@@ -373,7 +371,7 @@ To build with the Nix package manager:
                         [--config-file FILE] 
    ```
 
-   From the usage information, you can see that there are a large number of configuration options that you can use to control and operation and behavior of the Chainweb node. 
+   From the usage information, you can see that there are a large number of configuration options that you can use to control the operation and behavior of the Chainweb node. 
    Before you start the node, you should review the configuration options and the default values to determine whether you want to make any changes to the configuration of the node.
    For information about this next step, see [Review the default configuration](#review-the-default-configuration).
 
