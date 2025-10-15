@@ -142,6 +142,17 @@ Generally, refers to a method of management
 that has rules coded in software and that has decision making which is not
 centralized or hierarchical.&#x20;
 
+### doc keyword
+
+In the Pact smart contract programming language, you can add the `@doc` metadata tag to any function or capability definition to add information about the function or capability being defined.
+
+## E
+
+### event keyword
+
+In the Pact smart contract programming language, you can add the `@event` metadata tag to a capability definition to emit information about the execution of a transaction in the transaction results.
+With events, you can monitor transaction results to determine if a specific operation that involved acquiring or installing a capability has occurred.
+
 ## G
 
 ### gas
@@ -230,6 +241,11 @@ transaction speed and costly fees.
 
 ## M
 
+### managed keyword
+
+In the Pact smart contract programming language, you can add the `@managed` metadata tag to a capability definition to identify the capability as a managed capability that restricts access to a specific resource or a specific operation. 
+For example, you can use the `@managed` metadata tag to prevent an account balance from being drained through repeated calls or to limit the number of times a specific operation can be executed.
+
 ### mining
 
 Mining is the process of validating a transaction in a proof of work blockchain.
@@ -288,6 +304,12 @@ amount of collateral available to that coin, it would need an oracle to identify
 how much of that collateral is available. This is because knowledge of the
 collateral amount is off-chain data that has to be translated to data usable by
 the blockchain.
+
+## P
+
+### predicate
+
+A predicate or predicate function is a function that tests whether an input meets a specific condition and returns a single boolean value, either true or false, depending on the result from evaluating the input and condition. 
 
 ## R
 

@@ -583,7 +583,7 @@ Events are treated as capabilities because they share the following characterist
 
 - Events, like capabilities, allow arbitrary data to be published under a topic or a name.
   With capabilities, the capability name is the topic, and the arguments are the data.
-- Granting permission to acquire a managed capability is, in itself, an event recorded for transaction.
+- Granting permission to acquire a managed capability is, in itself, an event recorded for the transaction.
   Events complete the managed capability lifecycle, where you might install or approve a capability of some quantity on the way in, but not necessarily see what quantity was used.
   With events, the output of the acquired capability is present in the transaction results.
 - Capabilities are protected such that they can only be acquired in module code, which is appropriate for events as well.
