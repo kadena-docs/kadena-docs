@@ -145,6 +145,8 @@ const sidebars: SidebarsConfig = {
                               'api/peer-to-peer/publish-cut',
                               'api/peer-to-peer/get-payload',
                               'api/peer-to-peer/get-payload-batch',
+                              'api/peer-to-peer/get-payload-output',
+                              'api/peer-to-peer/get-payload-output-batch',
                               'api/peer-to-peer/all-pending-mempool',
                               'api/peer-to-peer/boolean-tx-mempool',
                               'api/peer-to-peer/lookup-tx-mempool',

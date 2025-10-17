@@ -17,7 +17,6 @@ Two blocks from two different chains are considered concurrent if either block i
 ## Request format
 
 Use `PUT https://{baseURL}/cut` to publish a cut to a Chainweb node.
-
 The cut must contain an `origin` property that is not null. 
 The receiving node will first try to obtain all missing dependencies from the node specified for the `origin` property before searching for the dependencies in the peer-to-peer network.
 
@@ -39,7 +38,7 @@ Requests to `PUT https://{baseURL}/cut` return the following response codes:
 - **204 No Content** indicates that the request was successful and the cut was added to the cut processing pipeline on the remote Chainweb node.
 - **401 Unauthorized** indicates that the node where you are trying to publish the cut is not a peer of the node identified in the `origin` property, and therefore cannot process the cut you're attempting to publish.
 
-#### Response header
+### Response header
 
 The response header parameters are the same for all successful and unsuccessful Chainweb node requests.
 
@@ -49,7 +48,7 @@ The response header parameters are the same for all successful and unsuccessful 
 | x-server&#8209;timestamp | integer&nbsp;>=&nbsp;0 | Specifies the clock time of the remote Chainweb node using the UNIX epoch timestamp. For example: `1618597601`.
 | x&#8209;chainweb&#8209;node&#8209;version	| string | Specifies the version of the remote Chainweb node. For example: `"2.23"`.
 
-### Examples
+## Examples
 
 You can send a request to publish a cut on a node with a call to the `/cut` endpoint similar to the following:
 

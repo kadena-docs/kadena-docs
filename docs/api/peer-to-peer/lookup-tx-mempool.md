@@ -8,12 +8,12 @@ sidebar_position: 6
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Look up transactions
+# Look up pending transactions
 
 When transactions are submitted to the blockchain for processing, they are queued in the node memory pool to await delivery to a mining node as new work to be validated.
 Endpoints related to memory pool activity are peer-to-peer endpoints that enable communication between memory pools on different nodes. 
 
-With the` /mempool/lookup` endpoint, you can specify a list of transaction request keys to look for in the mempool.
+With the` /mempool/lookup` endpoint, you can specify a list of transaction request keys to look for in the `mempool` portion of the peer-to-peer network.
 For each transaction request key, the endpoint returns the Pending tag and details about the transaction or the Missing tag.
 
 ## Request format
@@ -24,7 +24,7 @@ Use `POST https://{baseURL}/chain/{chain}/mempool/lookup` to look up pending tra
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
-| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier of the chain you want to send the payload request to. Valid values are 0 to 19. For example, to get block payload for the first chain (0), the request is `POST https://{baseURL}/chain/0/mempool/lookup`.
+| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier for the chain you want to send the request to. Valid values are 0 to 19. For example, to get pending transactions for the first chain (0), the request is `POST https://{baseURL}/chain/0/mempool/lookup`.
 
 ### Request body schema
 
@@ -47,7 +47,7 @@ The response header parameters are the same for all successful and unsuccessful 
 | x-server&#8209;timestamp | integer&nbsp;>=&nbsp;0 | Specifies the clock time of the remote Chainweb node using the UNIX epoch timestamp. For example: `1618597601`.
 | x&#8209;chainweb&#8209;node&#8209;version	| string | Specifies the version of the remote Chainweb node. For example: `"2.23"`.
 
-## Successful response schema
+### Successful response schema
 
 If the request is successful, the response returns `application/json` content with an array of lookup results for each request key in the request body.
 

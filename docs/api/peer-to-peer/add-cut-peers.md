@@ -7,20 +7,20 @@ sidebar_position: 8
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Add cut peer information
+# Add cut peers
 
-For peer-to-peer connections, Chainweb nodes have two separate communication channels with specialized independent peer-to-peer networks that different nodes can be part of:
-
-- The `/peer/cut` peer-to-peer network is responsible for communicating the consensus state across the distributed network nodes. 
-- The `/peer/mempool` peer-to-peer network is responsible for queuing and managing the pending transactions for each chain independently. 
+The peer-to-peer communication that's required for Chainweb nodes to synchronize state is partitioned into separate independent network channels. 
+The `/cut/peer` portion of the peer-to-peer network is responsible for communicating the consensus state across a set of distributed network nodes and all chains in the network.
+There is also one `/mempool/peer` peer-to-peer network channel for each chain. 
+The `/mempool/peer` portion of the peer-to-peer network is responsible for queuing and managing pending transactions for each chain independently. 
 
 ## Request format
 
-Use `PUT https://{baseURL}/cut/peer` to add peer information to the peer database of the `cut` peer-to-peer network on the remote host.
+Use `PUT https://{baseURL}/cut/peer` to add peer information to the peer database of the `/cut/peer` portion of the network on the remote host.
 
 ### Request body schema
 
-Use the following parameters to specify the peer information you want to add to the peer database of the cut peer-to-peer network on the remote host.
+Use the following parameters to specify the peer information that you want to add to the peer database on the remote host.
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
@@ -36,10 +36,10 @@ Requests to `PUT https://{baseURL}/cut/peer` return the following response codes
 
 ## Examples
 
-You can send a request to add a peer to the peer node database with a call to the `/peer` endpoint similar to the following:
+You can send a request to add a peer to the peer database on a remote with a call to the `/cut/peer` endpoint similar to the following:
 
 ```Postman
-PUT https://us1.testnet.chainweb.com/chainweb/0.0/testnet04/cut/peer`
+PUT https://us1.testnet.chainweb.com/chainweb/0.0/testnet04/cut/peer
 ```
 
 The request body for adding a peer contains parameters similar to the following:
