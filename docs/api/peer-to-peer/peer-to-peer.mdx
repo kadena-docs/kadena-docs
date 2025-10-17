@@ -24,13 +24,22 @@ The Chainweb peer-to-peer API includes endpoints to return information about the
 - Peer-to-peer connections using [`peer` endpoints](/api/peer-to-peer/api-get-cut-peers)
 - Node configuration using the [`config` endpoint](/api/peer-to-peer/api-config)
 
-For peer-to-peer connections, Chainweb nodes have two separate communication channels with specialized independent peer-to-peer networks that different nodes can be part of:
+The peer-to-peer communication that's required for Chainweb nodes to synchronize state is partitioned into separate independent network channels to perform different tasks. 
 
-- The `/peer/cut` peer-to-peer network is responsible for communicating the consensus state across the distributed network nodes. 
-- The `/peer/mempool` peer-to-peer network is responsible for queuing and managing the pending transactions for each chain independently. 
+- The `/cut/peer` portion of the peer-to-peer network is responsible for communicating the consensus state across a set of distributed network nodes and all of the chains in the network.
+  Each node has a set of peers that it recognizes and connects to for exchanging information about the state of the chain.
+- There is also one `/mempool/peer` peer-to-peer network channel for each chain. 
+The `/mempool/peer` portion of the peer-to-peer network is responsible for queuing and managing pending transactions for each chain independently.
 
 ## Base URL
 
-The base URL for peer-to-peer API endpoints typically take the form of `<hostname>/chainweb/0.0/mainnet01` where the `<hostname>` is the IP address or domain name of a Chainweb node in the Kadena public blockchain network. 
+The base URL for peer-to-peer API endpoints typically takes the form of `<hostname>/chainweb/0.0/mainnet01` where the `<hostname>` is the IP address or domain name of a Chainweb node in the Kadena public blockchain network. 
 Similarly, the base URL for peer-to-peer endpoints in the Kadena test network is typically `<hostname>/chainweb/0.0/testnet04` where the `<hostname>` is the IP address or domain name of a Chainweb node in the Kadena test network.
 If you're running a local development environment, you can typically replace `<hostname>` with `localhost:8080` to connect to the API and specify `development` as the network name.
+
+For peer-to-peer API endpoints that must connect to a specific chain, the base URL must also include the chain identifier if the form of `/chain/<chain-id>/` where the `<chain-id>` is the chain identifier for the chain that you want to send the request to. 
+For example, to send a request to the `/mempool/peer` endpoint on the first chain (0), the URL would look similar to the following:
+
+```shell
+https://52.207.207.113:1789/chainweb/0.0/mainnet01/chain/0/mempool/peer
+```

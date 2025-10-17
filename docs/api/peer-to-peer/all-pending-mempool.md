@@ -1,5 +1,5 @@
 ---
-title: Request pending transactions
+title: Get pending transactions
 description:
   Provides reference information for the chainweb-node mempool endpoints.
 id: all-pending-mempool
@@ -8,7 +8,7 @@ sidebar_position: 6
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Request all transactions
+# Get pending transactions
 
 When transactions are submitted to the blockchain for processing, they are queued in the node memory pool to await delivery to a mining node as new work to be validated.
 Endpoints related to memory pool activity are peer-to-peer endpoints that enable communication between memory pools on different nodes. 
@@ -19,13 +19,13 @@ With the` /mempool/getPending` endpoint, you can return all of the transaction h
 
 ## Request format
 
-Use `POST https://{baseURL}/chain/{chain}/mempool/getPending` to retrieve pending transactions from the memory pool.
+Use `POST https://{baseURL}/chain/{chain}/mempool/getPending` to retrieve pending transactions from the memory pool on a specific chain.
 
 ### Path parameters
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
-| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier of the chain you want to send the payload request to. Valid values are 0 to 19. For example, to get block payload for the first chain (0), the request is `POST https://{baseURL}/chain/0/mempool/getPending`.
+| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier for the chain you want to send the request to. Valid values are 0 to 19. For example, to get pending transactions for the first chain (0), the request is `POST https://{baseURL}/chain/0/mempool/getPending`.
 
 ### Query parameters
 
