@@ -34,7 +34,7 @@ To deploy a smart contract with a `curl` command:
    secret: 682ce35a77eece5060537632423de96b965136bd7739c5064903612c0b300608
    ```
 
-   Use the public key to create and fund an account on at least one chain in the development, test, or main network,
+   Use the public key to create and fund an account on at least one chain in the development, test, or main network.
    For example: 
    
    - Use `kadena account add` to add an account for the public key manually in the development network and one or more chains.
@@ -195,7 +195,7 @@ To deploy a smart contract using `kadena-cli`:
 
 ## Using the Kadena client library
 
-If you prefer to work with JavaScript, you can use the `@kadena/client` library to write you own scripts to deploy contracts and perform other tasks. 
+If you prefer to work with JavaScript, you can use the `@kadena/client` library to write your own scripts to deploy contracts and perform other tasks. 
 The `@kadena/client` library implements a TypeScript-based API for interacting with smart contracts and Chainweb nodes. 
 The library provides functions that simplify building transactions with Pact commands and connecting to blockchain nodes.
 You should note that creating the client connection is separate from using the `Pact.builder` function to construct transactions.

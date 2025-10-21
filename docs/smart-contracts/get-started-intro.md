@@ -16,7 +16,7 @@ To get started, it's important to know what smart contracts are and the kinds of
 A smart contract is a program that can automatically execute agreements—in the form of transactions—on the blockchain without any external oversight.
 The contract ensures that the specific conditions, defined in the code logic to describe the terms of the agreement, are met before executing the transaction programmatically.
 Smart contracts are deployed and executed on blockchain networks because the blockchain provides a decentralized, immutable, and publicly accessible record of all transactions.
-This transparency and traceability ensures that the programmatic execution of the contract can been considered trustworthy and verifiable.
+This transparency and traceability ensures that the programmatic execution of the contract can be considered trustworthy and verifiable.
 
 However, there are several unique challenges involved in writing smart contracts.
 For example, it's important to ensure that smart contracts can't be accessed by unauthorized parties, that transactions can't be intercepted or manipulated, and that code execution and data storage don't overload blockchain resources.

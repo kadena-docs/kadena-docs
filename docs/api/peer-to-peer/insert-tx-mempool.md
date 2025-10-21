@@ -26,7 +26,7 @@ You shouldn't use this endpoint directly.
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
-| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier of the chain you want to send the payload request to. Valid values are 0 to 19. For example, to get block payload for the first chain (0), the request is `POST https://{baseURL}/chain/0/mempool/insert`.
+| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier for the chain you want to send the request to. Valid values are 0 to 19. For example, to insert transactions into the mempool portion of the peer-to-peer network for the first chain (0), the request is `POST https://{baseURL}/chain/0/mempool/insert`.
 
 ### Request body schema
 

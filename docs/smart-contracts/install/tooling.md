@@ -55,7 +55,7 @@ To configure the Pact extension settings:
 
    With this option enabled, code coverage is calculated for the `.repl` file and all of the `.pact` and `.repl` files that it loads every time you save a `.repl` file.
 
-   Covered lines aree highlighted in green in your editor and uncovered lines aree highlighted in red. To view a code coverage report in HTML format, right-click the `./coverage/html/index.html` file relative to the file that was run. Click **Show preview** to open the report.
+   Covered lines are highlighted in green in your editor and uncovered lines are highlighted in red. To view a code coverage report in HTML format, right-click the `./coverage/html/index.html` file relative to the file that was run. Click **Show preview** to open the report.
 
    To run code coverage for all your `.repl` files at once, create an entry point `.repl` file that loads all the other `.repl` files in your project. You can then open the entry point file and save it to run all of your tests.
 
@@ -138,7 +138,7 @@ To install the `kadena-cli` package:
 ## Chainweaver wallet and IDE
 
 Chainweaver is a combination wallet and integrated development environment that enables you to manage accounts and keys, sign transactions, and edit, call, and deploy smart contracts.
-Chainweaver is avaiable as a [desktop application](https://github.com/kadena-io/chainweaver/releases) or as a browser-based [web application](https://chainweaver.kadena.network/).
+Chainweaver is available as a [desktop application](https://github.com/kadena-io/chainweaver/releases) or as a browser-based [web application](https://chainweaver.kadena.network/).
 With Chainweaver, you can build, test, and iterate on your smart contracts before deploying them to your local development network, the Kadena test network, or the Kadena main network.
 
 As an integrated development environment (IDE), you can also use Chainweaver to:

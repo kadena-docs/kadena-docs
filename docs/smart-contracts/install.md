@@ -22,7 +22,7 @@ At a high level, you complete the following steps to configure a development env
 
 ## Before you begin
 
-To prepare for installation, you should verify your development environment meets the following basic requirements
+To prepare for installation, you should verify your development environment meets the following basic requirements:
 
 - You have an internet connection and a web browser installed on your local computer.
 - You have an integrated development environment (IDE) or code editor such as [Visual Studio Code](https://code.visualstudio.com/download).

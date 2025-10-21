@@ -35,13 +35,13 @@ The Kadena CLI is packaged in a TypeScript library that you can install using a 
 To install globally using `npm` package manager, run the following command:
 
 ```bash
-npm install -g @kadena/kadena-cli
+npm install --global @kadena/kadena-cli
 ```
 
 To install globally using `pnpm` package manager, run the following command:
 
 ```bash
-pnpm install -g @kadena/kadena-cli
+pnpm install --global @kadena/kadena-cli
 ```
 
 To verify the package is installed and display usage information, type `kadena` and press Return:
@@ -78,13 +78,13 @@ The `kadena-cli` package is designed to simplify setting up a development enviro
 Its intuitive commands prompt you for all of the information required to complete tasks, like creating accounts or managing keys.
 Responding to prompts interactively is typically the best approach when getting started, eliminating the need to look up or remember the arguments required for the action you want to perform.
 
-To start using the CLI in interactive Mode, you simply type _kadena_ followed by a _subject_ that describes the type of information you want to work with and a _verb_ to describe what you want to do.
+To start using the CLI in interactive mode, you simply type _kadena_ followed by a _subject_ that describes the type of information you want to work with and a _verb_ to describe what you want to do.
 You don't need to specify any additional arguments or options.
 
 For example, if you want to add a new wallet but aren't sure of all the required flags and
 arguments, you can start by entering the following command:
 
-```
+```bash
 kadena wallet add
 ```
 
@@ -317,7 +317,7 @@ To fund an onchain account:
    ```
 
 1. Enter an amount, then press Return.
-2. For example:
+   For example:
 
    ```bash
    ? Enter an amount: 2
@@ -373,7 +373,7 @@ To fund an onchain account:
    kadena account fund --account="pistolas-kda" --amount="2" --network="devnet" --chain-ids="all" --deployFaucet
    ```
 
-1. Verify account information for the account for a subset of by chains.
+1. Verify account information for the account for a subset of chains.
    For example, to see account details for chains 1, 2, and 3 formatted as JSON output, you can specify command-line options similar to the following:
 
    ```bash
@@ -789,7 +789,7 @@ To set the default network:
    kadena network set-default --network="devnet" --confirm
    ```
 
-   After settings default network, you won't be prompting to select a network when running other commands.
+   After setting the default network, you won't be prompted to select a network when running other commands.
    If you want to remove the default network from your configuration, run the following command:
 
    ```bash
@@ -826,8 +826,8 @@ You can create the new project using templates for the following frontend framew
 To create a new project from a template:
 
 1. Open a terminal shell on the computer where you've installed the `kadena-cli` package.
-2. Enter `kadena dapp create <app-name>` on the command line to create a new project directory with the name you specify.
-   For example, to create a project names my-to-do:
+2. Enter `kadena dapp add <app-name>` on the command line to create a new project directory with the name you specify.
+   For example, to create a project named my-to-do:
 
    ```shell
    kadena dapp add my-to-do

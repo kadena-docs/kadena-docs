@@ -7,26 +7,26 @@ sidebar_position: 8
 tags: ['chainweb', 'node api', 'chainweb api', 'api reference']
 ---
 
-# Add mempool peer information
+# Add mempool peers
 
-For peer-to-peer connections, Chainweb nodes have two separate communication channels with specialized independent peer-to-peer networks that different nodes can be part of:
-
-- The `/peer/cut` peer-to-peer network is responsible for communicating the consensus state across the distributed network nodes. 
-- The `/peer/mempool` peer-to-peer network is responsible for queuing and managing the pending transactions for each chain independently. 
+The peer-to-peer communication that's required for Chainweb nodes to synchronize state is partitioned into separate independent network channels. 
+The `/cut/peer` portion of the peer-to-peer network is responsible for communicating the consensus state across a set of distributed network nodes and all chains in the network.
+There is also one `/mempool/peer` peer-to-peer network channel for each chain. 
+The `/mempool/peer` portion of the peer-to-peer network is responsible for queuing and managing pending transactions for each chain independently. 
 
 ## Request format
 
-Use `PUT https://{baseURL}/chain/{chain}/mempool/peer` to add peer information to the mempool peer-to-peer network for a specific chain.
+Use `PUT https://{baseURL}/chain/{chain}/mempool/peer` to add peer information to the `mempool` portion of the peer-to-peer network for a specific chain identifier.
 
 ### Path parameters
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
-| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier of the chain you want to send the request to. Valid values are 0 to 19. For example, to get block hashes for the first chain (0), the request is `PUT https://{baseURL}/chain/0/mempool/peer`.
+| chain&nbsp;(required) | integer&nbsp;>=&nbsp;0 | Specifies the chain identifier for the chain you want to send the request to. Valid values are 0 to 19. For example, to get block hashes for the first chain (0), the request is `PUT https://{baseURL}/chain/0/mempool/peer`.
 
 ### Request body schema
 
-Use the following parameters to specify the peer information you want to add to the peer database of the memory pool peer-to-peer network on the remote host.
+Use the following parameters to specify the peer information you want to add to the peer database of the `mempool` portion of the peer-to-peer network on the remote host.
 
 | Parameter | Type | Description
 | --------- | ---- | -----------
@@ -52,7 +52,7 @@ The response header parameters are the same for all successful and unsuccessful 
 
 ## Examples
 
-You can send a request to add a peer to the peer node database with a call to the `/peer` endpoint similar to the following:
+You can send a request to add a peer to the peer database with a call to the `/mempool/peer` endpoint similar to the following:
 
 ```Postman
 PUT https://us1.testnet.chainweb.com/chainweb/0.0/testnet04/chain/4/mempool/peer`

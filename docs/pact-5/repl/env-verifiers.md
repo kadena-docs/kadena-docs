@@ -1,7 +1,6 @@
 # env-verifiers
 
-Use `env-verifiers` to set transaction verifier names and capabilities. 
-This function enables you to define a list of objects with the "name" key specifying the verifier name, and the "caps" key specifying a list of associated capabilities.
+Use `env-verifiers` to set transaction verifier names and capabilities. This function enables you to define a list of objects with the "name" key specifying the verifier name, and the "caps" key specifying a list of associated capabilities.
 
 ## Basic syntax
 

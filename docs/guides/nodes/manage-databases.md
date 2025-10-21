@@ -44,7 +44,7 @@ After you enable the backup API for a node, you can use the `/make-backup` endpo
 
 You should note that when you call the `/make-backup` endpoint, the backup job always backs up the RocksDB database.
 Backing up the Pact Sqlite database is optional.
-Backing up both databases takes significantly more time than only backing up the RockDB database.
+Backing up both databases takes significantly more time than only backing up the RocksDB database.
 In addition, Pact database backups always require as much space as the active Pact database.
 
 For more information about starting backup jobs using the `/make-backup` endpoint, see [Start a database backup job](/api/service-api/make-db-backup).

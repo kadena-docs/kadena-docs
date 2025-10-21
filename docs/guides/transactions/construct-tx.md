@@ -43,7 +43,7 @@ kadena tx add --template="transfer.kptl" --template-data="data.yaml" --network-i
 In this example:
 
 - The `--template="transfer.kptl"` argument is required to identify the template you want to use to construct the transaction.
-- The `--template-date="data.yaml"` argument specifies the file that contains the values to use for the template variables.
+- The `--template-data="data.yaml"` argument specifies the file that contains the values to use for the template variables.
 - The `--network-id="testnet04"` argument specifies the network the transaction is intended for. 
 - The `--out-file="transaction.json"` argument specifies the file name for the generated transaction that is saved in the current working directory.
 

@@ -37,6 +37,8 @@ const sidebars: SidebarsConfig = {
                     'smart-contracts/guards',
                     'smart-contracts/databases',
                     'smart-contracts/transactions',
+                    'smart-contracts/best-practices',
+
                ],
           },
           {
@@ -91,11 +93,19 @@ const sidebars: SidebarsConfig = {
                               'guides/nodes/configure',
                               'guides/nodes/monitor',
                               'guides/nodes/manage-databases',
-                              //'guides/nodes/howto-evm',
+                         ],
+                    },
+                    {
+                         type: 'category',
+                         label: 'Chainweb EVM',
+                         items: [
+                              'guides/nodes/evm-devnet',
+                              'guides/nodes/howto-evm',
                          ],
                     },
                     'guides/dev-kadena-cli',
                     'guides/chainweaver',
+                    'guides/kadena-client-quickstart',
                     'guides/troubleshooting',
                ],
           },
@@ -135,6 +145,8 @@ const sidebars: SidebarsConfig = {
                               'api/peer-to-peer/publish-cut',
                               'api/peer-to-peer/get-payload',
                               'api/peer-to-peer/get-payload-batch',
+                              'api/peer-to-peer/get-payload-output',
+                              'api/peer-to-peer/get-payload-output-batch',
                               'api/peer-to-peer/all-pending-mempool',
                               'api/peer-to-peer/boolean-tx-mempool',
                               'api/peer-to-peer/lookup-tx-mempool',
@@ -246,6 +258,7 @@ const sidebars: SidebarsConfig = {
                               'pact-5/general/define-namespace',
                               'pact-5/general/describe-namespace',
                               'pact-5/general/distinct',
+                              'pact-5/general/do',
                               'pact-5/general/drop',
                               'pact-5/general/enforce-guard',
                               'pact-5/general/enforce-one',
@@ -408,6 +421,7 @@ const sidebars: SidebarsConfig = {
                               'pact-5/repl/rollback-tx',
                               'pact-5/repl/sig-keyset',
                               'pact-5/repl/test-capability',
+                              'pact-5/repl/typecheck',
                          ],
                     },
                     {
@@ -467,8 +481,11 @@ const sidebars: SidebarsConfig = {
                     },
                     'reference/chainweb-cli',
                     'reference/bootstrap',
+                    'reference/latency',
                     'reference/guard-json',
-               ],
+                    'reference/dex-integration',
+                    'reference/evm-integration/foundry-chainweb-ref', 
+                    ],
           },
           {
                type: 'category',
@@ -487,6 +504,8 @@ const sidebars: SidebarsConfig = {
                     'coding-projects/local-testing',
                     'coding-projects/estimate-gas',
                     'coding-projects/pact-server-api',
+                    'coding-projects/conditions-control',
+
                ],
           },
           {
@@ -516,11 +535,13 @@ const sidebars: SidebarsConfig = {
 
                          ]
                     },
+                    'resources/ecosystem',
                     'resources/writing-guide',
                     'resources/contribute-doc',
                     'resources/contribute-dev',
                     'resources/legacy',
                ],
+
           },
      ],
 };

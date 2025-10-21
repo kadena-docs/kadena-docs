@@ -41,7 +41,7 @@ A second database—the Pact Sqlite database—stores information about smart co
 
 While backup jobs always back up the RocksDB database, backing up the Pact Sqlite database is optional.
 If you include the `backupPact` parameter in your request, the backup job backs up both databases.
-Backing up both databases takes much longer than only backing up the RockDB database.
+Backing up both databases takes much longer than only backing up the RocksDB database.
 In addition, Pact database backups always require as much space as the active Pact database.
 
 ### Define a retention policy
@@ -61,7 +61,7 @@ If a backup job is already in progress, this endpoint returns the UNIX timestamp
 
 | Parameter | Description
 | --------- | -----------
-| backupPact | Indicates that you want to back up both the RockDB database and the Pact database. This option requires additional disk space and increases the time required to complete the backup.
+| backupPact | Indicates that you want to back up both the RocksDB database and the Pact database. This option requires additional disk space and increases the time required to complete the backup.
 
 ## Responses
 
@@ -319,9 +319,9 @@ GET http://api.chainweb.com/chainweb/0.0/mainnet01/header/updates
 
 This request returns a stream of events with the BlockHeader event property and a data property:
 
-<!-- ![BlockHeader event stream](/assets/docs/blockheader-event.png) -->
+![BlockHeader event stream](/img/blockheader-event.png)
 
-If you expand the data property for an event, the event includes details similar to the folloiwng:
+If you expand the data property for an event, the event includes details similar to the following:
 
 ```json
 {
